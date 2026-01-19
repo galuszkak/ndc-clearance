@@ -1,0 +1,57 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SchemaExplorer from '../../components/SchemaExplorer.svelte';
+import VersionSelector from '../../components/VersionSelector.svelte';
+import StructureOverview from '../../components/StructureOverview.svelte';
+import MessageSidebar from '../../components/MessageSidebar.svelte';
+import { getVersions, getMessages } from '../../utils/schemas';
+
+export function getStaticPaths() {
+  const versions = getVersions();
+  const paths = [];
+  
+  versions.forEach(version => {
+      const messages = getMessages(version);
+      messages.forEach(message => {
+          paths.push({
+              params: { version, message },
+              props: { versions, messages, allVersions: versions } 
+          });
+      });
+  });
+  return paths;
+}
+
+const { version, message } = Astro.params;
+const { versions, messages, allVersions } = Astro.props; // messages here are for THIS version
+
+const schemaUrl = `/schemas/${version}/${message}.xsd`;
+const downloadFilename = `${message}_${version}.xsd`;
+---
+
+<Layout title={`${message} - ${version}`}>
+    <div slot="sidebar-content" class="h-full">
+        <MessageSidebar client:load messages={messages} currentMessage={message} version={version} allVersions={allVersions} />
+    </div>
+
+    <div slot="sidebar-widgets">
+        <StructureOverview client:load />
+    </div>
+
+    <div class="flex flex-col gap-4 h-full">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-base-100 p-4 rounded-box shadow gap-4">
+            <div class="min-w-0 w-full sm:w-auto">
+                <h1 class="text-xl sm:text-2xl font-bold break-words">{message}</h1>
+                <p class="text-sm opacity-70">Version {version}</p>
+            </div>
+            
+            <div class="flex gap-2 items-center flex-none w-full sm:w-auto">
+                 <a href={schemaUrl} download={downloadFilename} class="btn btn-primary btn-sm w-full sm:w-auto">
+                    Download XSD
+                 </a>
+            </div>
+        </div>
+
+        <SchemaExplorer client:only="svelte" schemaUrl={schemaUrl} />
+    </div>
+</Layout>

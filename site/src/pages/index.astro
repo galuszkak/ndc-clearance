@@ -1,0 +1,38 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getVersions, getMessages } from '../utils/schemas';
+
+const versions = getVersions();
+// Default to the first message of the latest version for the "Quick Start"
+const latestVersion = versions[0];
+const latestMessages = latestVersion ? getMessages(latestVersion) : [];
+const firstMessage = latestMessages[0] || 'IATA_AirShoppingRQ';
+---
+
+<Layout title="OpenNDC Viewer - Home">
+	<div class="hero min-h-[50vh] bg-base-200 rounded-box">
+		<div class="hero-content text-center">
+		  <div class="max-w-md">
+			<h1 class="text-5xl font-bold">NDC Clearance</h1>
+			<p class="py-6">Browse and search IATA NDC Schemas.</p>
+            {latestVersion && (
+			<a href={`/${latestVersion}/${firstMessage}`} class="btn btn-primary">Get Started ({latestVersion})</a>
+            )}
+		  </div>
+		</div>
+	  </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+        {versions.map(version => (
+            <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all">
+                <div class="card-body">
+                    <h2 class="card-title">Version {version}</h2>
+                    <p>{getMessages(version).length} Messages</p>
+                    <div class="card-actions justify-end">
+                        <a href={`/${version}/${getMessages(version)[0]}`} class="btn btn-sm btn-outline">Browse</a>
+                    </div>
+                </div>
+            </div>
+        ))}
+      </div>
+</Layout>

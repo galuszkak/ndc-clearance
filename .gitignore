@@ -1,0 +1,10 @@
+raw_ndc_schemas/*.zip
+raw_ndc_schemas/*_ndc/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
