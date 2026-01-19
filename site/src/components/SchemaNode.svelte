@@ -6,12 +6,15 @@
     export let definitions: Record<string, Element> = {}; // Map of name -> definition node
     export let searchQuery = "";
     export let targetPath = "";
-    export let selectedPath = "";
     export let treeAction: "expand" | "collapse" | "" = "";
     export let treeActionVersion = 0;
     export let onmatch: (() => void) | undefined = undefined;
     export let onselect:
-        | ((detail: { node: Element; path: string }) => void)
+        | ((detail: {
+              node: Element;
+              path: string;
+              element?: HTMLElement;
+          }) => void)
         | undefined = undefined;
 
     let expanded = depth < 2; // Auto-expand top levels
@@ -262,11 +265,25 @@
     }
 
     // Reactive Search Logic
-    $: isMatch =
-        searchQuery &&
-        (name.toLowerCase().includes(searchQuery) ||
-            (documentation &&
-                documentation.toLowerCase().includes(searchQuery)));
+    // Reactive Search Logic
+    let nameMatch = false;
+    let docMatch = false;
+
+    $: {
+        if (searchQuery) {
+            const lowerQuery = searchQuery;
+            nameMatch = name.toLowerCase().includes(lowerQuery);
+            docMatch =
+                !nameMatch &&
+                !!documentation &&
+                documentation.toLowerCase().includes(lowerQuery);
+        } else {
+            nameMatch = false;
+            docMatch = false;
+        }
+    }
+
+    $: isMatch = nameMatch || docMatch;
 
     $: if (searchQuery) {
         resolve(); // Ensure children are known
@@ -294,7 +311,7 @@
                         block: "center",
                     });
                     // Highlight visually
-                    onselect?.({ node, path });
+                    onselect?.({ node, path, element: elementRef });
                     // Trigger Flash
                     isFlashed = true;
                     setTimeout(() => (isFlashed = false), 2000);
@@ -304,13 +321,16 @@
     }
 
     function handleChildMatch() {
-        expanded = true;
+        // Performance: Only auto-expand if query is long enough to be specific
+        if (searchQuery.length >= 3) {
+            expanded = true;
+        }
         onmatch?.();
     }
 
     function handleClick(e: MouseEvent) {
         e.stopPropagation();
-        onselect?.({ node, path });
+        onselect?.({ node, path, element: elementRef });
         // Also toggle expansion if it has children
         if (!expanded) {
             expanded = true;
@@ -319,7 +339,11 @@
     }
 
     // Forward child selection
-    function handleChildSelect(detail: { node: Element; path: string }) {
+    function handleChildSelect(detail: {
+        node: Element;
+        path: string;
+        element?: HTMLElement;
+    }) {
         onselect?.(detail);
     }
 
@@ -341,10 +365,8 @@
 
 <div class="ml-4 border-l border-base-300 pl-2">
     <div
-        class="flex items-center group cursor-pointer rounded -ml-2 px-2 py-1 transition-all duration-200 border border-transparent
-            {path === selectedPath
-            ? 'bg-primary/10 border-primary/20 shadow-sm'
-            : 'hover:bg-base-200/50'}
+        class="flex items-center group cursor-pointer rounded -ml-2 px-2 py-1 transition-all duration-200 border border-transparent node-row
+            hover:bg-base-200/50
             {isFlashed ? '!bg-yellow-200 !scale-[1.02] !shadow-md' : ''}"
         bind:this={elementRef}
         on:click={handleClick}
@@ -452,9 +474,16 @@
 
         <!-- Label & Badges -->
         <div
-            class="flex-1 min-w-0 flex items-center {isMatch
-                ? 'bg-yellow-100 text-yellow-900 rounded px-1'
-                : ''} gap-2"
+            class="flex-1 min-w-0 flex items-center gap-2
+            {nameMatch
+                ? 'bg-yellow-200 text-yellow-900 rounded px-1 -mx-1 ring-1 ring-yellow-400/50'
+                : ''}
+            {docMatch
+                ? 'bg-info/20 text-info-content rounded px-1 -mx-1 ring-1 ring-info/30'
+                : ''}"
+            title={docMatch
+                ? `Match in description: ...${documentation.substring(Math.max(0, documentation.toLowerCase().indexOf(searchQuery) - 30), Math.min(documentation.length, documentation.toLowerCase().indexOf(searchQuery) + 30))}...`
+                : path}
         >
             <span
                 class="font-medium text-sm text-base-content/90 truncate"
@@ -506,7 +535,6 @@
                     path={`${path}/${child.getAttribute("name") || child.getAttribute("ref")?.split(":").pop()}`}
                     {searchQuery}
                     {targetPath}
-                    {selectedPath}
                     {treeAction}
                     {treeActionVersion}
                     onmatch={handleChildMatch}

@@ -147,4 +147,9 @@
     .menu :where(li:not(.menu-title) > details > summary:not(.menu-title)) {
         border-radius: 0.375rem;
     }
+
+    .menu {
+        content-visibility: auto;
+        contain-intrinsic-size: 1px 1000px;
+    }
 </style>

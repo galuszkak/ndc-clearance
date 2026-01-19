@@ -14,6 +14,7 @@
     "@tailwindcss/vite": "^4.1.18",
     "astro": "^5.16.11",
     "daisyui": "^5.5.14",
+    "highlight.js": "^11.11.1",
     "svelte": "^5.46.4",
     "tailwindcss": "^4.1.18"
   },

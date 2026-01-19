@@ -2,6 +2,11 @@
     import { onMount } from "svelte";
     import SchemaNode from "./SchemaNode.svelte";
     import { schemaStats } from "../utils/stores";
+    import hljs from "highlight.js/lib/core";
+    import xml from "highlight.js/lib/languages/xml";
+    import "highlight.js/styles/github-dark.css";
+
+    hljs.registerLanguage("xml", xml);
 
     export let schemaUrl: string;
 
@@ -15,6 +20,7 @@
     let query = "";
     let selectedNode: Element | null = null;
     let selectedPath = "";
+    let highlightedElement: HTMLElement | null = null;
     let selectedHelper: {
         typeName?: string;
         min?: string;
@@ -26,6 +32,11 @@
     let treeAction: "expand" | "collapse" | "" = "";
     let treeActionVersion = 0;
     let zoom = 100;
+
+    // Tabs & XML View
+    let activeTab: "tree" | "xml" = "tree";
+    let rawXml = "";
+    let highlightedXml = "";
 
     let searchInput: HTMLInputElement;
 
@@ -57,6 +68,7 @@
             if (!res.ok)
                 throw new Error(`Failed to load schema: ${res.statusText}`);
             const text = await res.text();
+            rawXml = text;
             const parser = new DOMParser();
             doc = parser.parseFromString(text, "application/xml");
 
@@ -114,9 +126,40 @@
         }
     }
 
-    function handleSelect(detail: { node: Element; path: string }) {
+    function handleSelect(detail: {
+        node: Element;
+        path: string;
+        element?: HTMLElement;
+    }) {
         selectedNode = detail.node;
         selectedPath = detail.path;
+
+        // Manual Highlighting (Performance Optimization)
+        if (highlightedElement) {
+            highlightedElement.classList.remove(
+                "bg-primary/10",
+                "border-primary/20",
+                "shadow-sm",
+            );
+            highlightedElement.classList.add(
+                "border-transparent",
+                "hover:bg-base-200/50",
+            );
+        }
+
+        if (detail.element) {
+            highlightedElement = detail.element;
+            highlightedElement.classList.remove(
+                "border-transparent",
+                "hover:bg-base-200/50",
+            );
+            highlightedElement.classList.add(
+                "bg-primary/10",
+                "border-primary/20",
+                "shadow-sm",
+            );
+        }
+
         const node = detail.node;
 
         // Extract helpers for the right panel
@@ -173,14 +216,22 @@
     }
 
     // Search Logic
-    let searchResults: {
+    interface SearchResult {
         name: string;
         path: string;
         type: string;
         doc: string;
-    }[] = [];
+        matchType: "name" | "doc";
+        iconType: "message" | "typed" | "element";
+        typeName?: string;
+    }
+
+    let searchResults: SearchResult[] = [];
     let isSearching = false;
     let targetPath = "";
+
+    // Memoization for resolved elements
+    const elementCache = new Map<string, Element[]>();
 
     function resolveChildren(
         node: Element,
@@ -235,6 +286,21 @@
         root: Element,
         definitions: Record<string, Element>,
     ): Element[] {
+        // Try to cache based on type name if possible, or key from root
+        let cacheKey = "";
+        const typeName = root.getAttribute("name");
+
+        // If it's a ComplexType or SimpleType definition, we can cache it
+        if (
+            ["complexType", "simpleType"].includes(root.localName) &&
+            typeName
+        ) {
+            cacheKey = `${root.localName}:${typeName}`;
+            if (elementCache.has(cacheKey)) {
+                return elementCache.get(cacheKey)!;
+            }
+        }
+
         const els: Element[] = [];
         for (const child of Array.from(root.children)) {
             if (child.localName === "element") {
@@ -268,16 +334,23 @@
                 els.push(...collectElements(child, definitions));
             }
         }
+
+        if (cacheKey) {
+            elementCache.set(cacheKey, els);
+        }
         return els;
     }
 
     async function performSearch() {
-        if (!query || query.length < 2) {
+        if (!query || query.length < 1) {
             searchResults = [];
             return;
         }
         isSearching = true;
         searchResults = [];
+
+        // Clear cache on new search to be safe or keep it?
+        // Keeping it is better for performance across searches.
 
         // BFS Search
         const q = [
@@ -287,27 +360,89 @@
             },
         ];
         let count = 0;
+        let processedInChunk = 0;
+        const CHUNK_SIZE = 50;
 
-        while (q.length > 0 && count < 1000) {
+        while (q.length > 0 && count < 2000) {
+            // Increased limit slightly due to better perf
+            // Yield to main thread every CHUNK_SIZE nodes
+            if (processedInChunk >= CHUNK_SIZE) {
+                await new Promise((resolve) => setTimeout(resolve, 0));
+                processedInChunk = 0;
+                // If query changed while waiting, abort
+                if (!isSearching) return;
+            }
+
             // Limit search space
             const { node, path } = q.shift()!;
             count++;
+            processedInChunk++;
 
             const name =
                 node.getAttribute("name") ||
                 node.getAttribute("ref")?.split(":").pop() ||
                 "";
 
+            // Get documentation
+            const getDocumentation = (el: Element) => {
+                const annotation = Array.from(el.children).find(
+                    (c) => c.localName === "annotation",
+                );
+                if (annotation) {
+                    const docNode = Array.from(annotation.children).find(
+                        (c) => c.localName === "documentation",
+                    );
+                    return docNode ? docNode.textContent || "" : "";
+                }
+                return "";
+            };
+            const doc = getDocumentation(node);
+
             // Check match
-            if (name.toLowerCase().includes(query.toLowerCase())) {
+            const lowerQuery = query.toLowerCase();
+            const nameMatch = name.toLowerCase().includes(lowerQuery);
+            const docMatch = doc.toLowerCase().includes(lowerQuery);
+
+            let typeName = node.getAttribute("type");
+            if (typeName && typeName.includes(":"))
+                typeName = typeName.split(":")[1];
+
+            // Resolve Ref for correct coloring
+            if (node.getAttribute("ref")) {
+                const refName = node.getAttribute("ref")?.split(":").pop();
+                if (refName) {
+                    const def = definitions[`element:${refName}`];
+                    if (def) {
+                        typeName = def.getAttribute("type") || typeName;
+                        if (typeName && typeName.includes(":"))
+                            typeName = typeName.split(":")[1];
+                    }
+                }
+            }
+
+            let iconType: "message" | "typed" | "element" = "element";
+            if (name.endsWith("RQ") || name.endsWith("RS")) {
+                iconType = "message";
+            } else if (typeName) {
+                iconType = "typed";
+            }
+
+            if (nameMatch || docMatch) {
                 searchResults.push({
                     name,
                     path,
                     type: "Element",
-                    doc: "",
+                    doc:
+                        doc.substring(0, 100) + (doc.length > 100 ? "..." : ""),
+                    matchType: nameMatch ? "name" : "doc",
+                    iconType,
+                    typeName: typeName || undefined,
                 });
+                // Force update svelte array
+                searchResults = searchResults;
             }
-            if (searchResults.length > 20) break; // Limit results
+
+            if (searchResults.length > 50) break; // Limit results
 
             // Get children
             const children = resolveChildren(node, definitions);
@@ -323,27 +458,58 @@
                 }
             }
         }
+
+        // Sort results: Name matches first, then Doc matches
+        searchResults.sort((a, b) => {
+            if (a.matchType === "name" && b.matchType !== "name") return -1;
+            if (a.matchType !== "name" && b.matchType === "name") return 1;
+            return 0;
+        });
+
         isSearching = false;
-        // Trigger generic svelte update
-        searchResults = searchResults;
     }
 
     let searchDebounce: any;
     $: if (query) {
         clearTimeout(searchDebounce);
+        // Abort previous search
+        isSearching = false;
         searchDebounce = setTimeout(performSearch, 300);
     } else {
         searchResults = [];
+        isSearching = false;
     }
 
     function selectResult(result: { path: string; node?: Element }) {
         targetPath = result.path;
         selectedPath = result.path;
         searchResults = []; // Close results
-        query = ""; // Clear query
+        activeTab = "tree"; // Switch to tree view if in XML
+        // Don't clear query so user sees what they searched
     }
 
-    $: if (schemaUrl) loadSchema();
+    $: if (schemaUrl) {
+        loadSchema();
+        elementCache.clear();
+        rawXml = "";
+        highlightedXml = "";
+    }
+
+    $: if (activeTab === "xml" && rawXml && !highlightedXml) {
+        // Highlight in next tick to avoid blocking immediately
+        setTimeout(() => {
+            try {
+                highlightedXml = hljs.highlight(rawXml, {
+                    language: "xml",
+                }).value;
+            } catch (e) {
+                console.error("Highlight error", e);
+                highlightedXml = rawXml
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;");
+            }
+        }, 10);
+    }
 </script>
 
 <svelte:window on:keydown={handleKeyDown} />
@@ -362,18 +528,21 @@
     {/if}
 
     <div class="flex flex-col lg:flex-row flex-1 gap-4 overflow-hidden">
-        <!-- Left Panel: Tree & Search -->
+        <!-- Main Panel: Unified Card -->
         <div
             class="flex-1 flex flex-col bg-base-100 rounded-lg shadow border border-base-200 overflow-hidden"
         >
-            <!-- Search Bar -->
-            <div class="p-3 border-b border-base-200 bg-base-50 relative z-20">
-                <div class="relative">
+            <!-- Header: Search & Tabs -->
+            <div
+                class="flex items-center gap-3 p-2 border-b border-base-200 bg-base-50 relative z-20"
+            >
+                <!-- Search Bar -->
+                <div class="relative flex-1">
                     <input
                         bind:this={searchInput}
                         type="text"
                         placeholder="Search elements..."
-                        class="input input-sm input-bordered w-full pr-16"
+                        class="input input-sm input-bordered w-full pr-16 bg-base-100"
                         bind:value={query}
                     />
                     <div
@@ -405,193 +574,360 @@
                             /></svg
                         >
                     </div>
+
+                    <!-- Search Results Dropdown -->
+                    {#if searchResults.length > 0}
+                        <div
+                            class="absolute top-full left-0 right-0 bg-base-100 shadow-xl border border-base-200 rounded-b-lg max-h-[50vh] overflow-y-auto mt-1 z-50"
+                        >
+                            <ul class="menu menu-compact p-0">
+                                {#each searchResults as result}
+                                    <li>
+                                        <button
+                                            class="flex flex-col items-start gap-1 py-2 px-3 border-b border-base-100 last:border-0 hover:bg-base-200 transition-colors w-full"
+                                            on:click={() =>
+                                                selectResult(result)}
+                                        >
+                                            <div
+                                                class="flex items-center gap-2 w-full text-left"
+                                            >
+                                                <!-- Icon -->
+                                                <span
+                                                    class="flex-none opacity-80"
+                                                    title={result.typeName
+                                                        ? `Type: ${result.typeName}`
+                                                        : "Element"}
+                                                >
+                                                    {#if result.iconType === "message"}
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            class="h-4 w-4 text-purple-600"
+                                                            viewBox="0 0 20 20"
+                                                            fill="currentColor"
+                                                        >
+                                                            <path
+                                                                d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"
+                                                            />
+                                                        </svg>
+                                                    {:else if result.iconType === "typed"}
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            class="h-4 w-4 text-blue-500"
+                                                            viewBox="0 0 20 20"
+                                                            fill="currentColor"
+                                                        >
+                                                            <path
+                                                                fill-rule="evenodd"
+                                                                d="M2.5 3A1.5 1.5 0 001 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0115 5.293V4.5A1.5 1.5 0 0013.5 3h-11zM15 6.913l-6.598 3.185a.755.755 0 01-.804 0L1 6.914V14.5a1.5 1.5 0 001.5 1.5h11a1.5 1.5 0 001.5-1.5V6.913z"
+                                                                clip-rule="evenodd"
+                                                            />
+                                                        </svg>
+                                                    {:else}
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            class="h-4 w-4 text-orange-500"
+                                                            viewBox="0 0 20 20"
+                                                            fill="currentColor"
+                                                        >
+                                                            <path
+                                                                fill-rule="evenodd"
+                                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                                                clip-rule="evenodd"
+                                                            />
+                                                        </svg>
+                                                    {/if}
+                                                </span>
+
+                                                <!-- Name with Highlight -->
+                                                <span
+                                                    class="font-medium text-sm text-base-content/90 truncate {result.matchType ===
+                                                    'name'
+                                                        ? 'bg-yellow-200 text-yellow-900 rounded px-1 -mx-1 ring-1 ring-yellow-400/50'
+                                                        : ''} {result.matchType ===
+                                                    'doc'
+                                                        ? 'bg-info/20 text-info-content rounded px-1 -mx-1 ring-1 ring-info/30'
+                                                        : ''}"
+                                                >
+                                                    {result.name}
+                                                </span>
+
+                                                {#if result.typeName}
+                                                    <span
+                                                        class="text-[10px] text-base-content/40 font-mono bg-base-200 px-1 rounded ml-1 hidden sm:inline-block"
+                                                    >
+                                                        {result.typeName}
+                                                    </span>
+                                                {/if}
+                                            </div>
+
+                                            <span
+                                                class="text-[10px] opacity-40 font-mono truncate w-full text-left pl-6"
+                                                title={result.path}
+                                                >{result.path}</span
+                                            >
+
+                                            {#if result.doc}
+                                                <div
+                                                    class="text-[10px] text-base-content/60 w-full text-left line-clamp-1 italic pl-6"
+                                                >
+                                                    {result.doc}
+                                                </div>
+                                            {/if}
+                                        </button>
+                                    </li>
+                                {/each}
+                            </ul>
+                        </div>
+                    {/if}
                 </div>
 
-                {#if searchResults.length > 0}
-                    <div
-                        class="absolute top-full left-0 right-0 bg-base-100 shadow-xl border border-base-200 rounded-b-lg max-h-64 overflow-y-auto"
+                <!-- Tabs -->
+                <div
+                    role="tablist"
+                    class="tabs tabs-boxed bg-base-200/50 p-1 rounded-lg flex-none"
+                >
+                    <button
+                        role="tab"
+                        class="tab tab-sm {activeTab === 'tree'
+                            ? 'tab-active bg-base-100 shadow-sm'
+                            : ''}"
+                        on:click={() => (activeTab = "tree")}>Tree View</button
                     >
-                        <ul class="menu menu-compact p-0">
-                            {#each searchResults as result}
-                                <li>
+                    <button
+                        role="tab"
+                        class="tab tab-sm {activeTab === 'xml'
+                            ? 'tab-active bg-base-100 shadow-sm'
+                            : ''}"
+                        on:click={() => (activeTab = "xml")}>XML Source</button
+                    >
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="flex-1 overflow-hidden relative flex flex-col">
+                {#if activeTab === "tree"}
+                    <!-- Tree View -->
+                    <div
+                        class="flex-1 overflow-auto p-4 relative bg-base-50/30"
+                        style="content-visibility: auto; contain-intrinsic-size: 1px 500px;"
+                    >
+                        {#if loading}
+                            <div class="flex justify-center p-10">
+                                <span
+                                    class="loading loading-spinner text-primary"
+                                ></span>
+                            </div>
+                        {:else if error}
+                            <div class="alert alert-error text-sm">
+                                <span>{error}</span>
+                            </div>
+                        {:else if rootElement && doc}
+                            <div
+                                class="font-mono text-sm leading-relaxed origin-top-left transition-transform"
+                                style="transform: scale({zoom / 100})"
+                            >
+                                <SchemaNode
+                                    node={rootElement}
+                                    {doc}
+                                    {definitions}
+                                    path={`/${rootElement.getAttribute("name")}`}
+                                    searchQuery={query.length >= 3
+                                        ? query.toLowerCase()
+                                        : ""}
+                                    {targetPath}
+                                    {treeAction}
+                                    {treeActionVersion}
+                                    onselect={onNodeSelect}
+                                />
+                            </div>
+                        {:else}
+                            <div class="alert alert-warning text-sm">
+                                No Root Element found
+                            </div>
+                        {/if}
+
+                        <!-- Floating Toolbar -->
+                        <div
+                            class="absolute bottom-6 left-1/2 -translate-x-1/2 z-20"
+                        >
+                            <div
+                                class="flex items-center gap-2 p-1.5 bg-base-100/90 backdrop-blur shadow-xl border border-base-200 rounded-full transition-all hover:scale-105 active:scale-95"
+                            >
+                                <!-- Zoom Controls -->
+                                <div
+                                    class="join join-horizontal shadow-sm border border-base-200 rounded-full"
+                                >
                                     <button
-                                        class="flex flex-col items-start gap-0 py-2 border-b border-base-100 last:border-0"
-                                        on:click={() => selectResult(result)}
+                                        class="btn btn-xs btn-ghost join-item px-2"
+                                        on:click={() =>
+                                            (zoom = Math.max(50, zoom - 10))}
+                                        title="Zoom Out"
                                     >
-                                        <span class="font-bold text-xs"
-                                            >{result.name}</span
-                                        >
-                                        <span
-                                            class="text-[10px] opacity-50 font-mono truncate w-full text-left"
-                                            >{result.path}</span
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="h-3 w-3"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            ><path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M20 12H4"
+                                            /></svg
                                         >
                                     </button>
-                                </li>
-                            {/each}
-                        </ul>
-                    </div>
-                {/if}
-            </div>
+                                    <div
+                                        class="join-item px-2 flex items-center bg-base-100 text-[10px] font-mono font-bold w-10 justify-center select-none"
+                                    >
+                                        {zoom}%
+                                    </div>
+                                    <button
+                                        class="btn btn-xs btn-ghost join-item px-2"
+                                        on:click={() =>
+                                            (zoom = Math.min(200, zoom + 10))}
+                                        title="Zoom In"
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="h-3 w-3"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            ><path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M12 4v16m8-8H4"
+                                            /></svg
+                                        >
+                                    </button>
+                                </div>
 
-            <!-- Tree View -->
-            <div class="flex-1 overflow-auto p-4 relative bg-base-50/30">
-                {#if loading}
-                    <div class="flex justify-center p-10">
-                        <span class="loading loading-spinner text-primary"
-                        ></span>
+                                <div class="w-px h-4 bg-base-300 mx-1"></div>
+
+                                <!-- Tree Controls -->
+                                <div
+                                    class="join join-horizontal shadow-sm border border-base-200 rounded-full bg-base-100"
+                                >
+                                    <button
+                                        class="btn btn-xs btn-ghost join-item rounded-l-full normal-case font-normal px-3"
+                                        on:click={() => {
+                                            treeAction = "expand";
+                                            treeActionVersion++;
+                                            query = "";
+                                        }}
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="h-3 w-3 mr-1 opacity-60"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            ><path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M19 13l-7 7-7-7m14-8l-7 7-7-7"
+                                            /></svg
+                                        >
+                                        Expand All
+                                    </button>
+                                    <div class="w-px bg-base-200 h-full"></div>
+                                    <button
+                                        class="btn btn-xs btn-ghost join-item rounded-r-full normal-case font-normal px-3"
+                                        on:click={() => {
+                                            treeAction = "collapse";
+                                            treeActionVersion++;
+                                            query = "";
+                                        }}
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="h-3 w-3 mr-1 opacity-60"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            ><path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M5 11l7-7 7 7M5 19l7-7 7 7"
+                                            /></svg
+                                        >
+                                        Collapse All
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                {:else if error}
-                    <div class="alert alert-error text-sm">
-                        <span>{error}</span>
-                    </div>
-                {:else if rootElement && doc}
+
+                    <!-- Status Bar -->
                     <div
-                        class="font-mono text-sm leading-relaxed origin-top-left transition-transform"
-                        style="transform: scale({zoom / 100})"
+                        class="bg-base-50 border-t border-base-200 p-2 text-xs text-base-content/50 flex justify-between"
                     >
-                        <SchemaNode
-                            node={rootElement}
-                            {doc}
-                            {definitions}
-                            path={`/${rootElement.getAttribute("name")}`}
-                            searchQuery={query.toLowerCase()}
-                            {targetPath}
-                            {selectedPath}
-                            {treeAction}
-                            {treeActionVersion}
-                            onselect={onNodeSelect}
-                        />
+                        <span>{doc ? "Schema Validated" : "Loading..."}</span>
+                        <span
+                            >{rootElement
+                                ? rootElement.getAttribute("name")
+                                : "-"}</span
+                        >
                     </div>
                 {:else}
-                    <div class="alert alert-warning text-sm">
-                        No Root Element found
+                    <!-- XML View -->
+                    <div
+                        class="flex-1 bg-base-100 rounded-lg shadow border border-base-200 overflow-hidden flex flex-col"
+                    >
+                        {#if loading}
+                            <div
+                                class="flex justify-center p-10 h-full items-center"
+                            >
+                                <span
+                                    class="loading loading-spinner text-primary"
+                                ></span>
+                            </div>
+                        {:else}
+                            <div
+                                class="flex-1 overflow-auto relative text-sm group"
+                            >
+                                {#if highlightedXml}
+                                    <pre class="p-4"><code class="language-xml"
+                                            >{@html highlightedXml}</code
+                                        ></pre>
+                                {:else}
+                                    <div
+                                        class="flex justify-center p-10 h-full items-center text-base-content/50"
+                                    >
+                                        <span
+                                            class="loading loading-spinner loading-sm mr-2"
+                                        ></span> Highlighting...
+                                    </div>
+                                {/if}
+                                <!-- Copy Button helper? -->
+                                <button
+                                    class="btn btn-xs btn-circle btn-ghost absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-base-200"
+                                    title="Copy XML"
+                                    on:click={() =>
+                                        navigator.clipboard.writeText(rawXml)}
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="h-4 w-4"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        ><path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                                        /></svg
+                                    >
+                                </button>
+                            </div>
+                        {/if}
                     </div>
                 {/if}
-
-                <!-- Floating Toolbar -->
-                <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-20">
-                    <div
-                        class="flex items-center gap-2 p-1.5 bg-base-100/90 backdrop-blur shadow-xl border border-base-200 rounded-full transition-all hover:scale-105 active:scale-95"
-                    >
-                        <!-- Zoom Controls -->
-                        <div
-                            class="join join-horizontal shadow-sm border border-base-200 rounded-full"
-                        >
-                            <button
-                                class="btn btn-xs btn-ghost join-item px-2"
-                                on:click={() =>
-                                    (zoom = Math.max(50, zoom - 10))}
-                                title="Zoom Out"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="h-3 w-3"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    ><path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M20 12H4"
-                                    /></svg
-                                >
-                            </button>
-                            <div
-                                class="join-item px-2 flex items-center bg-base-100 text-[10px] font-mono font-bold w-10 justify-center select-none"
-                            >
-                                {zoom}%
-                            </div>
-                            <button
-                                class="btn btn-xs btn-ghost join-item px-2"
-                                on:click={() =>
-                                    (zoom = Math.min(200, zoom + 10))}
-                                title="Zoom In"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="h-3 w-3"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    ><path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M12 4v16m8-8H4"
-                                    /></svg
-                                >
-                            </button>
-                        </div>
-
-                        <div class="w-px h-4 bg-base-300 mx-1"></div>
-
-                        <!-- Tree Controls -->
-                        <div
-                            class="join join-horizontal shadow-sm border border-base-200 rounded-full bg-base-100"
-                        >
-                            <button
-                                class="btn btn-xs btn-ghost join-item rounded-l-full normal-case font-normal px-3"
-                                on:click={() => {
-                                    treeAction = "expand";
-                                    treeActionVersion++;
-                                    query = "";
-                                }}
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="h-3 w-3 mr-1 opacity-60"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    ><path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M19 13l-7 7-7-7m14-8l-7 7-7-7"
-                                    /></svg
-                                >
-                                Expand All
-                            </button>
-                            <div class="w-px bg-base-200 h-full"></div>
-                            <button
-                                class="btn btn-xs btn-ghost join-item rounded-r-full normal-case font-normal px-3"
-                                on:click={() => {
-                                    treeAction = "collapse";
-                                    treeActionVersion++;
-                                    query = "";
-                                }}
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="h-3 w-3 mr-1 opacity-60"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    ><path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M5 11l7-7 7 7M5 19l7-7 7 7"
-                                    /></svg
-                                >
-                                Collapse All
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Status Bar -->
-            <div
-                class="bg-base-50 border-t border-base-200 p-2 text-xs text-base-content/50 flex justify-between"
-            >
-                <span>{doc ? "Schema Validated" : "Loading..."}</span>
-                <span
-                    >{rootElement
-                        ? rootElement.getAttribute("name")
-                        : "-"}</span
-                >
             </div>
         </div>
 
