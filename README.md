@@ -1,13 +1,14 @@
-# OpenNDC Viewer
+# NDC Clearance
 
-OpenNDC Viewer is an interactive explorer for IATA NDC (New Distribution Capability) schemas.
+NDC Clearance is an interactive explorer for IATA NDC (New Distribution Capability) schemas.
 
 ## Why this project?
 
 This project was created to address several challenges with standard NDC distributions:
 
 1.  **LLM-Friendly Schemas**: Standard NDC messages are typically split into a small message file and a massive common file containing thousands of types, the majority of which are unused by any single message. This makes them difficult for Large Language Models (LLMs) to process effectively. Our tools flatten these schemas, including ONLY the types actually used by a specific message, making them compact and context-window friendly.
-2.  **Improved UI/UX**: Browsing and searching complex XSD structures in a standard text editor is cumbersome. OpenNDC Viewer provides a modern, interactive interface to visualize the hierarchical structure and perform deep searches with XPath awareness.
+2.  **Improved UI/UX**: Browsing and searching complex XSD structures in a standard text editor is cumbersome. NDC Clearance provides a modern, interactive interface to visualize the hierarchical structure and perform deep searches with XPath awareness.
+
 3.  **Open Source Accessibility**: Providing a community-driven tool to navigate the industry standards more efficiently.
 
 ## Project Structure
