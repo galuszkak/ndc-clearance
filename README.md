@@ -2,6 +2,8 @@
 
 ![NDC Clearance Screenshot](screenshot.png)
 
+**Live Demo: [ndc-clearance.netlify.app](https://ndc-clearance.netlify.app)**
+
 NDC Clearance is an interactive explorer for IATA NDC (New Distribution Capability) schemas.
 
 ## Why this project?
