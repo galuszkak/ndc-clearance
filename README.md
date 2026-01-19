@@ -1,5 +1,7 @@
 # NDC Clearance
 
+![NDC Clearance Screenshot](screenshot.png)
+
 NDC Clearance is an interactive explorer for IATA NDC (New Distribution Capability) schemas.
 
 ## Why this project?
