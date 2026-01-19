@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ndc-clearance.netlify.app/sitemap-index.xml
