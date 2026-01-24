@@ -172,72 +172,61 @@ class SchemaFlattener:
         
         return used_keys
 
-    def flatten_message(self, message_filename, output_path):
-        main_info = self.load_schema(message_filename)
-        if not main_info:
-            return
+    def collect_namespaces(self, used_keys):
+        """Collect all unique namespaces from used definitions."""
+        namespaces = set()
+        for (ns, name) in used_keys:
+            if ns and ns != XSD_NS:
+                namespaces.add(ns)
+        return namespaces
 
-        used_keys = self.find_used_definitions(os.path.abspath(os.path.join(self.source_dir, message_filename)))
+    def build_prefix_map(self, namespaces, main_ns):
+        """Build a consistent prefix map for all namespaces."""
+        prefix_map = {'xs': XSD_NS}
+        prefix_counter = 1
         
-        # Create new root
-        new_root = ET.Element(f'{{{XSD_NS}}}schema')
-        new_root.set('targetNamespace', main_info['target_ns'])
-        new_root.set('elementFormDefault', 'qualified')
-        new_root.set('version', main_info['root'].get('version', '1.0'))
+        for ns in sorted(namespaces):  # Sort for deterministic output
+            if ns == main_ns:
+                # Use 'tns' for target namespace or leave unprefixed
+                prefix_map['tns'] = ns
+            else:
+                # Find an existing prefix from loaded schemas or generate one
+                found_prefix = None
+                for schema_info in self.schemas.values():
+                    for prefix, uri in schema_info['prefix_map'].items():
+                        if uri == ns and prefix and prefix not in prefix_map:
+                            found_prefix = prefix
+                            break
+                    if found_prefix:
+                        break
+                
+                if found_prefix:
+                    prefix_map[found_prefix] = ns
+                else:
+                    prefix_map[f'ns{prefix_counter}'] = ns
+                    prefix_counter += 1
         
-        # Add xmlns explicitly if needed, but ElementTree handles serialization usually.
-        # We want to bind the default namespace to targetNamespace?
-        # Or Just use a prefix.
-        
-        # Iterate and add used definitions
-        # Sort for deterministic output
-        sorted_keys = sorted(list(used_keys), key=lambda x: x[1])
-        
-        # Helper to rewrite prefixes in the element tree
-        def rewrite_prefixes(elem):
-            # If an attribute references a type in our 'used_keys', we strip the prefix
-            # assuming we merge everything to default/same namespace.
-            # OR we ensure the type name is local.
-            
-            for attr in ['type', 'base', 'ref', 'itemType']:
-                val = elem.get(attr)
-                if val:
-                    prefix, local = split_qname(val)
-                    # If it's xsd, leave it
-                    if prefix == 'xs' or prefix == 'xsd': 
-                        continue
-                    
-                    # If we found this type in our used list (regardless of original NS),
-                    # we change it to local name reference.
-                    # Note: This assumes no name collisions across merged namespaces.
-                    # Given IATA structure, this is generally safe (unique type names).
-                    elem.set(attr, local)
-            
-            # Also handle substitutionGroup?
-            
-            # Recurse
-            for child in elem:
-                rewrite_prefixes(child)
+        return prefix_map
 
-        for key in sorted_keys:
-            original_el = self.global_definitions[key]
-            # strict copy to avoid modifying original?
-            # deepcopy is safer
-            import copy
-            new_el = copy.deepcopy(original_el)
-            
-            # Rewrite references inside this element
-            rewrite_prefixes(new_el)
-            
-            # Append to new root
-            new_root.append(new_el)
+    def get_prefix_for_ns(self, ns, output_prefix_map):
+        """Get the prefix for a namespace in the output prefix map."""
+        for prefix, uri in output_prefix_map.items():
+            if uri == ns:
+                return prefix
+        return None
 
-        # Write to string
-        ET.register_namespace('', main_info['target_ns'])
-        xml_str = ET.tostring(new_root, encoding='utf-8')
+    def _write_schema_file(self, root, target_ns, output_path, xmlns_decls=None):
+        """Write a schema element tree to a file with proper formatting."""
+        xml_str = ET.tostring(root, encoding='utf-8').decode('utf-8')
+        
+        # Add any extra xmlns declarations
+        if xmlns_decls:
+            schema_tag_end = xml_str.find('>')
+            if schema_tag_end > 0:
+                xml_str = xml_str[:schema_tag_end] + ' ' + ' '.join(xmlns_decls) + xml_str[schema_tag_end:]
         
         # Pretty print with minidom
-        dom = xml.dom.minidom.parseString(xml_str)
+        dom = xml.dom.minidom.parseString(xml_str.encode('utf-8'))
         pretty_xml = dom.toprettyxml(indent="  ")
         
         # Remove empty lines
@@ -246,6 +235,161 @@ class SchemaFlattener:
         with open(output_path, 'w') as f:
             f.write(pretty_xml)
         print(f"Generated {output_path}")
+
+    def flatten_message(self, message_filename, output_path):
+        """Flatten a message schema into two files: main + common types."""
+        import copy
+        
+        main_info = self.load_schema(message_filename)
+        if not main_info:
+            return
+
+        used_keys = self.find_used_definitions(os.path.abspath(os.path.join(self.source_dir, message_filename)))
+        main_ns = main_info['target_ns']
+        
+        # Separate definitions by namespace
+        defs_by_ns = {}
+        for key in used_keys:
+            ns, name = key
+            if ns not in defs_by_ns:
+                defs_by_ns[ns] = []
+            defs_by_ns[ns].append(key)
+        
+        # Identify namespaces
+        other_namespaces = [ns for ns in defs_by_ns.keys() if ns != main_ns and ns != XSD_NS]
+        
+        # Build prefix map for cross-references
+        prefix_map = {'xs': XSD_NS}
+        if main_ns:
+            prefix_map[''] = main_ns  # default namespace for main schema types
+        
+        # Assign prefixes for other namespaces (typically just 'cns' for common types)
+        for ns in other_namespaces:
+            # Try to find existing prefix from source schemas
+            found_prefix = None
+            for schema_info in self.schemas.values():
+                for pfx, uri in schema_info['prefix_map'].items():
+                    if uri == ns and pfx:
+                        found_prefix = pfx
+                        break
+                if found_prefix:
+                    break
+            prefix_map[found_prefix or 'cns'] = ns
+        
+        # Get prefix for common types namespace
+        cns_prefix = None
+        cns_ns = None
+        for pfx, ns in prefix_map.items():
+            if ns != main_ns and ns != XSD_NS and pfx:
+                cns_prefix = pfx
+                cns_ns = ns
+                break
+
+        # Helper to rewrite prefixes consistently
+        # is_cns_schema: True when writing CommonTypes schema (needs cns: prefix for local types)
+        def rewrite_prefixes(elem, origin_schema, target_schema_ns, is_cns_schema=False):
+            for attr in ['type', 'base', 'ref', 'itemType', 'substitutionGroup']:
+                val = elem.get(attr)
+                if val:
+                    ref_key = self.resolve_reference(val, origin_schema['target_ns'], origin_schema['prefix_map'])
+                    if ref_key:
+                        ref_ns, ref_local = ref_key
+                        if ref_ns == XSD_NS:
+                            elem.set(attr, f'xs:{ref_local}')
+                        elif ref_ns == cns_ns and cns_prefix:
+                            # Reference to common types - always use cns: prefix
+                            elem.set(attr, f'{cns_prefix}:{ref_local}')
+                        elif ref_ns == main_ns:
+                            if is_cns_schema:
+                                # From CommonTypes to main ns - need main ns prefix
+                                elem.set(attr, f'msg:{ref_local}')
+                            else:
+                                # Same namespace (main) - no prefix needed
+                                elem.set(attr, ref_local)
+                        else:
+                            elem.set(attr, ref_local)
+            for child in elem:
+                rewrite_prefixes(child, origin_schema, target_schema_ns, is_cns_schema)
+
+        # Determine output filenames
+        base_name = os.path.splitext(os.path.basename(output_path))[0]
+        output_dir = os.path.dirname(output_path)
+        common_types_filename = f"{base_name}_CommonTypes.xsd"
+        common_types_path = os.path.join(output_dir, common_types_filename)
+
+        # === Generate Common Types file (if there are types from other namespaces) ===
+        if cns_ns and cns_ns in defs_by_ns:
+            ET.register_namespace('xs', XSD_NS)
+            ET.register_namespace(cns_prefix, cns_ns)  # Register cns for self-references
+            
+            cns_root = ET.Element(f'{{{XSD_NS}}}schema')
+            cns_root.set('targetNamespace', cns_ns)
+            cns_root.set('elementFormDefault', 'qualified')
+            cns_root.set('version', '1.0')
+            
+            sorted_cns_keys = sorted(defs_by_ns[cns_ns], key=lambda x: x[1])
+            
+            for key in sorted_cns_keys:
+                original_el = self.global_definitions[key]
+                
+                # Find origin schema
+                origin_schema = None
+                for path, s in self.schemas.items():
+                    if key in s['definitions'] and s['definitions'][key] == original_el:
+                        origin_schema = s
+                        break
+                if not origin_schema:
+                    continue
+                
+                new_el = copy.deepcopy(original_el)
+                rewrite_prefixes(new_el, origin_schema, cns_ns, is_cns_schema=True)
+                cns_root.append(new_el)
+            
+            # Add xmlns:cns declaration for self-references
+            xmlns_decls = [f'xmlns:{cns_prefix}="{cns_ns}"']
+            self._write_schema_file(cns_root, cns_ns, common_types_path, xmlns_decls=xmlns_decls)
+
+        # === Generate Main Message file ===
+        ET.register_namespace('xs', XSD_NS)
+        if cns_prefix and cns_ns:
+            ET.register_namespace(cns_prefix, cns_ns)
+        
+        main_root = ET.Element(f'{{{XSD_NS}}}schema')
+        main_root.set('targetNamespace', main_ns)
+        main_root.set('elementFormDefault', 'qualified')
+        main_root.set('version', main_info['root'].get('version', '1.0'))
+        
+        # Add import for common types
+        if cns_ns and cns_ns in defs_by_ns:
+            import_elem = ET.SubElement(main_root, f'{{{XSD_NS}}}import')
+            import_elem.set('namespace', cns_ns)
+            import_elem.set('schemaLocation', common_types_filename)
+        
+        # Add main namespace definitions
+        if main_ns in defs_by_ns:
+            sorted_main_keys = sorted(defs_by_ns[main_ns], key=lambda x: x[1])
+            
+            for key in sorted_main_keys:
+                original_el = self.global_definitions[key]
+                
+                origin_schema = None
+                for path, s in self.schemas.items():
+                    if key in s['definitions'] and s['definitions'][key] == original_el:
+                        origin_schema = s
+                        break
+                if not origin_schema:
+                    continue
+                
+                new_el = copy.deepcopy(original_el)
+                rewrite_prefixes(new_el, origin_schema, main_ns)
+                main_root.append(new_el)
+        
+        # Build xmlns declarations for prefixes used in attribute values
+        xmlns_decls = []
+        if cns_prefix and cns_ns:
+            xmlns_decls.append(f'xmlns:{cns_prefix}="{cns_ns}"')
+        
+        self._write_schema_file(main_root, main_ns, output_path, xmlns_decls)
 
 def main():
     parser = argparse.ArgumentParser(description='Flatten NDC Schemas')
