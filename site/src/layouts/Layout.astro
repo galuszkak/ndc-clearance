@@ -1,9 +1,13 @@
 ---
 interface Props {
     title: string;
+    description?: string;
 }
 
-const { title } = Astro.props;
+const { 
+    title, 
+    description = "Browse and explore IATA NDC (New Distribution Capability) XML schemas. Documentation for airline distribution standards." 
+} = Astro.props;
 import "../styles/global.css";
 import PostHog from "../components/posthog.astro";
 ---
@@ -12,7 +16,7 @@ import PostHog from "../components/posthog.astro";
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <meta name="description" content="NDC Schema Browser" />
+        <meta name="description" content={description} />
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="generator" content={Astro.generator} />

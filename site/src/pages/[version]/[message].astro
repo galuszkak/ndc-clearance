@@ -5,6 +5,7 @@ import VersionSelector from '../../components/VersionSelector.svelte';
 import StructureOverview from '../../components/StructureOverview.svelte';
 import MessageSidebar from '../../components/MessageSidebar.svelte';
 import { getVersions, getMessages } from '../../utils/schemas';
+import { getSchemaDescription } from '../../utils/schema-description';
 
 export function getStaticPaths() {
   const versions = getVersions();
@@ -27,9 +28,11 @@ const { versions, messages, allVersions } = Astro.props; // messages here are fo
 
 const schemaUrl = `/schemas/${version}/${message}.xsd`;
 const downloadFilename = `${message}_${version}.xsd`;
+const cleanMessageName = message.replace('IATA_', '');
+const description = getSchemaDescription(version, message);
 ---
 
-<Layout title={`${message} - ${version}`}>
+<Layout title={`${cleanMessageName} - IATA NDC ${version} Schema | NDC Clearance`} description={description}>
     <div slot="sidebar-content" class="h-full">
         <MessageSidebar client:load messages={messages} currentMessage={message} version={version} allVersions={allVersions} />
     </div>
