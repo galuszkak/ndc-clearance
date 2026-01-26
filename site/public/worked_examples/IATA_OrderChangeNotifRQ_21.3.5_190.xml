@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<easd:IATA_OrderChangeNotifRQ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:easd="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" xsi:schemaLocation="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage https://airtechzone.iata.org/xsd/2134/IATA_OrderChangeNotifRQ.xsd">
+	<easd:DistributionChain>
+		<DistributionChainLink>
+			<Ordinal>1</Ordinal>
+			<OrgRole>Carrier</OrgRole>
+			<ParticipatingOrg>
+				<Name>IATA Airways</Name>
+				<OrgID>XB</OrgID>
+			</ParticipatingOrg>
+		</DistributionChainLink>
+		<DistributionChainLink>
+			<Ordinal>2</Ordinal>
+			<OrgRole>Distributor</OrgRole>
+			<ParticipatingOrg>
+				<Name>Aggregator-X</Name>
+				<OrgID>1X</OrgID>
+			</ParticipatingOrg>
+		</DistributionChainLink>
+		<DistributionChainLink>
+			<Ordinal>3</Ordinal>
+			<OrgRole>Seller</OrgRole>
+			<ParticipatingOrg>
+				<Name>ACME Travels</Name>
+				<OrgID>12345678</OrgID>
+			</ParticipatingOrg>
+		</DistributionChainLink>
+	</easd:DistributionChain>
+	<easd:Notification>
+		<ChangeGroup>
+			<ChangeOperationGroup>
+				<ChangeOperation>
+					<ChangeDateTime>2023-01-03T15:15:00Z</ChangeDateTime>
+					<ChangeTypeCode>12</ChangeTypeCode>
+					<New>
+						<Order>
+							<LastModifiedDateTime>2023-01-03T15:15:00Z</LastModifiedDateTime>
+							<OrderID>XB952A1B2C3D4</OrderID>
+							<OrderItem>
+								<OrderItemID>ORDITM-01</OrderItemID>
+								<!--Although the DeliveryStatusCode field is not available in the current 21.3.5 schema version, itmay be included in a subsequent release. Therefore, providing the element, as required by business rules. -->
+								<Service>
+									<!-- <DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode> -->
+									<ServiceID>SVC-01</ServiceID>
+								</Service>
+								<Service>
+									<!-- <DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode> -->
+									<ServiceID>SVC-02</ServiceID>
+								</Service>
+								<Service>
+									<!-- <DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode> -->
+									<ServiceID>SVC-03</ServiceID>
+								</Service>
+								<Service>
+									<!-- <DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode> -->
+									<ServiceID>SVC-04</ServiceID>
+								</Service>
+								<Service>
+									<!-- <DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode> -->
+									<ServiceID>SVC-05</ServiceID>
+								</Service>
+								<Service>
+									<!-- <DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode> -->
+									<ServiceID>SVC-06</ServiceID>
+								</Service>
+							</OrderItem>
+							<OrderVersionNumber>3</OrderVersionNumber>
+						</Order>
+						<PaymentFunctions>
+							<PaymentProcessingSummary>
+								<Amount CurCode="EUR">1000.00</Amount><!-- Element not required in OCN, but mandatory in schemas -->
+								<PaymentCommitmentDateTime>2023-01-03T15:15:00Z</PaymentCommitmentDateTime>
+								<PaymentID>TXN300323N9397077</PaymentID>
+								<PaymentProcessingSummaryPaymentMethod><!-- Structure not required in OCN, but mandatory in schemas -->
+									<OfflinePayment>
+										<PaymentBrandCode>VI</PaymentBrandCode>
+										<PaymentTypeCode>CC</PaymentTypeCode>
+									</OfflinePayment>
+								</PaymentProcessingSummaryPaymentMethod>
+								<PaymentStatusCode>SUCCESSFUL</PaymentStatusCode>
+							</PaymentProcessingSummary>
+						</PaymentFunctions>
+					</New>
+					<Old>
+						<Order>
+							<LastModifiedDateTime>2023-01-02T15:10:00Z</LastModifiedDateTime>
+							<OrderID>XB952A1B2C3D4</OrderID>
+							<OrderItem>
+								<OrderItemID>ORDITM-01</OrderItemID>
+								<PaymentTimeLimitDateTime>2023-01-03T15:20:00Z</PaymentTimeLimitDateTime>
+								<!--Although the DeliveryStatusCode field is not available in the current 21.3.5 schema version, itmay be included in a subsequent release. Therefore, providing the element, as required by business rules. -->
+								<Service>
+									<!-- <DeliveryStatusCode>CONFIRMED</DeliveryStatusCode> -->
+									<ServiceID>SVC-01</ServiceID>
+								</Service>
+								<Service>
+									<!-- <DeliveryStatusCode>CONFIRMED</DeliveryStatusCode> -->
+									<ServiceID>SVC-02</ServiceID>
+								</Service>
+								<Service>
+									<!-- <DeliveryStatusCode>CONFIRMED</DeliveryStatusCode> -->
+									<ServiceID>SVC-03</ServiceID>
+								</Service>
+								<Service>
+									<!-- <DeliveryStatusCode>CONFIRMED</DeliveryStatusCode> -->
+									<ServiceID>SVC-04</ServiceID>
+								</Service>
+								<Service>
+									<!-- <DeliveryStatusCode>CONFIRMED</DeliveryStatusCode> -->
+									<ServiceID>SVC-05</ServiceID>
+								</Service>
+								<Service>
+									<!-- <DeliveryStatusCode>CONFIRMED</DeliveryStatusCode> -->
+									<ServiceID>SVC-06</ServiceID>
+								</Service>
+							</OrderItem>
+							<OrderVersionNumber>2</OrderVersionNumber>
+						</Order>
+						<PaymentFunctions>
+							<PaymentProcessingSummary>
+								<Amount CurCode="EUR">1000.00</Amount><!-- Element not required in OCN, but mandatory in schemas -->
+								<PaymentID>TXN300323N9397077</PaymentID>
+								<PaymentProcessingSummaryPaymentMethod><!-- Element not required in OCN, but mandatory in schemas -->
+									<OfflinePayment>
+										<PaymentBrandCode>VI</PaymentBrandCode>
+										<PaymentTypeCode>CC</PaymentTypeCode>
+									</OfflinePayment>
+								</PaymentProcessingSummaryPaymentMethod>
+								<PaymentStatusCode>PENDING</PaymentStatusCode>
+							</PaymentProcessingSummary>
+						</PaymentFunctions>
+					</Old>
+					<ReasonCode>116</ReasonCode>
+				</ChangeOperation>
+				<OrderVersionNumber>3</OrderVersionNumber>
+			</ChangeOperationGroup>
+		</ChangeGroup>
+	</easd:Notification>
+	<easd:PayloadAttributes>
+		<VersionNumber>21.3</VersionNumber>
+	</easd:PayloadAttributes>
+</easd:IATA_OrderChangeNotifRQ>

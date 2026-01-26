@@ -1,26 +1,28 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import SchemaExplorer from '../../components/SchemaExplorer.svelte';
-import VersionSelector from '../../components/VersionSelector.svelte';
-import StructureOverview from '../../components/StructureOverview.svelte';
-import MessageSidebar from '../../components/MessageSidebar.svelte';
-import { getVersions, getMessages } from '../../utils/schemas';
-import { getSchemaDescription } from '../../utils/schema-description';
+import Layout from "../../layouts/Layout.astro";
+import SchemaExplorer from "../../components/SchemaExplorer.svelte";
+import VersionSelector from "../../components/VersionSelector.svelte";
+import StructureOverview from "../../components/StructureOverview.svelte";
+import MessageSidebar from "../../components/MessageSidebar.svelte";
+import { getVersions, getMessages } from "../../utils/schemas";
+import { getSchemaDescription } from "../../utils/schema-description";
+import ExamplesButton from "../../components/ExamplesButton.svelte";
+import workedExamples from "../../data/worked_examples.json";
 
 export function getStaticPaths() {
-  const versions = getVersions();
-  const paths = [];
-  
-  versions.forEach(version => {
-      const messages = getMessages(version);
-      messages.forEach(message => {
-          paths.push({
-              params: { version, message },
-              props: { versions, messages, allVersions: versions } 
-          });
-      });
-  });
-  return paths;
+    const versions = getVersions();
+    const paths: any[] = [];
+
+    versions.forEach((version) => {
+        const messages = getMessages(version);
+        messages.forEach((message) => {
+            paths.push({
+                params: { version, message },
+                props: { versions, messages, allVersions: versions },
+            });
+        });
+    });
+    return paths;
 }
 
 const { version, message } = Astro.params;
@@ -28,13 +30,24 @@ const { versions, messages, allVersions } = Astro.props; // messages here are fo
 
 const schemaUrl = `/schemas/${version}/${message}.xsd`;
 const downloadFilename = `${message}_${version}.xsd`;
-const cleanMessageName = message.replace('IATA_', '');
+const cleanMessageName = message.replace("IATA_", "");
 const description = getSchemaDescription(version, message);
+
+const examples = (workedExamples as any)[message] || [];
 ---
 
-<Layout title={`${cleanMessageName} - IATA NDC ${version} Schema | NDC Clearance`} description={description}>
+<Layout
+    title={`${cleanMessageName} - IATA NDC ${version} Schema | NDC Clearance`}
+    description={description}
+>
     <div slot="sidebar-content" class="h-full">
-        <MessageSidebar client:load messages={messages} currentMessage={message} version={version} allVersions={allVersions} />
+        <MessageSidebar
+            client:load
+            messages={messages}
+            currentMessage={message}
+            version={version}
+            allVersions={allVersions}
+        />
     </div>
 
     <div slot="sidebar-widgets">
@@ -42,16 +55,34 @@ const description = getSchemaDescription(version, message);
     </div>
 
     <div class="flex flex-col gap-4 h-full">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-base-100 p-4 rounded-box shadow gap-4">
+        <div
+            class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-base-100 p-4 rounded-box shadow gap-4"
+        >
             <div class="min-w-0 w-full sm:w-auto">
-                <h1 class="text-xl sm:text-2xl font-bold break-words">{message}</h1>
+                <h1 class="text-xl sm:text-2xl font-bold break-words">
+                    {message}
+                </h1>
                 <p class="text-sm opacity-70">Version {version}</p>
             </div>
-            
+
             <div class="flex gap-2 items-center flex-none w-full sm:w-auto">
-                 <a href={schemaUrl} download={downloadFilename} class="btn btn-primary btn-sm w-full sm:w-auto">
+                {
+                    examples.length > 0 && (
+                        <ExamplesButton
+                            client:load
+                            examples={examples}
+                            message={message}
+                            version={version}
+                        />
+                    )
+                }
+                <a
+                    href={schemaUrl}
+                    download={downloadFilename}
+                    class="btn btn-primary btn-sm w-full sm:w-auto"
+                >
                     Download XSD
-                 </a>
+                </a>
             </div>
         </div>
 

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<easd:IATA_OrderReshopRS xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:easd="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" xsi:schemaLocation="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage https://airtechzone.iata.org/xsd/2136/IATA_OrderReshopRS.xsd">
+	<easd:Response>
+		<DataLists>
+			<SeatProfileList>
+				<SeatProfile>
+					<SeatCharacteristicCode>N</SeatCharacteristicCode>
+					<SeatProfileID>SelectedSeatProf1</SeatProfileID>
+				</SeatProfile>
+				<SeatProfile>
+					<SeatCharacteristicCode>O</SeatCharacteristicCode>
+					<SeatProfileID>SelectedSeatProf2</SeatProfileID>
+				</SeatProfile>
+			</SeatProfileList>
+			<ServiceDefinitionList>
+				<ServiceDefinition>
+					<AirlineTaxonomy>
+						<TaxonomyCode>1838</TaxonomyCode>
+					</AirlineTaxonomy>
+					<Name>Free Seat</Name>
+					<OwnerCode>XB</OwnerCode>
+					<ServiceDefinitionAssociation>
+						<SeatProfileRef>
+							<SeatProfileRefID>SelectedSeatProf1</SeatProfileRefID>
+						</SeatProfileRef>
+					</ServiceDefinitionAssociation>
+					<ServiceDefinitionID>SD01</ServiceDefinitionID>
+				</ServiceDefinition>
+				<ServiceDefinition>
+					<AirlineTaxonomy>
+						<TaxonomyCode>189C</TaxonomyCode>
+					</AirlineTaxonomy>
+					<Name>Paid Seat</Name>
+					<OwnerCode>XB</OwnerCode>
+					<ServiceDefinitionAssociation>
+						<SeatProfileRef>
+							<SeatProfileRefID>SelectedSeatProf2</SeatProfileRefID>
+						</SeatProfileRef>
+					</ServiceDefinitionAssociation>
+					<ServiceDefinitionID>SD02</ServiceDefinitionID>
+				</ServiceDefinition>
+			</ServiceDefinitionList>
+		</DataLists>
+		<Order>
+			<CreationDateTime>2023-03-15T12:15:00Z</CreationDateTime>
+			<OrderID>XB952A1B2C3D4</OrderID>
+			<OrderVersionNumber>1</OrderVersionNumber>
+			<OwnerCode>XB</OwnerCode>
+			<StatusCode>OPENED</StatusCode>
+		</Order>
+		<ReshopResults>
+			<ReshopOffers>
+				<Offer>
+					<AddedOfferItem>
+						<CancelRestrictions>
+							<AllowedModificationInd>true</AllowedModificationInd>
+							<DescText>Cancellations allowed no fee</DescText>
+							<Fee>
+								<Amount CurCode="EUR">0.00</Amount>
+							</Fee>
+							<PaxRefID>PAX01</PaxRefID>
+						</CancelRestrictions>
+						<ChangeRestrictions>
+							<AllowedModificationInd>true</AllowedModificationInd>
+							<ChangeTypeCode>Service</ChangeTypeCode>
+							<DescText>Changes allowed no fee</DescText>
+							<Fee>
+								<Amount CurCode="EUR">0.00</Amount>
+							</Fee>
+							<PaxRefID>PAX01</PaxRefID>
+						</ChangeRestrictions>
+						<MandatoryInd>false</MandatoryInd>
+						<OfferItemID>QUOTEDOFRITM01</OfferItemID>
+						<OwnerCode>XB</OwnerCode>
+						<ReshopPrice>
+							<PriceAndFareDetails>
+								<Price>
+									<BaseAmount CurCode="EUR">0.00</BaseAmount>
+									<TaxSummary>
+										<TotalTaxAmount CurCode="EUR">0.00</TotalTaxAmount>
+									</TaxSummary>
+									<TotalAmount CurCode="EUR">0.00</TotalAmount>
+								</Price>
+							</PriceAndFareDetails>
+						</ReshopPrice>
+						<Service>
+							<OfferServiceAssociation>
+								<SeatAssignment>
+									<Seat>
+										<ColumnID>B</ColumnID>
+										<RowNumber>12</RowNumber>
+									</Seat>
+									<SeatAssignmentAssociations>
+										<PaxSegmentRef>
+											<PaxSegmentRefID>SEG1</PaxSegmentRefID>
+										</PaxSegmentRef>
+									</SeatAssignmentAssociations>
+									<ServiceDefinitionRefID>SD01</ServiceDefinitionRefID>
+								</SeatAssignment>
+							</OfferServiceAssociation>
+							<PaxRefID>PAX01</PaxRefID>
+							<ServiceID>FREESEATSVC1</ServiceID>
+						</Service>
+					</AddedOfferItem>
+					<AddedOfferItem>
+						<CancelRestrictions>
+							<AllowedModificationInd>true</AllowedModificationInd>
+							<DescText>Cancellations allowed no fee</DescText>
+							<Fee>
+								<Amount CurCode="EUR">0.00</Amount>
+							</Fee>
+							<PaxRefID>PAX02</PaxRefID>
+						</CancelRestrictions>
+						<ChangeRestrictions>
+							<AllowedModificationInd>true</AllowedModificationInd>
+							<ChangeTypeCode>Service</ChangeTypeCode>
+							<DescText>Changes allowed no fee</DescText>
+							<Fee>
+								<Amount CurCode="EUR">0.00</Amount>
+							</Fee>
+							<PaxRefID>PAX02</PaxRefID>
+						</ChangeRestrictions>
+						<MandatoryInd>false</MandatoryInd>
+						<OfferItemID>QUOTEDOFRITM02</OfferItemID>
+						<OwnerCode>XB</OwnerCode>
+						<ReshopPrice>
+							<PriceAndFareDetails>
+								<Price>
+									<BaseAmount CurCode="EUR">50.00</BaseAmount>
+									<TaxSummary>
+										<TotalTaxAmount CurCode="EUR">0.00</TotalTaxAmount>
+									</TaxSummary>
+									<TotalAmount CurCode="EUR">50.00</TotalAmount>
+								</Price>
+							</PriceAndFareDetails>
+						</ReshopPrice>
+						<Service>
+							<OfferServiceAssociation>
+								<SeatAssignment>
+									<Seat>
+										<ColumnID>C</ColumnID>
+										<RowNumber>12</RowNumber>
+									</Seat>
+									<SeatAssignmentAssociations>
+										<PaxSegmentRef>
+											<PaxSegmentRefID>SEG1</PaxSegmentRefID>
+										</PaxSegmentRef>
+									</SeatAssignmentAssociations>
+									<ServiceDefinitionRefID>SD02</ServiceDefinitionRefID>
+								</SeatAssignment>
+							</OfferServiceAssociation>
+							<PaxRefID>PAX02</PaxRefID>
+							<ServiceID>PAIDSEATSVC1</ServiceID>
+						</Service>
+					</AddedOfferItem>
+					<OfferExpirationTimeLimitDateTime>2023-05-18T23:59:59Z</OfferExpirationTimeLimitDateTime>
+					<OfferID>QUOTEDOFFER1</OfferID>
+					<OwnerCode>XB</OwnerCode>
+				</Offer>
+			</ReshopOffers>
+		</ReshopResults>
+	</easd:Response>
+	<easd:PayloadAttributes>
+		<VersionNumber>21.3</VersionNumber>
+	</easd:PayloadAttributes>
+</easd:IATA_OrderReshopRS>

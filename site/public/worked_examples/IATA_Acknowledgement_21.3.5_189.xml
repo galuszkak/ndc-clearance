@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<easd:IATA_Acknowledgement xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:easd="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" xsi:schemaLocation="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage https://airtechzone.iata.org/xsd/2134/IATA_Acknowledgement.xsd">
+	<easd:Notification>
+		<StatusCode>OK</StatusCode>			
+	</easd:Notification>
+	<easd:PayloadAttributes>
+		<VersionNumber>21.3</VersionNumber>
+	</easd:PayloadAttributes>	
+</easd:IATA_Acknowledgement>

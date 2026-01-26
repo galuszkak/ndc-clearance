@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<easd:IATA_OrderChangeRQ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:easd="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" xsi:schemaLocation="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage https://airtechzone.iata.org/xsd/2134/IATA_OrderChangeRQ.xsd">
+	<easd:DistributionChain>
+		<DistributionChainLink>
+			<Ordinal>1</Ordinal>
+			<OrgRole>Seller</OrgRole>
+			<ParticipatingOrg>
+				<Name>ACME Travels</Name>
+				<OrgID>1234567</OrgID>
+			</ParticipatingOrg>
+		</DistributionChainLink>
+		<DistributionChainLink>
+			<Ordinal>2</Ordinal>
+			<OrgRole>Carrier</OrgRole>
+			<ParticipatingOrg>
+				<Name>IATA Airways</Name>
+				<OrgID>XB</OrgID>
+			</ParticipatingOrg>
+		</DistributionChainLink>
+	</easd:DistributionChain>
+	<easd:Request>
+		<ChangeOrderChoice>
+			<AcceptSelectedQuotedOfferList>
+				<SelectedPricedOffer>
+					<OfferRefID>OF001</OfferRefID>
+					<OwnerCode>XB</OwnerCode>
+					<SelectedOfferItem>
+						<OfferItemRefID>OFITM01</OfferItemRefID>
+						<PaxRefID>PAX01</PaxRefID>
+					</SelectedOfferItem>
+				</SelectedPricedOffer>
+			</AcceptSelectedQuotedOfferList>
+		</ChangeOrderChoice>
+		<Order>
+			<OrderID>XB952A1B2C3D4</OrderID>
+			<OrderVersionNumber>1</OrderVersionNumber>
+			<OwnerCode>XB</OwnerCode>
+		</Order>
+		<PaymentFunctions>
+			<OfferAssociation>
+				<OfferItemRefID>OFITM01</OfferItemRefID>
+				<OfferRefID>OF001</OfferRefID>
+				<OwnerCode>XB</OwnerCode>
+			</OfferAssociation>
+			<PaymentProcessingDetails>
+				<Amount CurCode="EUR">0.00</Amount>
+				<PaymentMethod>
+					<OfflinePayment>
+						<PaymentBrandCode>OT</PaymentBrandCode>
+						<PaymentTypeCode>OT</PaymentTypeCode>
+					</OfflinePayment>
+				</PaymentMethod>
+			</PaymentProcessingDetails>
+		</PaymentFunctions>
+	</easd:Request>
+</easd:IATA_OrderChangeRQ>

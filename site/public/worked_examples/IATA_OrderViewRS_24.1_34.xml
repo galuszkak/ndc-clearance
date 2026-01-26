@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<easd:IATA_OrderViewRS xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:easd="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" xsi:schemaLocation="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage https://airtechzone.iata.org/xsd/2136/IATA_OrderViewRS.xsd">
+	<easd:Response>
+		<DataLists>
+			<BaggageAllowanceList>
+				<BaggageAllowance>
+					<BaggageAllowanceID>BAG01</BaggageAllowanceID>
+					<PieceAllowance>
+						<TotalQty>1</TotalQty>
+					</PieceAllowance>
+					<TypeCode>CarryOn</TypeCode>
+					<WeightAllowance>
+						<MaximumWeightMeasure>8</MaximumWeightMeasure>
+						<TotalMaximumWeightMeasure>8</TotalMaximumWeightMeasure>
+						<WeightUnitOfMeasurement>KGM</WeightUnitOfMeasurement>
+					</WeightAllowance>
+				</BaggageAllowance>
+				<BaggageAllowance>
+					<BaggageAllowanceID>BAG02</BaggageAllowanceID>
+					<PieceAllowance>
+						<TotalQty>1</TotalQty>
+					</PieceAllowance>
+					<TypeCode>Checked</TypeCode>
+					<WeightAllowance>
+						<MaximumWeightMeasure>23</MaximumWeightMeasure>
+						<TotalMaximumWeightMeasure>23</TotalMaximumWeightMeasure>
+						<WeightUnitOfMeasurement>KGM</WeightUnitOfMeasurement>
+					</WeightAllowance>
+				</BaggageAllowance>
+			</BaggageAllowanceList>
+			<ContactInfoList>
+				<ContactInfo>
+					<ContactInfoID>CON01</ContactInfoID>
+					<ContactPurposeText>8</ContactPurposeText>
+					<EmailAddress>
+						<ContactTypeText>PER</ContactTypeText>
+						<EmailAddressText>jane@example.com</EmailAddressText>
+					</EmailAddress>
+					<Phone>
+						<ContactTypeText>PER</ContactTypeText>
+						<PhoneNumber>+41 123 456789</PhoneNumber>
+					</Phone>
+				</ContactInfo>
+			</ContactInfoList>
+			<DatedMarketingSegmentList>
+				<DatedMarketingSegment>
+					<Arrival>
+						<AircraftScheduledDateTime>2023-10-14T08:55:00</AircraftScheduledDateTime>
+						<IATA_LocationCode>YUL</IATA_LocationCode>
+					</Arrival>
+					<CarrierDesigCode>XB</CarrierDesigCode>
+					<DatedMarketingSegmentId>DMNEWSEG1</DatedMarketingSegmentId>
+					<DatedOperatingSegmentRefId>DONEWSEG1</DatedOperatingSegmentRefId>
+					<Dep>
+						<AircraftScheduledDateTime>2023-10-14T06:55:00</AircraftScheduledDateTime>
+						<IATA_LocationCode>GVA</IATA_LocationCode>
+					</Dep>
+					<MarketingCarrierFlightNumberText>101</MarketingCarrierFlightNumberText>
+				</DatedMarketingSegment>
+				<DatedMarketingSegment>
+					<Arrival>
+						<AircraftScheduledDateTime>2023-10-22T11:30:00</AircraftScheduledDateTime>
+						<IATA_LocationCode>GVA</IATA_LocationCode>
+					</Arrival>
+					<CarrierDesigCode>XB</CarrierDesigCode>
+					<DatedMarketingSegmentId>DMNEWSEG2</DatedMarketingSegmentId>
+					<DatedOperatingSegmentRefId>DONEWSEG2</DatedOperatingSegmentRefId>
+					<Dep>
+						<AircraftScheduledDateTime>2023-10-21T22:00:00</AircraftScheduledDateTime>
+						<IATA_LocationCode>YUL</IATA_LocationCode>
+					</Dep>
+					<MarketingCarrierFlightNumberText>202</MarketingCarrierFlightNumberText>
+				</DatedMarketingSegment>
+			</DatedMarketingSegmentList>
+			<DatedOperatingLegList>
+				<DatedOperatingLeg>
+					<Arrival>
+						<AircraftScheduledDateTime>2023-10-14T08:55:00</AircraftScheduledDateTime>
+						<IATA_LocationCode>YUL</IATA_LocationCode>
+					</Arrival>
+					<DatedOperatingLegID>DONEWLEG1</DatedOperatingLegID>
+					<Dep>
+						<AircraftScheduledDateTime>2023-10-14T06:55:00</AircraftScheduledDateTime>
+						<IATA_LocationCode>GVA</IATA_LocationCode>
+					</Dep>
+					<IATA_AircraftType>
+						<IATA_AircraftTypeCode>332</IATA_AircraftTypeCode>
+					</IATA_AircraftType>
+				</DatedOperatingLeg>
+				<DatedOperatingLeg>
+					<Arrival>
+						<AircraftScheduledDateTime>2023-10-22T11:30:00</AircraftScheduledDateTime>
+						<IATA_LocationCode>GVA</IATA_LocationCode>
+					</Arrival>
+					<DatedOperatingLegID>DONEWLEG2</DatedOperatingLegID>
+					<Dep>
+						<AircraftScheduledDateTime>2023-10-21T22:00:00</AircraftScheduledDateTime>
+						<IATA_LocationCode>YUL</IATA_LocationCode>
+					</Dep>
+					<IATA_AircraftType>
+						<IATA_AircraftTypeCode>332</IATA_AircraftTypeCode>
+					</IATA_AircraftType>
+				</DatedOperatingLeg>
+			</DatedOperatingLegList>
+			<DatedOperatingSegmentList>
+				<DatedOperatingSegment>
+					<CarrierDesigCode>XB</CarrierDesigCode>
+					<DatedOperatingLegRefID>DONEWLEG1</DatedOperatingLegRefID>
+					<DatedOperatingSegmentId>DONEWSEG1</DatedOperatingSegmentId>
+					<Duration>PT8H00M</Duration>
+					<SecureFlightInd>false</SecureFlightInd>
+				</DatedOperatingSegment>
+				<DatedOperatingSegment>
+					<CarrierDesigCode>XB</CarrierDesigCode>
+					<DatedOperatingLegRefID>DONEWLEG2</DatedOperatingLegRefID>
+					<DatedOperatingSegmentId>DONEWSEG2</DatedOperatingSegmentId>
+					<Duration>PT7H30M</Duration>
+					<SecureFlightInd>false</SecureFlightInd>
+				</DatedOperatingSegment>
+			</DatedOperatingSegmentList>
+			<PaxJourneyList>
+				<PaxJourney>
+					<DistanceMeasure UnitCode="KM">6000</DistanceMeasure>
+					<Duration>PT8H00M</Duration>
+					<PaxJourneyID>FLTNEW1</PaxJourneyID>
+					<PaxSegmentRefID>SEGNEW1</PaxSegmentRefID>
+				</PaxJourney>
+				<PaxJourney>
+					<DistanceMeasure UnitCode="KM">6000</DistanceMeasure>
+					<Duration>PT7H30M</Duration>
+					<PaxJourneyID>FLTNEW2</PaxJourneyID>
+					<PaxSegmentRefID>SEGNEW2</PaxSegmentRefID>
+				</PaxJourney>
+			</PaxJourneyList>
+			<PaxList>
+				<Pax>
+					<ContactInfoRefID>CON01</ContactInfoRefID>
+					<IdentityDoc>
+						<Birthdate>1971-01-01</Birthdate>
+						<CitizenshipCountryCode>CH</CitizenshipCountryCode>
+						<ExpiryDate>2040-03-02</ExpiryDate>
+						<GenderCode>F</GenderCode>
+						<GivenName>Jane</GivenName>
+						<IdentityDocID>CH1234567</IdentityDocID>
+						<IdentityDocTypeCode>PT</IdentityDocTypeCode>
+						<IssueDate>2023-01-01</IssueDate>
+						<IssuingCountryCode>CH</IssuingCountryCode>
+						<Surname>Smith</Surname>
+					</IdentityDoc>
+					<Individual>
+						<Birthdate>1971-01-01</Birthdate>
+						<GenderCode>F</GenderCode>
+						<GivenName>Jane</GivenName>
+						<Surname>Smith</Surname>
+						<TitleName>Ms</TitleName>
+					</Individual>
+					<PaxID>PAX01</PaxID>
+					<PTC>ADT</PTC>
+				</Pax>
+			</PaxList>
+			<PaxSegmentList>
+				<PaxSegment>
+					<CabinTypeAssociationChoice>
+						<SegmentCabinType>
+							<CabinTypeCode>5</CabinTypeCode>
+							<CabinTypeName>Economy</CabinTypeName>
+						</SegmentCabinType>
+					</CabinTypeAssociationChoice>
+					<DatedMarketingSegmentRefId>DMNEWSEG1</DatedMarketingSegmentRefId>
+					<PaxSegmentID>SEGNEW1</PaxSegmentID>
+				</PaxSegment>
+				<PaxSegment>
+					<CabinTypeAssociationChoice>
+						<SegmentCabinType>
+							<CabinTypeCode>5</CabinTypeCode>
+							<CabinTypeName>Economy</CabinTypeName>
+						</SegmentCabinType>
+					</CabinTypeAssociationChoice>
+					<DatedMarketingSegmentRefId>DMNEWSEG2</DatedMarketingSegmentRefId>
+					<PaxSegmentID>SEGNEW2</PaxSegmentID>
+				</PaxSegment>
+			</PaxSegmentList>
+			<ServiceDefinitionList>
+				<ServiceDefinition>
+					<AirlineTaxonomy>
+						<TaxonomyCode>0FA0</TaxonomyCode>
+					</AirlineTaxonomy>
+					<Name>CarryOn Baggage</Name>
+					<OwnerCode>XB</OwnerCode>
+					<ServiceDefinitionAssociation>
+						<BaggageAllowanceRef>
+							<BaggageAllowanceRefID>BAG01</BaggageAllowanceRefID>
+						</BaggageAllowanceRef>
+					</ServiceDefinitionAssociation>
+					<ServiceDefinitionID>SRVDEF01</ServiceDefinitionID>
+				</ServiceDefinition>
+				<ServiceDefinition>
+					<AirlineTaxonomy>
+						<TaxonomyCode>13EC</TaxonomyCode>
+					</AirlineTaxonomy>
+					<Name>Checked Baggage</Name>
+					<OwnerCode>XB</OwnerCode>
+					<ServiceDefinitionAssociation>
+						<BaggageAllowanceRef>
+							<BaggageAllowanceRefID>BAG02</BaggageAllowanceRefID>
+						</BaggageAllowanceRef>
+					</ServiceDefinitionAssociation>
+					<ServiceDefinitionID>SRVDEF02</ServiceDefinitionID>
+				</ServiceDefinition>
+			</ServiceDefinitionList>
+		</DataLists>
+		<Order>
+			<CreationDateTime>2023-03-15T12:15:00Z</CreationDateTime>
+			<ForfeitedInfoList>
+				<ForfeitedInfo>
+					<CreationDateTime>2023-05-18T23:40:59Z</CreationDateTime>
+					<ForfeitedInfoID>FORFEITED01</ForfeitedInfoID>
+					<OrderItemRefID>ORDITM02_NEW</OrderItemRefID>
+					<PaxRefID>PAX01</PaxRefID>
+					<Price>
+						<BaseAmount CurCode="EUR">100.00</BaseAmount>
+						<TaxSummary>
+							<Tax>
+								<Amount CurCode="EUR">20.00</Amount>
+								<RefundInd>false</RefundInd>
+								<TaxCode>AA</TaxCode>
+								<TaxName>Tax AA</TaxName>
+							</Tax>
+							<TotalTaxAmount CurCode="EUR">20.00</TotalTaxAmount>
+						</TaxSummary>
+						<TotalAmount CurCode="EUR">120.00</TotalAmount>
+					</Price>
+				</ForfeitedInfo>
+			</ForfeitedInfoList>
+			<LastModifiedDateTime>2023-05-19T11:24:36Z</LastModifiedDateTime>
+			<OrderID>XB952A1B2C3D4</OrderID>
+			<OrderItem>
+				<CancelRestrictions>
+					<AllowedModificationInd>true</AllowedModificationInd>
+					<DescText>Cancellations allowed for a fee</DescText>
+					<Fee>
+						<Amount CurCode="EUR">80.00</Amount>
+					</Fee>
+					<PaxRefID>PAX01</PaxRefID>
+				</CancelRestrictions>
+				<ChangeRestrictions>
+					<AllowedModificationInd>true</AllowedModificationInd>
+					<ChangeTypeCode>Flight</ChangeTypeCode>
+					<DescText>Changes allowed for a fee</DescText>
+					<Fee>
+						<Amount CurCode="EUR">60.00</Amount>
+					</Fee>
+					<PaxRefID>PAX01</PaxRefID>
+				</ChangeRestrictions>
+				<CreationDateTime>2023-05-18T23:40:59Z</CreationDateTime>
+				<ExistingOrderItemID>ORDITM01</ExistingOrderItemID>
+				<OrderItemID>ORDITM02_NEW</OrderItemID>
+				<OwnerCode>XB</OwnerCode>
+				<PriceDifferential>
+					<DifferentialTypeCode>AddCol</DifferentialTypeCode>
+					<DiffPrice>
+						<Price>
+							<BaseAmount CurCode="EUR">0.00</BaseAmount>
+							<DueByAirlineAmount CurCode="EUR">0.00</DueByAirlineAmount>
+							<DueToAirlineAmount CurCode="EUR">60.00</DueToAirlineAmount>
+							<TaxSummary>
+								<Tax>
+									<Amount CurCode="EUR">20.00</Amount>
+									<TaxCode>AA</TaxCode>
+									<TaxName>Tax AA</TaxName>
+								</Tax>
+								<Tax>
+									<Amount CurCode="EUR">0.00</Amount>
+									<TaxCode>BB</TaxCode>
+									<TaxName>Tax BB</TaxName>
+								</Tax>
+								<Tax>
+									<Amount CurCode="EUR">0.00</Amount>
+									<TaxCode>CC</TaxCode>
+									<TaxName>Tax CC</TaxName>
+								</Tax>
+								<TotalTaxAmount CurCode="EUR">20.00</TotalTaxAmount>
+							</TaxSummary>
+							<TotalAmount CurCode="EUR">20.00</TotalAmount>
+						</Price>
+					</DiffPrice>
+					<NewPrice>
+						<Price>
+							<BaseAmount CurCode="EUR">800.00</BaseAmount>
+							<TaxSummary>
+								<Tax>
+									<Amount CurCode="EUR">20.00</Amount>
+									<RefundInd>false</RefundInd>
+									<TaxCode>AA</TaxCode>
+									<TaxName>Tax AA</TaxName>
+								</Tax>
+								<Tax>
+									<Amount CurCode="EUR">30.00</Amount>
+									<TaxCode>BB</TaxCode>
+									<TaxName>Tax BB</TaxName>
+								</Tax>
+								<Tax>
+									<Amount CurCode="EUR">50.00</Amount>
+									<TaxCode>CC</TaxCode>
+									<TaxName>Tax CC</TaxName>
+								</Tax>
+								<TotalTaxAmount CurCode="EUR">100.00</TotalTaxAmount>
+							</TaxSummary>
+							<TotalAmount CurCode="EUR">900.00</TotalAmount>
+						</Price>
+					</NewPrice>
+					<OldPrice>
+						<Price>
+							<BaseAmount CurCode="EUR">900.00</BaseAmount>
+							<TaxSummary>
+								<Tax>
+									<Amount CurCode="EUR">20.00</Amount>
+									<RefundInd>false</RefundInd>
+									<TaxCode>AA</TaxCode>
+									<TaxName>Tax AA</TaxName>
+								</Tax>
+								<Tax>
+									<Amount CurCode="EUR">30.00</Amount>
+									<TaxCode>BB</TaxCode>
+									<TaxName>Tax BB</TaxName>
+								</Tax>
+								<Tax>
+									<Amount CurCode="EUR">50.00</Amount>
+									<TaxCode>CC</TaxCode>
+									<TaxName>Tax CC</TaxName>
+								</Tax>
+								<TotalTaxAmount CurCode="EUR">100.00</TotalTaxAmount>
+							</TaxSummary>
+							<TotalAmount CurCode="EUR">1000.00</TotalAmount>
+						</Price>
+					</OldPrice>
+				</PriceDifferential>
+				<Service>
+					<DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode>
+					<OrderServiceAssociation>
+						<PaxSegmentRef>
+							<PaxSegmentRefID>SEGNEW1</PaxSegmentRefID>
+						</PaxSegmentRef>
+					</OrderServiceAssociation>
+					<PaxRefID>PAX01</PaxRefID>
+					<ServiceID>SVCNEWSEG1</ServiceID>
+					<StatusCode>CONFIRMED</StatusCode>
+				</Service>
+				<Service>
+					<DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode>
+					<OrderServiceAssociation>
+						<PaxSegmentRef>
+							<PaxSegmentRefID>SEGNEW2</PaxSegmentRefID>
+						</PaxSegmentRef>
+					</OrderServiceAssociation>
+					<PaxRefID>PAX01</PaxRefID>
+					<ServiceID>SVCNEWSEG2</ServiceID>
+					<StatusCode>CONFIRMED</StatusCode>
+				</Service>
+				<Service>
+					<DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode>
+					<OrderServiceAssociation>
+						<ServiceDefinitionRef>
+							<OrderFlightAssociations>
+								<PaxSegmentRef>
+									<PaxSegmentRefID>SEGNEW1</PaxSegmentRefID>
+								</PaxSegmentRef>
+							</OrderFlightAssociations>
+							<ServiceDefinitionRefID>SRVDEF01</ServiceDefinitionRefID>
+						</ServiceDefinitionRef>
+					</OrderServiceAssociation>
+					<PaxRefID>PAX01</PaxRefID>
+					<ServiceID>SVCNEWCARRYONBAGSEG1</ServiceID>
+					<StatusCode>CONFIRMED</StatusCode>
+				</Service>
+				<Service>
+					<DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode>
+					<OrderServiceAssociation>
+						<ServiceDefinitionRef>
+							<OrderFlightAssociations>
+								<PaxSegmentRef>
+									<PaxSegmentRefID>SEGNEW2</PaxSegmentRefID>
+								</PaxSegmentRef>
+							</OrderFlightAssociations>
+							<ServiceDefinitionRefID>SRVDEF01</ServiceDefinitionRefID>
+						</ServiceDefinitionRef>
+					</OrderServiceAssociation>
+					<PaxRefID>PAX01</PaxRefID>
+					<ServiceID>SVCNEWCARRYONBAGSEG2</ServiceID>
+					<StatusCode>CONFIRMED</StatusCode>
+				</Service>
+				<Service>
+					<DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode>
+					<OrderServiceAssociation>
+						<ServiceDefinitionRef>
+							<OrderFlightAssociations>
+								<PaxSegmentRef>
+									<PaxSegmentRefID>SEGNEW1</PaxSegmentRefID>
+								</PaxSegmentRef>
+							</OrderFlightAssociations>
+							<ServiceDefinitionRefID>SRVDEF02</ServiceDefinitionRefID>
+						</ServiceDefinitionRef>
+					</OrderServiceAssociation>
+					<PaxRefID>PAX01</PaxRefID>
+					<ServiceID>SVCNEWCHECKEDBAGSEG1</ServiceID>
+					<StatusCode>CONFIRMED</StatusCode>
+				</Service>
+				<Service>
+					<DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode>
+					<OrderServiceAssociation>
+						<ServiceDefinitionRef>
+							<OrderFlightAssociations>
+								<PaxSegmentRef>
+									<PaxSegmentRefID>SEGNEW2</PaxSegmentRefID>
+								</PaxSegmentRef>
+							</OrderFlightAssociations>
+							<ServiceDefinitionRefID>SRVDEF02</ServiceDefinitionRefID>
+						</ServiceDefinitionRef>
+					</OrderServiceAssociation>
+					<PaxRefID>PAX01</PaxRefID>
+					<ServiceID>SVCNEWCHECKEDBAGSEG2</ServiceID>
+					<StatusCode>CONFIRMED</StatusCode>
+				</Service>
+				<StatusCode>ACTIVE</StatusCode>
+			</OrderItem>
+			<OrderVersionNumber>3</OrderVersionNumber>
+			<OwnerCode>XB</OwnerCode>
+			<PenaltyInfoList>
+				<PenaltyInfo>
+					<CreationDateTime>2023-05-18T23:40:59Z</CreationDateTime>
+					<OrderItemRefID>ORDITM02_NEW</OrderItemRefID>
+					<PaxRefID>PAX01</PaxRefID>
+					<PenaltyDetails>
+						<DescText>Change fee</DescText>
+						<NetInd>true</NetInd>
+						<Price>
+							<BaseAmount CurCode="EUR">40.00</BaseAmount>
+							<TaxSummary>
+								<TotalTaxAmount CurCode="EUR">0.00</TotalTaxAmount>
+							</TaxSummary>
+							<TotalAmount CurCode="EUR">40.00</TotalAmount>
+						</Price>
+						<TypeCode>Change</TypeCode>
+					</PenaltyDetails>
+					<PenaltyInfoID>PENALTY01</PenaltyInfoID>
+				</PenaltyInfo>
+			</PenaltyInfoList>
+			<StatusCode>OPENED</StatusCode>
+		</Order>
+	</easd:Response>
+	<easd:PayloadAttributes>
+		<VersionNumber>21.3</VersionNumber>
+	</easd:PayloadAttributes>
+	<easd:PaymentFunctions>
+		<OrderAssociation>
+			<OrderItemRefID>ORDITM01</OrderItemRefID>
+			<OrderRefID>XB952A1B2C3D4</OrderRefID>
+		</OrderAssociation>
+		<OrderPaymentSummaryAllocation>
+			<OrderItemRefID>ORDITM02_NEW</OrderItemRefID>
+			<OrderRefID>XB952A1B2C3D4</OrderRefID>
+		</OrderPaymentSummaryAllocation>
+		<PaymentProcessingSummary>
+			<Amount CurCode="EUR">1000.00</Amount>
+			<PaymentCommitmentDateTime>2023-03-15T12:15:00Z</PaymentCommitmentDateTime>
+			<PaymentID>PAY01</PaymentID>
+			<PaymentProcessingSummaryPaymentMethod>
+				<SettlementPlan>
+					<IATA_Number>1234567</IATA_Number>
+					<PaymentTypeCode>CA</PaymentTypeCode>
+				</SettlementPlan>
+			</PaymentProcessingSummaryPaymentMethod>
+			<PaymentStatusCode>SUCCESSFUL</PaymentStatusCode>
+		</PaymentProcessingSummary>
+	</easd:PaymentFunctions>
+	<easd:PaymentFunctions>
+		<OrderAssociation>
+			<OrderItemRefID>ORDITM02_NEW</OrderItemRefID>
+			<OrderRefID>XB952A1B2C3D4</OrderRefID>
+		</OrderAssociation>
+		<OrderPaymentSummaryAllocation>
+			<OrderItemRefID>ORDITM02_NEW</OrderItemRefID>
+			<OrderRefID>XB952A1B2C3D4</OrderRefID>
+		</OrderPaymentSummaryAllocation>
+		<PaymentProcessingSummary>
+			<Amount CurCode="EUR">60.00</Amount>
+			<PaymentCommitmentDateTime>2023-05-19T11:24:36Z</PaymentCommitmentDateTime>
+			<PaymentID>PAY02</PaymentID>
+			<PaymentProcessingSummaryPaymentMethod>
+				<SettlementPlan>
+					<IATA_Number>1234567</IATA_Number>
+					<PaymentTypeCode>CA</PaymentTypeCode>
+				</SettlementPlan>
+			</PaymentProcessingSummaryPaymentMethod>
+			<PaymentStatusCode>SUCCESSFUL</PaymentStatusCode>
+		</PaymentProcessingSummary>
+	</easd:PaymentFunctions>
+</easd:IATA_OrderViewRS>
+ 

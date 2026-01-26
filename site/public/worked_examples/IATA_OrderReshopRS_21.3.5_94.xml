@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<easd:IATA_OrderReshopRS xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:easd="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" xsi:schemaLocation="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage https://airtechzone.iata.org/xsd/2134/IATA_OrderReshopRS.xsd">
+	<easd:Response>
+		<DataLists>
+			<ServiceDefinitionList>
+				<ServiceDefinition>
+					<AirlineTaxonomy>
+						<TaxonomyCode>012C</TaxonomyCode>
+					</AirlineTaxonomy>
+					<Name>Name Change</Name>
+					<OwnerCode>XB</OwnerCode>
+					<ServiceDefinitionID>SRVDEF03_NAMCHG</ServiceDefinitionID>
+				</ServiceDefinition>
+			</ServiceDefinitionList>
+		</DataLists>
+		<Order>
+			<OrderID>XB952A1B2C3D4</OrderID>
+			<OrderVersionNumber>1</OrderVersionNumber>
+			<OwnerCode>XB</OwnerCode>
+		</Order>
+		<ReshopResults>
+			<ReshopOffers>
+				<Offer>
+					<OfferExpirationTimeLimitDateTime>2023-03-25T12:38:06Z</OfferExpirationTimeLimitDateTime>
+					<OfferID>OF001</OfferID>
+					<OfferItem>
+						<CancelRestrictions>
+							<AllowedModificationInd>false</AllowedModificationInd>
+							<DescText>Cancellations not allowed</DescText>
+							<PaxRefID>PAX01</PaxRefID>
+						</CancelRestrictions>
+						<ChangeRestrictions>
+							<AllowedModificationInd>false</AllowedModificationInd>
+							<DescText>Change not allowed</DescText>
+							<PaxRefID>PAX01</PaxRefID>
+						</ChangeRestrictions>
+						<MandatoryInd>true</MandatoryInd>
+						<NameChangeService>
+							<PaxRefID>PAX01</PaxRefID>
+							<ServiceDefinitionRefID>SRVDEF03_NAMCHG</ServiceDefinitionRefID>
+							<ServiceID>ServiceID1</ServiceID>
+						</NameChangeService>
+						<OfferItemID>OFITM01</OfferItemID>
+						<OwnerCode>XB</OwnerCode>
+						<PaxNameChange>
+							<GivenName>Jane</GivenName>
+							<PaxRefID>PAX01</PaxRefID>
+							<Surname>Smith</Surname>
+							<TitleName>Ms</TitleName>
+						</PaxNameChange>
+						<Price>
+							<TotalAmount CurCode="EUR">0.00</TotalAmount>
+						</Price>
+					</OfferItem>
+					<OwnerCode>XB</OwnerCode>
+				</Offer>
+			</ReshopOffers>
+		</ReshopResults>
+	</easd:Response>
+</easd:IATA_OrderReshopRS>

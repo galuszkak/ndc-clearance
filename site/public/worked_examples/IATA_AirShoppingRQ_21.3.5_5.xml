@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- NDC Implementation Guide Worked Examples: EXM_SHP_001 - Shop and Order a flight for a single passenger
+Flow:
+	01. AirShoppingRQ/RS
+	02. OfferPriceRQ/RS
+	03. OrderCreateRQ/OrderViewRS
+-->
+<easd:IATA_AirShoppingRQ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:easd="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" xsi:schemaLocation="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage https://airtechzone.iata.org/xsd/2134/IATA_AirShoppingRQ.xsd">
+	<easd:DistributionChain>
+		<DistributionChainLink>
+			<Ordinal>1</Ordinal>
+			<OrgRole>Seller</OrgRole>
+			<ParticipatingOrg>
+				<Name>ACME Travels</Name>
+				<OrgID>12345678</OrgID>
+			</ParticipatingOrg>
+		</DistributionChainLink>
+		<DistributionChainLink>
+			<Ordinal>2</Ordinal>
+			<OrgRole>Distributor</OrgRole>
+			<ParticipatingOrg>
+				<Name>Aggregator-X</Name>
+				<OrgID>1X</OrgID>
+			</ParticipatingOrg>
+		</DistributionChainLink>
+		<DistributionChainLink>
+			<Ordinal>3</Ordinal>
+			<OrgRole>Carrier</OrgRole>
+			<ParticipatingOrg>
+				<Name>IATA Airways</Name>
+				<OrgID>XB</OrgID>
+			</ParticipatingOrg>
+		</DistributionChainLink>
+	</easd:DistributionChain>
+	<easd:PayloadAttributes>
+		<VersionNumber>21.3</VersionNumber>
+	</easd:PayloadAttributes>
+	<easd:Request>
+		<FlightRequest>
+			<FlightRequestOriginDestinationsCriteria>
+				<OriginDestCriteria>
+					<DestArrivalCriteria>
+						<IATA_LocationCode>NCE</IATA_LocationCode>
+					</DestArrivalCriteria>
+					<OriginDepCriteria>
+						<Date>2023-05-20</Date>
+						<IATA_LocationCode>LHR</IATA_LocationCode>
+					</OriginDepCriteria>
+				</OriginDestCriteria>
+				<OriginDestCriteria>
+					<DestArrivalCriteria>
+						<IATA_LocationCode>LHR</IATA_LocationCode>
+					</DestArrivalCriteria>
+					<OriginDepCriteria>
+						<Date>2023-06-20</Date>
+						<IATA_LocationCode>NCE</IATA_LocationCode>
+					</OriginDepCriteria>
+				</OriginDestCriteria>
+			</FlightRequestOriginDestinationsCriteria>
+		</FlightRequest>
+		<PaxList>
+			<Pax>
+				<PaxID>P1</PaxID>
+				<PTC>ADT</PTC>
+			</Pax>
+		</PaxList>
+	</easd:Request>
+</easd:IATA_AirShoppingRQ>

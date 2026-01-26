@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<easd:IATA_OrderChangeRQ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:easd="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" xsi:schemaLocation="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage https://airtechzone.iata.org/xsd/243/IATA_OrderChangeRQ.xsd">
+	<easd:DistributionChain>
+		<DistributionChainLink>
+			<Ordinal>1</Ordinal>
+			<OrgRole>Seller</OrgRole>
+			<ParticipatingOrg>
+				<Name>ACME Travels</Name>
+				<OrgID>12345678</OrgID>
+			</ParticipatingOrg>
+		</DistributionChainLink>
+		<DistributionChainLink>
+			<Ordinal>2</Ordinal>
+			<OrgRole>Distributor</OrgRole>
+			<ParticipatingOrg>
+				<Name>Aggregator-X</Name>
+				<OrgID>1X</OrgID>
+			</ParticipatingOrg>
+		</DistributionChainLink>
+		<DistributionChainLink>
+			<Ordinal>3</Ordinal>
+			<OrgRole>Carrier</OrgRole>
+			<ParticipatingOrg>
+				<Name>IATA Airways</Name>
+				<OrgID>XB</OrgID>
+			</ParticipatingOrg>
+		</DistributionChainLink>
+	</easd:DistributionChain>
+	<easd:PayloadAttributes>
+		<VersionNumber>24.3</VersionNumber>
+	</easd:PayloadAttributes>
+	<easd:Request>
+		<Order>
+			<OrderID>XB952A1B2C3D4</OrderID>
+			<OrderVersionNumber>1</OrderVersionNumber>
+			<OwnerCode>XB</OwnerCode>
+		</Order>
+		<PaymentFunctions>
+			<OrderAssociation>
+				<OrderItemRefID>ORDITM-01</OrderItemRefID>
+				<OrderRefID>XB952A1B2C3D4</OrderRefID>
+			</OrderAssociation>
+			<PaymentProcessingDetails>
+				<Amount CurCode="INR">100000</Amount>
+				<Payer>
+					<PayerEmailAddress>
+						<EmailAddressText>mary@smith.com</EmailAddressText>
+					</PayerEmailAddress>
+					<PayerName>
+						<IndividualName>
+							<GivenName>Mary</GivenName>
+							<Surname>Smith</Surname>
+						</IndividualName>
+					</PayerName>
+					<PayerPhoneNumber>
+						<CountryDialingCode>+91</CountryDialingCode>
+						<PhoneNumber>7000111111</PhoneNumber>
+					</PayerPhoneNumber>
+					<PaymentAddress>
+						<PostalAddress>
+							<CityName>Bengaluru</CityName>
+							<CountryCode>IN</CountryCode>
+							<PostalCode>560008</PostalCode>
+							<StreetText>23, HAL Old Airport Rd</StreetText>
+						</PostalAddress>
+					</PaymentAddress>
+				</Payer>
+				<PaymentMethod>
+					<PaymentCard>
+						<CardBrandCode>VI</CardBrandCode>
+						<CardholderAddress>
+							<CityName>Bengaluru</CityName>
+							<CountryCode>IN</CountryCode>
+							<PostalCode>560008</PostalCode>
+							<StreetText>23, HAL Old Airport Rd</StreetText>
+						</CardholderAddress>
+						<CardHolderName>Mary Smith</CardHolderName>
+						<CardNumber>4111111111111111</CardNumber>
+						<CardSecurityCode>111</CardSecurityCode>
+						<ExpirationDate>0125</ExpirationDate>
+						<SecurePaymentVersion2>
+							<PaymentTrxChannelCode>MO</PaymentTrxChannelCode>
+						</SecurePaymentVersion2>
+					</PaymentCard>
+				</PaymentMethod>
+			</PaymentProcessingDetails>
+		</PaymentFunctions>
+	</easd:Request>
+</easd:IATA_OrderChangeRQ>

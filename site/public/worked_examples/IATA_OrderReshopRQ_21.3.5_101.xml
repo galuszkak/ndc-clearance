@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<easd:IATA_OrderReshopRQ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:easd="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" xsi:schemaLocation="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage https://airtechzone.iata.org/xsd/2134/IATA_OrderReshopRQ.xsd">
+	<easd:DistributionChain>
+		<DistributionChainLink>
+			<Ordinal>1</Ordinal>
+			<OrgRole>Seller</OrgRole>
+			<ParticipatingOrg>
+				<Name>ACME Travels</Name>
+				<OrgID>1234567</OrgID>
+			</ParticipatingOrg>
+		</DistributionChainLink>
+		<DistributionChainLink>
+			<Ordinal>2</Ordinal>
+			<OrgRole>Carrier</OrgRole>
+			<ParticipatingOrg>
+				<Name>IATA Airways</Name>
+				<OrgID>XB</OrgID>
+			</ParticipatingOrg>
+		</DistributionChainLink>
+	</easd:DistributionChain>
+	<easd:Request>
+		<OrderRefID>XB952A1B2C3D4</OrderRefID>
+		<UpdateOrder>
+			<ReshopOrder>
+				<ReshopOrderChoice>
+					<UpdatePaxName>
+						<GivenName>Jane</GivenName>
+						<PaxRefID>PAX01</PaxRefID>
+						<Surname>Smith</Surname>
+						<TitleName>Ms</TitleName>
+					</UpdatePaxName>
+				</ReshopOrderChoice>
+			</ReshopOrder>
+		</UpdateOrder>
+	</easd:Request>
+</easd:IATA_OrderReshopRQ>
