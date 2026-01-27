@@ -7,7 +7,17 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://ndc-clearance.netlify.app',
-  integrations: [svelte(), sitemap()],
+  integrations: [
+    svelte(),
+    sitemap({
+      serialize(item) {
+        return {
+          ...item,
+          url: item.url.toLowerCase()
+        };
+      },
+    })
+  ],
 
   vite: {
     plugins: [tailwindcss()],
