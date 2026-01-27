@@ -8,6 +8,13 @@
     // Svelte 5 runes
     let { examples = [], message = "", version = "" } = $props();
 
+    $effect(() => {
+        console.log("ExamplesModal received examples:", examples);
+        examples.forEach((ex) => {
+            console.log(`Title: "${ex.title}", URL: "${ex.url}"`);
+        });
+    });
+
     let selectedExample = $state(null);
     let xmlContent = $state("");
     let loading = $state(false);

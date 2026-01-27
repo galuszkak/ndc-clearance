@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <easd:IATA_OrderRetrieveRQ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:easd="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" xsi:schemaLocation="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage https://airtechzone.iata.org/xsd/2136/IATA_OrderRetrieveRQ.xsd">
 	<easd:DistributionChain>
-		<DistributionChainLink>
+        <DistributionChainLink>
 			<Ordinal>1</Ordinal>
 			<OrgRole>Seller</OrgRole>
 			<ParticipatingOrg>
@@ -11,6 +11,14 @@
 		</DistributionChainLink>
 		<DistributionChainLink>
 			<Ordinal>2</Ordinal>
+			<OrgRole>Distributor</OrgRole>
+			<ParticipatingOrg>
+				<Name>Aggregator-X</Name>
+				<OrgID>YY</OrgID>
+			</ParticipatingOrg>
+		</DistributionChainLink>
+		<DistributionChainLink>
+			<Ordinal>3</Ordinal>
 			<OrgRole>Carrier</OrgRole>
 			<ParticipatingOrg>
 				<Name>IATA Airways</Name>
@@ -30,4 +38,3 @@
 		</OrderValidationFilterCriteria>
 	</easd:Request>
 </easd:IATA_OrderRetrieveRQ>
- 

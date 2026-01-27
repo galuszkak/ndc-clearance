@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<easd:IATA_OrderReshopRS xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:easd="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" xsi:schemaLocation="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage https://airtechzone.iata.org/xsd/2136/IATA_OrderReshopRS.xsd">
+	<easd:Response>
+		<DataLists>
+			<BaggageAllowanceList>
+				<BaggageAllowance>
+					<BaggageAllowanceID>XBAG15</BaggageAllowanceID>
+					<PieceAllowance>
+						<TotalQty>1</TotalQty>
+					</PieceAllowance>
+					<TypeCode>Checked</TypeCode>
+					<WeightAllowance>
+						<MaximumWeightMeasure>15</MaximumWeightMeasure>
+						<TotalMaximumWeightMeasure>15</TotalMaximumWeightMeasure>
+						<WeightUnitOfMeasurement>KGM</WeightUnitOfMeasurement>
+					</WeightAllowance>
+				</BaggageAllowance>
+			</BaggageAllowanceList>
+			<ServiceDefinitionList>
+				<ServiceDefinition>
+					<AirlineTaxonomy>
+						<DescText>Extra checked-in bag (15Kg)</DescText>
+						<TaxonomyCode>1450</TaxonomyCode>
+					</AirlineTaxonomy>
+					<Name>Checked-in bag (15Kg)</Name>
+					<OwnerCode>XB</OwnerCode>
+					<ServiceDefinitionAssociation>
+						<BaggageAllowanceRef>
+							<BaggageAllowanceRefID>XBAG15</BaggageAllowanceRefID>
+						</BaggageAllowanceRef>
+					</ServiceDefinitionAssociation>
+					<ServiceDefinitionID>SVCXBAG</ServiceDefinitionID>
+				</ServiceDefinition>
+			</ServiceDefinitionList>
+		</DataLists>
+		<Order>
+			<CreationDateTime>2023-03-15T12:15:00Z</CreationDateTime>
+			<OrderID>XB952A1B2C3D4</OrderID>
+			<OrderVersionNumber>1</OrderVersionNumber>
+			<OwnerCode>XB</OwnerCode>
+			<StatusCode>OPENED</StatusCode>
+		</Order>
+		<ReshopResults>
+			<ReshopOffers>
+				<RequotedOffer>
+					<AddedOfferItem>
+						<CancelRestrictions>
+							<AllowedModificationInd>false</AllowedModificationInd>
+							<DescText>Cancellations not allowed.</DescText>
+							<PaxRefID>PAX-01</PaxRefID>
+						</CancelRestrictions>
+						<ChangeRestrictions>
+							<AllowedModificationInd>true</AllowedModificationInd>
+							<ChangeTypeCode>Service</ChangeTypeCode>
+							<DescText>Change allowed no fee</DescText>
+							<Fee>
+								<Amount CurCode="EUR">0.00</Amount>
+							</Fee>
+							<PaxRefID>PAX-01</PaxRefID>
+						</ChangeRestrictions>
+						<OfferItemID>SVCOFFITEM01</OfferItemID>
+						<OwnerCode>XB</OwnerCode>
+						<PaymentTimeLimit>
+							<PaymentTimeLimitDuration>
+								<PaymentTimeLimitDuration>PT48H0M0S</PaymentTimeLimitDuration>
+							</PaymentTimeLimitDuration>
+						</PaymentTimeLimit>
+						<PriceGuaranteeTimeLimitDateTime>2023-04-02T20:15:00Z</PriceGuaranteeTimeLimitDateTime>
+						<ReshopPrice>
+							<PriceAndFareDetails>
+								<Price>
+									<BaseAmount CurCode="EUR">40.00</BaseAmount>
+									<TaxSummary>
+										<Tax>
+											<Amount CurCode="EUR">10.00</Amount>
+											<RefundInd>false</RefundInd>
+											<TaxCode>YY</TaxCode>
+										</Tax>
+										<TotalTaxAmount CurCode="EUR">10.00</TotalTaxAmount>
+									</TaxSummary>
+									<TotalAmount CurCode="EUR">50.00</TotalAmount>
+								</Price>
+							</PriceAndFareDetails>
+						</ReshopPrice>
+						<Service>
+							<OfferServiceAssociation>
+								<ServiceDefinitionRef>
+									<OfferFlightAssociations>
+										<PaxJourneyRef>
+											<PaxJourneyRefID>PAXJOU-01</PaxJourneyRefID>
+										</PaxJourneyRef>
+									</OfferFlightAssociations>
+									<ServiceDefinitionRefID>SVCXBAG</ServiceDefinitionRefID>
+								</ServiceDefinitionRef>
+							</OfferServiceAssociation>
+							<PaxRefID>PAX-01</PaxRefID>
+							<ServiceID>SVCID01</ServiceID>
+							<ValidatingCarrier>
+								<AirlineDesigCode>XB</AirlineDesigCode>
+							</ValidatingCarrier>
+						</Service>		
+					</AddedOfferItem>
+					<AddedOfferItem>
+						<CancelRestrictions>
+							<AllowedModificationInd>false</AllowedModificationInd>
+							<DescText>Cancellations not allowed.</DescText>
+							<PaxRefID>PAX-01</PaxRefID>
+						</CancelRestrictions>
+						<ChangeRestrictions>
+							<AllowedModificationInd>true</AllowedModificationInd>
+							<ChangeTypeCode>Service</ChangeTypeCode>
+							<DescText>Change allowed no fee</DescText>
+							<Fee>
+								<Amount CurCode="EUR">0.00</Amount>
+							</Fee>
+							<PaxRefID>PAX-01</PaxRefID>
+						</ChangeRestrictions>
+						<OfferItemID>SVCOFFITEM02</OfferItemID>
+						<OwnerCode>XB</OwnerCode>
+						<PaymentTimeLimit>
+							<PaymentTimeLimitDuration>
+								<PaymentTimeLimitDuration>PT48H0M0S</PaymentTimeLimitDuration>
+							</PaymentTimeLimitDuration>
+						</PaymentTimeLimit>
+						<PriceGuaranteeTimeLimitDateTime>2023-04-02T20:15:00Z</PriceGuaranteeTimeLimitDateTime>
+						<ReshopPrice>
+							<PriceAndFareDetails>
+								<Price>
+									<BaseAmount CurCode="EUR">40.00</BaseAmount>
+									<TaxSummary>
+										<Tax>
+											<Amount CurCode="EUR">10.00</Amount>
+											<RefundInd>false</RefundInd>
+											<TaxCode>YY</TaxCode>
+										</Tax>
+										<TotalTaxAmount CurCode="EUR">10.00</TotalTaxAmount>
+									</TaxSummary>
+									<TotalAmount CurCode="EUR">50.00</TotalAmount>
+								</Price>
+							</PriceAndFareDetails>
+						</ReshopPrice>
+						<Service>
+							<OfferServiceAssociation>
+								<ServiceDefinitionRef>
+									<OfferFlightAssociations>
+										<PaxJourneyRef>
+											<PaxJourneyRefID>PAXJOU-02</PaxJourneyRefID>
+										</PaxJourneyRef>
+									</OfferFlightAssociations>
+									<ServiceDefinitionRefID>SVCXBAG</ServiceDefinitionRefID>
+								</ServiceDefinitionRef>
+							</OfferServiceAssociation>
+							<PaxRefID>PAX-01</PaxRefID>
+							<ServiceID>SVCID02</ServiceID>
+							<ValidatingCarrier>
+								<AirlineDesigCode>XB</AirlineDesigCode>
+							</ValidatingCarrier>
+						</Service>		
+					</AddedOfferItem>
+					<OfferExpirationTimeLimitDateTime>2023-04-01T20:15:00Z</OfferExpirationTimeLimitDateTime>
+					<OfferID>SVCOFF01</OfferID>
+					<OwnerCode>XB</OwnerCode>
+					<ValidatingCarrierCode>XB</ValidatingCarrierCode>
+				</RequotedOffer>
+			</ReshopOffers>
+		</ReshopResults>
+	</easd:Response>
+	<easd:PayloadAttributes>
+		<VersionNumber>21.3</VersionNumber>
+	</easd:PayloadAttributes>
+</easd:IATA_OrderReshopRS>

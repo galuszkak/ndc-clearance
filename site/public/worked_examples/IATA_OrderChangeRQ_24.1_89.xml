@@ -23,32 +23,21 @@
 	</easd:PayloadAttributes>
 	<easd:Request>
 		<ChangeOrderChoice>
-			<AcceptCancelledOffer>
-				<OfferID>OfferNew_AddColRefundForfeited_1</OfferID>
-				<OwnerCode>XB</OwnerCode>
-			</AcceptCancelledOffer>
+			<AcceptSelectedQuotedOfferList>
+				<SelectedPricedOffer>
+					<OfferRefID>QuoteOfferNew_AddColRefund_1</OfferRefID>
+					<OwnerCode>XB</OwnerCode>
+					<SelectedOfferItem>
+						<OfferItemRefID>QuoteOfferItemNew_AddColRefund_1</OfferItemRefID>
+						<PaxRefID>PAX01</PaxRefID>
+					</SelectedOfferItem>
+				</SelectedPricedOffer>
+			</AcceptSelectedQuotedOfferList>
 		</ChangeOrderChoice>
 		<Order>
 			<OrderID>XB952A1B2C3D4</OrderID>
 			<OrderVersionNumber>1</OrderVersionNumber>
 			<OwnerCode>XB</OwnerCode>
 		</Order>
-		<PaymentFunctions>
-			<OfferAssociation>
-				<OfferItemRefID>OfferItemNew_AddColRefundForfeited_1</OfferItemRefID>
-				<OfferRefID>OfferNew_AddColRefundForfeited_1</OfferRefID>
-				<OwnerCode>XB</OwnerCode>
-			</OfferAssociation>
-			<PaymentProcessingDetails>
-				<Amount CurCode="EUR">50.00</Amount>
-				<PaymentMethod>
-					<SettlementPlan>
-						<IATA_Number>1234567</IATA_Number>
-						<PaymentTypeCode>CA</PaymentTypeCode>
-					</SettlementPlan>
-				</PaymentMethod>
-			</PaymentProcessingDetails>
-		</PaymentFunctions>
 	</easd:Request>
 </easd:IATA_OrderChangeRQ>
- 

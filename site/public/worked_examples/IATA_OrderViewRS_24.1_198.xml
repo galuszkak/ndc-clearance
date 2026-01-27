@@ -57,34 +57,6 @@
 					</Dep>
 					<MarketingCarrierFlightNumberText>101</MarketingCarrierFlightNumberText>
 				</DatedMarketingSegment>
-				<DatedMarketingSegment>
-					<Arrival>
-						<AircraftScheduledDateTime>2023-05-28T07:35:00</AircraftScheduledDateTime>
-						<IATA_LocationCode>LHR</IATA_LocationCode>
-					</Arrival>
-					<CarrierDesigCode>XB</CarrierDesigCode>
-					<DatedMarketingSegmentId>DMSEG2</DatedMarketingSegmentId>
-					<DatedOperatingSegmentRefId>DOSEG2</DatedOperatingSegmentRefId>
-					<Dep>
-						<AircraftScheduledDateTime>2023-05-27T19:35:00</AircraftScheduledDateTime>
-						<IATA_LocationCode>YUL</IATA_LocationCode>
-					</Dep>
-					<MarketingCarrierFlightNumberText>102</MarketingCarrierFlightNumberText>
-				</DatedMarketingSegment>
-				<DatedMarketingSegment>
-					<Arrival>
-						<AircraftScheduledDateTime>2023-05-28T12:35:00</AircraftScheduledDateTime>
-						<IATA_LocationCode>GVA</IATA_LocationCode>
-					</Arrival>
-					<CarrierDesigCode>XB</CarrierDesigCode>
-					<DatedMarketingSegmentId>DMSEG3</DatedMarketingSegmentId>
-					<DatedOperatingSegmentRefId>DOSEG3</DatedOperatingSegmentRefId>
-					<Dep>
-						<AircraftScheduledDateTime>2023-05-28T09:35:00</AircraftScheduledDateTime>
-						<IATA_LocationCode>LHR</IATA_LocationCode>
-					</Dep>
-					<MarketingCarrierFlightNumberText>103</MarketingCarrierFlightNumberText>
-				</DatedMarketingSegment>
 			</DatedMarketingSegmentList>
 			<DatedOperatingLegList>
 				<DatedOperatingLeg>
@@ -101,34 +73,6 @@
 						<IATA_AircraftTypeCode>332</IATA_AircraftTypeCode>
 					</IATA_AircraftType>
 				</DatedOperatingLeg>
-				<DatedOperatingLeg>
-					<Arrival>
-						<AircraftScheduledDateTime>2023-05-28T07:35:00</AircraftScheduledDateTime>
-						<IATA_LocationCode>LHR</IATA_LocationCode>
-					</Arrival>
-					<DatedOperatingLegID>DOLEG2</DatedOperatingLegID>
-					<Dep>
-						<AircraftScheduledDateTime>2023-05-27T19:35:00</AircraftScheduledDateTime>
-						<IATA_LocationCode>YUL</IATA_LocationCode>
-					</Dep>
-					<IATA_AircraftType>
-						<IATA_AircraftTypeCode>333</IATA_AircraftTypeCode>
-					</IATA_AircraftType>
-				</DatedOperatingLeg>
-				<DatedOperatingLeg>
-					<Arrival>
-						<AircraftScheduledDateTime>2023-05-28T12:35:00</AircraftScheduledDateTime>
-						<IATA_LocationCode>GVA</IATA_LocationCode>
-					</Arrival>
-					<DatedOperatingLegID>DOLEG3</DatedOperatingLegID>
-					<Dep>
-						<AircraftScheduledDateTime>2023-05-28T09:35:00</AircraftScheduledDateTime>
-						<IATA_LocationCode>LHR</IATA_LocationCode>
-					</Dep>
-					<IATA_AircraftType>
-						<IATA_AircraftTypeCode>320</IATA_AircraftTypeCode>
-					</IATA_AircraftType>
-				</DatedOperatingLeg>
 			</DatedOperatingLegList>
 			<DatedOperatingSegmentList>
 				<DatedOperatingSegment>
@@ -138,20 +82,6 @@
 					<Duration>PT8H00M</Duration>
 					<SecureFlightInd>false</SecureFlightInd>
 				</DatedOperatingSegment>
-				<DatedOperatingSegment>
-					<CarrierDesigCode>XB</CarrierDesigCode>
-					<DatedOperatingLegRefID>DOLEG2</DatedOperatingLegRefID>
-					<DatedOperatingSegmentId>DOSEG2</DatedOperatingSegmentId>
-					<Duration>PT7H00M</Duration>
-					<SecureFlightInd>false</SecureFlightInd>
-				</DatedOperatingSegment>
-				<DatedOperatingSegment>
-					<CarrierDesigCode>XB</CarrierDesigCode>
-					<DatedOperatingLegRefID>DOLEG3</DatedOperatingLegRefID>
-					<DatedOperatingSegmentId>DOSEG3</DatedOperatingSegmentId>
-					<Duration>PT2H00M</Duration>
-					<SecureFlightInd>false</SecureFlightInd>
-				</DatedOperatingSegment>
 			</DatedOperatingSegmentList>
 			<PaxJourneyList>
 				<PaxJourney>
@@ -159,13 +89,6 @@
 					<Duration>PT8H00M</Duration>
 					<PaxJourneyID>FLT1</PaxJourneyID>
 					<PaxSegmentRefID>SEG1</PaxSegmentRefID>
-				</PaxJourney>
-				<PaxJourney>
-					<DistanceMeasure UnitCode="KM">7000</DistanceMeasure>
-					<Duration>PT11H00M</Duration>
-					<PaxJourneyID>FLT2</PaxJourneyID>
-					<PaxSegmentRefID>SEG2</PaxSegmentRefID>
-					<PaxSegmentRefID>SEG3</PaxSegmentRefID>
 				</PaxJourney>
 			</PaxJourneyList>
 			<PaxList>
@@ -181,16 +104,40 @@
 						<IdentityDocTypeCode>PT</IdentityDocTypeCode>
 						<IssueDate>2023-01-01</IssueDate>
 						<IssuingCountryCode>CH</IssuingCountryCode>
-						<Surname>Smith</Surname>
+						<Surname>Doe</Surname>
 					</IdentityDoc>
 					<Individual>
 						<Birthdate>1971-01-01</Birthdate>
 						<GenderCode>F</GenderCode>
 						<GivenName>Jane</GivenName>
-						<Surname>Smith</Surname>
+						<Surname>Doe</Surname>
 						<TitleName>Ms</TitleName>
 					</Individual>
 					<PaxID>PAX01</PaxID>
+					<PTC>ADT</PTC>
+				</Pax>
+				<Pax>
+					<ContactInfoRefID>CON01</ContactInfoRefID>
+					<IdentityDoc>
+						<Birthdate>1970-01-01</Birthdate>
+						<CitizenshipCountryCode>CH</CitizenshipCountryCode>
+						<ExpiryDate>2040-03-02</ExpiryDate>
+						<GenderCode>M</GenderCode>
+						<GivenName>John</GivenName>
+						<IdentityDocID>CH1234568</IdentityDocID>
+						<IdentityDocTypeCode>PT</IdentityDocTypeCode>
+						<IssueDate>2023-01-01</IssueDate>
+						<IssuingCountryCode>CH</IssuingCountryCode>
+						<Surname>Doe</Surname>
+					</IdentityDoc>
+					<Individual>
+						<Birthdate>1970-01-01</Birthdate>
+						<GenderCode>M</GenderCode>
+						<GivenName>John</GivenName>
+						<Surname>Doe</Surname>
+						<TitleName>Mr</TitleName>
+					</Individual>
+					<PaxID>PAX02</PaxID>
 					<PTC>ADT</PTC>
 				</Pax>
 			</PaxList>
@@ -204,26 +151,6 @@
 					</CabinTypeAssociationChoice>
 					<DatedMarketingSegmentRefId>DMSEG1</DatedMarketingSegmentRefId>
 					<PaxSegmentID>SEG1</PaxSegmentID>
-				</PaxSegment>
-				<PaxSegment>
-					<CabinTypeAssociationChoice>
-						<SegmentCabinType>
-							<CabinTypeCode>5</CabinTypeCode>
-							<CabinTypeName>Economy</CabinTypeName>
-						</SegmentCabinType>
-					</CabinTypeAssociationChoice>
-					<DatedMarketingSegmentRefId>DMSEG2</DatedMarketingSegmentRefId>
-					<PaxSegmentID>SEG2</PaxSegmentID>
-				</PaxSegment>
-				<PaxSegment>
-					<CabinTypeAssociationChoice>
-						<SegmentCabinType>
-							<CabinTypeCode>5</CabinTypeCode>
-							<CabinTypeName>Economy</CabinTypeName>
-						</SegmentCabinType>
-					</CabinTypeAssociationChoice>
-					<DatedMarketingSegmentRefId>DMSEG3</DatedMarketingSegmentRefId>
-					<PaxSegmentID>SEG3</PaxSegmentID>
 				</PaxSegment>
 			</PaxSegmentList>
 			<ServiceDefinitionList>
@@ -262,18 +189,18 @@
 			<OrderItem>
 				<CancelRestrictions>
 					<AllowedModificationInd>true</AllowedModificationInd>
-					<DescText>Cancellations allowed for a fee</DescText>
+					<DescText>Cancellations allowed no fee</DescText>
 					<Fee>
-						<Amount CurCode="EUR">50.00</Amount>
+						<Amount CurCode="EUR">0.00</Amount>
 					</Fee>
 					<PaxRefID>PAX01</PaxRefID>
 				</CancelRestrictions>
 				<ChangeRestrictions>
 					<AllowedModificationInd>true</AllowedModificationInd>
 					<ChangeTypeCode>Flight</ChangeTypeCode>
-					<DescText>Changes allowed for a fee</DescText>
+					<DescText>Change allowed no fee</DescText>
 					<Fee>
-						<Amount CurCode="EUR">40.00</Amount>
+						<Amount CurCode="EUR">0.00</Amount>
 					</Fee>
 					<PaxRefID>PAX01</PaxRefID>
 				</ChangeRestrictions>
@@ -317,22 +244,11 @@
 					<DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode>
 					<OrderServiceAssociation>
 						<PaxSegmentRef>
-							<PaxSegmentRefID>SEG2</PaxSegmentRefID>
+							<PaxSegmentRefID>SEG1</PaxSegmentRefID>
 						</PaxSegmentRef>
 					</OrderServiceAssociation>
-					<PaxRefID>PAX01</PaxRefID>
+					<PaxRefID>PAX02</PaxRefID>
 					<ServiceID>SVCSEG2</ServiceID>
-					<StatusCode>CONFIRMED</StatusCode>
-				</Service>
-				<Service>
-					<DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode>
-					<OrderServiceAssociation>
-						<PaxSegmentRef>
-							<PaxSegmentRefID>SEG3</PaxSegmentRefID>
-						</PaxSegmentRef>
-					</OrderServiceAssociation>
-					<PaxRefID>PAX01</PaxRefID>
-					<ServiceID>SVCSEG3</ServiceID>
 					<StatusCode>CONFIRMED</StatusCode>
 				</Service>
 				<Service>
@@ -357,38 +273,6 @@
 						<ServiceDefinitionRef>
 							<OrderFlightAssociations>
 								<PaxSegmentRef>
-									<PaxSegmentRefID>SEG2</PaxSegmentRefID>
-								</PaxSegmentRef>
-							</OrderFlightAssociations>
-							<ServiceDefinitionRefID>SRVDEF01</ServiceDefinitionRefID>
-						</ServiceDefinitionRef>
-					</OrderServiceAssociation>
-					<PaxRefID>PAX01</PaxRefID>
-					<ServiceID>SVCCARRYONBAGSEG2</ServiceID>
-					<StatusCode>CONFIRMED</StatusCode>
-				</Service>
-				<Service>
-					<DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode>
-					<OrderServiceAssociation>
-						<ServiceDefinitionRef>
-							<OrderFlightAssociations>
-								<PaxSegmentRef>
-									<PaxSegmentRefID>SEG3</PaxSegmentRefID>
-								</PaxSegmentRef>
-							</OrderFlightAssociations>
-							<ServiceDefinitionRefID>SRVDEF01</ServiceDefinitionRefID>
-						</ServiceDefinitionRef>
-					</OrderServiceAssociation>
-					<PaxRefID>PAX01</PaxRefID>
-					<ServiceID>SVCCARRYONBAGSEG3</ServiceID>
-					<StatusCode>CONFIRMED</StatusCode>
-				</Service>
-				<Service>
-					<DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode>
-					<OrderServiceAssociation>
-						<ServiceDefinitionRef>
-							<OrderFlightAssociations>
-								<PaxSegmentRef>
 									<PaxSegmentRefID>SEG1</PaxSegmentRefID>
 								</PaxSegmentRef>
 							</OrderFlightAssociations>
@@ -405,14 +289,14 @@
 						<ServiceDefinitionRef>
 							<OrderFlightAssociations>
 								<PaxSegmentRef>
-									<PaxSegmentRefID>SEG2</PaxSegmentRefID>
+									<PaxSegmentRefID>SEG1</PaxSegmentRefID>
 								</PaxSegmentRef>
 							</OrderFlightAssociations>
-							<ServiceDefinitionRefID>SRVDEF02</ServiceDefinitionRefID>
+							<ServiceDefinitionRefID>SRVDEF01</ServiceDefinitionRefID>
 						</ServiceDefinitionRef>
 					</OrderServiceAssociation>
-					<PaxRefID>PAX01</PaxRefID>
-					<ServiceID>SVCCHECKEDBAGSEG2</ServiceID>
+					<PaxRefID>PAX02</PaxRefID>
+					<ServiceID>SVCCARRYONBAGSEG2</ServiceID>
 					<StatusCode>CONFIRMED</StatusCode>
 				</Service>
 				<Service>
@@ -421,14 +305,14 @@
 						<ServiceDefinitionRef>
 							<OrderFlightAssociations>
 								<PaxSegmentRef>
-									<PaxSegmentRefID>SEG3</PaxSegmentRefID>
+									<PaxSegmentRefID>SEG1</PaxSegmentRefID>
 								</PaxSegmentRef>
 							</OrderFlightAssociations>
 							<ServiceDefinitionRefID>SRVDEF02</ServiceDefinitionRefID>
 						</ServiceDefinitionRef>
 					</OrderServiceAssociation>
-					<PaxRefID>PAX01</PaxRefID>
-					<ServiceID>SVCCHECKEDBAGSEG3</ServiceID>
+					<PaxRefID>PAX02</PaxRefID>
+					<ServiceID>SVCCHECKEDBAGSEG2</ServiceID>
 					<StatusCode>CONFIRMED</StatusCode>
 				</Service>
 				<StatusCode>ACTIVE</StatusCode>
@@ -464,4 +348,3 @@
 		</PaymentProcessingSummary>
 	</easd:PaymentFunctions>
 </easd:IATA_OrderViewRS>
- 

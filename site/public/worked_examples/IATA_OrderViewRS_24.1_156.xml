@@ -253,19 +253,11 @@
 					</ServiceDefinitionAssociation>
 					<ServiceDefinitionID>SRVDEF02</ServiceDefinitionID>
 				</ServiceDefinition>
-				<ServiceDefinition>
-					<AirlineTaxonomy>
-						<TaxonomyCode>33F4</TaxonomyCode>
-					</AirlineTaxonomy>
-					<Name>Value Store</Name>
-					<OwnerCode>XB</OwnerCode>
-					<ServiceDefinitionID>SRVDEF_VALUESTORE</ServiceDefinitionID>
-				</ServiceDefinition>
 			</ServiceDefinitionList>
 		</DataLists>
 		<Order>
 			<CreationDateTime>2023-03-15T12:15:00Z</CreationDateTime>
-			<LastModifiedDateTime>2023-05-18T23:40:59Z</LastModifiedDateTime>
+			<LastModifiedDateTime>2023-03-15T12:15:00Z</LastModifiedDateTime>
 			<OrderID>XB952A1B2C3D4</OrderID>
 			<OrderItem>
 				<CancelRestrictions>
@@ -288,85 +280,30 @@
 				<CreationDateTime>2023-03-15T12:15:00Z</CreationDateTime>
 				<OrderItemID>ORDITM01</OrderItemID>
 				<OwnerCode>XB</OwnerCode>
-				<PriceDifferential>
-					<DifferentialTypeCode>Residual</DifferentialTypeCode>
-					<DiffPrice>
-						<Price>
-							<BaseAmount CurCode="EUR">-900.00</BaseAmount>
-							<DueByAirlineAmount CurCode="EUR">1000.00</DueByAirlineAmount>
-							<DueToAirlineAmount CurCode="EUR">0.00</DueToAirlineAmount>
-							<TaxSummary>
-								<Tax>
-									<Amount CurCode="EUR">-20.00</Amount>
-									<TaxCode>AA</TaxCode>
-									<TaxName>Tax AA</TaxName>
-								</Tax>
-								<Tax>
-									<Amount CurCode="EUR">-30.00</Amount>
-									<TaxCode>BB</TaxCode>
-									<TaxName>Tax BB</TaxName>
-								</Tax>
-								<Tax>
-									<Amount CurCode="EUR">-50.00</Amount>
-									<TaxCode>CC</TaxCode>
-									<TaxName>Tax CC</TaxName>
-								</Tax>
-								<TotalTaxAmount CurCode="EUR">-100.00</TotalTaxAmount>
-							</TaxSummary>
-							<TotalAmount CurCode="EUR">-1000.00</TotalAmount>
-						</Price>
-					</DiffPrice>
-					<NewPrice>
-						<Price>
-							<BaseAmount CurCode="EUR">0.00</BaseAmount>
-							<TaxSummary>
-								<Tax>
-									<Amount CurCode="EUR">0.00</Amount>
-									<TaxCode>AA</TaxCode>
-									<TaxName>Tax AA</TaxName>
-								</Tax>
-								<Tax>
-									<Amount CurCode="EUR">0.00</Amount>
-									<TaxCode>BB</TaxCode>
-									<TaxName>Tax BB</TaxName>
-								</Tax>
-								<Tax>
-									<Amount CurCode="EUR">0.00</Amount>
-									<TaxCode>CC</TaxCode>
-									<TaxName>Tax CC</TaxName>
-								</Tax>
-								<TotalTaxAmount CurCode="EUR">0.00</TotalTaxAmount>
-							</TaxSummary>
-							<TotalAmount CurCode="EUR">0.00</TotalAmount>
-						</Price>
-					</NewPrice>
-					<OldPrice>
-						<Price>
-							<BaseAmount CurCode="EUR">900.00</BaseAmount>
-							<TaxSummary>
-								<Tax>
-									<Amount CurCode="EUR">20.00</Amount>
-									<TaxCode>AA</TaxCode>
-									<TaxName>Tax AA</TaxName>
-								</Tax>
-								<Tax>
-									<Amount CurCode="EUR">30.00</Amount>
-									<TaxCode>BB</TaxCode>
-									<TaxName>Tax BB</TaxName>
-								</Tax>
-								<Tax>
-									<Amount CurCode="EUR">50.00</Amount>
-									<TaxCode>CC</TaxCode>
-									<TaxName>Tax CC</TaxName>
-								</Tax>
-								<TotalTaxAmount CurCode="EUR">100.00</TotalTaxAmount>
-							</TaxSummary>
-							<TotalAmount CurCode="EUR">1000.00</TotalAmount>
-						</Price>
-					</OldPrice>
-				</PriceDifferential>
+				<Price>
+					<BaseAmount CurCode="EUR">900.00</BaseAmount>
+					<TaxSummary>
+						<Tax>
+							<Amount CurCode="EUR">20.00</Amount>
+							<TaxCode>AA</TaxCode>
+							<TaxName>Tax AA</TaxName>
+						</Tax>
+						<Tax>
+							<Amount CurCode="EUR">30.00</Amount>
+							<TaxCode>BB</TaxCode>
+							<TaxName>Tax BB</TaxName>
+						</Tax>
+						<Tax>
+							<Amount CurCode="EUR">50.00</Amount>
+							<TaxCode>CC</TaxCode>
+							<TaxName>Tax CC</TaxName>
+						</Tax>
+						<TotalTaxAmount CurCode="EUR">100.00</TotalTaxAmount>
+					</TaxSummary>
+					<TotalAmount CurCode="EUR">1000.00</TotalAmount>
+				</Price>
 				<Service>
-					<DeliveryStatusCode>REMOVED</DeliveryStatusCode>
+					<DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode>
 					<OrderServiceAssociation>
 						<PaxSegmentRef>
 							<PaxSegmentRefID>SEG1</PaxSegmentRefID>
@@ -374,10 +311,10 @@
 					</OrderServiceAssociation>
 					<PaxRefID>PAX01</PaxRefID>
 					<ServiceID>SVCSEG1</ServiceID>
-					<StatusCode>CANCELLED</StatusCode>
+					<StatusCode>CONFIRMED</StatusCode>
 				</Service>
 				<Service>
-					<DeliveryStatusCode>REMOVED</DeliveryStatusCode>
+					<DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode>
 					<OrderServiceAssociation>
 						<PaxSegmentRef>
 							<PaxSegmentRefID>SEG2</PaxSegmentRefID>
@@ -385,10 +322,10 @@
 					</OrderServiceAssociation>
 					<PaxRefID>PAX01</PaxRefID>
 					<ServiceID>SVCSEG2</ServiceID>
-					<StatusCode>CANCELLED</StatusCode>
+					<StatusCode>CONFIRMED</StatusCode>
 				</Service>
 				<Service>
-					<DeliveryStatusCode>REMOVED</DeliveryStatusCode>
+					<DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode>
 					<OrderServiceAssociation>
 						<PaxSegmentRef>
 							<PaxSegmentRefID>SEG3</PaxSegmentRefID>
@@ -396,10 +333,10 @@
 					</OrderServiceAssociation>
 					<PaxRefID>PAX01</PaxRefID>
 					<ServiceID>SVCSEG3</ServiceID>
-					<StatusCode>CANCELLED</StatusCode>
+					<StatusCode>CONFIRMED</StatusCode>
 				</Service>
 				<Service>
-					<DeliveryStatusCode>REMOVED</DeliveryStatusCode>
+					<DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode>
 					<OrderServiceAssociation>
 						<ServiceDefinitionRef>
 							<OrderFlightAssociations>
@@ -412,10 +349,10 @@
 					</OrderServiceAssociation>
 					<PaxRefID>PAX01</PaxRefID>
 					<ServiceID>SVCCARRYONBAGSEG1</ServiceID>
-					<StatusCode>CANCELLED</StatusCode>
+					<StatusCode>CONFIRMED</StatusCode>
 				</Service>
 				<Service>
-					<DeliveryStatusCode>REMOVED</DeliveryStatusCode>
+					<DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode>
 					<OrderServiceAssociation>
 						<ServiceDefinitionRef>
 							<OrderFlightAssociations>
@@ -428,10 +365,10 @@
 					</OrderServiceAssociation>
 					<PaxRefID>PAX01</PaxRefID>
 					<ServiceID>SVCCARRYONBAGSEG2</ServiceID>
-					<StatusCode>CANCELLED</StatusCode>
+					<StatusCode>CONFIRMED</StatusCode>
 				</Service>
 				<Service>
-					<DeliveryStatusCode>REMOVED</DeliveryStatusCode>
+					<DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode>
 					<OrderServiceAssociation>
 						<ServiceDefinitionRef>
 							<OrderFlightAssociations>
@@ -444,10 +381,10 @@
 					</OrderServiceAssociation>
 					<PaxRefID>PAX01</PaxRefID>
 					<ServiceID>SVCCARRYONBAGSEG3</ServiceID>
-					<StatusCode>CANCELLED</StatusCode>
+					<StatusCode>CONFIRMED</StatusCode>
 				</Service>
 				<Service>
-					<DeliveryStatusCode>REMOVED</DeliveryStatusCode>
+					<DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode>
 					<OrderServiceAssociation>
 						<ServiceDefinitionRef>
 							<OrderFlightAssociations>
@@ -460,10 +397,10 @@
 					</OrderServiceAssociation>
 					<PaxRefID>PAX01</PaxRefID>
 					<ServiceID>SVCCHECKEDBAGSEG1</ServiceID>
-					<StatusCode>CANCELLED</StatusCode>
+					<StatusCode>CONFIRMED</StatusCode>
 				</Service>
 				<Service>
-					<DeliveryStatusCode>REMOVED</DeliveryStatusCode>
+					<DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode>
 					<OrderServiceAssociation>
 						<ServiceDefinitionRef>
 							<OrderFlightAssociations>
@@ -476,10 +413,10 @@
 					</OrderServiceAssociation>
 					<PaxRefID>PAX01</PaxRefID>
 					<ServiceID>SVCCHECKEDBAGSEG2</ServiceID>
-					<StatusCode>CANCELLED</StatusCode>
+					<StatusCode>CONFIRMED</StatusCode>
 				</Service>
 				<Service>
-					<DeliveryStatusCode>REMOVED</DeliveryStatusCode>
+					<DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode>
 					<OrderServiceAssociation>
 						<ServiceDefinitionRef>
 							<OrderFlightAssociations>
@@ -492,68 +429,11 @@
 					</OrderServiceAssociation>
 					<PaxRefID>PAX01</PaxRefID>
 					<ServiceID>SVCCHECKEDBAGSEG3</ServiceID>
-					<StatusCode>CANCELLED</StatusCode>
-				</Service>
-				<StatusCode>CANCELLED</StatusCode>
-			</OrderItem>
-			<OrderItem>
-				<CancelRestrictions>
-					<AllowedModificationInd>true</AllowedModificationInd>
-					<DescText>Cancellations allowed no fee</DescText>
-					<EffectiveDateTime>2023-05-18T23:40:59Z</EffectiveDateTime> <!-- current date -->
-					<ExpirationDateTime>2024-05-18T23:40:59Z</ExpirationDateTime>
-					<Fee>
-						<Amount CurCode="EUR">0.00</Amount>
-					</Fee>
-					<PaxRefID>PAX01</PaxRefID>
-				</CancelRestrictions>
-				<CancelRestrictions>
-					<AllowedModificationInd>false</AllowedModificationInd>
-					<DescText>Cancellations not allowed</DescText>
-					<EffectiveDateTime>2024-05-18T23:40:59Z</EffectiveDateTime>
-					<PaxRefID>PAX01</PaxRefID>
-				</CancelRestrictions>
-				<ChangeRestrictions>
-					<AllowedModificationInd>true</AllowedModificationInd>
-					<DescText>Changes allowed no fee</DescText>
-					<EffectiveDateTime>2023-05-18T23:40:59Z</EffectiveDateTime> <!-- current date -->
-					<ExpirationDateTime>2025-05-18T23:40:59Z</ExpirationDateTime>
-					<Fee>
-						<Amount CurCode="EUR">0.00</Amount>
-					</Fee>
-					<PaxRefID>PAX01</PaxRefID>
-				</ChangeRestrictions>
-				<ChangeRestrictions>
-					<AllowedModificationInd>false</AllowedModificationInd>
-					<DescText>Changes not allowed</DescText>
-					<EffectiveDateTime>2025-05-18T23:40:59Z</EffectiveDateTime>
-					<PaxRefID>PAX01</PaxRefID>
-				</ChangeRestrictions>
-				<CreationDateTime>2023-05-18T23:40:59Z</CreationDateTime>
-				<ExistingOrderItemID>ORDITM01</ExistingOrderItemID>
-				<OrderItemID>ORDITM02_NEW</OrderItemID>
-				<OwnerCode>XB</OwnerCode>
-				<Price>
-					<BaseAmount CurCode="EUR">1000.00</BaseAmount>
-					<TaxSummary>
-						<TotalTaxAmount CurCode="EUR">0.00</TotalTaxAmount>
-					</TaxSummary>
-					<TotalAmount CurCode="EUR">1000.00</TotalAmount>
-				</Price>
-				<Service>
-					<DeliveryStatusCode>READY TO PROCEED</DeliveryStatusCode>
-					<OrderServiceAssociation>
-						<ServiceDefinitionRef>
-							<ServiceDefinitionRefID>SRVDEF_VALUESTORE</ServiceDefinitionRefID>
-						</ServiceDefinitionRef>
-					</OrderServiceAssociation>
-					<PaxRefID>PAX01</PaxRefID>
-					<ServiceID>SVCNEWVALUESTORE1</ServiceID>
 					<StatusCode>CONFIRMED</StatusCode>
 				</Service>
 				<StatusCode>ACTIVE</StatusCode>
 			</OrderItem>
-			<OrderVersionNumber>2</OrderVersionNumber>
+			<OrderVersionNumber>1</OrderVersionNumber>
 			<OwnerCode>XB</OwnerCode>
 			<StatusCode>OPENED</StatusCode>
 		</Order>
@@ -567,7 +447,7 @@
 			<OrderRefID>XB952A1B2C3D4</OrderRefID>
 		</OrderAssociation>
 		<OrderPaymentSummaryAllocation>
-			<OrderItemRefID>ORDITM02_NEW</OrderItemRefID>
+			<OrderItemRefID>ORDITM01</OrderItemRefID>
 			<OrderRefID>XB952A1B2C3D4</OrderRefID>
 		</OrderPaymentSummaryAllocation>
 		<PaymentProcessingSummary>
@@ -584,3 +464,4 @@
 		</PaymentProcessingSummary>
 	</easd:PaymentFunctions>
 </easd:IATA_OrderViewRS>
+ 

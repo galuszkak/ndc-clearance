@@ -61,14 +61,14 @@
 							<OrderItemRefID>ORDITM01</OrderItemRefID>
 						</ExistingOrderItem>
 						<MandatoryInd>true</MandatoryInd>
-						<OfferItemID>OfferItemNew_AddColRefundForfeited_1</OfferItemID>
+						<OfferItemID>OfferItemNew_PartialRefundForfeited_1</OfferItemID>
 						<PriceDifferential>
-							<DifferentialTypeCode>AddColAndRefund</DifferentialTypeCode>
+							<DifferentialTypeCode>Refund</DifferentialTypeCode>
 							<DiffPrice>
 								<Price>
 									<BaseAmount CurCode="EUR">-900.00</BaseAmount>
-									<DueByAirlineAmount CurCode="EUR">980.00</DueByAirlineAmount>
-									<DueToAirlineAmount CurCode="EUR">50.00</DueToAirlineAmount>
+									<DueByAirlineAmount CurCode="EUR">930.00</DueByAirlineAmount>
+									<DueToAirlineAmount CurCode="EUR">0.00</DueToAirlineAmount>
 									<TaxSummary>
 										<Tax>
 											<Amount CurCode="EUR">0.00</Amount>
@@ -145,7 +145,7 @@
 					<ForfeitedInfoList>
 						<ForfeitedInfo>
 							<ForfeitedInfoID>FORFEITED01</ForfeitedInfoID>
-							<OfferItemRefID>OfferItemNew_AddColRefundForfeited_1</OfferItemRefID>
+							<OfferItemRefID>OfferItemNew_PartialRefundForfeited_1</OfferItemRefID>
 							<PaxRefID>PAX01</PaxRefID>
 							<Price>
 								<BaseAmount CurCode="EUR">0.00</BaseAmount>
@@ -163,15 +163,15 @@
 						</ForfeitedInfo>
 					</ForfeitedInfoList>
 					<OfferExpirationTimeLimitDateTime>2023-05-18T23:59:59Z</OfferExpirationTimeLimitDateTime>
-					<OfferID>OfferNew_AddColRefundForfeited_1</OfferID>
+					<OfferID>OfferNew_PartialRefundForfeited_1</OfferID>
 					<OwnerCode>XB</OwnerCode>
 					<PenaltyInfoList>
 						<PenaltyInfo>
-							<OfferItemRefID>OfferItemNew_AddColRefundForfeited_1</OfferItemRefID>
+							<OfferItemRefID>OfferItemNew_PartialRefundForfeited_1</OfferItemRefID>
 							<PaxRefID>PAX01</PaxRefID>
 							<PenaltyDetails>
 								<DescText>Cancellation fee</DescText>
-								<NetInd>false</NetInd>
+								<NetInd>true</NetInd>
 								<Price>
 									<BaseAmount CurCode="EUR">50.00</BaseAmount>
 									<TaxSummary>

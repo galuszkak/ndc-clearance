@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<easd:IATA_OrderRetrieveRQ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:easd="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" xsi:schemaLocation="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage https://airtechzone.iata.org/xsd/2136/IATA_OrderRetrieveRQ.xsd">
+<easd:IATA_OrderReshopRQ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:easd="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" xsi:schemaLocation="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage https://airtechzone.iata.org/xsd/2136/IATA_OrderReshopRQ.xsd">
 	<easd:DistributionChain>
 		<DistributionChainLink>
 			<Ordinal>1</Ordinal>
@@ -22,12 +22,12 @@
 		<VersionNumber>21.3</VersionNumber>
 	</easd:PayloadAttributes>
 	<easd:Request>
-		<OrderValidationFilterCriteria>
-			<OrderFilterCriteria>
-				<OrderID>XB952A1B2C3D4</OrderID>
-				<OwnerCode>XB</OwnerCode>
-			</OrderFilterCriteria>
-		</OrderValidationFilterCriteria>
+		<OrderRefID>XB952A1B2C3D4</OrderRefID>
+		<UpdateOrder>
+			<CancelOrderRef>
+				<OrderRefID>XB952A1B2C3D4</OrderRefID>
+			</CancelOrderRef>
+		</UpdateOrder>
 	</easd:Request>
-</easd:IATA_OrderRetrieveRQ>
+</easd:IATA_OrderReshopRQ>
  

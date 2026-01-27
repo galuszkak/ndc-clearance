@@ -257,54 +257,131 @@
 		</DataLists>
 		<Order>
 			<CreationDateTime>2023-03-15T12:15:00Z</CreationDateTime>
+			<ForfeitedInfoList>
+				<ForfeitedInfo>
+					<CreationDateTime>2023-05-18T23:40:59Z</CreationDateTime>
+					<ForfeitedInfoID>FORFEITED01</ForfeitedInfoID>
+					<OrderItemRefID>ORDITM01</OrderItemRefID>
+					<PaxRefID>PAX01</PaxRefID>
+					<Price>
+						<BaseAmount CurCode="EUR">0.00</BaseAmount>
+						<TaxSummary>
+							<Tax>
+								<Amount CurCode="EUR">20.00</Amount>
+								<RefundInd>false</RefundInd>
+								<TaxCode>AA</TaxCode>
+								<TaxName>Tax AA</TaxName>
+							</Tax>
+							<TotalTaxAmount CurCode="EUR">20.00</TotalTaxAmount>
+						</TaxSummary>
+						<TotalAmount CurCode="EUR">20.00</TotalAmount>
+					</Price>
+				</ForfeitedInfo>
+			</ForfeitedInfoList>
 			<LastModifiedDateTime>2023-05-18T23:40:59Z</LastModifiedDateTime>
 			<OrderID>XB952A1B2C3D4</OrderID>
 			<OrderItem>
 				<CancelRestrictions>
 					<AllowedModificationInd>true</AllowedModificationInd>
-					<DescText>Cancellations allowed no fee</DescText>
+					<DescText>Cancellations allowed for a fee</DescText>
 					<Fee>
-						<Amount CurCode="EUR">0.00</Amount>
+						<Amount CurCode="EUR">50.00</Amount>
 					</Fee>
 					<PaxRefID>PAX01</PaxRefID>
 				</CancelRestrictions>
 				<ChangeRestrictions>
 					<AllowedModificationInd>true</AllowedModificationInd>
 					<ChangeTypeCode>Flight</ChangeTypeCode>
-					<DescText>Changes allowed no fee</DescText>
+					<DescText>Changes allowed for a fee</DescText>
 					<Fee>
-						<Amount CurCode="EUR">0.00</Amount>
+						<Amount CurCode="EUR">40.00</Amount>
 					</Fee>
 					<PaxRefID>PAX01</PaxRefID>
 				</ChangeRestrictions>
 				<CreationDateTime>2023-03-15T12:15:00Z</CreationDateTime>
 				<OrderItemID>ORDITM01</OrderItemID>
 				<OwnerCode>XB</OwnerCode>
-				<Price>
-					<BaseAmount CurCode="EUR">900.00</BaseAmount>
-					<TaxSummary>
-						<Tax>
-							<Amount CurCode="EUR">20.00</Amount>
-							<TaxCode>AA</TaxCode>
-							<TaxName>Tax AA</TaxName>
-						</Tax>
-						<Tax>
-							<Amount CurCode="EUR">30.00</Amount>
-							<TaxCode>BB</TaxCode>
-							<TaxName>Tax BB</TaxName>
-						</Tax>
-						<Tax>
-							<Amount CurCode="EUR">50.00</Amount>
-							<TaxCode>CC</TaxCode>
-							<TaxName>Tax CC</TaxName>
-						</Tax>
-						<TotalTaxAmount CurCode="EUR">100.00</TotalTaxAmount>
-					</TaxSummary>
-					<TotalAmount CurCode="EUR">1000.00</TotalAmount>
-				</Price>
-				<ReusableInd>true</ReusableInd>
+				<PriceDifferential>
+					<DifferentialTypeCode>Refund</DifferentialTypeCode>
+					<DiffPrice>
+						<Price>
+							<BaseAmount CurCode="EUR">-900.00</BaseAmount>
+							<DueByAirlineAmount CurCode="EUR">930.00</DueByAirlineAmount>
+							<DueToAirlineAmount CurCode="EUR">0.00</DueToAirlineAmount>
+							<TaxSummary>
+								<Tax>
+									<Amount CurCode="EUR">0.00</Amount>
+									<TaxCode>AA</TaxCode>
+									<TaxName>Tax AA</TaxName>
+								</Tax>
+								<Tax>
+									<Amount CurCode="EUR">-30.00</Amount>
+									<TaxCode>BB</TaxCode>
+									<TaxName>Tax BB</TaxName>
+								</Tax>
+								<Tax>
+									<Amount CurCode="EUR">-50.00</Amount>
+									<TaxCode>CC</TaxCode>
+									<TaxName>Tax CC</TaxName>
+								</Tax>
+								<TotalTaxAmount CurCode="EUR">-80.00</TotalTaxAmount>
+							</TaxSummary>
+							<TotalAmount CurCode="EUR">-980.00</TotalAmount>
+						</Price>
+					</DiffPrice>
+					<NewPrice>
+						<Price>
+							<BaseAmount CurCode="EUR">0.00</BaseAmount>
+							<TaxSummary>
+								<Tax>
+									<Amount CurCode="EUR">0.00</Amount>
+									<RefundInd>false</RefundInd>
+									<TaxCode>AA</TaxCode>
+									<TaxName>Tax AA</TaxName>
+								</Tax>
+								<Tax>
+									<Amount CurCode="EUR">0.00</Amount>
+									<TaxCode>BB</TaxCode>
+									<TaxName>Tax BB</TaxName>
+								</Tax>
+								<Tax>
+									<Amount CurCode="EUR">0.00</Amount>
+									<TaxCode>CC</TaxCode>
+									<TaxName>Tax CC</TaxName>
+								</Tax>
+								<TotalTaxAmount CurCode="EUR">0.00</TotalTaxAmount>
+							</TaxSummary>
+							<TotalAmount CurCode="EUR">0.00</TotalAmount>
+						</Price>
+					</NewPrice>
+					<OldPrice>
+						<Price>
+							<BaseAmount CurCode="EUR">900.00</BaseAmount>
+							<TaxSummary>
+								<Tax>
+									<Amount CurCode="EUR">20.00</Amount>
+									<RefundInd>false</RefundInd>
+									<TaxCode>AA</TaxCode>
+									<TaxName>Tax AA</TaxName>
+								</Tax>
+								<Tax>
+									<Amount CurCode="EUR">30.00</Amount>
+									<TaxCode>BB</TaxCode>
+									<TaxName>Tax BB</TaxName>
+								</Tax>
+								<Tax>
+									<Amount CurCode="EUR">50.00</Amount>
+									<TaxCode>CC</TaxCode>
+									<TaxName>Tax CC</TaxName>
+								</Tax>
+								<TotalTaxAmount CurCode="EUR">100.00</TotalTaxAmount>
+							</TaxSummary>
+							<TotalAmount CurCode="EUR">1000.00</TotalAmount>
+						</Price>
+					</OldPrice>
+				</PriceDifferential>
 				<Service>
-					<DeliveryStatusCode>REMOVED HOLD VALUE</DeliveryStatusCode>
+					<DeliveryStatusCode>REMOVED</DeliveryStatusCode>
 					<OrderServiceAssociation>
 						<PaxSegmentRef>
 							<PaxSegmentRefID>SEG1</PaxSegmentRefID>
@@ -315,7 +392,7 @@
 					<StatusCode>CANCELLED</StatusCode>
 				</Service>
 				<Service>
-					<DeliveryStatusCode>REMOVED HOLD VALUE</DeliveryStatusCode>
+					<DeliveryStatusCode>REMOVED</DeliveryStatusCode>
 					<OrderServiceAssociation>
 						<PaxSegmentRef>
 							<PaxSegmentRefID>SEG2</PaxSegmentRefID>
@@ -326,7 +403,7 @@
 					<StatusCode>CANCELLED</StatusCode>
 				</Service>
 				<Service>
-					<DeliveryStatusCode>REMOVED HOLD VALUE</DeliveryStatusCode>
+					<DeliveryStatusCode>REMOVED</DeliveryStatusCode>
 					<OrderServiceAssociation>
 						<PaxSegmentRef>
 							<PaxSegmentRefID>SEG3</PaxSegmentRefID>
@@ -337,7 +414,7 @@
 					<StatusCode>CANCELLED</StatusCode>
 				</Service>
 				<Service>
-					<DeliveryStatusCode>REMOVED HOLD VALUE</DeliveryStatusCode>
+					<DeliveryStatusCode>REMOVED</DeliveryStatusCode>
 					<OrderServiceAssociation>
 						<ServiceDefinitionRef>
 							<OrderFlightAssociations>
@@ -353,7 +430,7 @@
 					<StatusCode>CANCELLED</StatusCode>
 				</Service>
 				<Service>
-					<DeliveryStatusCode>REMOVED HOLD VALUE</DeliveryStatusCode>
+					<DeliveryStatusCode>REMOVED</DeliveryStatusCode>
 					<OrderServiceAssociation>
 						<ServiceDefinitionRef>
 							<OrderFlightAssociations>
@@ -369,7 +446,7 @@
 					<StatusCode>CANCELLED</StatusCode>
 				</Service>
 				<Service>
-					<DeliveryStatusCode>REMOVED HOLD VALUE</DeliveryStatusCode>
+					<DeliveryStatusCode>REMOVED</DeliveryStatusCode>
 					<OrderServiceAssociation>
 						<ServiceDefinitionRef>
 							<OrderFlightAssociations>
@@ -385,7 +462,7 @@
 					<StatusCode>CANCELLED</StatusCode>
 				</Service>
 				<Service>
-					<DeliveryStatusCode>REMOVED HOLD VALUE</DeliveryStatusCode>
+					<DeliveryStatusCode>REMOVED</DeliveryStatusCode>
 					<OrderServiceAssociation>
 						<ServiceDefinitionRef>
 							<OrderFlightAssociations>
@@ -401,7 +478,7 @@
 					<StatusCode>CANCELLED</StatusCode>
 				</Service>
 				<Service>
-					<DeliveryStatusCode>REMOVED HOLD VALUE</DeliveryStatusCode>
+					<DeliveryStatusCode>REMOVED</DeliveryStatusCode>
 					<OrderServiceAssociation>
 						<ServiceDefinitionRef>
 							<OrderFlightAssociations>
@@ -417,7 +494,7 @@
 					<StatusCode>CANCELLED</StatusCode>
 				</Service>
 				<Service>
-					<DeliveryStatusCode>REMOVED HOLD VALUE</DeliveryStatusCode>
+					<DeliveryStatusCode>REMOVED</DeliveryStatusCode>
 					<OrderServiceAssociation>
 						<ServiceDefinitionRef>
 							<OrderFlightAssociations>
@@ -432,11 +509,31 @@
 					<ServiceID>SVCCHECKEDBAGSEG3</ServiceID>
 					<StatusCode>CANCELLED</StatusCode>
 				</Service>
-				<StatusCode>ACTIVE</StatusCode>
+				<StatusCode>CANCELLED</StatusCode>
 			</OrderItem>
 			<OrderVersionNumber>2</OrderVersionNumber>
 			<OwnerCode>XB</OwnerCode>
-			<StatusCode>OPENED</StatusCode>
+			<PenaltyInfoList>
+				<PenaltyInfo>
+					<CreationDateTime>2023-05-18T23:40:59Z</CreationDateTime>
+					<OrderItemRefID>ORDITM01</OrderItemRefID>
+					<PaxRefID>PAX01</PaxRefID>
+					<PenaltyDetails>
+						<DescText>Cancellation fee</DescText>
+						<NetInd>true</NetInd>
+						<Price>
+							<BaseAmount CurCode="EUR">50.00</BaseAmount>
+							<TaxSummary>
+								<TotalTaxAmount CurCode="EUR">0.00</TotalTaxAmount>
+							</TaxSummary>
+							<TotalAmount CurCode="EUR">50.00</TotalAmount>
+						</Price>
+						<TypeCode>Cancellation</TypeCode>
+					</PenaltyDetails>
+					<PenaltyInfoID>PENALTY01</PenaltyInfoID>
+				</PenaltyInfo>
+			</PenaltyInfoList>
+			<StatusCode>CLOSED</StatusCode>
 		</Order>
 	</easd:Response>
 	<easd:PayloadAttributes>
@@ -456,10 +553,34 @@
 			<PaymentCommitmentDateTime>2023-03-15T12:15:00Z</PaymentCommitmentDateTime>
 			<PaymentID>PAY01</PaymentID>
 			<PaymentProcessingSummaryPaymentMethod>
-				<SettlementPlan>
-					<IATA_Number>1234567</IATA_Number>
-					<PaymentTypeCode>CA</PaymentTypeCode>
-				</SettlementPlan>
+				<PaymentCard>
+					<CardBrandCode>VI</CardBrandCode>
+					<CardHolderName>SMITH JANE</CardHolderName>
+					<MaskedCardID>xxxxxxxxxxxx1111</MaskedCardID>
+				</PaymentCard>
+			</PaymentProcessingSummaryPaymentMethod>
+			<PaymentStatusCode>SUCCESSFUL</PaymentStatusCode>
+		</PaymentProcessingSummary>
+	</easd:PaymentFunctions>
+	<easd:PaymentFunctions>
+		<OrderAssociation>
+			<OrderItemRefID>ORDITM01</OrderItemRefID>
+			<OrderRefID>XB952A1B2C3D4</OrderRefID>
+		</OrderAssociation>
+		<OrderPaymentSummaryAllocation>
+			<OrderItemRefID>ORDITM01</OrderItemRefID>
+			<OrderRefID>XB952A1B2C3D4</OrderRefID>
+		</OrderPaymentSummaryAllocation>
+		<PaymentProcessingSummary>
+			<Amount CurCode="EUR">-930.00</Amount>
+			<PaymentCommitmentDateTime>2023-05-18T23:40:59Z</PaymentCommitmentDateTime>
+			<PaymentID>PAY02</PaymentID>
+			<PaymentProcessingSummaryPaymentMethod>
+				<PaymentCard>
+					<CardBrandCode>VI</CardBrandCode>
+					<CardHolderName>SMITH JANE</CardHolderName>
+					<MaskedCardID>xxxxxxxxxxxx1111</MaskedCardID>
+				</PaymentCard>
 			</PaymentProcessingSummaryPaymentMethod>
 			<PaymentStatusCode>SUCCESSFUL</PaymentStatusCode>
 		</PaymentProcessingSummary>

@@ -1,0 +1,600 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<easd:IATA_OrderReshopRS xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:easd="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" xsi:schemaLocation="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage https://airtechzone.iata.org/xsd/2136/IATA_OrderReshopRS.xsd">
+	<easd:Response>
+		<DataLists>
+			<BaggageAllowanceList>
+				<BaggageAllowance>
+					<BaggageAllowanceID>BAGNEW01</BaggageAllowanceID>
+					<PieceAllowance>
+						<TotalQty>1</TotalQty>
+					</PieceAllowance>
+					<TypeCode>CarryOn</TypeCode>
+					<WeightAllowance>
+						<MaximumWeightMeasure>8</MaximumWeightMeasure>
+						<TotalMaximumWeightMeasure>8</TotalMaximumWeightMeasure>
+						<WeightUnitOfMeasurement>KGM</WeightUnitOfMeasurement>
+					</WeightAllowance>
+				</BaggageAllowance>
+				<BaggageAllowance>
+					<BaggageAllowanceID>BAGNEW02</BaggageAllowanceID>
+					<PieceAllowance>
+						<TotalQty>1</TotalQty>
+					</PieceAllowance>
+					<TypeCode>Checked</TypeCode>
+					<WeightAllowance>
+						<MaximumWeightMeasure>23</MaximumWeightMeasure>
+						<TotalMaximumWeightMeasure>23</TotalMaximumWeightMeasure>
+						<WeightUnitOfMeasurement>KGM</WeightUnitOfMeasurement>
+					</WeightAllowance>
+				</BaggageAllowance>
+			</BaggageAllowanceList>
+			<DatedMarketingSegmentList>
+				<DatedMarketingSegment>
+					<Arrival>
+						<AircraftScheduledDateTime>2023-05-23T08:55:00</AircraftScheduledDateTime>
+						<IATA_LocationCode>YUL</IATA_LocationCode>
+					</Arrival>
+					<CarrierDesigCode>XB</CarrierDesigCode>
+					<DatedMarketingSegmentId>DMNEWSEG1</DatedMarketingSegmentId>
+					<DatedOperatingSegmentRefId>DONEWSEG1</DatedOperatingSegmentRefId>
+					<Dep>
+						<AircraftScheduledDateTime>2023-05-23T06:55:00</AircraftScheduledDateTime>
+						<IATA_LocationCode>GVA</IATA_LocationCode>
+					</Dep>
+					<MarketingCarrierFlightNumberText>101</MarketingCarrierFlightNumberText>
+				</DatedMarketingSegment>
+			</DatedMarketingSegmentList>
+			<DatedOperatingLegList>
+				<DatedOperatingLeg>
+					<Arrival>
+						<AircraftScheduledDateTime>2023-05-23T08:55:00</AircraftScheduledDateTime>
+						<IATA_LocationCode>YUL</IATA_LocationCode>
+					</Arrival>
+					<DatedOperatingLegID>DONEWLEG1</DatedOperatingLegID>
+					<Dep>
+						<AircraftScheduledDateTime>2023-05-23T06:55:00</AircraftScheduledDateTime>
+						<IATA_LocationCode>GVA</IATA_LocationCode>
+					</Dep>
+					<IATA_AircraftType>
+						<IATA_AircraftTypeCode>332</IATA_AircraftTypeCode>
+					</IATA_AircraftType>
+				</DatedOperatingLeg>
+			</DatedOperatingLegList>
+			<DatedOperatingSegmentList>
+				<DatedOperatingSegment>
+					<CarrierDesigCode>XB</CarrierDesigCode>
+					<DatedOperatingLegRefID>DONEWLEG1</DatedOperatingLegRefID>
+					<DatedOperatingSegmentId>DONEWSEG1</DatedOperatingSegmentId>
+					<Duration>PT8H00M</Duration>
+					<SecureFlightInd>false</SecureFlightInd>
+				</DatedOperatingSegment>
+			</DatedOperatingSegmentList>
+			<OriginDestList>
+				<OriginDest>
+					<DestCode>YUL</DestCode>
+					<OriginCode>GVA</OriginCode>
+					<OriginDestID>ODNEW1</OriginDestID>
+					<PaxJourneyRefID>FLTNEW1</PaxJourneyRefID>
+				</OriginDest>
+			</OriginDestList>
+			<PaxJourneyList>
+				<PaxJourney>
+					<DistanceMeasure UnitCode="KM">6000</DistanceMeasure>
+					<Duration>PT8H00M</Duration>
+					<PaxJourneyID>FLTNEW1</PaxJourneyID>
+					<PaxSegmentRefID>SEGNEW1</PaxSegmentRefID>
+				</PaxJourney>
+			</PaxJourneyList>
+			<PaxSegmentList>
+				<PaxSegment>
+					<CabinTypeAssociationChoice>
+						<SegmentCabinType>
+							<CabinTypeCode>5</CabinTypeCode>
+							<CabinTypeName>Economy</CabinTypeName>
+						</SegmentCabinType>
+					</CabinTypeAssociationChoice>
+					<DatedMarketingSegmentRefId>DMNEWSEG1</DatedMarketingSegmentRefId>
+					<PaxSegmentID>SEGNEW1</PaxSegmentID>
+				</PaxSegment>
+			</PaxSegmentList>
+			<ServiceDefinitionList>
+				<ServiceDefinition>
+					<AirlineTaxonomy>
+						<TaxonomyCode>33F4</TaxonomyCode>
+					</AirlineTaxonomy>
+					<Name>Value Store</Name>
+					<OwnerCode>XB</OwnerCode>
+					<ServiceDefinitionID>SRVDEF_VALUESTORE</ServiceDefinitionID>
+				</ServiceDefinition>
+			</ServiceDefinitionList>
+		</DataLists>
+		<Order>
+			<CreationDateTime>2023-03-15T12:15:00Z</CreationDateTime>
+			<OrderID>XB952A1B2C3D4</OrderID>
+			<OrderVersionNumber>1</OrderVersionNumber>
+			<OwnerCode>XB</OwnerCode>
+			<StatusCode>OPENED</StatusCode>
+		</Order>
+		<ReshopResults>
+			<ReshopOffers>
+				<Offer>
+					<AddedOfferItem>
+						<CancelRestrictions>
+							<AllowedModificationInd>true</AllowedModificationInd>
+							<DescText>Cancellations allowed for a fee</DescText>
+							<Fee>
+								<Amount CurCode="EUR">80.00</Amount>
+							</Fee>
+							<PaxRefID>PAX01</PaxRefID>
+						</CancelRestrictions>
+						<ChangeRestrictions>
+							<AllowedModificationInd>true</AllowedModificationInd>
+							<ChangeTypeCode>Flight</ChangeTypeCode>
+							<DescText>Changes allowed for a fee</DescText>
+							<Fee>
+								<Amount CurCode="EUR">60.00</Amount>
+							</Fee>
+							<PaxRefID>PAX01</PaxRefID>
+						</ChangeRestrictions>
+						<ExistingOrderItem>
+							<ExistingService>
+								<FutureDeliveryStatusCode>REMOVED</FutureDeliveryStatusCode>
+								<FutureStatusCode>CANCELLED</FutureStatusCode>
+								<ServiceRefID>SVCSEG1</ServiceRefID>
+							</ExistingService>
+							<ExistingService>
+								<FutureDeliveryStatusCode>REMOVED</FutureDeliveryStatusCode>
+								<FutureStatusCode>CANCELLED</FutureStatusCode>
+								<ServiceRefID>SVCCARRYONBAGSEG1</ServiceRefID>
+							</ExistingService>
+							<ExistingService>
+								<FutureDeliveryStatusCode>REMOVED</FutureDeliveryStatusCode>
+								<FutureStatusCode>CANCELLED</FutureStatusCode>
+								<ServiceRefID>SVCCHECKEDBAGSEG1</ServiceRefID>
+							</ExistingService>
+							<ExistingService>
+								<ServiceRefID>SVCSEG2</ServiceRefID>
+								<UnchangedInd>true</UnchangedInd>
+							</ExistingService>
+							<ExistingService>
+								<ServiceRefID>SVCSEG3</ServiceRefID>
+								<UnchangedInd>true</UnchangedInd>
+							</ExistingService>
+							<ExistingService>
+								<ServiceRefID>SVCCARRYONBAGSEG2</ServiceRefID>
+								<UnchangedInd>true</UnchangedInd>
+							</ExistingService>
+							<ExistingService>
+								<ServiceRefID>SVCCHECKEDBAGSEG2</ServiceRefID>
+								<UnchangedInd>true</UnchangedInd>
+							</ExistingService>
+							<ExistingService>
+								<ServiceRefID>SVCCARRYONBAGSEG3</ServiceRefID>
+								<UnchangedInd>true</UnchangedInd>
+							</ExistingService>
+							<ExistingService>
+								<ServiceRefID>SVCCHECKEDBAGSEG3</ServiceRefID>
+								<UnchangedInd>true</UnchangedInd>
+							</ExistingService>
+							<OrderItemRefID>ORDITM01</OrderItemRefID>
+						</ExistingOrderItem>
+						<MandatoryInd>true</MandatoryInd>
+						<NetInd>false</NetInd>
+						<OfferItemID>OfferItemNew_AddColRefund_1</OfferItemID>
+						<OwnerCode>XB</OwnerCode>
+						<ReshopPrice>
+							<PriceDifferential>
+								<DifferentialTypeCode>AddColAndRefund</DifferentialTypeCode>
+								<DiffPrice>
+									<Price>
+										<BaseAmount CurCode="EUR">-100.00</BaseAmount>
+										<DueByAirlineAmount CurCode="EUR">110.00</DueByAirlineAmount>
+										<DueToAirlineAmount CurCode="EUR">60.00</DueToAirlineAmount>
+										<TaxSummary>
+											<Tax>
+												<Amount CurCode="EUR">-10.00</Amount>
+												<TaxCode>AA</TaxCode>
+												<TaxName>Tax AA</TaxName>
+											</Tax>
+											<Tax>
+												<Amount CurCode="EUR">0.00</Amount>
+												<TaxCode>BB</TaxCode>
+												<TaxName>Tax BB</TaxName>
+											</Tax>
+											<Tax>
+												<Amount CurCode="EUR">0.00</Amount>
+												<TaxCode>CC</TaxCode>
+												<TaxName>Tax CC</TaxName>
+											</Tax>
+											<Tax>
+												<Amount CurCode="EUR">20.00</Amount>
+												<TaxCode>DD</TaxCode>
+												<TaxName>Tax DD</TaxName>
+											</Tax>
+											<TotalTaxAmount CurCode="EUR">10.00</TotalTaxAmount>
+										</TaxSummary>
+										<TotalAmount CurCode="EUR">-90.00</TotalAmount>
+									</Price>
+								</DiffPrice>
+								<NewPrice>
+									<Price>
+										<BaseAmount CurCode="EUR">800.00</BaseAmount>
+										<TaxSummary>
+											<Tax>
+												<Amount CurCode="EUR">10.00</Amount>
+												<TaxCode>AA</TaxCode>
+												<TaxName>Tax AA</TaxName>
+											</Tax>
+											<Tax>
+												<Amount CurCode="EUR">30.00</Amount>
+												<TaxCode>BB</TaxCode>
+												<TaxName>Tax BB</TaxName>
+											</Tax>
+											<Tax>
+												<Amount CurCode="EUR">50.00</Amount>
+												<TaxCode>CC</TaxCode>
+												<TaxName>Tax CC</TaxName>
+											</Tax>
+											<Tax>
+												<Amount CurCode="EUR">20.00</Amount>
+												<TaxCode>DD</TaxCode>
+												<TaxName>Tax DD</TaxName>
+											</Tax>
+											<TotalTaxAmount CurCode="EUR">110.00</TotalTaxAmount>
+										</TaxSummary>
+										<TotalAmount CurCode="EUR">910.00</TotalAmount>
+									</Price>
+								</NewPrice>
+								<OldPrice>
+									<Price>
+										<BaseAmount CurCode="EUR">900.00</BaseAmount>
+										<TaxSummary>
+											<Tax>
+												<Amount CurCode="EUR">20.00</Amount>
+												<TaxCode>AA</TaxCode>
+												<TaxName>Tax AA</TaxName>
+											</Tax>
+											<Tax>
+												<Amount CurCode="EUR">30.00</Amount>
+												<TaxCode>BB</TaxCode>
+												<TaxName>Tax BB</TaxName>
+											</Tax>
+											<Tax>
+												<Amount CurCode="EUR">50.00</Amount>
+												<TaxCode>CC</TaxCode>
+												<TaxName>Tax CC</TaxName>
+											</Tax>
+											<TotalTaxAmount CurCode="EUR">100.00</TotalTaxAmount>
+										</TaxSummary>
+										<TotalAmount CurCode="EUR">1000.00</TotalAmount>
+									</Price>
+								</OldPrice>
+							</PriceDifferential>
+						</ReshopPrice>
+						<Service>
+							<OfferServiceAssociation>
+								<PaxJourneyRef>
+									<PaxJourneyRefID>FLTNEW1</PaxJourneyRefID>
+								</PaxJourneyRef>
+							</OfferServiceAssociation>
+							<PaxRefID>PAX01</PaxRefID>
+							<ServiceID>SVCNEWSEG1_1</ServiceID>
+						</Service>
+					</AddedOfferItem>
+					<BaggageAssociations>
+						<BaggageAllowanceRefID>BAGNEW01</BaggageAllowanceRefID>
+						<OfferFlightAssociations>
+							<PaxSegmentReferences>
+								<PaxSegmentRefID>SEGNEW1</PaxSegmentRefID>
+							</PaxSegmentReferences>
+						</OfferFlightAssociations>
+						<PaxRefID>PAX01</PaxRefID>
+					</BaggageAssociations>
+					<BaggageAssociations>
+						<BaggageAllowanceRefID>BAGNEW02</BaggageAllowanceRefID>
+						<OfferFlightAssociations>
+							<PaxSegmentReferences>
+								<PaxSegmentRefID>SEGNEW1</PaxSegmentRefID>
+							</PaxSegmentReferences>
+						</OfferFlightAssociations>
+						<PaxRefID>PAX01</PaxRefID>
+					</BaggageAssociations>
+					<OfferExpirationTimeLimitDateTime>2023-05-18T23:59:59Z</OfferExpirationTimeLimitDateTime>
+					<OfferID>OfferNew_AddColRefund_1</OfferID>
+					<OwnerCode>XB</OwnerCode>
+					<PenaltyInfoList>
+						<PenaltyInfo>
+							<OfferItemRefID>OfferItemNew_AddColRefund_1</OfferItemRefID>
+							<PaxRefID>PAX01</PaxRefID>
+							<PenaltyDetails>
+								<DescText>Change fee</DescText>
+								<NetInd>false</NetInd>
+								<Price>
+									<BaseAmount CurCode="EUR">40.00</BaseAmount>
+									<TaxSummary>
+										<TotalTaxAmount CurCode="EUR">0.00</TotalTaxAmount>
+									</TaxSummary>
+									<TotalAmount CurCode="EUR">40.00</TotalAmount>
+								</Price>
+								<TypeCode>Change</TypeCode>
+							</PenaltyDetails>
+							<PenaltyInfoID>PENALTY01</PenaltyInfoID>
+						</PenaltyInfo>
+					</PenaltyInfoList>
+					<ValidatingCarrierCode>XB</ValidatingCarrierCode>
+				</Offer>
+				<Offer>
+					<AddedOfferItem>
+						<CancelRestrictions>
+							<AllowedModificationInd>true</AllowedModificationInd>
+							<DescText>Cancellations allowed for a fee</DescText>
+							<Fee>
+								<Amount CurCode="EUR">80.00</Amount>
+							</Fee>
+							<PaxRefID>PAX01</PaxRefID>
+						</CancelRestrictions>
+						<ChangeRestrictions>
+							<AllowedModificationInd>true</AllowedModificationInd>
+							<ChangeTypeCode>Flight</ChangeTypeCode>
+							<DescText>Changes allowed for a fee</DescText>
+							<Fee>
+								<Amount CurCode="EUR">60.00</Amount>
+							</Fee>
+							<PaxRefID>PAX01</PaxRefID>
+						</ChangeRestrictions>
+						<ExistingOrderItem>
+							<ExistingService>
+								<FutureDeliveryStatusCode>REMOVED</FutureDeliveryStatusCode>
+								<FutureStatusCode>CANCELLED</FutureStatusCode>
+								<ServiceRefID>SVCSEG1</ServiceRefID>
+							</ExistingService>
+							<ExistingService>
+								<FutureDeliveryStatusCode>REMOVED</FutureDeliveryStatusCode>
+								<FutureStatusCode>CANCELLED</FutureStatusCode>
+								<ServiceRefID>SVCCARRYONBAGSEG1</ServiceRefID>
+							</ExistingService>
+							<ExistingService>
+								<FutureDeliveryStatusCode>REMOVED</FutureDeliveryStatusCode>
+								<FutureStatusCode>CANCELLED</FutureStatusCode>
+								<ServiceRefID>SVCCHECKEDBAGSEG1</ServiceRefID>
+							</ExistingService>
+							<ExistingService>
+								<ServiceRefID>SVCSEG2</ServiceRefID>
+								<UnchangedInd>true</UnchangedInd>
+							</ExistingService>
+							<ExistingService>
+								<ServiceRefID>SVCSEG3</ServiceRefID>
+								<UnchangedInd>true</UnchangedInd>
+							</ExistingService>
+							<ExistingService>
+								<ServiceRefID>SVCCARRYONBAGSEG2</ServiceRefID>
+								<UnchangedInd>true</UnchangedInd>
+							</ExistingService>
+							<ExistingService>
+								<ServiceRefID>SVCCHECKEDBAGSEG2</ServiceRefID>
+								<UnchangedInd>true</UnchangedInd>
+							</ExistingService>
+							<ExistingService>
+								<ServiceRefID>SVCCARRYONBAGSEG3</ServiceRefID>
+								<UnchangedInd>true</UnchangedInd>
+							</ExistingService>
+							<ExistingService>
+								<ServiceRefID>SVCCHECKEDBAGSEG3</ServiceRefID>
+								<UnchangedInd>true</UnchangedInd>
+							</ExistingService>
+							<OrderItemRefID>ORDITM01</OrderItemRefID>
+						</ExistingOrderItem>
+						<MandatoryInd>true</MandatoryInd>
+						<NetInd>false</NetInd>
+						<OfferItemID>OfferItemNew_AddColValueStore_2_1</OfferItemID>
+						<OwnerCode>XB</OwnerCode>
+						<ReshopPrice>
+							<PriceDifferential>
+								<DifferentialTypeCode>AddColAndResidual</DifferentialTypeCode>
+								<DiffPrice>
+									<Price>
+										<BaseAmount CurCode="EUR">-150.00</BaseAmount>
+										<DueByAirlineAmount CurCode="EUR">160.00</DueByAirlineAmount>
+										<DueToAirlineAmount CurCode="EUR">60.00</DueToAirlineAmount>
+										<TaxSummary>
+											<Tax>
+												<Amount CurCode="EUR">-10.00</Amount>
+												<TaxCode>AA</TaxCode>
+												<TaxName>Tax AA</TaxName>
+											</Tax>
+											<Tax>
+												<Amount CurCode="EUR">0.00</Amount>
+												<TaxCode>BB</TaxCode>
+												<TaxName>Tax BB</TaxName>
+											</Tax>
+											<Tax>
+												<Amount CurCode="EUR">0.00</Amount>
+												<TaxCode>CC</TaxCode>
+												<TaxName>Tax CC</TaxName>
+											</Tax>
+											<Tax>
+												<Amount CurCode="EUR">20.00</Amount>
+												<TaxCode>DD</TaxCode>
+												<TaxName>Tax DD</TaxName>
+											</Tax>
+											<TotalTaxAmount CurCode="EUR">10.00</TotalTaxAmount>
+										</TaxSummary>
+										<TotalAmount CurCode="EUR">-140.00</TotalAmount>
+									</Price>
+								</DiffPrice>
+								<NewPrice>
+									<Price>
+										<BaseAmount CurCode="EUR">750.00</BaseAmount>
+										<TaxSummary>
+											<Tax>
+												<Amount CurCode="EUR">10.00</Amount>
+												<TaxCode>AA</TaxCode>
+												<TaxName>Tax AA</TaxName>
+											</Tax>
+											<Tax>
+												<Amount CurCode="EUR">30.00</Amount>
+												<TaxCode>BB</TaxCode>
+												<TaxName>Tax BB</TaxName>
+											</Tax>
+											<Tax>
+												<Amount CurCode="EUR">50.00</Amount>
+												<TaxCode>CC</TaxCode>
+												<TaxName>Tax CC</TaxName>
+											</Tax>
+											<Tax>
+												<Amount CurCode="EUR">20.00</Amount>
+												<TaxCode>DD</TaxCode>
+												<TaxName>Tax DD</TaxName>
+											</Tax>
+											<TotalTaxAmount CurCode="EUR">110.00</TotalTaxAmount>
+										</TaxSummary>
+										<TotalAmount CurCode="EUR">860.00</TotalAmount>
+									</Price>
+								</NewPrice>
+								<OldPrice>
+									<Price>
+										<BaseAmount CurCode="EUR">900.00</BaseAmount>
+										<TaxSummary>
+											<Tax>
+												<Amount CurCode="EUR">20.00</Amount>
+												<TaxCode>AA</TaxCode>
+												<TaxName>Tax AA</TaxName>
+											</Tax>
+											<Tax>
+												<Amount CurCode="EUR">30.00</Amount>
+												<TaxCode>BB</TaxCode>
+												<TaxName>Tax BB</TaxName>
+											</Tax>
+											<Tax>
+												<Amount CurCode="EUR">50.00</Amount>
+												<TaxCode>CC</TaxCode>
+												<TaxName>Tax CC</TaxName>
+											</Tax>
+											<TotalTaxAmount CurCode="EUR">100.00</TotalTaxAmount>
+										</TaxSummary>
+										<TotalAmount CurCode="EUR">1000.00</TotalAmount>
+									</Price>
+								</OldPrice>
+							</PriceDifferential>
+						</ReshopPrice>
+						<Service>
+							<OfferServiceAssociation>
+								<PaxJourneyRef>
+									<PaxJourneyRefID>FLTNEW1</PaxJourneyRefID>
+								</PaxJourneyRef>
+							</OfferServiceAssociation>
+							<PaxRefID>PAX01</PaxRefID>
+							<ServiceID>SVCNEWSEG1_2</ServiceID>
+						</Service>
+					</AddedOfferItem>
+					<AddedOfferItem>
+						<CancelRestrictions>
+							<AllowedModificationInd>true</AllowedModificationInd>
+							<DescText>Cancellations allowed no fee</DescText>
+							<EffectiveDateTime>2023-05-18T23:40:59Z</EffectiveDateTime>
+							<!-- current date -->
+							<ExpirationDateTime>2024-05-18T23:40:59Z</ExpirationDateTime>
+							<Fee>
+								<Amount CurCode="EUR">0.00</Amount>
+							</Fee>
+							<PaxRefID>PAX01</PaxRefID>
+						</CancelRestrictions>
+						<CancelRestrictions>
+							<AllowedModificationInd>false</AllowedModificationInd>
+							<DescText>Cancellations not allowed</DescText>
+							<EffectiveDateTime>2024-05-18T23:40:59Z</EffectiveDateTime>
+							<PaxRefID>PAX01</PaxRefID>
+						</CancelRestrictions>
+						<ChangeRestrictions>
+							<AllowedModificationInd>true</AllowedModificationInd>
+							<DescText>Changes allowed no fee</DescText>
+							<EffectiveDateTime>2023-05-18T23:40:59Z</EffectiveDateTime>
+							<!-- current date -->
+							<ExpirationDateTime>2025-05-18T23:40:59Z</ExpirationDateTime>
+							<Fee>
+								<Amount CurCode="EUR">0.00</Amount>
+							</Fee>
+							<PaxRefID>PAX01</PaxRefID>
+						</ChangeRestrictions>
+						<ChangeRestrictions>
+							<AllowedModificationInd>false</AllowedModificationInd>
+							<DescText>Changes not allowed</DescText>
+							<EffectiveDateTime>2025-05-18T23:40:59Z</EffectiveDateTime>
+							<PaxRefID>PAX01</PaxRefID>
+						</ChangeRestrictions>
+						<ExistingOrderItem>
+							<OrderItemRefID>ORDITM01</OrderItemRefID>
+						</ExistingOrderItem>
+						<MandatoryInd>true</MandatoryInd>
+						<OfferItemID>OfferItemNew_AddColValueStore_2_2</OfferItemID>
+						<OwnerCode>XB</OwnerCode>
+						<ReshopPrice>
+							<PriceAndFareDetails>
+								<Price>
+									<BaseAmount CurCode="EUR">160.00</BaseAmount>
+									<TaxSummary>
+										<TotalTaxAmount CurCode="EUR">0.00</TotalTaxAmount>
+									</TaxSummary>
+									<TotalAmount CurCode="EUR">160.00</TotalAmount>
+								</Price>
+							</PriceAndFareDetails>
+						</ReshopPrice>
+						<Service>
+							<OfferServiceAssociation>
+								<ServiceDefinitionRef>
+									<ServiceDefinitionRefID>SRVDEF_VALUESTORE</ServiceDefinitionRefID>
+								</ServiceDefinitionRef>
+							</OfferServiceAssociation>
+							<PaxRefID>PAX01</PaxRefID>
+							<ServiceID>SVCNEWVALUESTORE1_2</ServiceID>
+						</Service>
+					</AddedOfferItem>
+					<BaggageAssociations>
+						<BaggageAllowanceRefID>BAGNEW01</BaggageAllowanceRefID>
+						<OfferFlightAssociations>
+							<PaxSegmentReferences>
+								<PaxSegmentRefID>SEGNEW1</PaxSegmentRefID>
+							</PaxSegmentReferences>
+						</OfferFlightAssociations>
+						<PaxRefID>PAX01</PaxRefID>
+					</BaggageAssociations>
+					<BaggageAssociations>
+						<BaggageAllowanceRefID>BAGNEW02</BaggageAllowanceRefID>
+						<OfferFlightAssociations>
+							<PaxSegmentReferences>
+								<PaxSegmentRefID>SEGNEW1</PaxSegmentRefID>
+							</PaxSegmentReferences>
+						</OfferFlightAssociations>
+						<PaxRefID>PAX01</PaxRefID>
+					</BaggageAssociations>
+					<OfferExpirationTimeLimitDateTime>2023-05-18T23:59:59Z</OfferExpirationTimeLimitDateTime>
+					<OfferID>OfferNew_AddColValueStore_2</OfferID>
+					<OwnerCode>XB</OwnerCode>
+					<PenaltyInfoList>
+						<PenaltyInfo>
+							<OfferItemRefID>OfferItemNew_AddColValueStore_2_1</OfferItemRefID>
+							<PaxRefID>PAX01</PaxRefID>
+							<PenaltyDetails>
+								<DescText>Change fee</DescText>
+								<NetInd>false</NetInd>
+								<Price>
+									<BaseAmount CurCode="EUR">40.00</BaseAmount>
+									<TaxSummary>
+										<TotalTaxAmount CurCode="EUR">0.00</TotalTaxAmount>
+									</TaxSummary>
+									<TotalAmount CurCode="EUR">40.00</TotalAmount>
+								</Price>
+								<TypeCode>Change</TypeCode>
+							</PenaltyDetails>
+							<PenaltyInfoID>PENALTY02</PenaltyInfoID>
+						</PenaltyInfo>
+					</PenaltyInfoList>
+					<ValidatingCarrierCode>XB</ValidatingCarrierCode>
+				</Offer>
+			</ReshopOffers>
+		</ReshopResults>
+	</easd:Response>
+	<easd:PayloadAttributes>
+		<VersionNumber>21.3</VersionNumber>
+	</easd:PayloadAttributes>
+</easd:IATA_OrderReshopRS>

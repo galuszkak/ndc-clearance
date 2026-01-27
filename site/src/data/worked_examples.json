@@ -57,23 +57,23 @@
       "path": "/worked_examples/IATA_OrderViewRS_24.1_32.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection due to",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection due to penalty and forfeited amount",
       "file": "EXM_ORD_003C - 10 - OrderViewRS_OrderRetrieve.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268745/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+due+to+penalty+and+forfeited+amount",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderViewRS_24.1_34.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection due to",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection due to penalty and forfeited amount",
       "file": "EXM_ORD_003C - 07.b.2 - OrderViewRS_OrderChange.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268745/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+due+to+penalty+and+forfeited+amount",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderViewRS_24.1_38.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection due to",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection due to penalty and forfeited amount",
       "file": "EXM_ORD_003C - 02 - OrderViewRS_OrderRetrieve.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268745/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+due+to+penalty+and+forfeited+amount",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderViewRS_24.1_44.xml"
     },
@@ -120,298 +120,389 @@
       "path": "/worked_examples/IATA_OrderViewRS_24.1_64.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
       "file": "EXM_ORD_003F - 07.b.2 - OrderViewRS_OrderChange.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderViewRS_24.1_66.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
       "file": "EXM_ORD_003F - 08 - OrderViewRS_OrderChange_Payment.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderViewRS_24.1_69.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
       "file": "EXM_ORD_003F - 10 - OrderViewRS_OrderRetrieve.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderViewRS_24.1_70.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
       "file": "EXM_ORD_003F - 02 - OrderViewRS_OrderRetrieve.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderViewRS_24.1_77.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
       "file": "EXM_ORD_003G - 08 - OrderViewRS_OrderChange.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderViewRS_24.1_78.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
       "file": "EXM_ORD_003G - 10 - OrderViewRS_OrderRetrieve.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderViewRS_24.1_79.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
       "file": "EXM_ORD_003G - 02 - OrderViewRS_OrderRetrieve.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderViewRS_24.1_84.xml"
+    },
+    {
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
+      "file": "EXM_ORD_003F - 07.b.2 - OrderViewRS_OrderChange.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_88.xml"
+    },
+    {
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
+      "file": "EXM_ORD_003F - 08 - OrderViewRS_OrderChange_Payment.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_91.xml"
+    },
+    {
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
+      "file": "EXM_ORD_003F - 10 - OrderViewRS_OrderRetrieve.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_92.xml"
+    },
+    {
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
+      "file": "EXM_ORD_003F - 02 - OrderViewRS_OrderRetrieve.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_99.xml"
+    },
+    {
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
+      "file": "EXM_ORD_003G - 08 - OrderViewRS_OrderChange.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_100.xml"
+    },
+    {
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
+      "file": "EXM_ORD_003G - 10 - OrderViewRS_OrderRetrieve.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_101.xml"
+    },
+    {
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
+      "file": "EXM_ORD_003G - 02 - OrderViewRS_OrderRetrieve.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_106.xml"
     },
     {
       "title": "Customer Updates Existing Contact Details",
       "file": "02.2 - OrderViewRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/673021953/Customer+Updates+Existing+Contact+Details",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderViewRS_21.3.5_88.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_21.3.5_110.xml"
     },
     {
       "title": "Customer Updates Existing Contact Details",
       "file": "01.2 - OrderViewRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/673021953/Customer+Updates+Existing+Contact+Details",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderViewRS_21.3.5_90.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_21.3.5_112.xml"
     },
     {
       "title": "Free name changes",
       "file": "03.2_OrderViewRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/672464903/Free+name+changes",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderViewRS_21.3.5_92.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_21.3.5_114.xml"
     },
     {
       "title": "Free name changes",
       "file": "01.2_OrderViewRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/672464903/Free+name+changes",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderViewRS_21.3.5_96.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_21.3.5_118.xml"
     },
     {
       "title": "Paid name changes",
       "file": "03.2_OrderViewRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/672792581/Paid+name+changes",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderViewRS_21.3.5_98.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_21.3.5_120.xml"
     },
     {
       "title": "Paid name changes",
       "file": "01.2_OrderViewRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/672792581/Paid+name+changes",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderViewRS_21.3.5_102.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_21.3.5_124.xml"
     },
     {
       "title": "Customer requests a cancellation to paid Order or OrderItems resulting in full refund",
       "file": "EXM_ORD_030A - 08 - OrderViewRS_OrderRetrieve.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594417/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+full+refund",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderViewRS_24.1_104.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_126.xml"
     },
     {
       "title": "Customer requests a cancellation to paid Order or OrderItems resulting in full refund",
       "file": "EXM_ORD_030A - 06 - OrderViewRS_OrderChange.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594417/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+full+refund",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderViewRS_24.1_106.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_128.xml"
     },
     {
       "title": "Customer requests a cancellation to paid Order or OrderItems resulting in full refund",
       "file": "EXM_ORD_030A - 02 - OrderViewRS_OrderRetrieve.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594417/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+full+refund",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderViewRS_24.1_110.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_132.xml"
     },
     {
-      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forf",
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred",
       "file": "EXM_ORD_030B - 08 - OrderViewRS_OrderRetrieve.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594543/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderViewRS_24.1_112.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_134.xml"
     },
     {
-      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forf",
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred",
       "file": "EXM_ORD_030B - 06 - OrderViewRS_OrderChange.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594543/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderViewRS_24.1_114.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_136.xml"
     },
     {
-      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forf",
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred",
       "file": "EXM_ORD_030B - 02 - OrderViewRS_OrderRetrieve.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594543/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderViewRS_24.1_118.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_140.xml"
     },
     {
-      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forf",
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred",
       "file": "EXM_ORD_030D - 08 - OrderViewRS_OrderRetrieve.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594543/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderViewRS_24.1_120.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_142.xml"
     },
     {
-      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forf",
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred",
       "file": "EXM_ORD_030D - 06 - OrderViewRS_OrderChange.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594543/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderViewRS_24.1_122.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_144.xml"
     },
     {
-      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forf",
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred",
       "file": "EXM_ORD_030D - 02 - OrderViewRS_OrderRetrieve.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594543/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderViewRS_24.1_126.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_148.xml"
     },
     {
       "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Value Store",
       "file": "EXM_ORD_030C - 08 - OrderViewRS_OrderRetrieve.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594669/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Value+Store",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderViewRS_24.1_128.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_150.xml"
     },
     {
       "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Value Store",
       "file": "EXM_ORD_030C - 06 - OrderViewRS_OrderChange.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594669/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Value+Store",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderViewRS_24.1_130.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_152.xml"
     },
     {
       "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Value Store",
       "file": "EXM_ORD_030C - 02 - OrderViewRS_OrderRetrieve.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594669/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Value+Store",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderViewRS_24.1_134.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_156.xml"
+    },
+    {
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred and requiring payment of a penalty",
+      "file": "EXM_ORD_030B - 08 - OrderViewRS_OrderRetrieve.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_158.xml"
+    },
+    {
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred and requiring payment of a penalty",
+      "file": "EXM_ORD_030B - 06 - OrderViewRS_OrderChange.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_160.xml"
+    },
+    {
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred and requiring payment of a penalty",
+      "file": "EXM_ORD_030B - 02 - OrderViewRS_OrderRetrieve.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_164.xml"
+    },
+    {
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred and requiring payment of a penalty",
+      "file": "EXM_ORD_030D - 08 - OrderViewRS_OrderRetrieve.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_166.xml"
+    },
+    {
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred and requiring payment of a penalty",
+      "file": "EXM_ORD_030D - 06 - OrderViewRS_OrderChange.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_168.xml"
+    },
+    {
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred and requiring payment of a penalty",
+      "file": "EXM_ORD_030D - 02 - OrderViewRS_OrderRetrieve.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_172.xml"
     },
     {
       "title": "Customer requests a cancellation to paid Order or OrderItems resulting in a Reusable amount",
       "file": "EXM_ORD_030E - 08 - OrderViewRS_OrderRetrieve.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594921/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+a+Reusable+amount",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderViewRS_24.1_136.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_174.xml"
     },
     {
       "title": "Customer requests a cancellation to paid Order or OrderItems resulting in a Reusable amount",
       "file": "EXM_ORD_030E - 06 - OrderViewRS_OrderChange.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594921/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+a+Reusable+amount",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderViewRS_24.1_138.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_176.xml"
     },
     {
       "title": "Customer requests a cancellation to paid Order or OrderItems resulting in a Reusable amount",
       "file": "EXM_ORD_030E - 02 - OrderViewRS_OrderRetrieve.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594921/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+a+Reusable+amount",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderViewRS_24.1_142.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_180.xml"
     },
     {
       "title": "Customer Adds an Ancillary to Existing Order - Service list",
       "file": "EXM_ORD_016A - 03.A.6 - OrderViewRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301531/Customer+Adds+an+Ancillary+to+Existing+Order+-+Service+list",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderViewRS_24.1_144.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_182.xml"
     },
     {
       "title": "Customer Adds an Ancillary to Existing Order - Service list",
       "file": "EXM_ORD_016A - 02 - OrderViewRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301531/Customer+Adds+an+Ancillary+to+Existing+Order+-+Service+list",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderViewRS_24.1_150.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_188.xml"
     },
     {
       "title": "Customer Adds an Ancillary to Existing Order - Seat Availability",
       "file": "EXM_ORD_016B - 03.b.8 - OrderViewRS_OrderRetrieve.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268814/Customer+Adds+an+Ancillary+to+Existing+Order+-+Seat+Availability",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderViewRS_24.1_152.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_190.xml"
     },
     {
       "title": "Customer Adds an Ancillary to Existing Order - Seat Availability",
       "file": "EXM_ORD_016B - 03.b.6 - OrderViewRS_OrderChange.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268814/Customer+Adds+an+Ancillary+to+Existing+Order+-+Seat+Availability",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderViewRS_24.1_154.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_192.xml"
     },
     {
       "title": "Customer Adds an Ancillary to Existing Order - Seat Availability",
       "file": "EXM_ORD_016B - 02 - OrderViewRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268814/Customer+Adds+an+Ancillary+to+Existing+Order+-+Seat+Availability",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderViewRS_24.1_160.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_198.xml"
     },
     {
       "title": "End to End Payment Via Pre Authenticated Card Transaction",
       "file": "EXM_PAY_002 - 08 - OrderViewRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/574849139/End+to+End+Payment+Via+Pre+Authenticated+Card+Transaction",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderViewRS_24.1_171.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_209.xml"
     },
     {
       "title": "End to End Payment Via Pre Authenticated Card Transaction",
       "file": "EXM_PAY_002 - 06 - OrderViewRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/574849139/End+to+End+Payment+Via+Pre+Authenticated+Card+Transaction",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderViewRS_24.1_173.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_24.1_211.xml"
     },
     {
       "title": "End to End Payment via Settlement Plan",
       "file": "04.2_OrderViewRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/676724743/End+to+End+Payment+via+Settlement+Plan",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderViewRS_21.3.5_179.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_21.3.5_217.xml"
     },
     {
       "title": "End to End Payment via Settlement Plan",
       "file": "03.2_OrderViewRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/676724743/End+to+End+Payment+via+Settlement+Plan",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderViewRS_21.3.5_181.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_21.3.5_219.xml"
     },
     {
       "title": "Payment Via Redirection with Airline Notification of Payment Success\u200b",
       "file": "06.2_OrderViewRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/670203914/Payment+Via+Redirection+with+Airline+Notification+of+Payment+Success",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderViewRS_21.3.5_187.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_21.3.5_225.xml"
     },
     {
       "title": "Payment Via Redirection with Airline Notification of Payment Success\u200b",
       "file": "04.2_OrderViewRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/670203914/Payment+Via+Redirection+with+Airline+Notification+of+Payment+Success",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderViewRS_21.3.5_191.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_21.3.5_229.xml"
     },
     {
       "title": "Payment Via Redirection with Airline Notification of Payment Success\u200b",
       "file": "03.2_OrderViewRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/670203914/Payment+Via+Redirection+with+Airline+Notification+of+Payment+Success",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderViewRS_21.3.5_193.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_21.3.5_231.xml"
     },
     {
       "title": "Indian RBI Mandate Application",
       "file": "EXM_PAY_023 - 08 - OrderViewRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/1164345346/Indian+RBI+Mandate+Application",
       "original_version": "24.3",
-      "path": "/worked_examples/IATA_OrderViewRS_24.3_201.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_24.3_239.xml"
     },
     {
       "title": "Indian RBI Mandate Application",
       "file": "EXM_PAY_023 - 06 - OrderViewRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/1164345346/Indian+RBI+Mandate+Application",
       "original_version": "24.3",
-      "path": "/worked_examples/IATA_OrderViewRS_24.3_203.xml"
+      "path": "/worked_examples/IATA_OrderViewRS_24.3_241.xml"
     }
   ],
   "IATA_OrderCreateRQ": [
@@ -427,28 +518,28 @@
       "file": "EXM_PAY_002 - 05 - OrderCreateRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/574849139/End+to+End+Payment+Via+Pre+Authenticated+Card+Transaction",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderCreateRQ_24.1_174.xml"
+      "path": "/worked_examples/IATA_OrderCreateRQ_24.1_212.xml"
     },
     {
       "title": "End to End Payment via Settlement Plan",
       "file": "03.1_OrderCreateRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/676724743/End+to+End+Payment+via+Settlement+Plan",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderCreateRQ_21.3.5_182.xml"
+      "path": "/worked_examples/IATA_OrderCreateRQ_21.3.5_220.xml"
     },
     {
       "title": "Payment Via Redirection with Airline Notification of Payment Success\u200b",
       "file": "03.1_OrderCreateRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/670203914/Payment+Via+Redirection+with+Airline+Notification+of+Payment+Success",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderCreateRQ_21.3.5_194.xml"
+      "path": "/worked_examples/IATA_OrderCreateRQ_21.3.5_232.xml"
     },
     {
       "title": "Indian RBI Mandate Application",
       "file": "EXM_PAY_023 - 05 - OrderCreateRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/1164345346/Indian+RBI+Mandate+Application",
       "original_version": "24.3",
-      "path": "/worked_examples/IATA_OrderCreateRQ_24.3_204.xml"
+      "path": "/worked_examples/IATA_OrderCreateRQ_24.3_242.xml"
     }
   ],
   "IATA_OfferPriceRS": [
@@ -471,28 +562,28 @@
       "file": "EXM_PAY_002 - 04 - OfferPriceRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/574849139/End+to+End+Payment+Via+Pre+Authenticated+Card+Transaction",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OfferPriceRS_24.1_175.xml"
+      "path": "/worked_examples/IATA_OfferPriceRS_24.1_213.xml"
     },
     {
       "title": "End to End Payment via Settlement Plan",
       "file": "02.2_OfferPriceRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/676724743/End+to+End+Payment+via+Settlement+Plan",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OfferPriceRS_21.3.5_183.xml"
+      "path": "/worked_examples/IATA_OfferPriceRS_21.3.5_221.xml"
     },
     {
       "title": "Payment Via Redirection with Airline Notification of Payment Success\u200b",
       "file": "02.2_OfferPriceRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/670203914/Payment+Via+Redirection+with+Airline+Notification+of+Payment+Success",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OfferPriceRS_21.3.5_195.xml"
+      "path": "/worked_examples/IATA_OfferPriceRS_21.3.5_233.xml"
     },
     {
       "title": "Indian RBI Mandate Application",
       "file": "EXM_PAY_023 - 04 - OfferPriceRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/1164345346/Indian+RBI+Mandate+Application",
       "original_version": "24.3",
-      "path": "/worked_examples/IATA_OfferPriceRS_24.3_205.xml"
+      "path": "/worked_examples/IATA_OfferPriceRS_24.3_243.xml"
     }
   ],
   "IATA_OfferPriceRQ": [
@@ -515,28 +606,28 @@
       "file": "EXM_PAY_002 - 03 - OfferPriceRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/574849139/End+to+End+Payment+Via+Pre+Authenticated+Card+Transaction",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OfferPriceRQ_24.1_176.xml"
+      "path": "/worked_examples/IATA_OfferPriceRQ_24.1_214.xml"
     },
     {
       "title": "End to End Payment via Settlement Plan",
       "file": "02.1_OfferPriceRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/676724743/End+to+End+Payment+via+Settlement+Plan",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OfferPriceRQ_21.3.5_184.xml"
+      "path": "/worked_examples/IATA_OfferPriceRQ_21.3.5_222.xml"
     },
     {
       "title": "Payment Via Redirection with Airline Notification of Payment Success\u200b",
       "file": "02.1_OfferPriceRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/670203914/Payment+Via+Redirection+with+Airline+Notification+of+Payment+Success",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OfferPriceRQ_21.3.5_196.xml"
+      "path": "/worked_examples/IATA_OfferPriceRQ_21.3.5_234.xml"
     },
     {
       "title": "Indian RBI Mandate Application",
       "file": "EXM_PAY_023 - 03 - OfferPriceRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/1164345346/Indian+RBI+Mandate+Application",
       "original_version": "24.3",
-      "path": "/worked_examples/IATA_OfferPriceRQ_24.3_206.xml"
+      "path": "/worked_examples/IATA_OfferPriceRQ_24.3_244.xml"
     }
   ],
   "IATA_AirShoppingRS": [
@@ -559,28 +650,28 @@
       "file": "EXM_PAY_002 - 02 - AirShoppingRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/574849139/End+to+End+Payment+Via+Pre+Authenticated+Card+Transaction",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_AirShoppingRS_24.1_177.xml"
+      "path": "/worked_examples/IATA_AirShoppingRS_24.1_215.xml"
     },
     {
       "title": "End to End Payment via Settlement Plan",
       "file": "01.2_AirShoppingRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/676724743/End+to+End+Payment+via+Settlement+Plan",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_AirShoppingRS_21.3.5_185.xml"
+      "path": "/worked_examples/IATA_AirShoppingRS_21.3.5_223.xml"
     },
     {
       "title": "Payment Via Redirection with Airline Notification of Payment Success\u200b",
       "file": "01.2_AirShoppingRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/670203914/Payment+Via+Redirection+with+Airline+Notification+of+Payment+Success",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_AirShoppingRS_21.3.5_197.xml"
+      "path": "/worked_examples/IATA_AirShoppingRS_21.3.5_235.xml"
     },
     {
       "title": "Indian RBI Mandate Application",
       "file": "EXM_PAY_023 - 02 - AirShoppingRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/1164345346/Indian+RBI+Mandate+Application",
       "original_version": "24.3",
-      "path": "/worked_examples/IATA_AirShoppingRS_24.3_207.xml"
+      "path": "/worked_examples/IATA_AirShoppingRS_24.3_245.xml"
     }
   ],
   "IATA_AirShoppingRQ": [
@@ -603,28 +694,28 @@
       "file": "EXM_PAY_002 - 01 - AirShoppingRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/574849139/End+to+End+Payment+Via+Pre+Authenticated+Card+Transaction",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_AirShoppingRQ_24.1_178.xml"
+      "path": "/worked_examples/IATA_AirShoppingRQ_24.1_216.xml"
     },
     {
       "title": "End to End Payment via Settlement Plan",
       "file": "01.1_AirShoppingRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/676724743/End+to+End+Payment+via+Settlement+Plan",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_AirShoppingRQ_21.3.5_186.xml"
+      "path": "/worked_examples/IATA_AirShoppingRQ_21.3.5_224.xml"
     },
     {
       "title": "Payment Via Redirection with Airline Notification of Payment Success\u200b",
       "file": "01.1_AirShoppingRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/670203914/Payment+Via+Redirection+with+Airline+Notification+of+Payment+Success",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_AirShoppingRQ_21.3.5_198.xml"
+      "path": "/worked_examples/IATA_AirShoppingRQ_21.3.5_236.xml"
     },
     {
       "title": "Indian RBI Mandate Application",
       "file": "EXM_PAY_023 - 01 - AirShoppingRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/1164345346/Indian+RBI+Mandate+Application",
       "original_version": "24.3",
-      "path": "/worked_examples/IATA_AirShoppingRQ_24.3_208.xml"
+      "path": "/worked_examples/IATA_AirShoppingRQ_24.3_246.xml"
     }
   ],
   "IATA_ServiceListRS": [
@@ -640,7 +731,7 @@
       "file": "EXM_ORD_016A - 03.A.2 - ServiceListRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301531/Customer+Adds+an+Ancillary+to+Existing+Order+-+Service+list",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_ServiceListRS_24.1_148.xml"
+      "path": "/worked_examples/IATA_ServiceListRS_24.1_186.xml"
     }
   ],
   "IATA_ServiceListRQ": [
@@ -656,7 +747,7 @@
       "file": "EXM_ORD_016A - 03.A.1 - ServiceListRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301531/Customer+Adds+an+Ancillary+to+Existing+Order+-+Service+list",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_ServiceListRQ_24.1_149.xml"
+      "path": "/worked_examples/IATA_ServiceListRQ_24.1_187.xml"
     }
   ],
   "IATA_OrderRetrieveRQ": [
@@ -696,23 +787,23 @@
       "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_33.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection due to",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection due to penalty and forfeited amount",
       "file": "EXM_ORD_003C - 09 - OrderRetrieveRQ.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268745/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+due+to+penalty+and+forfeited+amount",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_35.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection due to",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection due to penalty and forfeited amount",
       "file": "EXM_ORD_003C - 08 - OrderViewRS_OrderChange_Payment.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268745/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+due+to+penalty+and+forfeited+amount",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_36.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection due to",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection due to penalty and forfeited amount",
       "file": "EXM_ORD_003C - 01 - OrderRetrieveRQ.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268745/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+due+to+penalty+and+forfeited+amount",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_45.xml"
     },
@@ -745,151 +836,207 @@
       "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_65.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
       "file": "EXM_ORD_003F - 09 - OrderRetrieveRQ.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_73.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
       "file": "EXM_ORD_003F - 01 - OrderRetrieveRQ.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_75.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
       "file": "EXM_ORD_003G - 09 - OrderRetrieveRQ.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_80.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
       "file": "EXM_ORD_003G - 01 - OrderRetrieveRQ.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_83.xml"
+    },
+    {
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
+      "file": "EXM_ORD_003F - 09 - OrderRetrieveRQ.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_95.xml"
+    },
+    {
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
+      "file": "EXM_ORD_003F - 01 - OrderRetrieveRQ.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_97.xml"
+    },
+    {
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
+      "file": "EXM_ORD_003G - 09 - OrderRetrieveRQ.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_102.xml"
+    },
+    {
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
+      "file": "EXM_ORD_003G - 01 - OrderRetrieveRQ.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_105.xml"
     },
     {
       "title": "Customer Updates Existing Contact Details",
       "file": "01.1 - OrderRetrieveRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/673021953/Customer+Updates+Existing+Contact+Details",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderRetrieveRQ_21.3.5_91.xml"
+      "path": "/worked_examples/IATA_OrderRetrieveRQ_21.3.5_113.xml"
     },
     {
       "title": "Free name changes",
       "file": "01.1_OrderRetrieveRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/672464903/Free+name+changes",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderRetrieveRQ_21.3.5_97.xml"
+      "path": "/worked_examples/IATA_OrderRetrieveRQ_21.3.5_119.xml"
     },
     {
       "title": "Paid name changes",
       "file": "01.1_OrderRetrieveRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/672792581/Paid+name+changes",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderRetrieveRQ_21.3.5_103.xml"
+      "path": "/worked_examples/IATA_OrderRetrieveRQ_21.3.5_125.xml"
     },
     {
       "title": "Customer requests a cancellation to paid Order or OrderItems resulting in full refund",
       "file": "EXM_ORD_030A - 07 - OrderRetrieveRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594417/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+full+refund",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_105.xml"
+      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_127.xml"
     },
     {
       "title": "Customer requests a cancellation to paid Order or OrderItems resulting in full refund",
       "file": "EXM_ORD_030A - 01 - OrderRetrieveRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594417/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+full+refund",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_111.xml"
+      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_133.xml"
     },
     {
-      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forf",
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred",
       "file": "EXM_ORD_030B - 07 - OrderRetrieveRQ.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594543/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_113.xml"
+      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_135.xml"
     },
     {
-      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forf",
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred",
       "file": "EXM_ORD_030B - 01 - OrderRetrieveRQ.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594543/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_119.xml"
+      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_141.xml"
     },
     {
-      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forf",
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred",
       "file": "EXM_ORD_030D - 07 - OrderRetrieveRQ.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594543/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_121.xml"
+      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_143.xml"
     },
     {
-      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forf",
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred",
       "file": "EXM_ORD_030D - 01 - OrderRetrieveRQ.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594543/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_127.xml"
+      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_149.xml"
     },
     {
       "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Value Store",
       "file": "EXM_ORD_030C - 07 - OrderRetrieveRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594669/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Value+Store",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_129.xml"
+      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_151.xml"
     },
     {
       "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Value Store",
       "file": "EXM_ORD_030C - 01 - OrderRetrieveRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594669/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Value+Store",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_135.xml"
+      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_157.xml"
+    },
+    {
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred and requiring payment of a penalty",
+      "file": "EXM_ORD_030B - 07 - OrderRetrieveRQ.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_159.xml"
+    },
+    {
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred and requiring payment of a penalty",
+      "file": "EXM_ORD_030B - 01 - OrderRetrieveRQ.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_165.xml"
+    },
+    {
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred and requiring payment of a penalty",
+      "file": "EXM_ORD_030D - 07 - OrderRetrieveRQ.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_167.xml"
+    },
+    {
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred and requiring payment of a penalty",
+      "file": "EXM_ORD_030D - 01 - OrderRetrieveRQ.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_173.xml"
     },
     {
       "title": "Customer requests a cancellation to paid Order or OrderItems resulting in a Reusable amount",
       "file": "EXM_ORD_030E - 07 - OrderRetrieveRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594921/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+a+Reusable+amount",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_137.xml"
+      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_175.xml"
     },
     {
       "title": "Customer requests a cancellation to paid Order or OrderItems resulting in a Reusable amount",
       "file": "EXM_ORD_030E - 01 - OrderRetrieveRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594921/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+a+Reusable+amount",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_143.xml"
+      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_181.xml"
     },
     {
       "title": "Customer Adds an Ancillary to Existing Order - Service list",
       "file": "EXM_ORD_016A - 01 - OrderRetrieveRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301531/Customer+Adds+an+Ancillary+to+Existing+Order+-+Service+list",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_151.xml"
+      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_189.xml"
     },
     {
       "title": "Customer Adds an Ancillary to Existing Order - Seat Availability",
       "file": "EXM_ORD_016B - 03.b.7 - OrderRetrieveRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268814/Customer+Adds+an+Ancillary+to+Existing+Order+-+Seat+Availability",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_153.xml"
+      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_191.xml"
     },
     {
       "title": "Customer Adds an Ancillary to Existing Order - Seat Availability",
       "file": "EXM_ORD_016B - 01 - OrderRetrieveRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268814/Customer+Adds+an+Ancillary+to+Existing+Order+-+Seat+Availability",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_161.xml"
+      "path": "/worked_examples/IATA_OrderRetrieveRQ_24.1_199.xml"
     },
     {
       "title": "Payment Via Redirection with Airline Notification of Payment Success\u200b",
       "file": "06.1_OrderRetrieveRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/670203914/Payment+Via+Redirection+with+Airline+Notification+of+Payment+Success",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderRetrieveRQ_21.3.5_188.xml"
+      "path": "/worked_examples/IATA_OrderRetrieveRQ_21.3.5_226.xml"
     }
   ],
   "IATA_OrderChangeRQ": [
@@ -908,16 +1055,16 @@
       "path": "/worked_examples/IATA_OrderChangeRQ_24.1_27.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection due to",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection due to penalty and forfeited amount",
       "file": "EXM_ORD_003C - 07.b.3 - OrderChangeRQ_Payment.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268745/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+due+to+penalty+and+forfeited+amount",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderChangeRQ_24.1_37.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection due to",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection due to penalty and forfeited amount",
       "file": "EXM_ORD_003C - 07.b.1 - OrderChangeRQ.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268745/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+due+to+penalty+and+forfeited+amount",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderChangeRQ_24.1_39.xml"
     },
@@ -936,123 +1083,158 @@
       "path": "/worked_examples/IATA_OrderChangeRQ_24.1_59.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
       "file": "EXM_ORD_003F - 07.b.1 - OrderChangeRQ.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderChangeRQ_24.1_67.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
       "file": "EXM_ORD_003F - 07.b.3 - OrderChangeRQ_Payment.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderChangeRQ_24.1_71.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
       "file": "EXM_ORD_003G - 07.a.1 - OrderChangeRQ.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderChangeRQ_24.1_82.xml"
+    },
+    {
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
+      "file": "EXM_ORD_003F - 07.b.1 - OrderChangeRQ.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderChangeRQ_24.1_89.xml"
+    },
+    {
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
+      "file": "EXM_ORD_003F - 07.b.3 - OrderChangeRQ_Payment.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderChangeRQ_24.1_93.xml"
+    },
+    {
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
+      "file": "EXM_ORD_003G - 07.a.1 - OrderChangeRQ.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderChangeRQ_24.1_104.xml"
     },
     {
       "title": "Customer Updates Existing Contact Details",
       "file": "02.1 - OrderChangeRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/673021953/Customer+Updates+Existing+Contact+Details",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderChangeRQ_21.3.5_89.xml"
+      "path": "/worked_examples/IATA_OrderChangeRQ_21.3.5_111.xml"
     },
     {
       "title": "Free name changes",
       "file": "03.1_OrderChangeRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/672464903/Free+name+changes",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderChangeRQ_21.3.5_93.xml"
+      "path": "/worked_examples/IATA_OrderChangeRQ_21.3.5_115.xml"
     },
     {
       "title": "Paid name changes",
       "file": "03.1_OrderChangeRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/672792581/Paid+name+changes",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderChangeRQ_21.3.5_99.xml"
+      "path": "/worked_examples/IATA_OrderChangeRQ_21.3.5_121.xml"
     },
     {
       "title": "Customer requests a cancellation to paid Order or OrderItems resulting in full refund",
       "file": "EXM_ORD_030A - 05 - OrderChangeRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594417/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+full+refund",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderChangeRQ_24.1_107.xml"
+      "path": "/worked_examples/IATA_OrderChangeRQ_24.1_129.xml"
     },
     {
-      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forf",
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred",
       "file": "EXM_ORD_030B - 05 - OrderChangeRQ.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594543/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderChangeRQ_24.1_115.xml"
+      "path": "/worked_examples/IATA_OrderChangeRQ_24.1_137.xml"
     },
     {
-      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forf",
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred",
       "file": "EXM_ORD_030D - 05 - OrderChangeRQ.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594543/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderChangeRQ_24.1_123.xml"
+      "path": "/worked_examples/IATA_OrderChangeRQ_24.1_145.xml"
     },
     {
       "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Value Store",
       "file": "EXM_ORD_030C - 05 - OrderChangeRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594669/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Value+Store",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderChangeRQ_24.1_131.xml"
+      "path": "/worked_examples/IATA_OrderChangeRQ_24.1_153.xml"
+    },
+    {
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred and requiring payment of a penalty",
+      "file": "EXM_ORD_030B - 05 - OrderChangeRQ.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderChangeRQ_24.1_161.xml"
+    },
+    {
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred and requiring payment of a penalty",
+      "file": "EXM_ORD_030D - 05 - OrderChangeRQ.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderChangeRQ_24.1_169.xml"
     },
     {
       "title": "Customer requests a cancellation to paid Order or OrderItems resulting in a Reusable amount",
       "file": "EXM_ORD_030E - 05 - OrderChangeRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594921/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+a+Reusable+amount",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderChangeRQ_24.1_139.xml"
+      "path": "/worked_examples/IATA_OrderChangeRQ_24.1_177.xml"
     },
     {
       "title": "Customer Adds an Ancillary to Existing Order - Service list",
       "file": "EXM_ORD_016A - 03.A.5 - OrderChangeRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301531/Customer+Adds+an+Ancillary+to+Existing+Order+-+Service+list",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderChangeRQ_24.1_145.xml"
+      "path": "/worked_examples/IATA_OrderChangeRQ_24.1_183.xml"
     },
     {
       "title": "Customer Adds an Ancillary to Existing Order - Seat Availability",
       "file": "EXM_ORD_016B - 03.b.5 - OrderChangeRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268814/Customer+Adds+an+Ancillary+to+Existing+Order+-+Seat+Availability",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderChangeRQ_24.1_155.xml"
+      "path": "/worked_examples/IATA_OrderChangeRQ_24.1_193.xml"
     },
     {
       "title": "End to End Payment Via Pre Authenticated Card Transaction",
       "file": "EXM_PAY_002 - 07 - OrderChangeRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/574849139/End+to+End+Payment+Via+Pre+Authenticated+Card+Transaction",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderChangeRQ_24.1_172.xml"
+      "path": "/worked_examples/IATA_OrderChangeRQ_24.1_210.xml"
     },
     {
       "title": "End to End Payment via Settlement Plan",
       "file": "04.1_OrderChangeRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/676724743/End+to+End+Payment+via+Settlement+Plan",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderChangeRQ_21.3.5_180.xml"
+      "path": "/worked_examples/IATA_OrderChangeRQ_21.3.5_218.xml"
     },
     {
       "title": "Payment Via Redirection with Airline Notification of Payment Success\u200b",
       "file": "04.1_OrderChangeRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/670203914/Payment+Via+Redirection+with+Airline+Notification+of+Payment+Success",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderChangeRQ_21.3.5_192.xml"
+      "path": "/worked_examples/IATA_OrderChangeRQ_21.3.5_230.xml"
     },
     {
       "title": "Indian RBI Mandate Application",
       "file": "EXM_PAY_023 - 07 - OrderChangeRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/1164345346/Indian+RBI+Mandate+Application",
       "original_version": "24.3",
-      "path": "/worked_examples/IATA_OrderChangeRQ_24.3_202.xml"
+      "path": "/worked_examples/IATA_OrderChangeRQ_24.3_240.xml"
     }
   ],
   "IATA_OrderReshopRS": [
@@ -1085,16 +1267,16 @@
       "path": "/worked_examples/IATA_OrderReshopRS_24.1_30.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection due to",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection due to penalty and forfeited amount",
       "file": "EXM_ORD_003C - 06 - OrderReshopRS_OrderQuote.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268745/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+due+to+penalty+and+forfeited+amount",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderReshopRS_24.1_40.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection due to",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection due to penalty and forfeited amount",
       "file": "EXM_ORD_003C - 04 - OrderReshopRS.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268745/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+due+to+penalty+and+forfeited+amount",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderReshopRS_24.1_42.xml"
     },
@@ -1127,95 +1309,137 @@
       "path": "/worked_examples/IATA_OrderReshopRS_24.1_62.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
       "file": "EXM_ORD_003F - 06 - OrderReshopRS_OrderQuote.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderReshopRS_24.1_72.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
       "file": "EXM_ORD_003F - 04 - OrderReshopRS.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderReshopRS_24.1_74.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
       "file": "EXM_ORD_003G - 06 - OrderReshopRS_OrderQuote.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderReshopRS_24.1_81.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
       "file": "EXM_ORD_003G - 04 - OrderReshopRS.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderReshopRS_24.1_85.xml"
+    },
+    {
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
+      "file": "EXM_ORD_003F - 06 - OrderReshopRS_OrderQuote.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderReshopRS_24.1_94.xml"
+    },
+    {
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
+      "file": "EXM_ORD_003F - 04 - OrderReshopRS.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderReshopRS_24.1_96.xml"
+    },
+    {
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
+      "file": "EXM_ORD_003G - 06 - OrderReshopRS_OrderQuote.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderReshopRS_24.1_103.xml"
+    },
+    {
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
+      "file": "EXM_ORD_003G - 04 - OrderReshopRS.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderReshopRS_24.1_107.xml"
     },
     {
       "title": "Free name changes",
       "file": "02.2_OrderReshopRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/672464903/Free+name+changes",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderReshopRS_21.3.5_94.xml"
+      "path": "/worked_examples/IATA_OrderReshopRS_21.3.5_116.xml"
     },
     {
       "title": "Paid name changes",
       "file": "02.2_OrderReshopRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/672792581/Paid+name+changes",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderReshopRS_21.3.5_100.xml"
+      "path": "/worked_examples/IATA_OrderReshopRS_21.3.5_122.xml"
     },
     {
       "title": "Customer requests a cancellation to paid Order or OrderItems resulting in full refund",
       "file": "EXM_ORD_030A - 04 - OrderReshopRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594417/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+full+refund",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderReshopRS_24.1_108.xml"
+      "path": "/worked_examples/IATA_OrderReshopRS_24.1_130.xml"
     },
     {
-      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forf",
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred",
       "file": "EXM_ORD_030B - 04 - OrderReshopRS.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594543/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderReshopRS_24.1_116.xml"
+      "path": "/worked_examples/IATA_OrderReshopRS_24.1_138.xml"
     },
     {
-      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forf",
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred",
       "file": "EXM_ORD_030D - 04 - OrderReshopRS.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594543/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderReshopRS_24.1_124.xml"
+      "path": "/worked_examples/IATA_OrderReshopRS_24.1_146.xml"
     },
     {
       "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Value Store",
       "file": "EXM_ORD_030C - 04 - OrderReshopRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594669/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Value+Store",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderReshopRS_24.1_132.xml"
+      "path": "/worked_examples/IATA_OrderReshopRS_24.1_154.xml"
+    },
+    {
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred and requiring payment of a penalty",
+      "file": "EXM_ORD_030B - 04 - OrderReshopRS.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderReshopRS_24.1_162.xml"
+    },
+    {
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred and requiring payment of a penalty",
+      "file": "EXM_ORD_030D - 04 - OrderReshopRS.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderReshopRS_24.1_170.xml"
     },
     {
       "title": "Customer requests a cancellation to paid Order or OrderItems resulting in a Reusable amount",
       "file": "EXM_ORD_030E - 04 - OrderReshopRS_Option A.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594921/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+a+Reusable+amount",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderReshopRS_24.1_140.xml"
+      "path": "/worked_examples/IATA_OrderReshopRS_24.1_178.xml"
     },
     {
       "title": "Customer Adds an Ancillary to Existing Order - Service list",
       "file": "EXM_ORD_016A - 03.A.4 - OrderReshopRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301531/Customer+Adds+an+Ancillary+to+Existing+Order+-+Service+list",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderReshopRS_24.1_146.xml"
+      "path": "/worked_examples/IATA_OrderReshopRS_24.1_184.xml"
     },
     {
       "title": "Customer Adds an Ancillary to Existing Order - Seat Availability",
       "file": "EXM_ORD_016B - 03.b.4 - OrderReshopRS_OrderQuote.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268814/Customer+Adds+an+Ancillary+to+Existing+Order+-+Seat+Availability",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderReshopRS_24.1_156.xml"
+      "path": "/worked_examples/IATA_OrderReshopRS_24.1_194.xml"
     }
   ],
   "IATA_OrderQuoteRQ": [
@@ -1234,9 +1458,9 @@
       "path": "/worked_examples/IATA_OrderQuoteRQ_24.1_29.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection due to",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection due to penalty and forfeited amount",
       "file": "EXM_ORD_003C - 05 - OrderQuoteRQ.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268745/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+due+to+penalty+and+forfeited+amount",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderQuoteRQ_24.1_41.xml"
     },
@@ -1255,32 +1479,46 @@
       "path": "/worked_examples/IATA_OrderQuoteRQ_24.1_61.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
       "file": "EXM_ORD_003F - 05 - OrderQuoteRQ.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderQuoteRQ_24.1_76.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
       "file": "EXM_ORD_003G - 05 - OrderQuoteRQ.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderQuoteRQ_24.1_86.xml"
+    },
+    {
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
+      "file": "EXM_ORD_003F - 05 - OrderQuoteRQ.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderQuoteRQ_24.1_98.xml"
+    },
+    {
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
+      "file": "EXM_ORD_003G - 05 - OrderQuoteRQ.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderQuoteRQ_24.1_108.xml"
     },
     {
       "title": "Customer Adds an Ancillary to Existing Order - Service list",
       "file": "EXM_ORD_016A - 03.A.3 - OrderQuoteRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301531/Customer+Adds+an+Ancillary+to+Existing+Order+-+Service+list",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderQuoteRQ_24.1_147.xml"
+      "path": "/worked_examples/IATA_OrderQuoteRQ_24.1_185.xml"
     },
     {
       "title": "Customer Adds an Ancillary to Existing Order - Seat Availability",
       "file": "EXM_ORD_016B - 03.b.3 - OrderQuoteRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268814/Customer+Adds+an+Ancillary+to+Existing+Order+-+Seat+Availability",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderQuoteRQ_24.1_157.xml"
+      "path": "/worked_examples/IATA_OrderQuoteRQ_24.1_195.xml"
     }
   ],
   "IATA_OrderReshopRQ": [
@@ -1299,9 +1537,9 @@
       "path": "/worked_examples/IATA_OrderReshopRQ_24.1_31.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection due to",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection due to penalty and forfeited amount",
       "file": "EXM_ORD_003C - 03 - OrderReshopRQ.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268745/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+due+to+penalty+and+forfeited+amount",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderReshopRQ_24.1_43.xml"
     },
@@ -1320,67 +1558,95 @@
       "path": "/worked_examples/IATA_OrderReshopRQ_24.1_63.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
       "file": "EXM_ORD_003F - 03 - OrderReshopRQ.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderReshopRQ_24.1_68.xml"
     },
     {
-      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a",
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
       "file": "EXM_ORD_003G - 03 - OrderReshopRQ.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
       "original_version": "24.1",
       "path": "/worked_examples/IATA_OrderReshopRQ_24.1_87.xml"
+    },
+    {
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
+      "file": "EXM_ORD_003F - 03 - OrderReshopRQ.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderReshopRQ_24.1_90.xml"
+    },
+    {
+      "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
+      "file": "EXM_ORD_003G - 03 - OrderReshopRQ.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderReshopRQ_24.1_109.xml"
     },
     {
       "title": "Free name changes",
       "file": "02.1_OrderReshopRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/672464903/Free+name+changes",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderReshopRQ_21.3.5_95.xml"
+      "path": "/worked_examples/IATA_OrderReshopRQ_21.3.5_117.xml"
     },
     {
       "title": "Paid name changes",
       "file": "02.1_OrderReshopRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/672792581/Paid+name+changes",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderReshopRQ_21.3.5_101.xml"
+      "path": "/worked_examples/IATA_OrderReshopRQ_21.3.5_123.xml"
     },
     {
       "title": "Customer requests a cancellation to paid Order or OrderItems resulting in full refund",
       "file": "EXM_ORD_030A - 03 - OrderReshopRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594417/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+full+refund",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderReshopRQ_24.1_109.xml"
+      "path": "/worked_examples/IATA_OrderReshopRQ_24.1_131.xml"
     },
     {
-      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forf",
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred",
       "file": "EXM_ORD_030B - 03 - OrderReshopRQ.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594543/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderReshopRQ_24.1_117.xml"
+      "path": "/worked_examples/IATA_OrderReshopRQ_24.1_139.xml"
     },
     {
-      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forf",
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred",
       "file": "EXM_ORD_030D - 03 - OrderReshopRQ.xml",
-      "url": "",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594543/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderReshopRQ_24.1_125.xml"
+      "path": "/worked_examples/IATA_OrderReshopRQ_24.1_147.xml"
     },
     {
       "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Value Store",
       "file": "EXM_ORD_030C - 03 - OrderReshopRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594669/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Value+Store",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderReshopRQ_24.1_133.xml"
+      "path": "/worked_examples/IATA_OrderReshopRQ_24.1_155.xml"
+    },
+    {
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred and requiring payment of a penalty",
+      "file": "EXM_ORD_030B - 03 - OrderReshopRQ.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderReshopRQ_24.1_163.xml"
+    },
+    {
+      "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred and requiring payment of a penalty",
+      "file": "EXM_ORD_030D - 03 - OrderReshopRQ.xml",
+      "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
+      "original_version": "24.1",
+      "path": "/worked_examples/IATA_OrderReshopRQ_24.1_171.xml"
     },
     {
       "title": "Customer requests a cancellation to paid Order or OrderItems resulting in a Reusable amount",
       "file": "EXM_ORD_030E - 03 - OrderReshopRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594921/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+a+Reusable+amount",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderReshopRQ_24.1_141.xml"
+      "path": "/worked_examples/IATA_OrderReshopRQ_24.1_179.xml"
     }
   ],
   "IATA_SeatAvailabilityRS": [
@@ -1389,7 +1655,7 @@
       "file": "EXM_ORD_016B - 03.b.2 - SeatAvailabilityRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268814/Customer+Adds+an+Ancillary+to+Existing+Order+-+Seat+Availability",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_SeatAvailabilityRS_24.1_158.xml"
+      "path": "/worked_examples/IATA_SeatAvailabilityRS_24.1_196.xml"
     }
   ],
   "IATA_SeatAvailabilityRQ": [
@@ -1398,7 +1664,7 @@
       "file": "EXM_ORD_016B - 03.b.1 - SeatAvailabilityRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268814/Customer+Adds+an+Ancillary+to+Existing+Order+-+Seat+Availability",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_SeatAvailabilityRQ_24.1_159.xml"
+      "path": "/worked_examples/IATA_SeatAvailabilityRQ_24.1_197.xml"
     }
   ],
   "IATA_OrderChangeNotifRQ": [
@@ -1407,56 +1673,56 @@
       "file": "EXM_ORD_025G - Aircraft Type and Operating Carrier Change.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/815202352/Airline+notifies+Seller+of+changes+to+an+Order",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderChangeNotifRQ_24.1_162.xml"
+      "path": "/worked_examples/IATA_OrderChangeNotifRQ_24.1_200.xml"
     },
     {
       "title": "Airline notifies Seller of changes to an Order",
       "file": "EXM_ORD_025F - Flight Cancellation (No Reaccomodation).xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/815202352/Airline+notifies+Seller+of+changes+to+an+Order",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderChangeNotifRQ_24.1_163.xml"
+      "path": "/worked_examples/IATA_OrderChangeNotifRQ_24.1_201.xml"
     },
     {
       "title": "Airline notifies Seller of changes to an Order",
       "file": "EXM_ORD_025E - Itinerary Change.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/815202352/Airline+notifies+Seller+of+changes+to+an+Order",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderChangeNotifRQ_24.1_164.xml"
+      "path": "/worked_examples/IATA_OrderChangeNotifRQ_24.1_202.xml"
     },
     {
       "title": "Airline notifies Seller of changes to an Order",
       "file": "EXM_ORD_025D - Flight Number Change.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/815202352/Airline+notifies+Seller+of+changes+to+an+Order",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderChangeNotifRQ_24.1_165.xml"
+      "path": "/worked_examples/IATA_OrderChangeNotifRQ_24.1_203.xml"
     },
     {
       "title": "Airline notifies Seller of changes to an Order",
       "file": "EXM_ORD_025C - Segment Time Change.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/815202352/Airline+notifies+Seller+of+changes+to+an+Order",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderChangeNotifRQ_24.1_166.xml"
+      "path": "/worked_examples/IATA_OrderChangeNotifRQ_24.1_204.xml"
     },
     {
       "title": "Airline notifies Seller of changes to an Order",
       "file": "EXM_ORD_025B - Name & Contact Details.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/815202352/Airline+notifies+Seller+of+changes+to+an+Order",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderChangeNotifRQ_24.1_167.xml"
+      "path": "/worked_examples/IATA_OrderChangeNotifRQ_24.1_205.xml"
     },
     {
       "title": "Airline notifies Seller of changes to an Order",
       "file": "EXM_ORD_025A - Payment Status.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/815202352/Airline+notifies+Seller+of+changes+to+an+Order",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderChangeNotifRQ_24.1_168.xml"
+      "path": "/worked_examples/IATA_OrderChangeNotifRQ_24.1_206.xml"
     },
     {
       "title": "Payment Via Redirection with Airline Notification of Payment Success\u200b",
       "file": "05.1_OrderChangeNotifRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/670203914/Payment+Via+Redirection+with+Airline+Notification+of+Payment+Success",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_OrderChangeNotifRQ_21.3.5_190.xml"
+      "path": "/worked_examples/IATA_OrderChangeNotifRQ_21.3.5_228.xml"
     }
   ],
   "IATA_OrderHistoryRS": [
@@ -1465,7 +1731,7 @@
       "file": "EXM_ORD_012 - 02 - OrderHistoryRS.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/815595521/Seller+needs+to+Review+the+Order+History",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderHistoryRS_24.1_169.xml"
+      "path": "/worked_examples/IATA_OrderHistoryRS_24.1_207.xml"
     }
   ],
   "IATA_OrderHistoryRQ": [
@@ -1474,7 +1740,7 @@
       "file": "EXM_ORD_012 - 01 - OrderHistoryRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/815595521/Seller+needs+to+Review+the+Order+History",
       "original_version": "24.1",
-      "path": "/worked_examples/IATA_OrderHistoryRQ_24.1_170.xml"
+      "path": "/worked_examples/IATA_OrderHistoryRQ_24.1_208.xml"
     }
   ],
   "IATA_Acknowledgement": [
@@ -1483,14 +1749,14 @@
       "file": "05.2_Acknowledgement.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/670203914/Payment+Via+Redirection+with+Airline+Notification+of+Payment+Success",
       "original_version": "21.3.5",
-      "path": "/worked_examples/IATA_Acknowledgement_21.3.5_189.xml"
+      "path": "/worked_examples/IATA_Acknowledgement_21.3.5_227.xml"
     },
     {
       "title": "Indian RBI Mandate Application",
       "file": "EXM_PAY_023 - 10 - IATA_Acknowledgement.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/1164345346/Indian+RBI+Mandate+Application",
       "original_version": "24.3",
-      "path": "/worked_examples/IATA_Acknowledgement_24.3_199.xml"
+      "path": "/worked_examples/IATA_Acknowledgement_24.3_237.xml"
     }
   ],
   "IATA_OrderSalesInformationNotifRQ": [
@@ -1499,7 +1765,7 @@
       "file": "EXM_PAY_023 - 09 - OrderSalesInformationNotificationRQ.xml",
       "url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/1164345346/Indian+RBI+Mandate+Application",
       "original_version": "24.3",
-      "path": "/worked_examples/IATA_OrderSalesInformationNotifRQ_24.3_200.xml"
+      "path": "/worked_examples/IATA_OrderSalesInformationNotifRQ_24.3_238.xml"
     }
   ]
 }
