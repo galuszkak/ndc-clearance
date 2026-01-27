@@ -745,10 +745,12 @@
                                 No Root Element found
                             </div>
                         {/if}
-                        </div>
+                    </div>
 
                     <!-- Floating auto-hide toolbar -->
-                    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 group/toolbar">
+                    <div
+                        class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 group/toolbar"
+                    >
                         <!-- Invisible hover zone extending below toolbar -->
                         <div class="absolute -inset-4 -bottom-10"></div>
                         <div
@@ -946,17 +948,34 @@
                         <!-- Header -->
                         <div>
                             <div class="flex gap-2 mb-1">
-                                <span class="badge badge-primary badge-sm"
-                                    >ELEMENT</span
-                                >
-                                {#if selectedHelper.min === "1" && selectedHelper.max === "1"}
-                                    <span class="badge badge-neutral badge-sm"
-                                        >MANDATORY</span
+                                {#if selectedNode.localName === "choice"}
+                                    <span
+                                        class="badge badge-accent badge-sm uppercase"
+                                        >CHOICE</span
+                                    >
+                                {:else if (selectedNode.getAttribute("name") || "").endsWith("RS") || (selectedNode.getAttribute("name") || "").endsWith("RQ")}
+                                    <span
+                                        class="badge badge-secondary badge-sm uppercase"
+                                        >MESSAGE</span
+                                    >
+                                {:else}
+                                    <span class="badge badge-primary badge-sm"
+                                        >ELEMENT</span
+                                    >
+                                {/if}
+                                {#if selectedHelper.min !== "0"}
+                                    <span class="badge badge-primary badge-sm"
+                                        >REQUIRED</span
                                     >
                                 {:else}
                                     <span
                                         class="badge badge-ghost badge-sm border-base-300"
                                         >OPTIONAL</span
+                                    >
+                                {/if}
+                                {#if selectedHelper.max === "unbounded" || parseInt(selectedHelper.max || "1") > 1}
+                                    <span class="badge badge-neutral badge-sm"
+                                        >LIST</span
                                     >
                                 {/if}
                             </div>

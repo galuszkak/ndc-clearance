@@ -218,50 +218,49 @@
                 ) || null;
         }
 
-        if (typeDefinition) {
-            // Flatten structure: sequence, choice, all, extension
-            // Helper to collect elements
-            const collectElements = (root: Element): Element[] => {
-                const els: Element[] = [];
-                for (const child of Array.from(root.children)) {
-                    if (child.localName === "element") {
-                        els.push(child);
-                    } else if (
-                        ["sequence", "choice", "all"].includes(child.localName)
-                    ) {
-                        els.push(...collectElements(child));
-                    } else if (child.localName === "complexContent") {
-                        for (const cc of Array.from(child.children)) {
-                            if (
-                                cc.localName === "extension" ||
-                                cc.localName === "restriction"
-                            ) {
-                                const base = cc
-                                    .getAttribute("base")
-                                    ?.split(":")
-                                    .pop();
-                                if (base) {
-                                    const baseDef =
-                                        definitions[`complexType:${base}`];
-                                    if (baseDef) {
-                                        els.push(...collectElements(baseDef));
-                                    }
-                                }
-                                els.push(...collectElements(cc));
-                            }
-                        }
-                    } else if (
-                        child.localName === "complexType" ||
-                        child.localName === "simpleType"
-                    ) {
-                        els.push(...collectElements(child));
-                    }
-                }
-                return els;
-            };
+        if (node.localName === "choice") {
+            children = collectElements(node);
+        } else if (typeDefinition) {
             children = collectElements(typeDefinition);
         }
         hasResolved = true;
+    }
+
+    // Flatten structure: sequence, all, extension (but NOT choice)
+    function collectElements(root: Element): Element[] {
+        const els: Element[] = [];
+        for (const child of Array.from(root.children)) {
+            if (child.localName === "element") {
+                els.push(child);
+            } else if (child.localName === "choice") {
+                // Keep choice as a distinct node to render
+                els.push(child);
+            } else if (["sequence", "all"].includes(child.localName)) {
+                els.push(...collectElements(child));
+            } else if (child.localName === "complexContent") {
+                for (const cc of Array.from(child.children)) {
+                    if (
+                        cc.localName === "extension" ||
+                        cc.localName === "restriction"
+                    ) {
+                        const base = cc.getAttribute("base")?.split(":").pop();
+                        if (base) {
+                            const baseDef = definitions[`complexType:${base}`];
+                            if (baseDef) {
+                                els.push(...collectElements(baseDef));
+                            }
+                        }
+                        els.push(...collectElements(cc));
+                    }
+                }
+            } else if (
+                child.localName === "complexType" ||
+                child.localName === "simpleType"
+            ) {
+                els.push(...collectElements(child));
+            }
+        }
+        return els;
     }
 
     // Reactive Search Logic
@@ -361,186 +360,234 @@
         }
         appliedActionVersion = treeActionVersion;
     }
+
+    $: if (node.localName === "choice") {
+        resolve();
+    }
 </script>
 
 <div class="ml-4 border-l border-base-300 pl-2">
-    <div
-        class="flex items-center group cursor-pointer rounded -ml-2 px-2 py-1 transition-all duration-200 border border-transparent node-row
-            hover:bg-base-200/50
-            {isFlashed ? '!bg-yellow-200 !scale-[1.02] !shadow-md' : ''}"
-        bind:this={elementRef}
-        on:click={handleClick}
-        role="button"
-        tabindex="0"
-        on:keydown={(e) => e.key === "Enter" && handleClick(e as any)}
-    >
-        <!-- Expand Button / Icon -->
-        <button
-            class="btn btn-xs btn-ghost btn-square w-5 h-5 min-h-0 mr-1 p-0 flex items-center justify-center opacity-70 hover:opacity-100 hover:bg-base-200 rounded-md transition-colors"
-            on:click|stopPropagation={() => {
-                if (isExpandable) {
-                    expanded = !expanded;
-                    if (expanded) resolve();
-                }
-            }}
-        >
-            {#if isExpandable}
-                {#if expanded}
-                    <!-- Chevron Down -->
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-3.5 w-3.5"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
+    {#if node.localName === "choice"}
+        <!-- Choice Container -->
+        <div class="ml-0 pl-0 relative my-2">
+            <!-- Visual Bracket/Label -->
+            <div class="flex items-start">
+                <div
+                    class="flex-none flex flex-col items-center mr-2 pt-1 opacity-50 select-none cursor-help"
+                    title="Mutually Exclusive: Only one of these can be chosen"
+                >
+                    <div
+                        class="text-[10px] font-mono font-bold text-orange-600 bg-orange-100 px-1 rounded border border-orange-200 uppercase tracking-tighter"
                     >
-                        <path
-                            fill-rule="evenodd"
-                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                            clip-rule="evenodd"
+                        One Of
+                    </div>
+                    <div
+                        class="w-px h-full bg-orange-200/50 my-1 min-h-[1rem]"
+                    ></div>
+                </div>
+
+                <div
+                    class="flex-1 flex flex-col gap-1 border-l-2 border-orange-100 pl-2 -ml-2 py-1"
+                >
+                    {#each children as child}
+                        <svelte:self
+                            node={child}
+                            {doc}
+                            {definitions}
+                            {depth}
+                            path={`${path}/${child.getAttribute("name") || child.getAttribute("ref")?.split(":").pop()}`}
+                            {searchQuery}
+                            {targetPath}
+                            {treeAction}
+                            {treeActionVersion}
+                            onmatch={handleChildMatch}
+                            onselect={handleChildSelect}
                         />
-                    </svg>
-                {:else}
-                    <!-- Chevron Right -->
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-3.5 w-3.5"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                    >
-                        <path
-                            fill-rule="evenodd"
-                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                            clip-rule="evenodd"
-                        />
-                    </svg>
-                {/if}
-            {:else}
-                <!-- Leaf Dot -->
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-1.5 w-1.5 opacity-30"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                >
-                    <circle cx="10" cy="10" r="10" />
-                </svg>
-            {/if}
-        </button>
-
-        <!-- Icon -->
-        <span
-            class="mr-2 opacity-80 flex-none"
-            title={typeName ? `Type: ${typeName}` : "Element"}
-        >
-            {#if name.endsWith("RQ") || name.endsWith("RS")}
-                <!-- Message Icon -->
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-4 w-4 text-purple-600"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    ><path
-                        d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"
-                    /></svg
-                >
-            {:else if typeName}
-                <!-- Typed Element Icon -->
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-4 w-4 text-blue-500"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    ><path
-                        fill-rule="evenodd"
-                        d="M2.5 3A1.5 1.5 0 001 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0115 5.293V4.5A1.5 1.5 0 0013.5 3h-11zM15 6.913l-6.598 3.185a.755.755 0 01-.804 0L1 6.914V14.5a1.5 1.5 0 001.5 1.5h11a1.5 1.5 0 001.5-1.5V6.913z"
-                        clip-rule="evenodd"
-                    /></svg
-                >
-            {:else}
-                <!-- Generic Element Icon -->
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-4 w-4 text-orange-500"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    ><path
-                        fill-rule="evenodd"
-                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                        clip-rule="evenodd"
-                    /></svg
-                >
-            {/if}
-        </span>
-
-        <!-- Label & Badges -->
-        <div
-            class="flex-1 min-w-0 flex items-center gap-2
-            {nameMatch
-                ? 'bg-yellow-200 text-yellow-900 rounded px-1 -mx-1 ring-1 ring-yellow-400/50'
-                : ''}
-            {docMatch
-                ? 'bg-info/20 text-info-content rounded px-1 -mx-1 ring-1 ring-info/30'
-                : ''}"
-            title={docMatch
-                ? `Match in description: ...${documentation.substring(Math.max(0, documentation.toLowerCase().indexOf(searchQuery) - 30), Math.min(documentation.length, documentation.toLowerCase().indexOf(searchQuery) + 30))}...`
-                : path}
-        >
-            <span
-                class="font-medium text-sm text-base-content/90 truncate"
-                title={path}>{name}</span
-            >
-            {#if typeName}
-                <span
-                    class="hidden group-hover:inline-block text-[10px] text-base-content/40 font-mono transition-opacity whitespace-nowrap bg-base-200 px-1 rounded"
-                    >{typeName}</span
-                >
-            {/if}
-
-            <div class="flex items-center gap-1 ml-auto flex-none">
-                <!-- Cardinality Badges -->
-                {#if minOccurs === "0"}
-                    <span
-                        class="badge badge-xs badge-ghost font-mono text-[9px] uppercase tracking-wider text-base-content/50 border-base-300"
-                        >OPT</span
-                    >
-                {:else}
-                    <span
-                        class="badge badge-xs badge-primary badge-outline font-mono text-[9px] uppercase tracking-wider font-bold"
-                        >REQ</span
-                    >
-                {/if}
-
-                {#if maxOccurs === "unbounded" || parseInt(maxOccurs) > 1}
-                    <span
-                        class="badge badge-xs badge-neutral font-mono text-[9px]"
-                        title="List (Array)">LIST</span
-                    >
-                {/if}
+                    {/each}
+                </div>
             </div>
         </div>
-    </div>
-
-    {#if expanded || searchQuery}
+    {:else}
+        <!-- Standard Element Row -->
         <div
-            class={!expanded && searchQuery
-                ? "hidden"
-                : "border-l border-base-200 ml-[0.35rem]"}
+            class="flex items-center group cursor-pointer rounded -ml-2 px-2 py-1 transition-all duration-200 border border-transparent node-row
+                hover:bg-base-200/50
+                {isFlashed ? '!bg-yellow-200 !scale-[1.02] !shadow-md' : ''}"
+            bind:this={elementRef}
+            on:click={handleClick}
+            role="button"
+            tabindex="0"
+            on:keydown={(e) => e.key === "Enter" && handleClick(e as any)}
         >
-            {#each children as child}
-                <svelte:self
-                    node={child}
-                    {doc}
-                    {definitions}
-                    depth={depth + 1}
-                    path={`${path}/${child.getAttribute("name") || child.getAttribute("ref")?.split(":").pop()}`}
-                    {searchQuery}
-                    {targetPath}
-                    {treeAction}
-                    {treeActionVersion}
-                    onmatch={handleChildMatch}
-                    onselect={handleChildSelect}
-                />
-            {/each}
+            <!-- Expand Button / Icon -->
+            <button
+                class="btn btn-xs btn-ghost btn-square w-5 h-5 min-h-0 mr-1 p-0 flex items-center justify-center opacity-70 hover:opacity-100 hover:bg-base-200 rounded-md transition-colors"
+                on:click|stopPropagation={() => {
+                    if (isExpandable) {
+                        expanded = !expanded;
+                        if (expanded) resolve();
+                    }
+                }}
+            >
+                {#if isExpandable}
+                    {#if expanded}
+                        <!-- Chevron Down -->
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-3.5 w-3.5"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd"
+                            />
+                        </svg>
+                    {:else}
+                        <!-- Chevron Right -->
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-3.5 w-3.5"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                clip-rule="evenodd"
+                            />
+                        </svg>
+                    {/if}
+                {:else}
+                    <!-- Leaf Dot -->
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-1.5 w-1.5 opacity-30"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                    >
+                        <circle cx="10" cy="10" r="10" />
+                    </svg>
+                {/if}
+            </button>
+
+            <!-- Icon -->
+            <span
+                class="mr-2 opacity-80 flex-none"
+                title={typeName ? `Type: ${typeName}` : "Element"}
+            >
+                {#if name.endsWith("RQ") || name.endsWith("RS")}
+                    <!-- Message Icon -->
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-4 w-4 text-purple-600"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        ><path
+                            d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"
+                        /></svg
+                    >
+                {:else if typeName}
+                    <!-- Typed Element Icon -->
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-4 w-4 text-blue-500"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        ><path
+                            fill-rule="evenodd"
+                            d="M2.5 3A1.5 1.5 0 001 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0115 5.293V4.5A1.5 1.5 0 0013.5 3h-11zM15 6.913l-6.598 3.185a.755.755 0 01-.804 0L1 6.914V14.5a1.5 1.5 0 001.5 1.5h11a1.5 1.5 0 001.5-1.5V6.913z"
+                            clip-rule="evenodd"
+                        /></svg
+                    >
+                {:else}
+                    <!-- Generic Element Icon -->
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-4 w-4 text-orange-500"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        ><path
+                            fill-rule="evenodd"
+                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                            clip-rule="evenodd"
+                        /></svg
+                    >
+                {/if}
+            </span>
+
+            <!-- Label & Badges -->
+            <div
+                class="flex-1 min-w-0 flex items-center gap-2
+                {nameMatch
+                    ? 'bg-yellow-200 text-yellow-900 rounded px-1 -mx-1 ring-1 ring-yellow-400/50'
+                    : ''}
+                {docMatch
+                    ? 'bg-info/20 text-info-content rounded px-1 -mx-1 ring-1 ring-info/30'
+                    : ''}"
+                title={docMatch
+                    ? `Match in description: ...${documentation.substring(Math.max(0, documentation.toLowerCase().indexOf(searchQuery) - 30), Math.min(documentation.length, documentation.toLowerCase().indexOf(searchQuery) + 30))}...`
+                    : path}
+            >
+                <span
+                    class="font-medium text-sm text-base-content/90 truncate"
+                    title={path}>{name}</span
+                >
+                {#if typeName}
+                    <span
+                        class="hidden group-hover:inline-block text-[10px] text-base-content/40 font-mono transition-opacity whitespace-nowrap bg-base-200 px-1 rounded"
+                        >{typeName}</span
+                    >
+                {/if}
+
+                <div class="flex items-center gap-1 ml-auto flex-none">
+                    <!-- Cardinality Badges -->
+                    {#if minOccurs === "0"}
+                        <span
+                            class="badge badge-xs badge-ghost font-mono text-[9px] uppercase tracking-wider text-base-content/50 border-base-300"
+                            >OPT</span
+                        >
+                    {:else}
+                        <span
+                            class="badge badge-xs badge-primary badge-outline font-mono text-[9px] uppercase tracking-wider font-bold"
+                            >REQ</span
+                        >
+                    {/if}
+
+                    {#if maxOccurs === "unbounded" || parseInt(maxOccurs) > 1}
+                        <span
+                            class="badge badge-xs badge-neutral font-mono text-[9px]"
+                            title="List (Array)">LIST</span
+                        >
+                    {/if}
+                </div>
+            </div>
         </div>
+        {#if expanded || searchQuery}
+            <div
+                class={!expanded && searchQuery
+                    ? "hidden"
+                    : "border-l border-base-200 ml-[0.35rem]"}
+            >
+                {#each children as child}
+                    <svelte:self
+                        node={child}
+                        {doc}
+                        {definitions}
+                        depth={depth + 1}
+                        path={child.localName === "choice"
+                            ? path
+                            : `${path}/${child.getAttribute("name") || child.getAttribute("ref")?.split(":").pop()}`}
+                        {searchQuery}
+                        {targetPath}
+                        {treeAction}
+                        {treeActionVersion}
+                        onmatch={handleChildMatch}
+                        onselect={handleChildSelect}
+                    />
+                {/each}
+            </div>
+        {/if}
     {/if}
 </div>
