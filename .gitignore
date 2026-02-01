@@ -1,10 +1,33 @@
-raw_ndc_schemas/*.zip
-raw_ndc_schemas/*_ndc/
+# Schemas
+*.zip
+*.tar.gz
+site/public/schemas/
+backend/src/main/resources/schemas/
 
-# Python
+# API Keys & Secrets
+.env
+
+# Dependencies
+node_modules/
+.venv/
+venv/
+backend/gradle-*/
+backend/jdk*/
+
+# Build Artifacts
+backend/build/
+backend/.gradle/
+backend/.kotlin/
+site/dist/
+site/.astro/
+*.log
+
+# IDE & System
+.DS_Store
+.idea/
+.vscode/
 __pycache__/
 *.py[cod]
 *$py.class
-venv/
-.env
 
+local/*

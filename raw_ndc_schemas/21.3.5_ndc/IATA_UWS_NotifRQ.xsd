@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="1.001" id="IATA2021.3">
+	<xs:include schemaLocation="IATA_UWS_CommonTypes.xsd"/>
+	<xs:element name="IATA_UWS_NotifRQ">
+		<xs:annotation>
+			<xs:documentation>The unit load device weight signal notification message is used to push the cargo and mail information for a flight.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="UWS_Info" type="UWS_Type">
+					<xs:annotation>
+						<xs:documentation>The UWS information.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.prod.digitalcredentials.iata.org/passport.json",
+  "title": "Passport",
+  "description": "Verifiable Credential for a non-electronic Passport.",
+  "type": "object",
+  "required": [
+    "@context",
+    "type",
+    "issuer",
+    "issuanceDate",
+    "expirationDate",
+    "credentialSubject",
+    "credentialSchema"
+  ],
+  "properties": {
+    "@context": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "prefixItems": [
+        {
+          "const": "https://www.w3.org/2018/credentials/v1"
+        },
+        {
+          "const": "https://schemas.prod.digitalcredentials.iata.org/contexts/iata_credential.jsonld"
+        }
+      ],
+      "items": {
+        "type": "string",
+        "format": "uri"
+      }
+    },
+    "id": {
+      "type": "string",
+      "format": "uri"
+    },
+    "type": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "prefixItems": [
+        {
+          "const": "VerifiableCredential"
+        },
+        {
+          "const": "IATACredential"
+        },
+        {
+          "const": "PassportCredential"
+        }
+      ]
+    },
+    "issuer": {
+      "type": "string",
+      "format": "uri"
+    },
+    "issuanceDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expirationDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "credentialSubject": {
+      "type": "object",
+      "required": [
+        "id",
+        "passport"
+      ],	  
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "string",
+          "format": "uri",
+          "description": "DID of the subject."
+        },
+        "passport": {
+          "title": "Passport",
+          "description": "A non-electronic passport, that is, a passport that does not have an embedded electronic microprocessor chip. Reference: Section 4.2.2 of Doc 9303 Machine Readable Travel Documents, Eighth Edition 2021, Part 4: Specifications for Machine Readable Passports (MRPs) and other TD3 Size MRTDs. This reference does not apply to the property capturedBioPagePicture. Note filler characters are not required.",
+          "type": "object",
+          "required": [
+            "birthdate",
+			"capturedBioPagePicture",			
+            "docTypeCode",
+            "expiryDate",
+            "sexCode",
+            "holdersName",
+            "issuerCode",
+            "natlCode",
+            "passportNumberIdentifier"
+          ],
+          "properties": {
+            "birthdate": {
+              "title": "Birthdate",
+              "description": "Date of birth of the passport holder, as recorded by the issuing State or organization, in the format YYMMDD with unknown values replaced by <.",
+              "type": "string",		  
+              "pattern": "^[0-9<]{2}([0<][1-9<]|[1<][0-2<])([0<][1-9<]|[12<][0-9<]|[3<][01<])$"
+            },
+            "capturedBioPagePicture": {
+              "title": "Bio-data Page Image",
+              "description": "Image of the bio-data page in the passport. Example uri, data:image/jpeg;base64,...",
+              "type": "string",
+              "format": "uri"			  
+            },			
+            "docTypeCode": {
+              "title": "Document Type Code",
+              "description": "Capital letter P to designate an MRP. One additional capital letter may be used, in the character position after the letter P and at the discretion of the issuing State or organization, to designate other types of passports such as MRP issued to diplomatic staff.",
+              "type": "string",
+			  "pattern": "^P.$"			  
+            },
+            "expiryDate": {
+              "title": "Expiry Date",
+              "description": "Date of expiry of the passport in the format YYMMDD.",
+              "type": "string",		  
+              "pattern": "^[0-9]{2}([0][1-9]|[1][0-2])([0][1-9]|[12][0-9]|[3][01])$"
+            },
+            "sexCode": {
+              "title": "Sex Code",
+              "description": "Sex of the passport holder; typically, F for Female, M for Male or < for non-specified.",
+              "type": "string",
+			  "enum": ["F", "M", "<"]	
+            },
+            "holdersName": {
+              "title": "Holders Name",
+              "description": "Full name of the passport holder, as identified by the issuing State or organization.",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 39
+            },
+            "issuerCode": {
+              "title": "Issuer Code",
+              "description": "Code for the State or Organization responsible for the issuance of the passport.",
+              "type": "string",
+              "minLength": 3,			  
+              "maxLength": 3
+            },
+            "natlCode": {
+              "title": "Nationality Code",
+              "description": "The code for the nationality of the holder of the passport.",
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 3			  
+            },
+            "passportNumberIdentifier": {
+              "title": "Passport Number Identifier",
+              "description": "Identifier of the passport, as given by the issuing State organization to uniquely identify the document from all other MRTDs issued by the State or organization.",
+              "type": "string",
+              "maxLength": 9
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "credentialSchema": {
+      "type": "object",
+      "required": [
+        "id",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uri",
+          "const": "https://schemas.prod.digitalcredentials.iata.org/passport.json"
+        },
+        "type": {
+          "type": "string",
+          "const": "JsonSchemaValidator2018"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

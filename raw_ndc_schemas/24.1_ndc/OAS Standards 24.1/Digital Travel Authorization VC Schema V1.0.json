@@ -1,0 +1,214 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.prod.digitalcredentials.iata.org/DigitalTravelAuthorisation.json",
+  "title": "DigitalTravelAuthorisation",
+  "description": "Verifiable Credential for a Digital Travel Authorisation.",
+  "type": "object",
+  "required": [
+    "@context",
+    "type",
+    "issuer",
+    "issuanceDate",
+    "expirationDate",
+    "credentialSubject",
+    "credentialSchema"
+  ],
+  "properties": {
+    "@context": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "prefixItems": [
+        {
+          "const": "https://www.w3.org/2018/credentials/v1"
+        },
+        {
+          "const": "https://schemas.prod.digitalcredentials.iata.org/contexts/iata_credential.jsonld"
+        }
+      ],
+      "items": {
+        "type": "string",
+        "format": "uri"
+      }
+    },
+    "id": {
+      "type": "string",
+      "format": "uri"
+    },
+    "type": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "prefixItems": [
+        {
+          "const": "VerifiableCredential"
+        },
+        {
+          "const": "IATACredential"
+        },
+        {
+          "const": "DigitalTravelAuthorization"
+        }
+      ]
+    },
+    "issuer": {
+      "type": "string",
+      "format": "uri"
+    },
+    "issuanceDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expirationDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "credentialSubject": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "string",
+          "format": "uri",
+          "description": "DID of the subject."
+        },
+        "digitalTravelAuthorisation": {
+          "title": "Digital Travel Authorisation",
+          "description": "Main container for Digital Travel Authorisation content.",
+          "type": "object",
+          "required": [
+            "authorityDocName",
+            "birthdate",
+            "detailedTypeText",
+            "entriesNumber",
+            "genderCode",
+            "identifyingNumberText",
+            "natlText",
+            "officialTravelDocExpiryDate",
+            "officialTravelDocHoldersName",
+            "officialTravelDocIssuerName",
+            "officialTravelDocNumberIdentifier",
+            "placeOfIssueName",
+            "validFromDate",
+            "validUntilDate"
+          ],
+          "properties": {
+            "authorityDocName": {
+              "title": "Digital Travel Authorisation Authority Document Name",
+              "description": "The word or words in the language of the issuing State for the Digital Travel Authorization document which confers on the holder that State's authority to travel to a port of entry in its territory. Generally, for DTA documentation, the Notification (discussed below) is such a document. Reference: DTA Document Name https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Authorizations.%20%28New%29.pdf Digital Travel Authorisations Version 2.15 | June 2021 ISO/IEC JTC1 SC17 WG3/TF1.",
+              "type": "string",
+              "maxLength": 13
+            },
+            "birthdate": {
+              "title": "Digital Travel Authorisation Birthdate",
+              "description": "The date on which the holder of the Digital Travel Authorization was born. Reference: https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Authorizations.%20%28New%29.pdf Digital Travel Authorisations Version 2.15 | June 2021 ISO/IEC JTC1 SC17 WG3/TF1.",
+              "type": "string",
+              "format": "date"
+            },
+            "detailedTypeText": {
+              "title": "Digital Travel Authorisation Detailed Type Text",
+              "description": "This field shall include one or more of the following elements: the issuing State's indication of the type and/or class of DTA granted in accordance with the law/practice of that State; the broad categorization of the type of DTA granted, e.g. visitor/resident/ temporary resident/student/diplomat, etc., in accordance with the law/practice of the issuing State; any limitations on the territorial validity of the travel authorization. Reference: https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Authorizations.%20%28New%29.pdf Digital Travel Authorisations Version 2.15 | June 2021 ISO/IEC JTC1 SC17 WG3/TF1.",
+              "type": "string"
+            },
+            "entriesNumber": {
+              "title": "Digital Travel Authorisation Entries Number",
+              "description": "The number of entries for which the authorization is valid. Reference: DTA Number of Entries (REFD) https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Authorizations.%20%28New%29.pdf Digital Travel Authorisations Version 2.15 | June 2021 ISO/IEC JTC1 SC17 WG3/TF1.",
+              "type": "number"
+            },
+            "genderCode": {
+              "title": "Digital Travel Authorisation Gender Code",
+              "description": "Gender of the individual (M, F, U for undisclosed or X for unspecified). Reference:IATA AIDM Gender Code.",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1
+            },
+            "identifyingNumberText": {
+              "title": "Digital Travel Authorisation Identifing Number Text",
+              "description": "An identifying number for the instance of this specfic digital travel authorisation given by the Authorization Issuing State Type : String MAX 13 Alphanumeric Reference: DTA Number https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Authorizations.%20%28New%29.pdf Digital Travel Authorisations Version 2.15 | June 2021 ISO/IEC JTC1 SC17 WG3/TF1.",
+              "type": "string"
+            },
+            "natlText": {
+              "title": "Digital Travel Authorisation Nationality Text",
+              "description": "The nationality of the holder Digital Travel Authorizations Version 2.15 June 2021 ISO/IEC JTC1 SC17 WG3/TF1 https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Authorizations.%20%28New%29.pdf.",
+              "type": "string"
+            },
+            "officialTravelDocExpiryDate": {
+              "title": "Digital Travel Authorisation Official Travel Document Expiry Date",
+              "description": "The expiry date of the passport with which the travel authorization is linked Reference: Digital Travel Authorisations Version 2.15 | June 2021 ISO/IEC JTC1 SC17 WG3/TF1 https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Authorizations.%20%28New%29.pdf.",
+              "type": "string",
+              "format": "date"
+            },
+            "officialTravelDocHoldersName": {
+              "title": "Digital Travel Authorisation Official Travel Document Holders Name",
+              "description": "Family name and given name(s) of the holder as it appears on the official travel document. Reference: Digital Travel Authorizations Version 2.15 June 2021 ISO/IEC JTC1 SC17 WG3/TF1 https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Authorizations.%20%28New%29.pdf.",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64
+            },
+            "officialTravelDocIssuerName": {
+              "title": "Digital Travel Authorisation Official Travel Document Issuer Name",
+              "description": "Name of the State or Organization responsible for the issuance of the official travel document Reference: 'Official Travel Document Issuer Name' Doc 9303 ICAO Machine readable Travel Documents 8th Edition 2021 https://www.icao.int/publications/Documents/9303_p4_cons_en.pdf Digital Travel Authorizations Version 2.15 June 2021 ISO/IEC JTC1 SC17 WG3/TF1 https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Authorizations.%20%28New%29.pdf.",
+              "type": "string",
+              "maxLength": 13
+            },
+            "officialTravelDocNumberIdentifier": {
+              "title": "Digital Travel Authorisation Official Travel Document Number Identifier",
+              "description": "The number of the official travel document with which the travel authorization is linked Reference: Offical Travel Document Number https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Authorizations.%20%28New%29.pdf Digital Travel Authorisations Version 2.15 | June 2021 ISO/IEC JTC1 SC17 WG3/TF1 MRZ definition 'As given by the issuing State organization to uniquely identify the document from all other MRTDs issued by the State or organization. For additional details see Doc 9303-3'. Doc 9303 ICAO Machine readable Travel Documents 8th Edition 2021 https://www.icao.int/publications/Documents/9303_p4_cons_en.pdf.",
+              "type": "string",
+              "maxLength": 35
+            },
+            "placeOfIssueName": {
+              "title": "Digital Travel Authorisation Place Of Issue Name",
+              "description": "Post/location (usually a city) where the DTA is issued. A translation of the name into one or more languages, one of which should be English, French or Spanish, shall be given when the translated name is more familiar to the international community The name, expressed as text, of the city, town or village. Reference: https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Authorizations.%20%28New%29.pdf Digital Travel Authorisations Version 2.15 | June 2021 ISO/IEC JTC1 SC17 WG3/TF1.",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64
+            },
+            "validFromDate": {
+              "title": "Digital Travel Authorisation Valid From Date",
+              "description": "<b><i>In most cases this will be the date of issue of the DTA and indicates the first date from which the authorization can be used to seek entry. For some States the date of issue and the date the DTA becomes valid may differ. In such cases the latter shall be indicated in this field.</i></b> Reference: https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Authorizations.%20%28New%29.pdf Digital Travel Authorisations Version 2.15 | June 2021 ISO/IEC JTC1 SC17 WG3/TF1.",
+              "type": "string",
+              "format": "date"
+            },
+            "validUntilDate": {
+              "title": "Digital Travel Authorisation Valid Until Date",
+              "description": "In most cases this will be the date of expiry of the authorization and indicates the last day on which the DTA can be used to seek entry. For some States this will be the date by or on which the holder should have left the country concerned. For date format, refer to 9303-3 Reference: https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Authorizations.%20%28New%29.pdf Digital Travel Authorisations Version 2.15 | June 2021 ISO/IEC JTC1 SC17 WG3/TF1.",
+              "type": "string",
+              "format": "date"
+            },
+            "visibleDigitalSealNonConstrainedBinaryObject": {
+              "title": "Digital Travel Authorisation Visible Digital Seal Non Constrained Binary Object",
+              "description": "Visible Digital Seal for Non-Electronic Documents Technical Report: https://www.icao.int/Security/FAL/TRIP/Documents/TR%20-%20Visible%20Digital%20Seals%20for%20Non-Electronic%20Documents%20V1.7.pdf or Visible Digital Seal-NC (non constrained) V1.4 Technical Report: https://www.icao.int/Security/FAL/TRIP/Documents/Technical%20Report%20-%20Visible%20Digital%20Seal-NC%20V1.4.pdf.",
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        }
+      },
+      "required": [
+        "id",
+        "digitalTravelAuthorisation"
+      ],
+      "additionalProperties": false
+    },
+    "credentialSchema": {
+      "type": "object",
+      "required": [
+        "id",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uri",
+          "const": "https://schemas.prod.digitalcredentials.iata.org/DigitalTravelAuthorisation.json"
+        },
+        "type": {
+          "type": "string",
+          "const": "JsonSchemaValidator2018"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

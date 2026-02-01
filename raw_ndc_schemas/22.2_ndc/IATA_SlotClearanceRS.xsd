@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="3.002" id="IATA2022.1">
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_SlotCommonTypes.xsd"/>
+	<xs:complexType name="ClearanceFailureTransactionType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Details of a single clearance request transaction that failed</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="BaseTransactionType">
+				<xs:sequence>
+					<xs:element name="FailureTransactionItem" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Details of an item within a clearance request transaction that failed</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:choice>
+									<xs:element name="OfferAcceptanceRequest" type="RequestOfferAcceptanceType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>The original request to accept an offer.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="OfferRejectionRequest" type="RequestOfferRejectionType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>The original request to reject an offer.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="MovementDeletionRequest" type="RequestMovementDeletionType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>The original request to delete a movement record.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="MovementAdditionRequest" type="RequestMovementType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>The original request to add a movement record.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="MovementChangeRequest" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">A request to modify an existing movement record.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="MovementDeletionRequest" type="RequestMovementDeletionType">
+													<xs:annotation>
+														<xs:documentation>The schedule movement to be deleted.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="MovementAdditionRequest" type="RequestMovementType">
+													<xs:annotation>
+														<xs:documentation>The schedule movement to be added.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="MovementMergeRequest" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">A request to replace more than one existing movement record with a single movement record.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="MovementDeletionRequest" type="RequestMovementDeletionType" maxOccurs="unbounded">
+													<xs:annotation>
+														<xs:documentation>The schedule movements to be deleted.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="MovementAdditionRequest" type="RequestMovementType">
+													<xs:annotation>
+														<xs:documentation>The single schedule movement to be added.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="MovementSplitRequest" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">A request to replace an existing movement record with a more than one movement records.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="MovementDeletionRequest" type="RequestMovementDeletionType">
+													<xs:annotation>
+														<xs:documentation>The single schedule movement to be deleted.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="MovementAdditionRequest" type="RequestMovementType" maxOccurs="unbounded">
+													<xs:annotation>
+														<xs:documentation>The schedule movements to be added.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:choice>
+								<xs:element name="MovementHeld" type="AllocatedMovementType" minOccurs="0" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>The movement records actually held by the coordinator.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+							<xs:attribute name="ItemFailureReason" type="ItemFailureReasonType" use="required">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">Indicates the reason for the failure</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="ItemFailureComment" type="StringLength0to50">
+								<xs:annotation>
+									<xs:documentation>Free text comment detailing the failure reason.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="BrokenConstraint" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Details of broken constraints.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="ConstraintTimeRange">
+									<xs:annotation>
+										<xs:documentation>the time range over which the constraint has been exceeded.</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:attributeGroup ref="DateTimeSpanGroup"/>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="ConstraintDate" type="DateOrDateTimeType" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>The dates on which the constraint was exceeded.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+							<xs:attribute name="ConstraintName" type="UpperCaseAlphaNumericStringLength1to20" use="required">
+								<xs:annotation>
+									<xs:documentation>The name of the broken constrain as per SSIM, Appendix J or as bilaterally agreed.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="ConstraintMovement" type="RunwayMovementType" use="required">
+								<xs:annotation>
+									<xs:documentation>Used to specify if the constraint relates to arrivals, departure or combined totals.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="TransactionFailureReason" type="TransactionFailureReasonType" use="required">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">Indicates the reason for the failure</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="TransactionComments" type="StringLength0to50" use="optional">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">Freetext comments.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ClearanceSuccessTransactionType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Details of the results of a single clearance request transaction that was successful</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="BaseTransactionType">
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="MovementDeleted" type="AllocatedMovementType">
+						<xs:annotation>
+							<xs:documentation>Movement record that was deleted in this transaction.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="MovementHeld" type="AllocatedMovementType">
+						<xs:annotation>
+							<xs:documentation>Movement record that has been created by this transaction.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="MovementExisting" type="AllocatedMovementType">
+						<xs:annotation>
+							<xs:documentation>Existing movement record that has been left unchanged  by this transaction, but is considered relevant</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+				<xs:attribute name="TransactionComment" type="StringLength0to50" use="optional">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">Freetext comments.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ClearanceOfferTransactionType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Details of the results of a single clearance request transaction that resulted in at least one offer</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="BaseTransactionType">
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="MovementDeleted" type="AllocatedMovementType">
+						<xs:annotation>
+							<xs:documentation>Movement record that was deleted in this transaction.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="MovementHeld" type="AllocatedMovementType">
+						<xs:annotation>
+							<xs:documentation>Movement record that has been created by this transaction.</xs:documentation>
+							<xs:documentation>At least one of which is an offer.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+				<xs:attribute name="TransactionComment" type="StringLength0to50" use="optional">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">Freetext comments.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="IATA_SlotClearanceRS">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">This message represents the coordinators response to a schedule clearance request.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="AirlineMsgRef" type="StringLength0to64">
+					<xs:annotation>
+						<xs:documentation>The airlines reference to this message.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="CoordinatorMsgRef" type="StringLength0to64">
+					<xs:annotation>
+						<xs:documentation>The coordinators reference to this message.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Season" type="SeasonType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The coordination season for this clearance request.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AirportClearanceResponseList" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>A collection of clearance responses for a specific airport.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:choice maxOccurs="unbounded">
+							<xs:element name="ClearanceFailureTransaction" type="ClearanceFailureTransactionType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>A transaction containing details of a clearance request that failed.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="ClearanceSuccessTransaction" type="ClearanceSuccessTransactionType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>A transaction containing details of a clearance request that was successful.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="ClearanceOfferTransaction" type="ClearanceOfferTransactionType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>A transaction containing related clearance details.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:choice>
+						<xs:attribute name="Airport" type="StationType" use="required">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">The airport code for this slot information.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="optional">
+							<xs:annotation>
+								<xs:documentation>Used to specify if an IATA or an ICAO code.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="TimeType" type="TimeType" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Specifies that times are either in local or UTC.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="UpdateDB" type="xs:boolean" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Is the request to update database.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="GABAReqInd" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">When true, the request is from a GABA operator</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

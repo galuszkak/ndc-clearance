@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2007/00" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="2.002" id="IATA2021.4">
+	<xs:include schemaLocation="IATA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_ET_CommonTypes.xsd"/>
+	<xs:element name="IATA_EMD_AirlineRequestAirportControlRQ">
+		<xs:annotation>
+			<xs:documentation>This message allows an airline to request control of an EMD flight coupon(s) from a validating carrier.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="POS_Type" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The transaction agent id and the ticket handled airline designator and system indicator.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ValidatingAirline" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Used to specify the validating carrier to which the message should be routed.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attributeGroup ref="CompanyID_AttributesGroup">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Provides the validating carrier code to which the message should be routed.</xs:documentation>
+							</xs:annotation>
+						</xs:attributeGroup>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="TicketDocument" maxOccurs="999">
+					<xs:annotation>
+						<xs:documentation>The EMD number for which control is requested.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CouponInfo" maxOccurs="4">
+								<xs:annotation>
+									<xs:documentation>The coupon number for which control is requested.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:attribute name="Number" type="Numeric1to4" use="required">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">The applicable coupon number.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="TicketDocumentNbr" type="StringLength1to16" use="required">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Document number comprised of the airline code, form code, and serial number.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="DateOfIssue" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>The date of issue.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="WaiverCode" type="AlphaNumericStringLength1to19" use="optional">
+							<xs:annotation>
+								<xs:documentation>A code assigned by the validating carrier that allows fare rule modification or override for an original issue document or a document being reissued, exchanged ro refunded.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="TicketDocQuantity" type="Numeric1to99" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The total number of ticket/document numbers sent in this message.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="1.001" id="IATA2021.4">
+	<xs:include schemaLocation="IATA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_PNRGOV_CommonTypes.xsd"/>
+	<xs:element name="IATA_PNRGOV_RQ">
+		<xs:annotation>
+			<xs:documentation>Allows an organization to request that PNR data be sent.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Originator">
+					<xs:annotation>
+						<xs:documentation>The sender of this request.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="GovtCode" type="AlphaNumericStringLength1to20">
+							<xs:annotation>
+								<xs:documentation>A code to identify the government requesting the PNR data.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="GovtContactInfo" type="StringLength0to250">
+							<xs:annotation>
+								<xs:documentation>Used to provide contact information for the governement requesting the data.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="FlightLeg" minOccurs="0" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>The flight leg for which data is requested.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="FlightLegType"/>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="BookingRefID" type="UniqueID_Type" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>The Booking reference requested (could be PNR, DCS, etc..., specified by the Type attribute). ID = record locator, and CompanyName/Code = airline or CRS code.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="Function" type="IATA_CodeType">
+				<xs:annotation>
+					<xs:documentation>Used to specify the type of request, such as by flight number or PNR record locator.  Reference IATA PADIS codset for data element 1225.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

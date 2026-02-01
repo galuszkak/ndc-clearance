@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2007/00" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="1.000" id="IATA2021.4">
+	<xs:include schemaLocation="IATA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:element name="IATA_EMD_AirlineUpdateInvoluntaryIndicatorRS">
+		<xs:annotation>
+			<xs:documentation>This message enables the carrier to respond to a request to update the involuntary indicator. </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="Success" type="SuccessType">
+						<xs:annotation>
+							<xs:documentation>The presence of the empty Success element explicitly indicates that the message succeeded.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Warnings" type="WarningsType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Used in conjunction with the Success element to define one or more business errors.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="TicketNumber" minOccurs="0" maxOccurs="99">
+						<xs:annotation>
+							<xs:documentation>The EMD number.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="CouponInfo" minOccurs="0" maxOccurs="4">
+									<xs:annotation>
+										<xs:documentation>The coupon number, status, and settlement authorization code.</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:attribute name="Number" type="Numeric1to4" use="optional">
+											<xs:annotation>
+												<xs:documentation xml:lang="en">The coupon number.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="Warnings" type="WarningsType" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Used to return one or more business errors for a specific ticket document number.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+							<xs:attribute name="TicketDocumentNbr" type="StringLength1to16" use="required">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">The ticket document number including the airline code, the form code, and the serial number.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:element name="Errors" type="ErrorsType">
+					<xs:annotation>
+						<xs:documentation>Errors are returned if the request was unable to be processed.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="TktDocQuantity" type="Numeric1to99" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The total number of ticket/document numbers sent in a single message.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -19,7 +19,8 @@ export function getMessages(version: string): string[] {
     const versionDir = path.join(SCHEMAS_DIR, version);
     if (!fs.existsSync(versionDir)) return [];
     return fs.readdirSync(versionDir)
-        .filter(file => file.endsWith('.xsd') && !file.toLowerCase().includes('common') && !file.toLowerCase().includes('simpletypes')) // Filter out common files if possible, though user wants strictly browsing
-        .map(file => file.replace('.xsd', ''))
+        .filter(file => {
+            return fs.statSync(path.join(versionDir, file)).isDirectory();
+        })
         .sort();
 }

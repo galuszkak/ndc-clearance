@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="3.000" id="IATA2022.1">
+	<xs:include schemaLocation="IATA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_ET_CommonTypes.xsd"/>
+	<xs:element name="IATA_EMD_AirlineSystemUpdateRQ">
+		<xs:annotation>
+			<xs:documentation>Used to associate or disassociate  an EMD to an already issued electronic ticket.  </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="POS_Type">
+					<xs:annotation>
+						<xs:documentation>The transaction agent id, ticket handled airline designator and system indicator.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Passenger" maxOccurs="99">
+					<xs:annotation>
+						<xs:documentation>The passenger and ticket information.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="TicketDocument">
+								<xs:annotation>
+									<xs:documentation>The EMD number</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="CouponInfo" maxOccurs="4">
+											<xs:annotation>
+												<xs:documentation>The coupon number(s) for the EMD.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:attribute name="Number" type="Numeric1to4" use="required">
+													<xs:annotation>
+														<xs:documentation xml:lang="en">The coupon number to be updated.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="AssociateInd" type="xs:boolean" use="required">
+													<xs:annotation>
+														<xs:documentation xml:lang="en">When true, the coupon should be associated.  When false, it should be disassociated.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="InConnectionNbr" type="Numeric1to4" use="required">
+													<xs:annotation>
+														<xs:documentation xml:lang="en">A coupon number associated with the 'in connection with' document number.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="TicketDocumentNbr" type="StringLength1to16" use="required">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">Document number comprised of the airline code, form code, and serial number.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="Type" use="required">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">Used to indicate a ticket or EMD. </xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:NMTOKEN">
+												<xs:enumeration value="Ticket"/>
+												<xs:enumeration value="EMD"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+									<xs:attribute name="InConnectionDocNbr" type="StringLength1to16" use="required">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">A document number representing a transaction that is issued in relation to this transaction.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="DateOfIssue" type="xs:date">
+										<xs:annotation>
+											<xs:documentation>The date of issue.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="InConnectionDocDateOfIssue" type="xs:date">
+										<xs:annotation>
+											<xs:documentation>The inconnection document date of issue.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="TktDocQuantity" type="Numeric1to99" use="required"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

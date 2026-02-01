@@ -1,0 +1,1117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2015/00/2021.3/IATA_DailyFlightAvailabilityRQ" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2015/00/2021.3/IATA_DailyFlightAvailabilityRQ" elementFormDefault="qualified" version="1.000" id="IATA2021.3">
+	<xs:element name="DailyFlightAvailabilityRQ">
+		<xs:annotation>
+			<xs:documentation>This message enables airlines/airline service suppliers to request daily flight availability.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Party" type="PartyType" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="PayloadAttributes" type="IATA_PayloadStandardAttributesType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>IATA standard payload attributes</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Request" type="RequestType" minOccurs="1" maxOccurs="1"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="AirlineDesigCodeContentType">
+		<xs:annotation>
+			<xs:documentation>The codelist contents of IATA Resolution 762 airline codes, or of ICAO airline codes. {codeListAgencyName}IATA or ICAO{/codeListAgencyName} {codeListName}Resolution 762  Airline Codes or ICAO Airline Codes{/codeListName}</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:pattern value="([A-Z]{3}|[A-Z]{2})|([0-9][A-Z])|([A-Z][0-9])"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AirlineDesigCodeType">
+		<xs:annotation>
+			<xs:documentation>Either the IATA-defined 2-character code or the ICAO-defined 3-character code of an airline, as per the length of the value.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="AirlineDesigCodeContentType"/>
+	</xs:simpleType>
+	<xs:simpleType name="AllianceCodeContentType">
+		<xs:annotation>
+			<xs:documentation>Enumeration set for the Alliance Code BDT. {codeListName}PADIS 9906{/codeListName}</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:length value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AllianceCodeType">
+		<xs:annotation>
+			<xs:documentation>Additional BDT to specify alliance codes.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="AllianceCodeContentType"/>
+	</xs:simpleType>
+	<xs:simpleType name="CabinTypeCodeType">
+		<xs:annotation>
+			<xs:documentation>Additional BDT to specify the Cabin Type Code as defined by PADIS. * TEMPORARY NOTE MT : NEED TO CREATE ENUM TO BE REFERENCED FROM BDT CON *</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:length value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CodeType">
+		<xs:annotation>
+			<xs:documentation>A code is a character string of letters, numbers, special characters (except escape sequences), and symbols.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token"/>
+	</xs:simpleType>
+	<xs:simpleType name="CurCodeContentType">
+		<xs:annotation>
+			<xs:documentation>Currency Code enumeration information. {codeListAgencyName}ISO{/codeListAgencyName} {codeListIdentifier}4217{/codeListIdentifier}</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="CurCodeType">
+		<xs:annotation>
+			<xs:documentation>Additional BDT to specify a currency code.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="CurCodeContentType"/>
+	</xs:simpleType>
+	<xs:simpleType name="DateTimeType">
+		<xs:annotation>
+			<xs:documentation>A date time identifies a date and time of day to various common resolutions: year, month, week, day, hour, minute, second, and fraction of second.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:dateTime"/>
+	</xs:simpleType>
+	<xs:simpleType name="DateType">
+		<xs:annotation>
+			<xs:documentation>A date is a Gregorian calendar representation in various common resolutions: year, month, week, day.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="FlightNumberTextType">
+		<xs:annotation>
+			<xs:documentation>Identifies a flight number.  1 to 4 digits. May or may not have leading zeros when less than 4 digits. The use of leading zeros does not create a different Flight Number. For example, Flight Numbers 123 and 0123 are the same.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{1,4}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IATA_LocationCodeContentType">
+		<xs:annotation>
+			<xs:documentation>Enumeration set for the Location Code BDT. {codeListAgencyName}IATA{/codeListAgencyName} {codeListName}Location code{/codeListName} {enumerationURI}http://www.iata.org/publications/Pages/code-search.aspx{/enumerationURI}</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:length value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IATA_LocationCodeType">
+		<xs:annotation>
+			<xs:documentation>Additional BDT to specify the codeset which defines the IATA airport or city codes.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="IATA_LocationCodeContentType"/>
+	</xs:simpleType>
+	<xs:simpleType name="IATA_PTC_CodeType">
+		<xs:annotation>
+			<xs:documentation>Additional BDT to specigy the type code codeset applying to a Passenger.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A,Z][A,Z][A,Z]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ID_Type">
+		<xs:annotation>
+			<xs:documentation>An identifier is a character string used to uniquely identify one instance of an object within an identification scheme that is managed by an agency.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token"/>
+	</xs:simpleType>
+	<xs:simpleType name="IndType">
+		<xs:annotation>
+			<xs:documentation>An indicator is a list of two mutually exclusive Boolean values that express the only possible states of a property.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:boolean"/>
+	</xs:simpleType>
+	<xs:simpleType name="LangCodeContentType">
+		<xs:annotation>
+			<xs:documentation> {codeListAgencyName}ISO{/codeListAgencyName} {codeListName}Language Code{/codeListName} {codeListIdentifier}6392{/codeListIdentifier}</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="NumberType">
+		<xs:annotation>
+			<xs:documentation>A mathematical number that is assigned or is determined by calculation.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<xs:simpleType name="ProperNameType">
+		<xs:annotation>
+			<xs:documentation>BDT with value constraints for proper, regular names (e.g. Individual Surname, Individual First Name, Company Name, etc.).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="64"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="QtyType">
+		<xs:annotation>
+			<xs:documentation>A quantity is a counted number of non-monetary units, possibly including fractions</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<xs:simpleType name="RBD_CodeContentType">
+		<xs:annotation>
+			<xs:documentation>Enumeration values of RBD Codes as per PADIS codeset 9800. {codeListAgencyName}IATA{/codeListAgencyName} {codeListIdentifier}PADIS 9800{/codeListIdentifier}</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token"/>
+	</xs:simpleType>
+	<xs:simpleType name="RBD_CodeType">
+		<xs:annotation>
+			<xs:documentation>Additional BDT to specify the RBD as defined in AIRIMP and SSIM.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="RBD_CodeContentType"/>
+	</xs:simpleType>
+	<xs:simpleType name="SimpleTextType">
+		<xs:annotation>
+			<xs:documentation>Standard Text. * Note: considering to define a length limitation *</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="SupplementNameType">
+		<xs:annotation>
+			<xs:documentation>BDT with value constraints for short supplements to proper names, such as Title, Suffix, etc.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="16"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TextType">
+		<xs:annotation>
+			<xs:documentation>Text is a character string such as a finite set of characters generally in the form of words of a language.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="TimeType">
+		<xs:annotation>
+			<xs:documentation>Time is a time of day to various common resolutions – hour, minute, second and fractions thereof.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:dateTime"/>
+	</xs:simpleType>
+	<xs:complexType name="BookingEntityType">
+		<xs:annotation>
+			<xs:documentation>Entity that is managing a booking.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="BookingEntityCode" type="CodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>IATA code of the booking entity (e.g. KL for an airline or 1A for Amadeus GDS).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BookingEntityTypeCode" type="CodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Code used to identify the booking entity (such as airline or GDS).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IdentificationNumber" type="NumberType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>7 to 8-digit booking entity identification number which may be one of the following:  -the IATA/ARC travel agency number  -TIDS (Travel Industry Designator Service) number</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="City" type="CityType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>City (e.g. Dublin), town, or postal station (i.e. a postal service territory, often used in a military address, or metropolitan area).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="InHouseDetails" type="InHouseDetailsType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>In-House identification codes</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BookingRefType">
+		<xs:annotation>
+			<xs:documentation>The location in a database where to find a booking.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="BookingRefID" type="ID_Type" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The location in a database where to find a booking.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BookingRefType" type="CodeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Specifies the type of Booking Reference. Encoding Scheme: IATA Padis Codeset - List for data element [9958] Reservation Control Type.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BookingCreator" type="BookingEntityType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Entity that is managing a booking.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BookingOwner" type="BookingEntityType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Entity that is managing a booking.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BookingEmulator" type="BookingEntityType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Entity that is managing a booking.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CabinTypeType">
+		<xs:annotation>
+			<xs:documentation>Type of compartment of an aircraft offering specific services and priced accordingly.  Possible types  1 First class, Highest class of service (First Class Category)  2 Second class, Medium class of service (Business Class Category)  3 Third class, lowest class of service (all economy/coach class  categories)  4 Economy/coach premium  5 Economy/coach  6 Economy/coach discounted  7 All   as defined by IATA</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="TypeCode" type="CabinTypeCodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Possible type codes  1 First class, Highest class of service (First Class Category)  2 Second class, Medium class of service (Business Class Category)  3 Third class, lowest class of service (all economy/coach class  categories)  4 Economy/coach premium  5 Economy/coach  6 Economy/coach discounted  7 All   as defined by IATA</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Carrier1Type">
+		<xs:annotation>
+			<xs:documentation>Daughter ABIE of Carrier (ABIE) to display only the selected Business Identifier Fields : - Airline Designator Code</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AirlineDesigCode" type="AirlineDesigCodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Airline code assigned to a carrier. Either ICAO-defined 3-character code or IATA-defined 2-character code.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CarrierAgentType">
+		<xs:annotation>
+			<xs:documentation>Agent part of a carrier organization.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ActualLocationCode" type="IATA_LocationCodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>A 3-character IATA airport/city code of the agent initiating the request.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AgentID" type="ID_Type" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>A reference number/authority code assigned to the agent as in an agent's initials or logon.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CurCode" type="CurCodeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Currency code as defined in Resolution 24D.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LangCode" type="LangCodeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>ISO 639 language code.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Country" type="CountryType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>A nation with its own government, occupying a particular territory.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CarrierType">
+		<xs:annotation>
+			<xs:documentation>The organization which carries the passenger, baggage, or goods, and/or commits to delivering the carriage as well as any related services such as issuance of ticket, creation of Order, etc...</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AirlineDesigCode" type="AirlineDesigCodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Airline code assigned to a carrier. Either ICAO-defined 3-character code or IATA-defined 2-character code.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CarrierAgent" type="CarrierAgentType">
+				<xs:annotation>
+					<xs:documentation>Agent part of a carrier organization.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IATA_Number" type="NumberType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>IATA-assigned agency number. Example: 98417900</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="City1Type">
+		<xs:annotation>
+			<xs:documentation>Daughter ABIE of City (ABIE) to display only the selected Business Identifier Fields : - IATA Location Code</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="IATA_LocationCode" type="IATA_LocationCodeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>IATA defined code identifying a city or station.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CityType">
+		<xs:annotation>
+			<xs:documentation>City (e.g. Dublin), town, or postal station (i.e. a postal service territory, often used in a military address, or metropolitan area).</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="IATA_LocationCode" type="IATA_LocationCodeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>IATA defined code identifying a city or station.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Country" type="CountryType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>A nation with its own government, occupying a particular territory.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CountryType">
+		<xs:annotation>
+			<xs:documentation>A nation with its own government, occupying a particular territory.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CountryCode" type="CodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>ISO Country Code (can be extended by bilateral agreement in case of exceptions, e.g. Kosovo). Examples: US, FR.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DatedMarketingSegmentRBD_Type">
+		<xs:annotation>
+			<xs:documentation>Provides RBD information for a given Dated Marketing Segment</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="RBD" type="RBD_Type" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Reservation Booking Designator. A categorization used to facilitate access to inventory, application of filed fares, and to identify cabin entitlement. Identified using a single alpha character. E.g. 'J' for Business Class Premium, 'D' for Business Discounted.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DatedMarketingSegmentType">
+		<xs:annotation>
+			<xs:documentation>Daughter ABIE of Dated Marketing Segment (ABIE) to display only the selected Business Identifier Fields : - Aircraft Scheduled Departure Date time - Airline Designator Code - Dated Marketing Segment ID - Marketing Carrier Flight Number - RBD code</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AirlineDesigCode" type="AirlineDesigCodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Airline code assigned to a carrier. Either ICAO-defined 3-character code or IATA-defined 2-character code.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DatedMarketingSegmentID" type="ID_Type" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Identifier of a Dated Marketing Segment.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MarketingCarrierFlightNumber" type="FlightNumberTextType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The numerical designation of a flight as it is marketed by a carrier.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RBD_Code" type="RBD_CodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Code used to identify a particular RBD (e.g. P, J, W, M, etc.).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AircraftScheduledDepDateTime" type="DateType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The Scheduled Date and Time of Departure of the aircraft at the terminal at an airport.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="InventoryQualifiers" type="InventoryQualifiersType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Specifies the number of inventory seats and their status.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DestStation" type="StationType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Location or facility where air or surface transportation originates, stops and/or terminates, and where passengers and/or cargo can be taken on or off.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OriginStation" type="StationType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Location or facility where air or surface transportation originates, stops and/or terminates, and where passengers and/or cargo can be taken on or off.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DeliveringSystemType">
+		<xs:annotation>
+			<xs:documentation>The operational system that delivers the message.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="IATA_LocationCode" type="IATA_LocationCodeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>IATA defined code identifying a city or station.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SystemIdentification" type="SimpleTextType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The system designator.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IATA_PayloadStandardAttributesType">
+		<xs:annotation>
+			<xs:documentation>The IATA_PayloadStdAttributes defines the standard attributes that appear on the root element for all IATA payloads.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="EchoTokenText" type="TextType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>A reference for additional message identification, assigned by the requesting host system. When a request message includes an echo token the corresponding response message MUST include an echo token with an identical value.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Timestamp" type="DateTimeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Indicates the creation date and time of the message in UTC.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="VersionNumber" type="NumberType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>For all IATA versioned messages, the version of the message is indicated by a decimal value.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TrxID" type="ID_Type" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>A unique identifier to relate all messages within a transaction (e.g. this would be sent in all request and response messages that are part of an on-going transaction).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SeqNumber" type="NumberType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Used to identify the sequence number of the transaction as assigned by the sending system; allows for an application to process messages in a certain order or to request a resynchronization of messages in the event that a system has been off-line and needs to retrieve messages that were missed.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TrxStatusCode" type="CodeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>This indicates where this message falls within a sequence of messages.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrimaryLangCode" type="CodeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Identifes the primary language preference for the message. The human language is identified by ISO 639 codes.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AltLangCode" type="CodeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Identifies the alternate language for a customer or message. The human language is identified by ISO 639 codes.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RetransmissionInd" type="IndType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>When true, indicates the message is being re-sent after a failure. It is recommended that this attribute is used (i.e., set to true) only when a message is retransmitted.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CorrelationID" type="ID_Type" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Allow end-to-end correlation of log messages with the corresponding Web service message throughout the processing of the Web service message.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IndividualType">
+		<xs:annotation>
+			<xs:documentation>A single human being as distinct from a group, class, or family.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="TitleName" type="SupplementNameType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>A word such as Mr., Mrs., Miss or Dr that is used before an individual's name to indicate the gender, profession or marital status.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GivenName" type="ProperNameType" minOccurs="0" maxOccurs="5">
+				<xs:annotation>
+					<xs:documentation>A personal name given to the individual at birth and used before a family name. Also called first name. E.g. JOHN.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Surname" type="ProperNameType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Individual's hereditary name(s) common to all members of a family. Also known as family name or last name. E.g. SMITH. Excludes any potential suffix.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="InHouseDetailsType">
+		<xs:annotation>
+			<xs:documentation>In-House identification codes</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ReceiverID" type="ID_Type" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>An identification assigned by the receiver reservation system.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RequestorID" type="ID_Type" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>An identification assigned by the requestor reservation system.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="InventoryQualifiersType">
+		<xs:annotation>
+			<xs:documentation>Specifies the number of inventory seats and their status.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="InventorySeatsQty" type="QtyType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Number of inventory seats held or requested.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="InventoryStatusCode" type="CodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Reflects the status of the inventory. Uses IATA defined action/advice/status code.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="JourneyData1Type">
+		<xs:annotation>
+			<xs:documentation>Grouping of Dated Marketing Segments which satisfies an Origin Destination.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AircraftScheduledDepTime" type="TimeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The Scheduled Time of Departure of the aircraft at the terminal at an airport.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="JourneyID" type="ID_Type" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Unique identifier for a Journey.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AircraftScheduledDepDate" type="DateType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The Scheduled Date of Departure of the aircraft at the terminal at an airport.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CabinTypeFilter" type="CabinTypeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Type of compartment of an aircraft offering specific services and priced accordingly.  Possible types  1 First class, Highest class of service (First Class Category)  2 Second class, Medium class of service (Business Class Category)  3 Third class, lowest class of service (all economy/coach class  categories)  4 Economy/coach premium  5 Economy/coach  6 Economy/coach discounted  7 All   as defined by IATA</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Carrier" type="Carrier1Type" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Daughter ABIE of Carrier (ABIE) to display only the selected Business Identifier Fields : - Airline Designator Code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RBD_Filters" type="RBD_FiltersType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Filters on RBDs that will be applied to build the reply.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DestStation" type="StationType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Location or facility where air or surface transportation originates, stops and/or terminates, and where passengers and/or cargo can be taken on or off.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OriginStation" type="StationType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Location or facility where air or surface transportation originates, stops and/or terminates, and where passengers and/or cargo can be taken on or off.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="JourneyDataType">
+		<xs:annotation>
+			<xs:documentation>Daughter ABIE of Journey Data (ABIE) to display only the selected Business Identifier Fields : - Journey ID</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="JourneyID" type="ID_Type" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Unique identifier for a Journey.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DatedMarketingSegment" type="DatedMarketingSegmentType" minOccurs="1" maxOccurs="99">
+				<xs:annotation>
+					<xs:documentation>Daughter ABIE of Dated Marketing Segment (ABIE) to display only the selected Business Identifier Fields : - Aircraft Scheduled Departure Date time - Airline Designator Code - Dated Marketing Segment ID - Marketing Carrier Flight Number - RBD code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MarriageGroup" type="MarriageGroupType" minOccurs="0" maxOccurs="50">
+				<xs:annotation>
+					<xs:documentation>The segments of a journey which are actioned as a single unit (set).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LangCodeType">
+		<xs:annotation>
+			<xs:documentation>BDT to represent ISO language code list.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="LangCodeContentType">
+				<xs:attribute name="LangID" type="xs:token" use="optional"/>
+				<xs:attribute name="ListAgencyID" type="xs:token" use="optional"/>
+				<xs:attribute name="ListAgencyName" type="xs:string" use="optional"/>
+				<xs:attribute name="ListID" type="xs:token" use="optional"/>
+				<xs:attribute name="ListName" type="xs:string" use="optional"/>
+				<xs:attribute name="ListSchemeUniformResourceID" type="xs:anyURI" use="optional"/>
+				<xs:attribute name="ListUniformResourceID" type="xs:anyURI" use="optional"/>
+				<xs:attribute name="ListVersionID" type="xs:token" use="optional"/>
+				<xs:attribute name="Name" type="xs:string" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="LoyaltyProgramAccountType">
+		<xs:annotation>
+			<xs:documentation>An account set up for a customer within a rewards program which holds funds on behalf of that customer.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AccountNumber" type="CodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Loyalty Program account number. Example: ABC123456</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PaxRefID" type="ID_Type" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Reference to a passenger</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PriorityCode" type="CodeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Loyalty Program account priority within the tier (e.g. Platinum, executive, etc.)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TierName" type="TextType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Loyalty Program tier name.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TypeCode" type="CodeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Individual or Corporate</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TierLevel" type="CodeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Loyalty Program tier code.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LoyaltyProgram" type="LoyaltyProgramType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>A rewards program offered by a company to customers who frequently make purchases, which may give a customer advanced access to new products, special sales coupons or free merchandise.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LoyaltyProgramType">
+		<xs:annotation>
+			<xs:documentation>A rewards program offered by a company to customers who frequently make purchases, which may give a customer advanced access to new products, special sales coupons or free merchandise.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AirlineDesigCode" type="AirlineDesigCodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Airline code assigned to a carrier. Either ICAO-defined 3-character code or IATA-defined 2-character code.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AllianceCode" type="AllianceCodeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Used to specify the alliance based on PADIS Code List (code list defined in 9906).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MarriageGroupSegmentType">
+		<xs:annotation>
+			<xs:documentation>A segment which is a part of a marriage group.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DatedMarketingSegmentRefID" type="ID_Type" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Reference to a Dated Marketing Segment ID.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MarriageGroupType">
+		<xs:annotation>
+			<xs:documentation>The segments of a journey which are actioned as a single unit (set).</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="MarriageGroupNumber" type="NumberType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Number that identifies a marriage group.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MarriageTypeCode" type="CodeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Code indicating the type of marriage applied, e.g. 'A' for online, 'I' for interline.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MarriageGroupSegment" type="MarriageGroupSegmentType" minOccurs="1" maxOccurs="99">
+				<xs:annotation>
+					<xs:documentation>A segment which is a part of a marriage group.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OriginDestType">
+		<xs:annotation>
+			<xs:documentation>The Origin and Destination airport/city pair which confines a passenger journey or an aircraft flight.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="OriginDestID" type="ID_Type" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Uniquely identifies an Origin Destination within the context of one message.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RequestedJourneyData" type="JourneyData1Type" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>An O&amp;D of one or more flights (note: it is not a segment yet). The O&amp;D may consist of one or more single flights, online as well as interline connections for which an availability or
+inventory adjustment is requested. Interline carrier flights are included for information only to give the requested carrier the opportunity to evaluate his flights based on the whole O&amp;D.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DestStation" type="StationType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Location or facility where air or surface transportation originates, stops and/or terminates, and where passengers and/or cargo can be taken on or off.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OriginStation" type="StationType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Location or facility where air or surface transportation originates, stops and/or terminates, and where passengers and/or cargo can be taken on or off.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PartyType">
+		<xs:annotation>
+			<xs:documentation>Message/ Transaction Party(s) information. Note that information about parties is intended for business use, it is not intended for transaction authentication and routing of the message.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Recipient" type="RecipientType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Information related to the party receiving this message.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Sender" type="SenderType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Information related to the party sending this message.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NumberofPaxsFilterType">
+		<xs:annotation>
+			<xs:documentation>Used to indicate to the processing entity that it needs to use the passengers information (such as quantity and PTC) in order to return a proper reply.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PaxsQty" type="QtyType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Provides a number of passengers information.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PTC" type="IATA_PTC_CodeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Type code applying to the Passenger which typically drives pricing (e.g. ADT, CHD, etc).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PaxType">
+		<xs:annotation>
+			<xs:documentation>Any person except members of the crew carried or to be carried with the consent of the carrier, on board of any transport vehicle such as aircraft, train, bus, ship. Holds the attributes specific to a one booking, from shopping to fulfillment.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PaxID" type="ID_Type" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Uniquely identifies a Passenger within the context of one message.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TitleName" type="SupplementNameType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>A word such as Mr., Mrs., Miss or Dr that is used before an individual's name to indicate the gender, profession or marital status.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GivenName" type="ProperNameType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>A personal name given to the individual at birth and used before a family name. Also called first name. E.g. JOHN.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PTC" type="IATA_PTC_CodeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Type code applying to the Passenger which typically drives pricing (e.g. ADT, CHD, etc).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Surname" type="ProperNameType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Individual's hereditary name(s) common to all members of a family. Also known as family name or last name. E.g. SMITH. Excludes any potential suffix.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PointofCommencementType">
+		<xs:annotation>
+			<xs:documentation>The first chronological segment in an existing booking or shopping.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PointOfCommencementCityCode" type="IATA_LocationCodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The board point of the first chronological segment in existing booking or shopping.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PointOfCommencementDateTime" type="DateTimeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The departure date and departure time of the first chronological segment in existing booking or shopping.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RBD_FiltersType">
+		<xs:annotation>
+			<xs:documentation>Filters on RBDs that will be applied to build the reply.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="RBD_Qualifiers" type="RBD_QualifiersType" minOccurs="0" maxOccurs="10">
+				<xs:annotation>
+					<xs:documentation>Qualifiers defined by the originator to select specific Reservation Booking Designators.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RBD" type="RBD_Type" minOccurs="0" maxOccurs="26">
+				<xs:annotation>
+					<xs:documentation>Reservation Booking Designator. A categorization used to facilitate access to inventory, application of filed fares, and to identify cabin entitlement. Identified using a single alpha character. E.g. 'J' for Business Class Premium, 'D' for Business Discounted.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RBD_QualifiersType">
+		<xs:annotation>
+			<xs:documentation>Qualifiers defined by the originator to select specific Reservation Booking Designators.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="RBD_QualifierCode" type="CodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Code used to select a specific type of RBDs, as defined by PADIS code list for data element 7037.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RBD_Type">
+		<xs:annotation>
+			<xs:documentation>Reservation Booking Designator. A categorization used to facilitate access to inventory, application of filed fares, and to identify cabin entitlement. Identified using a single alpha character. E.g. 'J' for Business Class Premium, 'D' for Business Discounted.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="RBD_Code" type="RBD_CodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Code used to identify a particular RBD (e.g. P, J, W, M, etc.).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RBD_TypeCode" type="CodeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>RBD type as defined by PADIS code list for data element 7009.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RecipientType">
+		<xs:annotation>
+			<xs:documentation>Information related to the party receiving this message.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ReceiverID" type="ID_Type" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>An identification assigned by the receiver reservation system.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RequestType">
+		<xs:annotation>
+			<xs:documentation>Payload of the message</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="BookingRef" type="BookingRefType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The location in a database where to find a booking.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OriginDest" type="OriginDestType" maxOccurs="99">
+				<xs:annotation>
+					<xs:documentation>The Origin and Destination airport/city pair which confines a passenger journey or an aircraft flight.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LoyaltyProgramAccount" type="LoyaltyProgramAccountType" minOccurs="0" maxOccurs="99">
+				<xs:annotation>
+					<xs:documentation>An account set up for a customer within a rewards program which holds funds on behalf of that customer.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NumberofPaxsFilter" type="NumberofPaxsFilterType" minOccurs="0" maxOccurs="9">
+				<xs:annotation>
+					<xs:documentation>Used to indicate to the processing entity that it needs to use the passengers information (such as quantity and PTC) in order to return a proper reply.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Pax" type="PaxType" minOccurs="0" maxOccurs="99">
+				<xs:annotation>
+					<xs:documentation>Any person except members of the crew carried or to be carried with the consent of the carrier, on board of any transport vehicle such as aircraft, train, bus, ship. Holds the attributes specific to a one booking, from shopping to fulfillment.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PointofCommencement" type="PointofCommencementType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The first chronological segment in an existing booking or shopping.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SpecialService" type="SpecialServiceType" minOccurs="0" maxOccurs="9">
+				<xs:annotation>
+					<xs:documentation>Special service information</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SenderType">
+		<xs:annotation>
+			<xs:documentation>Information related to the party sending this message.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DeliveringSystem" type="DeliveringSystemType">
+				<xs:annotation>
+					<xs:documentation>The operational system that delivers the message.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="Carrier" type="CarrierType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The organization which carries the passenger, baggage, or goods, and/or commits to delivering the carriage as well as any related services such as issuance of ticket, creation of Order, etc...</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="TravelAgency" type="TravelAgencyType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>A private retailer or public service that provides travel and tourism related services to the public on behalf of suppliers such as activities, airlines, car rentals, cruise lines, hotels, railways, travel insurance, and package tours.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="RequestorID" type="ID_Type">
+				<xs:annotation>
+					<xs:documentation>An identification assigned by the receiver reservation system.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SpecialServiceType">
+		<xs:annotation>
+			<xs:documentation>Special service information</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="FreeText" type="TextType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Free text</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SpecialServiceCode" type="CodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Code that identifies the special service.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SpecialServiceStatusCode" type="CodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Status of the special request.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Qty" type="QtyType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>A quantity is a counted number of non-monetary units, possibly including fractions.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Carrier" type="Carrier1Type" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Daughter ABIE of Carrier (ABIE) to display only the selected Business Identifier Fields : - Airline Designator Code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BoardPoint" type="City1Type" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Daughter ABIE of City (ABIE) to display only the selected Business Identifier Fields : - IATA Location Code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OffPoint" type="City1Type" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Daughter ABIE of City (ABIE) to display only the selected Business Identifier Fields : - IATA Location Code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="StationType">
+		<xs:annotation>
+			<xs:documentation>Location or facility where air or surface transportation originates, stops and/or terminates, and where passengers and/or cargo can be taken on or off.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="IATA_LocationCode" type="IATA_LocationCodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>IATA defined code identifying a city or station.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TransportDepType">
+		<xs:annotation>
+			<xs:documentation>The action or process of leaving of a transport vehicle from any place or location.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AircraftScheduledDateTime" type="DateTimeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The Scheduled Date and Time of Departure of the aircraft at the terminal at an airport.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TravelAgencyAccreditationType">
+		<xs:annotation>
+			<xs:documentation>Provides information on the accreditations of a given agency.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="IATA_AccreditationCode" type="CodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Provides information regarding agency accreditation (reference PADIS codeset 9972).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TravelAgencyType">
+		<xs:annotation>
+			<xs:documentation>A private retailer or public service that provides travel and tourism related services to the public on behalf of suppliers such as activities, airlines, car rentals, cruise lines, hotels, railways, travel insurance, and package tours.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="IATA_Number" type="NumberType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>IATA-assigned agency number. Example: 98417900</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TravelAgencyAccreditation" type="TravelAgencyAccreditationType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Provides information on the accreditations of a given agency.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TravelAgent" type="TravelAgentType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>A private retailer or public service individual that provides travel and tourism related services to the public on behalf of suppliers such as activities, airlines, car rentals, cruise lines, hotels, railways, travel insurance, and package tours.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TravelAgentType">
+		<xs:annotation>
+			<xs:documentation>A private retailer or public service individual that provides travel and tourism related services to the public on behalf of suppliers such as activities, airlines, car rentals, cruise lines, hotels, railways, travel insurance, and package tours.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ActualLocationCode" type="IATA_LocationCodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>A 3-character IATA airport/city code of the agent initiating the request.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AgentID" type="ID_Type" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>A reference number/authority code assigned to the agent as in an agent's initials or logon.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CurCode" type="CurCodeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Currency code as defined in Resolution 24D.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LangCode" type="LangCodeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>ISO 639 language code.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Country" type="CountryType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>A nation with its own government, occupying a particular territory.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

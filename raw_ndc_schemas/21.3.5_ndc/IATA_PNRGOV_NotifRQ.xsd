@@ -1,0 +1,970 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="2.005" id="IATA2021.3">
+	<xs:include schemaLocation="IATA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_PNRGOV_CommonTypes.xsd"/>
+	<xs:element name="IATA_PNRGOV_NotifRQ">
+		<xs:annotation>
+			<xs:documentation>Allows an airline to transmit data to authorities for customs, immigration and security purposes.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Originator">
+					<xs:annotation>
+						<xs:documentation>The sender of this data.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="OriginatorType">
+								<xs:attribute name="AirlineContactInfo" type="StringLength0to250">
+									<xs:annotation>
+										<xs:documentation>Used to provide contact information for the airline sending the message.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="FlightLeg">
+					<xs:annotation>
+						<xs:documentation>The flight information for the PNRs being sent.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="FlightLegType"/>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PNRs">
+					<xs:annotation>
+						<xs:documentation>A collection of PNRs for this flight.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="PNR" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>A PNR associated with this flight.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="BookingRefID" type="UniqueID_Type" maxOccurs="5">
+											<xs:annotation>
+												<xs:documentation>The PNR reference.  ID = record locator, and CompanyName/Code = airline or CRS code.   For Type refer to IATA PADIS Code List for data element 9958.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="SSR" type="SpecialServiceRequestType" minOccurs="0" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Seat, API, and other SSR data that applies to the entire PNR.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="OSI" type="OtherServiceInfoType" minOccurs="0" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>An OSI item for this PNR.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="POS" type="POS_Type">
+											<xs:annotation>
+												<xs:documentation>The originator of the booking.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="ContactInfo" minOccurs="0" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Contact information for this PNR.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:complexContent>
+													<xs:extension base="AddressType">
+														<xs:attribute name="PhoneNumber" type="StringLength1to32">
+															<xs:annotation>
+																<xs:documentation>A contact phone number.</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+														<xs:attribute name="EmailAddress" type="xs:string">
+															<xs:annotation>
+																<xs:documentation>An email address for the PNR.</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+														<xs:attribute name="PhoneType" type="IATA_CodeType">
+															<xs:annotation>
+																<xs:documentation>Defines the type of phone number (e.g. home, business, other). Refer to IATA PADIS Code List data element 3299.</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+													</xs:extension>
+												</xs:complexContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="PrepaidBag" minOccurs="0" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Prepaid bag information.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:attributeGroup ref="PNRGOV_BagTagGroup"/>
+												<xs:attributeGroup ref="UnitsOfMeasureGroup"/>
+												<xs:attributeGroup ref="CurrencyAmountGroup"/>
+												<xs:attribute name="BagDestination" type="AlphaLength3">
+													<xs:annotation>
+														<xs:documentation>The final destination of the prepaid bag(s).</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="Passenger" minOccurs="0" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>A passenger included in this PNR.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:complexContent>
+													<xs:extension base="PNR_PersonNameType">
+														<xs:sequence>
+															<xs:element name="CustLoyalty" minOccurs="0" maxOccurs="unbounded">
+																<xs:annotation>
+																	<xs:documentation>Frequent flier information for this passenger.</xs:documentation>
+																</xs:annotation>
+																<xs:complexType>
+																	<xs:attribute name="ProgramID" type="StringLength1to16">
+																		<xs:annotation>
+																			<xs:documentation>Identifier to indicate the company owner of the loyalty program.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																	<xs:attribute name="MembershipID" type="StringLength1to32">
+																		<xs:annotation>
+																			<xs:documentation>Unique identifier of the member in the program (membership number, account number, etc.).</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																	<xs:attribute name="LoyalLevel" type="StringLength1to16">
+																		<xs:annotation>
+																			<xs:documentation>Provides the level within a loyalty program.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																	<xs:attribute name="VendorCode" type="StringLength1to8">
+																		<xs:annotation>
+																			<xs:documentation>Indicate the partner/vendor for which the customer loyalty number is valid</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="OSI" type="OtherServiceInfoType" minOccurs="0" maxOccurs="unbounded">
+																<xs:annotation>
+																	<xs:documentation>Other service information for this passenger.</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="ExcessBaggage" minOccurs="0" maxOccurs="unbounded">
+																<xs:annotation>
+																	<xs:documentation>Excess baggage information for this passenger.</xs:documentation>
+																</xs:annotation>
+																<xs:complexType>
+																	<xs:attributeGroup ref="PNRGOV_BagTagGroup"/>
+																	<xs:attributeGroup ref="UnitsOfMeasureGroup"/>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="FareInfo" minOccurs="0" maxOccurs="unbounded">
+																<xs:annotation>
+																	<xs:documentation>Fare info for this passenger.</xs:documentation>
+																</xs:annotation>
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="UnstructuredFareCalc" minOccurs="0">
+																			<xs:annotation>
+																				<xs:documentation>Fare calculation area, net amount, sell amount, pricing indicator, and reporting indicator.</xs:documentation>
+																			</xs:annotation>
+																			<xs:complexType>
+																				<xs:attributeGroup ref="UnstructuredFareCalcGroup"/>
+																			</xs:complexType>
+																		</xs:element>
+																	</xs:sequence>
+																	<xs:attribute name="PTC_Code" use="optional">
+																		<xs:annotation>
+																			<xs:documentation xml:lang="en">Used to specify the PTC code. Refer to IATA PADIS Code List data element 6353.</xs:documentation>
+																		</xs:annotation>
+																		<xs:simpleType>
+																			<xs:union memberTypes="StringLength1to8 IATA_CodeType"/>
+																		</xs:simpleType>
+																	</xs:attribute>
+																	<xs:attribute name="DiscountedFareType" type="IATA_CodeType">
+																		<xs:annotation>
+																			<xs:documentation>The discounted fare type for this PTC.  Reference IATA PADIS codeset for data element 6353.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																	<xs:attribute name="DiscountPercent" type="Percentage">
+																		<xs:annotation>
+																			<xs:documentation>The discount percentage.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																	<xs:attribute name="CountryCode" type="ISO3166">
+																		<xs:annotation>
+																			<xs:documentation>The country code of the discount.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																	<xs:attribute name="DiscFareClassType" type="IATA_CodeType">
+																		<xs:annotation>
+																			<xs:documentation>The discounted fare classification type.  Reference IATA PADIS codeset for data element 6353.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																	<xs:attribute name="FareBasis" type="StringLength1to16">
+																		<xs:annotation>
+																			<xs:documentation>The fare basis code for this fare.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																	<xs:attribute name="InHouseFareType" type="AlphaNumericStringLength1to30">
+																		<xs:annotation>
+																			<xs:documentation>The in-house fare type or corporate contract number.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="SSR" type="SpecialServiceRequestType" minOccurs="0" maxOccurs="unbounded">
+																<xs:annotation>
+																	<xs:documentation>Seat, API, and other SSR data that applies to the entire PNR.</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="ContactInfo" minOccurs="0" maxOccurs="unbounded">
+																<xs:annotation>
+																	<xs:documentation>Contact information for this passenger.</xs:documentation>
+																</xs:annotation>
+																<xs:complexType>
+																	<xs:complexContent>
+																		<xs:extension base="AddressType">
+																			<xs:attribute name="PhoneNumber" type="StringLength1to32">
+																				<xs:annotation>
+																					<xs:documentation>A contact phone number.</xs:documentation>
+																				</xs:annotation>
+																			</xs:attribute>
+																			<xs:attribute name="EmailAddress" type="xs:string">
+																				<xs:annotation>
+																					<xs:documentation>An email address for the passenger.</xs:documentation>
+																				</xs:annotation>
+																			</xs:attribute>
+																			<xs:attribute name="PhoneType" type="IATA_CodeType">
+																				<xs:annotation>
+																					<xs:documentation>Defines the type of phone number (e.g. home, business, other). Refer to IATA PADIS Code List data element 3299.</xs:documentation>
+																				</xs:annotation>
+																			</xs:attribute>
+																		</xs:extension>
+																	</xs:complexContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="TicketDocument" minOccurs="0" maxOccurs="unbounded">
+																<xs:annotation>
+																	<xs:documentation>The ticket document information for this PNR.</xs:documentation>
+																</xs:annotation>
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="TotalFare" minOccurs="0">
+																			<xs:annotation>
+																				<xs:documentation>The amount and currency code of the total fare.</xs:documentation>
+																			</xs:annotation>
+																			<xs:complexType>
+																				<xs:attributeGroup ref="CurrencyAmountGroup"/>
+																			</xs:complexType>
+																		</xs:element>
+																		<xs:element name="PricingInfo" minOccurs="0">
+																			<xs:annotation>
+																				<xs:documentation>The pricing information for the booked itinerary.</xs:documentation>
+																			</xs:annotation>
+																			<xs:complexType>
+																				<xs:attributeGroup ref="PricingInformationGroup"/>
+																				<xs:attribute name="NetReportingCode" type="AlphaNumericStringLength1to3" use="optional">
+																					<xs:annotation>
+																						<xs:documentation xml:lang="en">A code indicating the transaction is subject to a net reporting arrangement.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																				<xs:attribute name="NonEndorsableInd" type="xs:boolean" use="optional">
+																					<xs:annotation>
+																						<xs:documentation xml:lang="en">When true, the fare is nonendorsable.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																				<xs:attribute name="NonRefundableInd" type="xs:boolean" use="optional">
+																					<xs:annotation>
+																						<xs:documentation xml:lang="en">When true, the fare is non refundable.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																				<xs:attribute name="PenaltyRestrictionInd" type="xs:boolean" use="optional">
+																					<xs:annotation>
+																						<xs:documentation xml:lang="en">When true, a penalty restriction applies.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																			</xs:complexType>
+																		</xs:element>
+																		<xs:element name="Taxes" minOccurs="0">
+																			<xs:annotation>
+																				<xs:documentation>A collection of taxes.</xs:documentation>
+																			</xs:annotation>
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element name="Tax" maxOccurs="unbounded">
+																						<xs:annotation>
+																							<xs:documentation>Tax information.</xs:documentation>
+																						</xs:annotation>
+																						<xs:complexType>
+																							<xs:attributeGroup ref="FeeTaxGroup"/>
+																						</xs:complexType>
+																					</xs:element>
+																				</xs:sequence>
+																			</xs:complexType>
+																		</xs:element>
+																		<xs:element name="PaymentInfo" minOccurs="0" maxOccurs="unbounded">
+																			<xs:annotation>
+																				<xs:documentation>Form of payment information.</xs:documentation>
+																			</xs:annotation>
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element name="Sponsor" type="xs:string" minOccurs="0" maxOccurs="5">
+																						<xs:annotation>
+																							<xs:documentation>Name, address, and telephone number of purchaser when other than the passenger.</xs:documentation>
+																						</xs:annotation>
+																					</xs:element>
+																				</xs:sequence>
+																				<xs:attribute name="PaymentType" type="IATA_CodeType">
+																					<xs:annotation>
+																						<xs:documentation>Specifies the type of payment.  Reference IATA  PADIS codelist for data element 9888</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																				<xs:attribute name="PaymentUse" type="IATA_CodeType">
+																					<xs:annotation>
+																						<xs:documentation>Used to specify if new or old FOP.  Reference IATA PADIS codeset for data element 9988.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																				<xs:attribute name="PaymentAmount" type="Money">
+																					<xs:annotation>
+																						<xs:documentation>The form of payment amount.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																				<xs:attribute name="VendorCode" type="AlphaNumericStringLength1to3">
+																					<xs:annotation>
+																						<xs:documentation>The CC code</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																				<xs:attribute name="AccountNbr">
+																					<xs:annotation>
+																						<xs:documentation>The account number.</xs:documentation>
+																					</xs:annotation>
+																					<xs:simpleType>
+																						<xs:restriction base="xs:string">
+																							<xs:minLength value="0"/>
+																							<xs:maxLength value="25"/>
+																						</xs:restriction>
+																					</xs:simpleType>
+																				</xs:attribute>
+																				<xs:attribute name="ExpiryDate" type="MMYYDate">
+																					<xs:annotation>
+																						<xs:documentation>The date the credit card expires.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																				<xs:attribute name="CardHolderName" type="StringLength0to64">
+																					<xs:annotation>
+																						<xs:documentation>The name of the cardholder.  </xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																			</xs:complexType>
+																		</xs:element>
+																	</xs:sequence>
+																	<xs:attribute name="TicketDocumentNbr" type="StringLength1to16">
+																		<xs:annotation>
+																			<xs:documentation>The ticket document number.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																	<xs:attribute name="Type" type="IATA_CodeType">
+																		<xs:annotation>
+																			<xs:documentation xml:lang="en">Used to indicate the type of ticket.  Reference IATA PADIS codelist for data element 1001.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																	<xs:attribute name="DateOfIssue" type="xs:date">
+																		<xs:annotation>
+																			<xs:documentation>The date of issue.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																	<xs:attribute name="TicketLocation" type="AlphaNumericStringLength1to5">
+																		<xs:annotation>
+																			<xs:documentation>The location where the ticket was issued.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																	<xs:attribute name="PrimaryDocInd" type="xs:boolean">
+																		<xs:annotation>
+																			<xs:documentation>When true, this is the primary ticket/document number.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																	<xs:attribute name="ExchangeTktNbrInd">
+																		<xs:annotation>
+																			<xs:documentation>If true, this is the ticket/document number for a ticket/document that is being exchanged.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																	<xs:attributeGroup ref="ReasonForIssuanceGroup"/>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="DOC_SSR" type="DOC_SpecialServiceRequestType" minOccurs="0" maxOccurs="unbounded">
+																<xs:annotation>
+																	<xs:documentation>Used to send a formatted DOCA, DOCO, and DOCS SSRs</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+														</xs:sequence>
+														<xs:attributeGroup ref="TravelerRefNumberGroup"/>
+														<xs:attribute name="BoardingStatus" type="IATA_CodeType">
+															<xs:annotation>
+																<xs:documentation>Used to specify boarding status, such as goshow or noshow.  Refierence IATA PADIS codelist for data element 9980.</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+														<xs:attribute name="AccompaniedByInfantInd" type="xs:boolean">
+															<xs:annotation>
+																<xs:documentation>When true, the passenger is traveling with an infant.</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+														<xs:attribute name="PaxID">
+															<xs:annotation>
+																<xs:documentation>Unique passenger identifier assigned for communication with one or more states.</xs:documentation>
+															</xs:annotation>
+															<xs:simpleType>
+																<xs:restriction base="xs:string">
+																	<xs:pattern value="[0-9a-zA-Z]{1,35}"/>
+																</xs:restriction>
+															</xs:simpleType>
+														</xs:attribute>
+													</xs:extension>
+												</xs:complexContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="DOC_SSR" type="DOC_SpecialServiceRequestType" minOccurs="0" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Used to send a formatted DOCA, DOCO, and DOCS SSRs</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="Flight" minOccurs="0" maxOccurs="999">
+											<xs:annotation>
+												<xs:documentation>A flight included in this PNR.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:complexContent>
+													<xs:extension base="BookFlightSegmentType">
+														<xs:sequence>
+															<xs:element name="SSR" type="SpecialServiceRequestType" minOccurs="0" maxOccurs="unbounded">
+																<xs:annotation>
+																	<xs:documentation>An SSR associated with this flight.</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="BookingRefID" type="UniqueID_Type" minOccurs="0" maxOccurs="5">
+																<xs:annotation>
+																	<xs:documentation>A PNR record locator associated to this flight.</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="OSI" type="OtherServiceInfoType" minOccurs="0" maxOccurs="unbounded">
+																<xs:annotation>
+																	<xs:documentation>An OSI associated with this flight.</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="CheckInInfo" minOccurs="0" maxOccurs="unbounded">
+																<xs:annotation>
+																	<xs:documentation>Checkin information for this flight.</xs:documentation>
+																</xs:annotation>
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="BoardingNumber" maxOccurs="3">
+																			<xs:annotation>
+																				<xs:documentation>The boarding/sequence number and information associated to it.</xs:documentation>
+																			</xs:annotation>
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element name="Passenger" type="PNR_PersonNameType" minOccurs="0">
+																						<xs:annotation>
+																							<xs:documentation>The name of the passenger who checked in.</xs:documentation>
+																						</xs:annotation>
+																					</xs:element>
+																					<xs:element name="SeatNumber" minOccurs="0">
+																						<xs:annotation>
+																							<xs:documentation>The actual seat number assigned and cabin class.</xs:documentation>
+																						</xs:annotation>
+																						<xs:complexType>
+																							<xs:simpleContent>
+																								<xs:extension base="AlphaNumericStringLength1to4">
+																									<xs:attribute name="CabinClass" type="AlphaLength1">
+																										<xs:annotation>
+																											<xs:documentation>The cabin class for thiis seat number.</xs:documentation>
+																										</xs:annotation>
+																									</xs:attribute>
+																								</xs:extension>
+																							</xs:simpleContent>
+																						</xs:complexType>
+																					</xs:element>
+																					<xs:element name="CheckedBag" minOccurs="0" maxOccurs="unbounded">
+																						<xs:annotation>
+																							<xs:documentation>The checked baggage information.</xs:documentation>
+																						</xs:annotation>
+																						<xs:complexType>
+																							<xs:attributeGroup ref="PNRGOV_BagTagGroup"/>
+																							<xs:attributeGroup ref="UnitsOfMeasureGroup"/>
+																							<xs:attribute name="BagDestination" type="AlphaLength3">
+																								<xs:annotation>
+																									<xs:documentation>The final destination of the checked bag(s).</xs:documentation>
+																								</xs:annotation>
+																							</xs:attribute>
+																						</xs:complexType>
+																					</xs:element>
+																				</xs:sequence>
+																				<xs:attribute name="Number" type="AlphaNumericStringLength1to30">
+																					<xs:annotation>
+																						<xs:documentation>The boarding or sequence number.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																				<xs:attribute name="Type" type="IATA_CodeType">
+																					<xs:annotation>
+																						<xs:documentation>Used to specify the type of number.  Reference IATA PADIS codelist 1153.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																				<xs:attributeGroup ref="TravelerRefNumberGroup"/>
+																			</xs:complexType>
+																		</xs:element>
+																	</xs:sequence>
+																	<xs:attribute name="Time" type="DateOrTimeOrDateTimeType">
+																		<xs:annotation>
+																			<xs:documentation>The time the passenger checked in.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																	<xs:attribute name="AgentID" type="StringLength1to32">
+																		<xs:annotation>
+																			<xs:documentation>The agent who checked in the passenger.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+													</xs:extension>
+												</xs:complexContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="SplitPNR" minOccurs="0" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>The new PNR record locator for the split out PNR and the number of passengers.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:attribute name="NbrOfPassengers" type="Numeric1to999">
+													<xs:annotation>
+														<xs:documentation>The number of passengers in the new split out PNR.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="VendorCode" type="AlphaNumericStringLength2to3">
+													<xs:annotation>
+														<xs:documentation>the owner of the PNR.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="PNR_ID" type="StringLength1to32">
+													<xs:annotation>
+														<xs:documentation>The PNR identifier.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="OtherTravelSegment" minOccurs="0" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>A travel segment other than air.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="StartLocation" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>The starting location, such as departure, pickup, and hotel city.</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:attributeGroup ref="LocationGroup"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="EndLocation" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>The ending location, such as arrival, dropoff, etc.</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:attributeGroup ref="LocationGroup"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="Supplier" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>The supplier code and/or name.</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:attributeGroup ref="CompanyID_AttributesGroup"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="BookingSource" type="StringLength1to32" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>The booking source info for this travel segment.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="FreeText" type="StringLength0to255" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>Free text for this travel segment.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:choice>
+														<xs:element name="HotelInfo" minOccurs="0">
+															<xs:annotation>
+																<xs:documentation>Information specific to a hotel segment.</xs:documentation>
+															</xs:annotation>
+															<xs:complexType>
+																<xs:attribute name="RoomTypeCode" type="StringLength1to16">
+																	<xs:annotation>
+																		<xs:documentation>The room type for this hotel segment.</xs:documentation>
+																	</xs:annotation>
+																</xs:attribute>
+																<xs:attribute name="Rate" type="Money">
+																	<xs:annotation>
+																		<xs:documentation>The room rate.</xs:documentation>
+																	</xs:annotation>
+																</xs:attribute>
+																<xs:attribute name="RateType" type="StringLength1to16">
+																	<xs:annotation>
+																		<xs:documentation>The rate type.</xs:documentation>
+																	</xs:annotation>
+																</xs:attribute>
+																<xs:attribute name="HotelName" type="StringLength1to64">
+																	<xs:annotation>
+																		<xs:documentation>The hotel name.</xs:documentation>
+																	</xs:annotation>
+																</xs:attribute>
+																<xs:attribute name="CustomerName" type="StringLength1to64">
+																	<xs:annotation>
+																		<xs:documentation>The customer name.</xs:documentation>
+																	</xs:annotation>
+																</xs:attribute>
+																<xs:attribute name="PropertyID" type="AlphaNumericStringLength1to5">
+																	<xs:annotation>
+																		<xs:documentation>The property ID.</xs:documentation>
+																	</xs:annotation>
+																</xs:attribute>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="CarInfo" minOccurs="0">
+															<xs:annotation>
+																<xs:documentation>Information specific to a car segment.</xs:documentation>
+															</xs:annotation>
+															<xs:complexType>
+																<xs:attribute name="RateType" type="StringLength1to32">
+																	<xs:annotation>
+																		<xs:documentation>The rate type.</xs:documentation>
+																	</xs:annotation>
+																</xs:attribute>
+																<xs:attribute name="Rate" type="Money">
+																	<xs:annotation>
+																		<xs:documentation>The rate amount for this car.</xs:documentation>
+																	</xs:annotation>
+																</xs:attribute>
+																<xs:attribute name="RatePeriod" type="AlphaNumericStringLength1to3">
+																	<xs:annotation>
+																		<xs:documentation>The rate period, such as daily, weekly, etc.</xs:documentation>
+																	</xs:annotation>
+																</xs:attribute>
+															</xs:complexType>
+														</xs:element>
+													</xs:choice>
+												</xs:sequence>
+												<xs:attribute name="ServiceID" type="AlphaNumericStringLength1to3">
+													<xs:annotation>
+														<xs:documentation>The service id for this travel segment, such as SVC, HTL, ATX, SUR, etc. </xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="StartDate" type="DateOrDateTimeType">
+													<xs:annotation>
+														<xs:documentation>The start date for this travel segment, e.g., check in, pickup, etc.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="EndDate" type="DateOrDateTimeType">
+													<xs:annotation>
+														<xs:documentation>The end date for this travel segment, e.g., check out, dropoff, etc.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="Status">
+													<xs:annotation>
+														<xs:documentation>The status of the travel segment.</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="1"/>
+															<xs:maxLength value="3"/>
+															<xs:pattern value="[0-9a-zA-Z]{1,2}"/>
+															<xs:pattern value=""/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="Quantity" type="NumericStringLength1to3">
+													<xs:annotation>
+														<xs:documentation>The number of items, such as number of hotel rooms, number of cars, etc.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="StructuredPNR_History" minOccurs="0" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Structured PNR history information.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Credit">
+														<xs:annotation>
+															<xs:documentation>The credit information for this history item.  Reference IATA PADIS codeset 7293 for Type attribute.</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:complexContent>
+																<xs:extension base="UniqueID_Type">
+																	<xs:attribute name="TimeStamp" type="DateOrDateTimeType">
+																		<xs:annotation>
+																			<xs:documentation>The date and time of the historical change.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																</xs:extension>
+															</xs:complexContent>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="Item" maxOccurs="unbounded">
+														<xs:annotation>
+															<xs:documentation>A single item in this history entry.</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:choice>
+																<xs:element name="Flight" type="BookFlightSegmentType" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>The flight segment information for this history item.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="Passenger" type="PNR_PersonNameType" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>The passenger information for this history item.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="SSR" type="SpecialServiceRequestType" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>The SSR information in this history item.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="OSI" type="OtherServiceInfoType" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>The OSI information in this history item.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="Seat" type="SeatInfoType" minOccurs="0"/>
+																<xs:element name="Bag" minOccurs="0" maxOccurs="999">
+																	<xs:complexType>
+																		<xs:attributeGroup ref="PNRGOV_BagTagGroup"/>
+																		<xs:attributeGroup ref="UnitsOfMeasureGroup"/>
+																		<xs:attribute name="FlightNumber" type="FlightNumberType">
+																			<xs:annotation>
+																				<xs:documentation>The flight number on which this bag is checked.</xs:documentation>
+																			</xs:annotation>
+																		</xs:attribute>
+																		<xs:attribute name="DepartureDate" type="xs:date">
+																			<xs:annotation>
+																				<xs:documentation>The departure date for the flight.</xs:documentation>
+																			</xs:annotation>
+																		</xs:attribute>
+																		<xs:attribute name="CarrierCode" type="AirlineType">
+																			<xs:annotation>
+																				<xs:documentation>The airline designator for this flight.</xs:documentation>
+																			</xs:annotation>
+																		</xs:attribute>
+																		<xs:attribute name="BoardPoint" type="UpperCaseAlphaNumericLength3to5">
+																			<xs:annotation>
+																				<xs:documentation>The boarding airport city code for this bag.</xs:documentation>
+																			</xs:annotation>
+																		</xs:attribute>
+																		<xs:attribute name="OffPoint" type="UpperCaseAlphaNumericLength3to5">
+																			<xs:annotation>
+																				<xs:documentation>The offpoint airport city code for this bag.</xs:documentation>
+																			</xs:annotation>
+																		</xs:attribute>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="DOC_SSR" type="DOC_SpecialServiceRequestType" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Used to send a formatted DOCA, DOCO, and DOCS SSRs</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="OtherTravelSegment" minOccurs="0" maxOccurs="unbounded">
+																	<xs:annotation>
+																		<xs:documentation>A travel segment other than air.</xs:documentation>
+																	</xs:annotation>
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element name="StartLocation" minOccurs="0">
+																				<xs:annotation>
+																					<xs:documentation>The starting location, such as departure, pickup, and hotel city.</xs:documentation>
+																				</xs:annotation>
+																				<xs:complexType>
+																					<xs:attributeGroup ref="LocationGroup"/>
+																				</xs:complexType>
+																			</xs:element>
+																			<xs:element name="EndLocation" minOccurs="0">
+																				<xs:annotation>
+																					<xs:documentation>The ending location, such as arrival, dropoff, etc.</xs:documentation>
+																				</xs:annotation>
+																				<xs:complexType>
+																					<xs:attributeGroup ref="LocationGroup"/>
+																				</xs:complexType>
+																			</xs:element>
+																			<xs:element name="Supplier" minOccurs="0">
+																				<xs:annotation>
+																					<xs:documentation>The supplier code and/or name.</xs:documentation>
+																				</xs:annotation>
+																				<xs:complexType>
+																					<xs:attributeGroup ref="CompanyID_AttributesGroup"/>
+																				</xs:complexType>
+																			</xs:element>
+																			<xs:element name="BookingSource" type="StringLength1to32" minOccurs="0">
+																				<xs:annotation>
+																					<xs:documentation>The booking source info for this travel segment.</xs:documentation>
+																				</xs:annotation>
+																			</xs:element>
+																			<xs:element name="FreeText" type="StringLength0to255" minOccurs="0">
+																				<xs:annotation>
+																					<xs:documentation>Free text for this travel segment.</xs:documentation>
+																				</xs:annotation>
+																			</xs:element>
+																			<xs:choice>
+																				<xs:element name="HotelInfo" minOccurs="0">
+																					<xs:annotation>
+																						<xs:documentation>Information specific to a hotel segment.</xs:documentation>
+																					</xs:annotation>
+																					<xs:complexType>
+																						<xs:attribute name="RoomTypeCode" type="StringLength1to16">
+																							<xs:annotation>
+																								<xs:documentation>The room type for this hotel segment.</xs:documentation>
+																							</xs:annotation>
+																						</xs:attribute>
+																						<xs:attribute name="Rate" type="Money">
+																							<xs:annotation>
+																								<xs:documentation>The room rate.</xs:documentation>
+																							</xs:annotation>
+																						</xs:attribute>
+																						<xs:attribute name="RateType" type="StringLength1to16">
+																							<xs:annotation>
+																								<xs:documentation>The rate type.</xs:documentation>
+																							</xs:annotation>
+																						</xs:attribute>
+																						<xs:attribute name="HotelName" type="StringLength1to64">
+																							<xs:annotation>
+																								<xs:documentation>The hotel name.</xs:documentation>
+																							</xs:annotation>
+																						</xs:attribute>
+																						<xs:attribute name="CustomerName" type="StringLength1to64">
+																							<xs:annotation>
+																								<xs:documentation>The customer name.</xs:documentation>
+																							</xs:annotation>
+																						</xs:attribute>
+																						<xs:attribute name="PropertyID" type="AlphaNumericStringLength1to5">
+																							<xs:annotation>
+																								<xs:documentation>The property ID.</xs:documentation>
+																							</xs:annotation>
+																						</xs:attribute>
+																					</xs:complexType>
+																				</xs:element>
+																				<xs:element name="CarInfo" minOccurs="0">
+																					<xs:annotation>
+																						<xs:documentation>Information specific to a car segment.</xs:documentation>
+																					</xs:annotation>
+																					<xs:complexType>
+																						<xs:attribute name="RateType" type="StringLength1to32">
+																							<xs:annotation>
+																								<xs:documentation>The rate type.</xs:documentation>
+																							</xs:annotation>
+																						</xs:attribute>
+																						<xs:attribute name="Rate" type="Money">
+																							<xs:annotation>
+																								<xs:documentation>The rate amount for this car.</xs:documentation>
+																							</xs:annotation>
+																						</xs:attribute>
+																						<xs:attribute name="RatePeriod" type="AlphaNumericStringLength1to3">
+																							<xs:annotation>
+																								<xs:documentation>The rate period, such as daily, weekly, etc.</xs:documentation>
+																							</xs:annotation>
+																						</xs:attribute>
+																					</xs:complexType>
+																				</xs:element>
+																			</xs:choice>
+																		</xs:sequence>
+																		<xs:attribute name="ServiceID" type="AlphaNumericStringLength1to3">
+																			<xs:annotation>
+																				<xs:documentation>The service id for this travel segment, such as SVC, HTL, ATX, SUR, etc. </xs:documentation>
+																			</xs:annotation>
+																		</xs:attribute>
+																		<xs:attribute name="StartDate" type="xs:date">
+																			<xs:annotation>
+																				<xs:documentation>The start date for this travel segment, e.g., check in, pickup, etc.</xs:documentation>
+																			</xs:annotation>
+																		</xs:attribute>
+																		<xs:attribute name="EndDate" type="xs:date">
+																			<xs:annotation>
+																				<xs:documentation>The end date for this travel segment, e.g., check out, dropoff, etc.</xs:documentation>
+																			</xs:annotation>
+																		</xs:attribute>
+																		<xs:attribute name="Status">
+																			<xs:annotation>
+																				<xs:documentation>The status of the travel segment.</xs:documentation>
+																			</xs:annotation>
+																			<xs:simpleType>
+																				<xs:restriction base="xs:string">
+																					<xs:minLength value="1"/>
+																					<xs:maxLength value="3"/>
+																					<xs:pattern value="[0-9a-zA-Z]{1,2}"/>
+																					<xs:pattern value=""/>
+																				</xs:restriction>
+																			</xs:simpleType>
+																		</xs:attribute>
+																		<xs:attribute name="Quantity" type="NumericStringLength1to3">
+																			<xs:annotation>
+																				<xs:documentation>The number of items, such as number of hotel rooms, number of cars, etc.</xs:documentation>
+																			</xs:annotation>
+																		</xs:attribute>
+																	</xs:complexType>
+																</xs:element>
+															</xs:choice>
+															<xs:attribute name="Action" type="IATA_CodeType" use="required">
+																<xs:annotation>
+																	<xs:documentation>The type of action for this history item.  Reference IATA PADIS codelist for data element 4405.</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="UnstructuredPNR_History" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Unstructred PNR history information.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="NumberOfPassengers" type="Numeric1to999">
+										<xs:annotation>
+											<xs:documentation>The number of passengers in this PNR.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="PNR_TransDate" type="DateOrDateTimeType">
+										<xs:annotation>
+											<xs:documentation>The last date the PNR  was modified.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="PNR_CreationDate" type="DateOrDateTimeType">
+										<xs:annotation>
+											<xs:documentation>The creation date of the PNR.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="LastTktDate" type="DateOrDateTimeType">
+										<xs:annotation>
+											<xs:documentation>The last date this PNR was ticketed.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="NumberOfPnrs" type="xs:integer" use="required">
+							<xs:annotation>
+								<xs:documentation>The number of PNRs for this  flight.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="Function" type="IATA_CodeType">
+				<xs:annotation>
+					<xs:documentation>Used to specify the purpose of the messages, such as push, change or emergency lock.  Reference IATA PADIS codset for data element 1225.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

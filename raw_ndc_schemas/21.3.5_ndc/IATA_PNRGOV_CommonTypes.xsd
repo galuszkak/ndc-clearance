@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="2.003" id="IATA2021.3">
+	<xs:include schemaLocation="IATA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="IATA_ET_CommonTypes.xsd"/>
+	<xs:attributeGroup name="PNRGOV_BagTagGroup">
+		<xs:annotation>
+			<xs:documentation>Used to provide bag tag numbers and pooling information.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="IssuerCode" type="AlphaNumericStringLength1to3" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">The issuer of the bag tag numbers.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="SerialNumber" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">The bagtag number.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:pattern value="[0-9]{1,10}"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="SequenceCount" type="Numeric0to999" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">The number of sequential bagtag numbers.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="BaggagePool" type="IATA_CodeType" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">Specifies if head of pool or member of pool.  Reference IATA PADIS codelist for data element 7365.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="TravelerRefNumberGroup">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A reference place holder used as a pointer to link back to the traveler.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="RPH" type="RPH_Type" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">A unique reference for the traveler.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="SurnameRefNumber" type="StringLength1to8" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">Used to identify and associate travelers with the same surname. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:complexType name="BookFlightSegmentType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Construct for holding a flight segment availability object.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DepartureAirport" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Departure point of flight segment.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attributeGroup ref="LocationGroup"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ArrivalAirport" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Arrival point of flight segment.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attributeGroup ref="LocationGroup"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="OperatingAirline" type="OperatingAirlineType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Identifies the IATA/ICAO operating airline code of the flight if it is a codeshare  flight.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Equipment" type="EquipmentType" minOccurs="0" maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation xml:lang="en"> The type of equipment  used for the  flight..</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MarketingAirline" type="CompanyNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The marketing airline.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="DepartureDateTime" type="DateOrTimeOrDateTimeType" use="optional">
+			<xs:annotation>
+				<xs:documentation>Departure date and time for this flight.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ArrivalDateTime" type="DateOrTimeOrDateTimeType" use="optional">
+			<xs:annotation>
+				<xs:documentation>Arruval date and time for this flight.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ResBookDesigCode" type="UpperCaseAlphaLength1to2" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">Specific Booking Class for this segment.	</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="NumberInParty" type="xs:positiveInteger" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en"> Number of travelers associated with this segment.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Status" type="IATA_CodeType" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">Code providing status information for this segment.   Reference IATA PADIS codeset for data element 4405.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="FlightNumber" type="FlightNumberType">
+			<xs:annotation>
+				<xs:documentation>The marketing flight number.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="DateChangeNbr" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>When present, contains the number of days by which the flight's arrival date differs from its departure date (e.g., +1, -1).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="DOC_SpecialServiceRequestType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A documentation SSR.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="FlightInfo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The filght info for the DOC SSR.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="CompanyNameType">
+							<xs:attribute name="BoardingPoint" type="UpperCaseAlphaNumericLength3to5">
+								<xs:annotation>
+									<xs:documentation>The airport/city code where the passenger boards the flight.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="DePlaningPoint" type="UpperCaseAlphaNumericLength3to5">
+								<xs:annotation>
+									<xs:documentation>The airport/city code where the passenger deplanes.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="FlightNumber" type="FlightNumberType">
+								<xs:annotation>
+									<xs:documentation>The flight number.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="ClassOfSvc" type="AlphaLength1">
+								<xs:annotation>
+									<xs:documentation>The class of service.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="Date" type="AlphaNumericStringLength1to7">
+								<xs:annotation>
+									<xs:documentation>The flight date in DDMMMYY format.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PaxInfo" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The passenger associated name and number in part as contained in the PNR.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="DOCA">
+					<xs:annotation>
+						<xs:documentation>Passenger address information.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="AddressType">
+							<xs:annotation>
+								<xs:documentation>Used to specify if residence or destination address.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:NMTOKEN">
+									<xs:enumeration value="D">
+										<xs:annotation>
+											<xs:documentation>Destination</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="R">
+										<xs:annotation>
+											<xs:documentation>Residence</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="Address">
+							<xs:annotation>
+								<xs:documentation>The street address information.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="0"/>
+									<xs:maxLength value="35"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="CityName" type="StringLength1to35">
+							<xs:annotation>
+								<xs:documentation>The city name.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="PostalCode">
+							<xs:annotation>
+								<xs:documentation>Zip or postal code.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="[0-9a-zA-Z]{1,17}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="StateProvCounty" type="StringLength1to35">
+							<xs:annotation>
+								<xs:documentation>The state, province or county.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="Country" type="AlphaNumericStringLength1to3">
+							<xs:annotation>
+								<xs:documentation>The country code.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="InfantIndicator" type="AlphaLength1">
+							<xs:annotation>
+								<xs:documentation>Used to specify if this is an infant not occupying a seat.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DOCO">
+					<xs:annotation>
+						<xs:documentation>Passenger other supplementary information.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="BirthLocation" type="StringLength1to35">
+							<xs:annotation>
+								<xs:documentation>The place of birth.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="TravelDocType" type="AlphaLength1">
+							<xs:annotation>
+								<xs:documentation>The type of travel document.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="TravelDocNbr">
+							<xs:annotation>
+								<xs:documentation>The travel document number.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="[0-9a-zA-Z]{1,25}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="PlaceOfIssue" type="StringLength1to35">
+							<xs:annotation>
+								<xs:documentation>The place the travel document was issued.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="DateOfIssue" type="AlphaNumericStringLength1to7">
+							<xs:annotation>
+								<xs:documentation>The date the document was issued in DDMMMYY format.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="CountryState" type="AlphaNumericStringLength1to3">
+							<xs:annotation>
+								<xs:documentation>The country or state code.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="InfantIndicator" type="AlphaLength1">
+							<xs:annotation>
+								<xs:documentation>Used to specify if this is an infant not occupying a seat.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DOCS">
+					<xs:annotation>
+						<xs:documentation>Passenger travel document information.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="TravelDocType">
+							<xs:annotation>
+								<xs:documentation>The type of travel document.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="[a-zA-Z]{1,2}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="TravelDocNbr">
+							<xs:annotation>
+								<xs:documentation>The travel document number.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="[0-9a-zA-Z]{1,15}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="IssuingLoc">
+							<xs:annotation>
+								<xs:documentation>The location where the document was issued.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="[a-zA-Z]{1,3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="PaxNationality">
+							<xs:annotation>
+								<xs:documentation>The nationality of the passenger.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="[a-zA-Z]{1,3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="DateOfBirth" type="AlphaNumericStringLength1to7">
+							<xs:annotation>
+								<xs:documentation>The passsenger date of birth in DDMMMYY format.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="Gender">
+							<xs:annotation>
+								<xs:documentation>The gender of the passenger.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="[a-zA-Z]{1,2}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="ExpiryDate" type="AlphaNumericStringLength1to7">
+							<xs:annotation>
+								<xs:documentation>The date the travel document expires in DDMMMYY format.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="Surname">
+							<xs:annotation>
+								<xs:documentation>The surname on the travel document.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="30"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="FirstGivenName">
+							<xs:annotation>
+								<xs:documentation>The first given name on the travel document.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="30"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="SecondGivenName">
+							<xs:annotation>
+								<xs:documentation>The second given name on the travel document.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="30"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="PrimaryPassportHolder" type="AlphaLength1">
+							<xs:annotation>
+								<xs:documentation>Used to specify if this is a multi-pax passport and this SSR is for the primary passport holder.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="SSRCode">
+			<xs:annotation>
+				<xs:documentation>The SSR code - DOCA, DOCO, or DOCS</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ServiceQuantity" type="Numeric1to99" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">Used to specify the number of services.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Status" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">Code providing status information for this special service request. </xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:pattern value="[0-9a-zA-Z]{1,2}"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attributeGroup ref="TravelerRefNumberGroup"/>
+	</xs:complexType>
+	<xs:complexType name="FlightLegType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Specifies minimal information about a flight.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DepartureAirport">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The departure airport for the flight.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attributeGroup ref="LocationGroup">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The departure airport/city code.</xs:documentation>
+						</xs:annotation>
+					</xs:attributeGroup>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ArrivalAirport">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The arrival airport for the flight.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attributeGroup ref="LocationGroup">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The arrival airport/city code.</xs:documentation>
+						</xs:annotation>
+					</xs:attributeGroup>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="CarrierCode" type="AirlineType" use="required">
+			<xs:annotation>
+				<xs:documentation>The operating airline designator for this flight number</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="FlightNumber" type="FlightNumberType" use="required">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">The operating flight number.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="DepartureDateTime" type="xs:dateTime" use="required">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">The departure date and time of the flight leg.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ArrivalDateTime" type="xs:dateTime">
+			<xs:annotation>
+				<xs:documentation>The arrival date and time of the flight leg.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="OperationalSuffix" type="OperationalSuffixType">
+			<xs:annotation>
+				<xs:documentation>The operational suffix for this flight.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="DateChangeNbr" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>When present, contains the number of days by which the flight's arrival date differs from its departure date (e.g., +1, -1).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="CodeContext" type="StringLength1to32">
+			<xs:annotation>
+				<xs:documentation>Identifies the context of the identifying code (e.g., IATA, ICAO)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="OriginatorType">
+		<xs:annotation>
+			<xs:documentation>The originator of the PNR data.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="AirlineCode" type="AlphaNumericStringLength2to3">
+			<xs:annotation>
+				<xs:documentation>The airline providing the data.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="SystemCode" type="AlphaNumericStringLength2to3">
+			<xs:annotation>
+				<xs:documentation>The system that delivers the message.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="OtherServiceInfoType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Other Service Information (OSI) for relevant airlines </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="TravelerRefNumber" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">One or more travelers to whom this request applies</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attributeGroup ref="TravelerRefNumberGroup"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Airline" type="CompanyNameType">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The airline to which the OSI applies. When applicable to all airlines or an unknown airline use Code="YY".</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Text" type="StringLength1to64">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The OSI text.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="Code" type="AlphaNumericStringLength1to4" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">A proprietary code used between systems to identify an Other Service Information (OSI) item.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="PNR_PersonNameType">
+		<xs:annotation>
+			<xs:documentation>This provides name information for a person.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="GivenName" type="StringLength1to64" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The given name of the person.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MiddleName" type="StringLength1to64" minOccurs="0" maxOccurs="3">
+				<xs:annotation>
+					<xs:documentation>The middle name of the person name</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SurnamePrefix" type="StringLength1to16" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>e.g "van der", "von", "de"</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Surname" type="StringLength1to64">
+				<xs:annotation>
+					<xs:documentation>Family name, last name.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NameTitle" type="StringLength1to16" minOccurs="0" maxOccurs="5">
+				<xs:annotation>
+					<xs:documentation>Degree or honors (e.g., Ph.D., M.D.)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SeatInfoType">
+		<xs:annotation>
+			<xs:documentation>The seat information for a specific flight and passenger.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DepartureAirport" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The departure airport code for this seat.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attributeGroup ref="LocationGroup"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ArrivalAirport" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The arrival airport for this seat.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attributeGroup ref="LocationGroup"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SeatNumber" maxOccurs="999">
+				<xs:annotation>
+					<xs:documentation>The seat number.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="AlphaNumericStringLength1to4">
+							<xs:attribute name="PsgrReference" type="StringLength1to16"/>
+							<xs:attribute name="Number" type="AlphaNumericStringLength1to4"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PassengerName" type="PNR_PersonNameType" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="Airline" type="AirlineType">
+			<xs:annotation>
+				<xs:documentation>The airline code for this flight and seat.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="FlightNumber" type="FlightNumberType">
+			<xs:annotation>
+				<xs:documentation>The flight number for this sesat.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Status" type="AlphaNumericStringLength1to3">
+			<xs:annotation>
+				<xs:documentation>The flight segment status.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="DepartureDate" type="DateOrDateTimeType">
+			<xs:annotation>
+				<xs:documentation>The departure date for this flight.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ServiceQuantity" type="Numeric0to99">
+			<xs:annotation>
+				<xs:documentation>The number of seats.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="SpecialServiceRequestType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">SSR's for this booking request e.g.,. meals</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Airline" type="CompanyNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The airline designator for this SSR.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Text" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Text for this SSR.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="SSRCode" type="AlphaLength4" use="required">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">The four alpha position industry code identifying a particular type of special service request.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ServiceQuantity" type="Numeric1to99" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">Used to specify the number of special services.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Status" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">Code providing status information for this special service request.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:length value="2"/>
+					<xs:pattern value="[a-zA-Z]{2}"/>
+					<xs:pattern value=""/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="BoardPoint" type="UpperCaseAlphaNumericLength3to5">
+			<xs:annotation>
+				<xs:documentation>The board city of segment to which special service request applies.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="OffPoint" type="UpperCaseAlphaNumericLength3to5">
+			<xs:annotation>
+				<xs:documentation>The off city of segment to which special service request applies.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attributeGroup ref="TravelerRefNumberGroup"/>
+	</xs:complexType>
+</xs:schema>

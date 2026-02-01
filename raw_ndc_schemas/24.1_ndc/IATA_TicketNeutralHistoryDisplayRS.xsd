@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="3.001" id="IATA2022.1">
+	<xs:include schemaLocation="IATA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_ET_CommonTypes.xsd"/>
+	<xs:element name="IATA_TicketNeutralHistoryDisplayRS">
+		<xs:annotation>
+			<xs:documentation>This message displays history for an electronic ticket/document.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="Success" type="SuccessType">
+						<xs:annotation>
+							<xs:documentation>Standard way to indicate successful processing of an IATA message. Returning an empty element of this type indicates success.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Warnings" type="WarningsType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Used in conjunction with the Success element to define one or more business errors.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Passenger" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The passenger information for whom ticket history is being displayed.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="Name">
+									<xs:annotation>
+										<xs:documentation>The passenger name.</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:complexContent>
+											<xs:extension base="PersonNameType">
+												<xs:attributeGroup ref="TravelerCountGroup">
+													<xs:annotation>
+														<xs:documentation>use code for ptc.  </xs:documentation>
+													</xs:annotation>
+												</xs:attributeGroup>
+											</xs:extension>
+										</xs:complexContent>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="PenaltyAmount" type="VoluntaryChangesType" minOccurs="0" maxOccurs="3">
+									<xs:annotation>
+										<xs:documentation>Non-refundable, no value, penalty amounts.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="Waiver" minOccurs="0" maxOccurs="3">
+									<xs:annotation>
+										<xs:documentation>A code assigned by the validating carrier that allows fare rule modification or override.</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:attribute name="Code" type="AlphaNumericStringLength1to19" use="required">
+											<xs:annotation>
+												<xs:documentation xml:lang="en">A code assigned by the validating carrier that allows fare rule modification or override.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="Type" use="optional">
+											<xs:annotation>
+												<xs:documentation xml:lang="en">To specify whether this is the waiver code for the exchange/reissue or the fare component.</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:NMTOKEN">
+													<xs:enumeration value="ExchangeReissue"/>
+													<xs:enumeration value="FareComponent"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:attribute>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="TicketDocument" maxOccurs="8">
+									<xs:annotation>
+										<xs:documentation>Ticket/document number.</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="CouponInfo" maxOccurs="99">
+												<xs:annotation>
+													<xs:documentation>Number, status, settlement authorization code,  and transaction date/time.</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="SoldAirlineInfo" type="FlightSegmentType" minOccurs="0">
+															<xs:annotation>
+																<xs:documentation>The sold airline information for this coupon.</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="CurrentAirlineInfo" type="FlightSegmentType" minOccurs="0">
+															<xs:annotation>
+																<xs:documentation>The current airline information for this coupon.</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="CheckedInAirlineInfo" type="FlightSegmentType" minOccurs="0">
+															<xs:annotation>
+																<xs:documentation>The checked in airline information for this coupon.</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="FlownAirlineInfo" type="FlightSegmentType" minOccurs="0">
+															<xs:annotation>
+																<xs:documentation>The flown airline information for this coupon.</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="POS" type="POS_Type" minOccurs="0">
+															<xs:annotation>
+																<xs:documentation>The transaction id information.</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+													</xs:sequence>
+													<xs:attribute name="Number" type="Numeric1to4" use="optional">
+														<xs:annotation>
+															<xs:documentation xml:lang="en">The coupon number.</xs:documentation>
+														</xs:annotation>
+													</xs:attribute>
+													<xs:attribute name="Status" type="IATA_CodeType" use="optional">
+														<xs:annotation>
+															<xs:documentation xml:lang="en">The current status of the flight/value coupon.  Refer to IATA PADIS Code List for data element 4405.</xs:documentation>
+														</xs:annotation>
+													</xs:attribute>
+													<xs:attribute name="SettlementAuthCode" type="AlphaNumericStringLength1to14" use="optional">
+														<xs:annotation>
+															<xs:documentation xml:lang="en">A reference number generated by the validating carrier authorising settlement of a coupon.</xs:documentation>
+														</xs:annotation>
+													</xs:attribute>
+													<xs:attribute name="TimeStamp" type="xs:dateTime" use="optional">
+														<xs:annotation>
+															<xs:documentation xml:lang="en">The historical date and time (zulu/UTC) of any transaction recorded in the data base.</xs:documentation>
+														</xs:annotation>
+													</xs:attribute>
+													<xs:attribute name="NoShowInd" type="xs:boolean">
+														<xs:annotation>
+															<xs:documentation>When true, the passenger failed to use reserved accommodation for reasons other than misconnections.</xs:documentation>
+														</xs:annotation>
+													</xs:attribute>
+												</xs:complexType>
+											</xs:element>
+										</xs:sequence>
+										<xs:attribute name="TicketDocumentNbr" type="StringLength1to16" use="required">
+											<xs:annotation>
+												<xs:documentation xml:lang="en">Document number comprised of the airline code, form code, and serial number.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="ExchangeTktNbrInd" type="xs:boolean" use="optional">
+											<xs:annotation>
+												<xs:documentation xml:lang="en">If true, this is the ticket/document number for a ticket/document that is being exchanged.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="DateOfIssue" type="xs:date">
+											<xs:annotation>
+												<xs:documentation>The date of issue.l</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="ExchangeDocDateOfIssue" type="xs:date">
+											<xs:annotation>
+												<xs:documentation>The exchanged document date of issue.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+							<xs:attributeGroup ref="QuantityGroup"/>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:element name="Errors" type="ErrorsType">
+					<xs:annotation>
+						<xs:documentation>Errors are returned if the request was unable to be processed.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

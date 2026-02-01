@@ -1,0 +1,48 @@
+<?xml  version="1.0" encoding="UTF-8" ?>
+<xs:schema targetNamespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" elementFormDefault="qualified" version="12.003" xmlns:cns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" id="IATA2024.1"><xs:import namespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" schemaLocation="IATA_OffersAndOrdersCommonTypes.xsd"/>
+<xs:element name="IATA_OrderCreateRQ">
+<xs:annotation>
+<xs:documentation>The OrderCreate/ OrderView transaction is a multi-function message that may:
+
+1) Request specified inventory to be held (and returns a reference to the held inventory)
+
+2) Request that an order to be created (returning the complete view of the Order)
+
+3) Request additions to order data elements (e.g. add frequent flyer data)</xs:documentation>
+</xs:annotation>
+<xs:complexType>
+<xs:sequence>
+<xs:element name="AugmentationPoint" type="cns:AugmentationPointType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Implementer-Augmented Structure.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="DistributionChain" type="cns:DistributionChainType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>An instance of a distribution channel. That is, the set of organizations involved in the development of the current transaction.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="PayloadAttributes" type="cns:IATA_PayloadStandardAttributesType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>IATA Standard Payload attributes</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="POS" type="cns:POS_Type" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Point of Sale information.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="Request" type="cns:OrderCreateRequestType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Order Create request information.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="Signature" type="cns:DigitalSignatureType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Method of ensuring data integrity and authenticity of parts or entirety of the message.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:schema>

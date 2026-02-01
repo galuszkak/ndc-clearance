@@ -1,0 +1,42 @@
+{
+  "@context": {
+    "@protected": true,
+    "IATACredential": "http://iata.org/iataCredentialDefinitions#IATACredential",
+    "passport": {
+      "@id": "http://iata.org/iataCredentialDefinitions#passport",
+      "@context": {
+        "@protected": true,
+        "birthdate": {
+          "@id": "http://iata.org/iataCredentialDefinitions/passport/dataGroup1#birthDate",
+          "@type": "http://www.w3.org/2001/XMLSchema#date"
+        },
+        "capturedBioPagePicture": {
+          "@id": "http://iata.org/iataCredentialDefinitions/passport#capturedBioPagePicture",
+          "@type": "@id"
+        },
+        "docTypeCode": {
+          "@id": "http://iata.org/iataCredentialDefinitions/passport/dataGroup1#docTypeCode"
+        },
+        "expiryDate": {
+          "@id": "http://iata.org/iataCredentialDefinitions/passport/dataGroup1#expiryDate",
+          "@type": "http://www.w3.org/2001/XMLSchema#date"
+        },
+        "sexCode": {
+          "@id": "http://iata.org/iataCredentialDefinitions/passport/dataGroup1#sexCode"
+        },
+        "holdersName": {
+          "@id": "http://iata.org/iataCredentialDefinitions/passport/dataGroup1#holdersName"
+        },
+        "issuerCode": {
+          "@id": "http://iata.org/iataCredentialDefinitions/passport/dataGroup1#issuerCode"
+        },
+        "natlCode": {
+          "@id": "http://iata.org/iataCredentialDefinitions/passport/dataGroup1#natlCode"
+        },
+        "passportNumberIdentifier": {
+          "@id": "http://iata.org/iataCredentialDefinitions/passport/dataGroup1#passportNumberIdentifier"
+        }
+      }
+    }
+  }
+}

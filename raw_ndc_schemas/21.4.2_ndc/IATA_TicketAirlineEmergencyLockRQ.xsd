@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2007/00" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="1.002" id="IATA2021.4">
+	<xs:include schemaLocation="IATA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_ET_CommonTypes.xsd"/>
+	<xs:element name="IATA_TicketAirlineEmergencyLockRQ">
+		<xs:annotation>
+			<xs:documentation>This message allows a carrier to request that a ticket(s) be locked.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="POS_Type">
+					<xs:annotation>
+						<xs:documentation>The transaction agent id.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="TicketDocument" maxOccurs="999">
+					<xs:annotation>
+						<xs:documentation>Ticket/document number.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CouponInfo" maxOccurs="4">
+								<xs:annotation>
+									<xs:documentation>The coupon number.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:attribute name="Number" type="Numeric1to4" use="required">
+										<xs:annotation>
+											<xs:documentation>The coupon number.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="TicketDocumentNbr" type="StringLength1to16" use="required">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Document number comprised of the airline code, form code, and serial number.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="DateOfIssue" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>The date of issue.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="EmergencyLockInd" type="xs:boolean" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">When true, the coupon should be locked  When false, the coupon should be unlocked.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

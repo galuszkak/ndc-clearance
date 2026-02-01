@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2007/00" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="2.001" id="IATA2021.4">
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_SlotCommonTypes.xsd"/>
+	<xs:element name="IATA_SlotUtilizationRQ">
+		<xs:annotation>
+			<xs:documentation>This message allows an airline to request summary or detailed slot utilization information from an airport coordinator.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Airline">
+					<xs:annotation>
+						<xs:documentation>The airline requesting the slot information and the airline for whom the data is requested.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="AirlineType">
+								<xs:attribute name="RequestAirline" type="AirlineType" use="required">
+									<xs:annotation>
+										<xs:documentation>The airline for which slot utilization information is requested.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="CodeContext" type="IATA_OrICAO_Type">
+									<xs:annotation>
+										<xs:documentation>Used to specify if IATA or ICAO code.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Season" type="SeasonType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The season for which slot information is requested.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AirportUtilization" maxOccurs="9">
+					<xs:annotation>
+						<xs:documentation>The airport for which slot information is requested.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="UtilizationItem" maxOccurs="99">
+								<xs:annotation>
+									<xs:documentation>A flight for which slot utilization is requested.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Flight" minOccurs="0" maxOccurs="99">
+											<xs:annotation>
+												<xs:documentation>The flight number for which usage information is requested.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:attribute name="Airline" type="AirlineType" use="required"/>
+												<xs:attribute name="CodeContext" type="IATA_OrICAO_Type"/>
+												<xs:attribute name="Number" type="Numeric1to9999" use="required"/>
+												<xs:attribute name="OperationalSuffix" type="OperationalSuffixType" use="optional"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="HistoricReference" type="HistoricReferenceType">
+										<xs:annotation>
+											<xs:documentation>The identifier for the historic movement detail.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="Airport" type="StationType" use="required">
+							<xs:annotation>
+								<xs:documentation>The coordinated airport.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="CodeContext" type="IATA_OrICAO_Type">
+							<xs:annotation>
+								<xs:documentation>Used to specify if IATA or ICAO code.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="Type" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Used to specify the type of data requested.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Summary"/>
+						<xs:enumeration value="Detail"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="TimeType">
+				<xs:annotation>
+					<xs:documentation>Used to specify if times should be in UTC or local.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="UTC"/>
+						<xs:enumeration value="Local"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

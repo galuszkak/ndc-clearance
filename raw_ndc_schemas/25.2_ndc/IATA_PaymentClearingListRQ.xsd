@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.iata.org/IATA/2015/00/2022.1/IATA_PaymentClearingListRQ" elementFormDefault="qualified" version="2.000" xmlns:cns="http://www.iata.org/IATA/2015/00/2022.1/IATA_PaymentClearanceCommonTypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2015/00/2022.1/IATA_PaymentClearingListRQ" id="IATA2022.1"><xs:import namespace="http://www.iata.org/IATA/2015/00/2022.1/IATA_PaymentClearanceCommonTypes" schemaLocation="IATA_PaymentClearanceCommonTypes.xsd"/>
+<xs:element name="IATA_PaymentClearingListRQ">
+<xs:annotation>
+<xs:documentation>Requests one or a list of Clearing Notifications that match one or more search criteria.
+Search criteria may include Clearing ID or SwO Schedule Date.
+This clearance related message is about the flow of money and it cannot, under any circumstances, be used, treated or considered as legal invoice.</xs:documentation>
+</xs:annotation>
+<xs:complexType>
+<xs:sequence>
+<xs:choice minOccurs="1" maxOccurs="1">
+<xs:element name="ClearingDate" type="cns:ClearingDateType" minOccurs="1" maxOccurs="unbounded">
+<xs:annotation>
+<xs:documentation>Date, as per SwO Schedule, when payment must be made by Remittance Payer or to Settlement Payee.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ClearingID" type="cns:ClearingID_Type" minOccurs="1" maxOccurs="unbounded">
+<xs:annotation>
+<xs:documentation>identifier provided by the Clearance Manager to identify the movement of money.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:choice>
+<xs:element name="PayloadStandardAttributes" type="cns:IATA_PayloadStandardAttributesType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>The IATA_PayloadStdAttributes defines the standard attributes that appear on the root element for all IATA payloads.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:schema>

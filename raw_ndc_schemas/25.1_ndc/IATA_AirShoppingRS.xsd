@@ -1,0 +1,45 @@
+<?xml  version="1.0" encoding="UTF-8" ?>
+<xs:schema targetNamespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" elementFormDefault="qualified" version="10.005" xmlns:cns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" id="IATA2024.4"><xs:import namespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" schemaLocation="IATA_OffersAndOrdersCommonTypes.xsd"/>
+<xs:element name="IATA_AirShoppingRS">
+<xs:annotation>
+<xs:documentation>The AirShopping transaction set supports both demanding and flexible shopping experiences for anonymous or personalized shopping.
+
+The combination of functionally-rich attribute and affinity shopping support date range or specific month (calendar) shopping as an example.
+
+The response returns offers which may include branded offers or itinerary-priced offers with or without ancillary services. It also returns applicable rules for the integrated fares as well as for each service.
+
+The message also returns multi-media content at message level as well as media references at the individual offer level.</xs:documentation>
+</xs:annotation>
+<xs:complexType>
+<xs:sequence>
+<xs:choice minOccurs="1" maxOccurs="1">
+<xs:element name="Error" type="cns:ErrorType" minOccurs="1" maxOccurs="unbounded">
+<xs:annotation>
+<xs:documentation>Contains information related to errors detected during processing of the preceding request.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="Response" type="cns:AirShoppingResponseType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>AirShopping response information.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:choice>
+<xs:element name="AugmentationPoint" type="cns:AugmentationPointType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Implementer-Augmented Structure.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="DistributionChain" type="cns:DistributionChainType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>An instance of a distribution channel, which is a chain of intermediaries through which a good or service passes until it reaches the final buyer or the end consumer.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="PayloadAttributes" type="cns:IATA_PayloadStandardAttributesType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>IATA standard payload attributes.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:schema>

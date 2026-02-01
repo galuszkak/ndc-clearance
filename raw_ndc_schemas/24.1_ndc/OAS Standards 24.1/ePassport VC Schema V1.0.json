@@ -1,0 +1,566 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.prod.digitalcredentials.iata.org/epassport.json",
+  "title": "ePassport",
+  "description": "Verifiable Credential for an ePassport.",
+  "type": "object",
+  "required": [
+    "@context",
+    "type",
+    "issuer",
+    "issuanceDate",
+    "expirationDate",
+    "credentialSubject",
+    "credentialSchema"
+  ],
+  "properties": {
+    "@context": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "prefixItems": [
+        {
+          "const": "https://www.w3.org/2018/credentials/v1"
+        },
+        {
+          "const": "https://schemas.prod.digitalcredentials.iata.org/contexts/iata_credential.jsonld"
+        }
+      ],
+      "items": {
+        "type": "string",
+        "format": "uri"
+      }
+    },
+    "id": {
+      "type": "string",
+      "format": "uri"
+    },
+    "type": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "prefixItems": [
+        {
+          "const": "VerifiableCredential"
+        },
+        {
+          "const": "IATACredential"
+        },
+        {
+          "const": "ePassportCredential"
+        }
+      ]
+    },
+    "issuer": {
+      "type": "string",
+      "format": "uri"
+    },
+    "issuanceDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expirationDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "credentialSubject": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "string",
+          "format": "uri",
+          "description": "DID of the subject."
+        },
+        "electronicPassport": {
+          "title": "Electronic Passport",
+          "description": "A passport that has an embedded electronic microprocessor chip, which contains biometric information that can be used to authenticate the identity of the passport holder. Also known as an e-passport, biometric passport, or a digital passport. It is a type of Electronic Machine Readable Travel Document (eMRTD).",
+          "type": "object",
+          "required": [
+            "dataGroup1"
+          ],
+          "properties": {
+            "dataGroup1": {
+              "title": "Data Group 1",
+              "description": "This is the data group 1 (DG1) of the machine readable zone (MRZ) Reference Logical Data structure (LDS) including data groups DOC 9303 ICAO Part 4 + 10 https://www.icao.int/publications/Documents/9303_p10_cons_en.pdf.",
+              "type": "object",
+              "required": [
+                "birthdate",
+                "docTypeCode",
+                "expiryDate",
+                "genderCode",
+                "holdersName",
+                "issuerCode",
+                "natlText",
+                "passportNumberIdentifier"
+              ],
+              "properties": {
+                "birthdate": {
+                  "title": "Data Group 1 Birthdate",
+                  "description": "Passport holder's date of birth as recorded by the issuing State or organization. If the date of birth is unknown see Doc 9303-3 for guidance. Reference: Doc 9303 ICAO Machine readable Travel Documents 8th Edition 2021 https://www.icao.int/publications/Documents/9303_p4_cons_en.pdf.",
+                  "type": "string",
+                  "format": "date"
+                },
+                "docTypeCode": {
+                  "title": "Data Group 1 Document Type Code",
+                  "description": "Capital letter P to designate an ePassport. One additional capital letter may be used, in the character position after the letter P and at the discretion of the issuing State or organization, to designate other types of passports such as MRP issued to diplomatic staff. Reference: Doc 9303 ICAO Machine readable Travel Documents 8th Edition 2021 https://www.icao.int/publications/Documents/9303_p4_cons_en.pdf.",
+                  "type": "string",
+                  "maxLength": 2
+                },
+                "expiryDate": {
+                  "title": "Data Group 1 Expiry Date",
+                  "description": "Date of expiry of the ePassport. For additional details see Doc 9303-3. Reference: Doc 9303 ICAO Machine readable Travel Documents 8th Edition 2021 https://www.icao.int/publications/Documents/9303_p4_cons_en.pdf.",
+                  "type": "string",
+                  "format": "date"
+                },
+                "genderCode": {
+                  "title": "Digital Travel Authorisation Gender Code",
+                  "description": "Gender of the individual (Typically, M, F or X for unspecified).",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1
+                },
+                "holdersName": {
+                  "title": "Data Group 1 Holders Name",
+                  "description": "Full name of the holder, as identified by the issuing State or organization. For additional details see Doc 9303-3. Reference: Doc 9303 ICAO Machine readable Travel Documents 8th Edition 2021 https://www.icao.int/publications/Documents/9303_p4_cons_en.pdf.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64
+                },
+                "issuerCode": {
+                  "title": "Data Group 1 Issuer Code",
+                  "description": "Code of the State or Organization responsible for the issuance of the ePassport. Reference: Doc 9303 ICAO Machine readable Travel Documents 8th Edition 2021 https://www.icao.int/publications/Documents/9303_p4_cons_en.pdf.",
+                  "type": "string",
+                  "maxLength": 13
+                },
+                "natlText": {
+                  "title": "Data Group 1 Nationality Text",
+                  "description": "The nationality of the ePassport holder. Reference: Digital Travel Authorizations Version 2.15 June 2021 ISO/IEC JTC1 SC17 WG3/TF1 https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Authorizations.%20%28New%29.pdf Doc 9303 ICAO Machine readable Travel Documents 8th Edition 2021 https://www.icao.int/publications/Documents/9303_p4_cons_en.pdf.",
+                  "type": "string"
+                },
+                "passportNumberIdentifier": {
+                  "title": "Data Group 1 Passport Number Identifier",
+                  "description": "As given by the issuing State or organization to uniquely identify the document from all other MRTDs issued by the State or organization. For additional details see Doc 9303-3. REF: Doc 9303 ICAO Machine readable Travel Documents 8th Edition 2021 https://www.icao.int/publications/Documents/9303_p4_cons_en.pdf.",
+                  "type": "string",
+                  "maxLength": 35
+                }
+              }
+            },
+            "dataGroup15": {
+              "title": "Data Group 15",
+              "description": "Data group 15 defined by ICAO for ePassport REF: Logical Data structure (LDS) including data groups DOC 9303 ICAO Part 10 https://www.icao.int/publications/Documents/9303_p10_cons_en.pdf.",
+              "type": "object",
+              "required": [
+                "activeAuthentication"
+              ],
+              "properties": {
+                "activeAuthentication": {
+                  "title": "Active Authentication",
+                  "description": "Active Authentication authenticates the contactless IC by signing a challenge sent by the IFD (inspection system) with a private key known only to the IC. For this purpose the contactless IC contains its own Active Authentication Key pair (KPrAA and KPuAA). A hash representation of Data Group 15 (Public Key (KPuAA) info) is stored in the Document Security Object (SOD) and therefore authenticated by the issuer's digital signature. The corresponding Private Key (KPrAA) is stored in the contactless IC's secure memory. By authenticating the visual MRZ (through the hashed MRZ in the Document Security Object (SOD)) in combination with the challenge response, using the eMRTD's Active Authentication Key Pair (KPrAA and KPuAA), the inspection system verifies that the Document Security Object (SOD) has been read from the genuine contactless IC stored in the genuine eMRTD. Active Authentication requires processing capabilities of the eMRTD's contactless IC. ICAO Doc9303 Machine Readable Travel Documents Eighth Edition 2021 Part 11: section 6.1.",
+                  "type": "object",
+                  "required": [
+                    "publicKeyBinaryObject"
+                  ],
+                  "properties": {
+                    "publicKeyBinaryObject": {
+                      "title": "Active Authentication Public Key Binary Object",
+                      "description": "This is a binary object which contains a public key for use in active authentication. REF: section 2.1.2.2 2.1.2.4 ActiveAuthenticationPublicKeyInfo The ActiveAuthenticationPublicKeyInfo contains the Active Authentication Public Key and is REQUIRED when implementing the OPTIONAL Active Authentication protocol as described in [Doc 9303]-11. ICAO MRTD digital Travel Credential (DTC) version 1.2 Oct 2020. https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Credential%20%28DTC%29.pdf.",
+                      "type": "string",
+                      "format": "uri"
+                    }
+                  }
+                }
+              }
+            },
+            "dataGroup2EncodedFaceBiometrics": {
+              "title": "Data Group 2 Encoded Face Biometrics",
+              "description": "First (latest) face biometric image from data group 2. Reference: 4.7.2 DATA GROUP 2 Encoded Identification Features Face version: - 240523 See page 43 https://www.icao.int/publications/Documents/9303_p10_cons_en.pdf.",
+              "type": "object",
+              "required": [
+                "faceBiometricDataEncodedPicture"
+              ],
+              "properties": {
+                "faceBiometricDataEncodedPicture": {
+                  "title": "Data Group 2 Encoded Face Biometrics Face Biometric Data Encoded Picture",
+                  "description": "First (latest) face biometric image from data group 2. Reference: 4.7.2 DATA GROUP 2 Encoded Identification Features Face (MANDATORY) See page 54 https://www.icao.int/publications/Documents/9303_p10_cons_en.pdf.",
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            },
+            "digitalTravelCredential": {
+              "title": "Digital Travel Credential",
+              "description": "Travel credentials in a digital format that are meant to temporarily or permanently substitute a conventional passport by a digital representation of the traveler's identity. Reference: ICAO MRTD digital Travel Credential (DTC) version 1.2 Oct 2020. https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Credential%20%28DTC%29.pdf.",
+              "type": "object",
+              "required": [
+                "contentInfo",
+                "dataCapabilitiesInfo",
+                "dataContent"
+              ],
+              "properties": {
+                "contentInfo": {
+                  "title": "Content Information",
+                  "description": "Information about the content of the DTC. REF: 2.1.3 DTCContentInfo The DTC-VC is defined in a DER encoded structure called DTCContentInfo. ICAO MRTD digital Travel Credential (DTC) version 1.2 Oct 2020. https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Credential%20%28DTC%29.pdf.",
+                  "type": "object",
+                  "required": [
+                    "versionNumber"
+                  ],
+                  "properties": {
+                    "versionNumber": {
+                      "title": "Content Information Version Number",
+                      "description": "Version number of the content of the Digital travel credential. Reference: 2.1.3 DTCContentInfo version is mandatory contains 'v[n]' ICAO MRTD digital Travel Credential (DTC) version 1.2 Oct 2020. https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Credential%20%28DTC%29.pdf.",
+                      "type": "number"
+                    },
+                    "signatureInfo": {
+                      "title": "Signature Information",
+                      "description": "Information about the signature type, algorithm, certificate and attributes used within the DTC.",
+                      "type": "object",
+                      "required": [
+                        "digestHashAlgorithmIdentifier",
+                        "signatureAlgorithmIdentifier",
+                        "signatureCertificateText",
+                        "signatureDigestResultBinaryObject",
+                        "signedAttributes"
+                      ],
+                      "properties": {
+                        "digestHashAlgorithmIdentifier": {
+                          "title": "Signature Information Digest Hash Algorithm Identifier",
+                          "description": "Identifier of the algorithm used to produce the hash value of DTCTBS, each data value of DTCTBS and SignedAttrs. Reference: ICAO MRTD digital Travel Credential (DTC) version 1.2 Oct 2020. https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Credential%20%28DTC%29.pdf.",
+                          "type": "string",
+                          "maxLength": 35
+                        },
+                        "signatureAlgorithmIdentifier": {
+                          "title": "Signature Information Signature Algorithm Identifier",
+                          "description": "Identifier of the algorithm used to produce the signature value, and any associated parameters Reference: ICAO MRTD digital Travel Credential (DTC) version 1.2 Oct 2020. https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Credential%20%28DTC%29.pdf.",
+                          "type": "string",
+                          "maxLength": 35
+                        },
+                        "signatureCertificateText": {
+                          "title": "Signature Information Signature Certificate Text",
+                          "description": "Certificate associated with the signature information in the DTC. Defined in [RFC 5280]. MUST contain the DTC Signer certificate Reference: ICAO MRTD digital Travel Credential (DTC) version 1.2 Oct 2020. https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Credential%20%28DTC%29.pdf.",
+                          "type": "string"
+                        },
+                        "signatureDigestResultBinaryObject": {
+                          "title": "Signature Information Signature Digest Result Binary Object",
+                          "description": "Result of the signature generation process. Message Digest Calculation Process: The result is the message digest of the complete DER encoding of the SignedAttributes value contained in the signedAttrs field. A separate encoding the signedAttrs field is performed for message digest calculation. The IMPLICIT [0] tag in the signedAttrs is not used for the DER encoding, rather an EXPLICIT SET OF tag is used. That is, the DER encoding of the EXPLICIT SET OF tag, rather than of the MPLICIT [0] tag, MUST be ncluded in the message digest calculation along with the length and content octets of the SignedAttributes value. dtcSignature Generation Process: The input to the dtcSignature generation process includes the result of the message digest calculation process and the DTC signer's private key Reference: 2.1.3 DTCContentInfo -&gt; DTCSignerInfo -&gt; dtcSignature ICAO MRTD digital Travel Credential (DTC) version 1.2 Oct 2020. https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Credential%20%28DTC%29.pdf.",
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "signedAttributes": {
+                          "title": "Signed Attributes",
+                          "description": "Named pairs of attribute types and attribute values. Reference: Must include signing-time and messagedigest. MessageDigest contains the computed hash value of ASN.1 DER encoded DTCTBS (Note: ASN.1 DER encoded DTCTBS does not include the EXPLICIT [0] tag) ICAO MRTD digital Travel Credential (DTC) version 1.2 Oct 2020. https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Credential%20%28DTC%29.pdf.",
+                          "type": "object",
+                          "required": [
+                            "attributeTypeCode",
+                            "attributeValueText"
+                          ],
+                          "properties": {
+                            "attributeTypeCode": {
+                              "title": "Signed Attributes Type",
+                              "description": "Type of Signed Attribute.",
+                              "type": "string",
+                              "maxLength": 35
+                            },
+                            "attributeValueText": {
+                              "title": "Signed Attributes Value",
+                              "description": "Value of a Signed Attribute.",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "dataCapabilitiesInfo": {
+                  "title": "Data Capabilities Information",
+                  "description": "Data capabilities in a Digital Travel Credential.",
+                  "type": "object",
+                  "required": [
+                    "dataTransferInterfaceTypeCode",
+                    "securityAssuranceLevelIndText",
+                    "userConsentInfoText",
+                    "virtualComponentPresenceInd"
+                  ],
+                  "properties": {
+                    "dataTransferInterfaceTypeCode": {
+                      "title": "Data Capabilities Information Data Transfer Interface Type Code",
+                      "description": "DataTransfer Interface Type. This indicates the interface (NFC/BLE/etc.) that will be used by the DTC-PC to communicate with the Inspection System. The DTC-PC may support more than one interface. ICAO MRTD digital Travel Credential (DTC) version 1.2 Oct 2020. https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Credential%20%28DTC%29.pdf.",
+                      "type": "string",
+                      "maxLength": 35
+                    },
+                    "securityAssuranceLevelIndText": {
+                      "title": "Data Capabilities Information Security Assurance Level Indicator Text",
+                      "description": "This is an indicator to identify the security/trust level associated with the DTC-PC device itself. Reference: 2.1.1.4 SecurityAssuranceLevelIndicator An indicator to identify the security/trust level associated with the DTC-PC device itself. [ISO/IEC 23220] is working on defining the semantics for this indicator and the same will be used here. The data structure defined by ISO/IEC 23220 is encapsulated in an OctetString. ICAO MRTD digital Travel Credential (DTC) version 1.2 Oct 2020. https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Credential%20%28DTC%29.pdf.",
+                      "type": "string"
+                    },
+                    "userConsentInfoText": {
+                      "title": "Data Capabilities Information User Consent Information Text",
+                      "description": "2.1.1.2 UserConsentInfo User Consent is necessary before the DTC-PC presents any identifiable information to the Inspection System. The UserConsentinfo indicates whether the device hosting the DTC-PC has a capability to assert User Consent on the device itself (Device Local) or will require a Proof of Possession (POP) to be negotiated between the DTC-PC and the Inspection System. The details of the POP will be specified in a separate document. ICAO MRTD digital Travel Credential (DTC) version 1.2 Oct 2020. https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Credential%20%28DTC%29.pdf.",
+                      "type": "string"
+                    },
+                    "virtualComponentPresenceInd": {
+                      "title": "Data Capabilities Information Virtual Component Presence Indicator",
+                      "description": "This is a flag which indicates to the Inspection System whether it can receive the DTC- VC from the same device. Reference: 2.1.1.3 VirtualComponentPresence The device hosting the DTC-PC MAY contain the DTC-VC as well, though this is NOT REQUIRED. This flag indicates to the Inspection System whether it can receive the DTC- VC from the same device. ICAO MRTD digital Travel Credential (DTC) version 1.2 Oct 2020. https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Credential%20%28DTC%29.pdf.",
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "dataContent": {
+                  "title": "Data Content",
+                  "description": "Data groups and security info. This is a physical container. ICAO MRTD digital Travel Credential (DTC) version 1.2 Oct 2020. https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Credential%20%28DTC%29.pdf.",
+                  "type": "object",
+                  "required": [
+                    "dataGroup2EncodedFaceBiometrics",
+                    "securityInfo"
+                  ],
+                  "properties": {
+                    "dataGroup1": {
+                      "title": "Data Group 1",
+                      "description": "Data group 1 (DG1) of the machine readable zone (MRZ) Reference Logical Data structure (LDS) including data groups DOC 9303 ICAO Part 4 + 10 https://www.icao.int/publications/Documents/9303_p10_cons_en.pdf.",
+                      "type": "object",
+                      "required": [
+                        "birthdate",
+                        "docTypeCode",
+                        "expiryDate",
+                        "genderCode",
+                        "holdersName",
+                        "issuerCode",
+                        "natlText",
+                        "passportNumberIdentifier"
+                      ],
+                      "properties": {
+                        "birthdate": {
+                          "title": "Data Group 1 Birthdate",
+                          "description": "Holder's date of birth as recorded by the issuing State or organization. If the date of birth is unknown see Doc 9303-3 for guidance. Reference: Doc 9303 ICAO Machine readable Travel Documents 8th Edition 2021 https://www.icao.int/publications/Documents/9303_p4_cons_en.pdf.",
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "docTypeCode": {
+                          "title": "Data Group 1 Document Type Code",
+                          "description": "Capital letter P to designate an MRP. One additional capital letter may be used, in the character position after the letter P and at the discretion of the issuing State or organization, to designate other types of passports such as MRP issued to diplomatic staff. Reference: Doc 9303 ICAO Machine readable Travel Documents 8th Edition 2021 https://www.icao.int/publications/Documents/9303_p4_cons_en.pdf.",
+                          "type": "string",
+                          "maxLength": 2
+                        },
+                        "expiryDate": {
+                          "title": "Data Group 1 Expiry Date",
+                          "description": "Date of expiry of the MRP. For additional details see Doc 9303-3. Reference: Doc 9303 ICAO Machine readable Travel Documents 8th Edition 2021 https://www.icao.int/publications/Documents/9303_p4_cons_en.pdf.",
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "genderCode": {
+                          "title": "Digital Travel Authorisation Gender Code",
+                          "description": "Gender of the individual (M, F, U for undisclosed or X for unspecified). Reference:IATA AIDM Gender Code.",
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 1
+                        },
+                        "holdersName": {
+                          "title": "Data Group 1 Holders Name",
+                          "description": "The full name of the holder, as identified by the issuing State or organization. For additional details see Doc 9303-3. Reference: Doc 9303 ICAO Machine readable Travel Documents 8th Edition 2021 https://www.icao.int/publications/Documents/9303_p4_cons_en.pdf.",
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 64
+                        },
+                        "issuerCode": {
+                          "title": "Data Group 1 Issuer Code",
+                          "description": "Code of the State or organization responsible for the issuance of the official travel document Reference: Doc 9303 ICAO Machine readable Travel Documents 8th Edition 2021 https://www.icao.int/publications/Documents/9303_p4_cons_en.pdf.",
+                          "type": "string",
+                          "maxLength": 13
+                        },
+                        "natlText": {
+                          "title": "Data Group 1 Nationality Text",
+                          "description": "The nationality of the holder Reference: Digital Travel Authorizations Version 2.15 June 2021 ISO/IEC JTC1 SC17 WG3/TF1 https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Authorizations.%20%28New%29.pdf Doc 9303 ICAO Machine readable Travel Documents 8th Edition 2021 https://www.icao.int/publications/Documents/9303_p4_cons_en.pdf.",
+                          "type": "string"
+                        },
+                        "passportNumberIdentifier": {
+                          "title": "Data Group 1 Passport Number Identifier",
+                          "description": "As given by the issuing State or organization to uniquely identify the document from all other MRTDs issued by the State or organization. For additional details see Doc 9303-3. REF: Doc 9303 ICAO Machine readable Travel Documents 8th Edition 2021 https://www.icao.int/publications/Documents/9303_p4_cons_en.pdf.",
+                          "type": "string",
+                          "maxLength": 35
+                        },
+                        "personalNumberIdentifier": {
+                          "title": "Data Group 1 Personal Number Identifier",
+                          "description": "Optional attribute which may contain a number allocated to the holder of the passport which is different to the passport number. Reference: Doc 9303 ICAO Machine readable Travel Documents 8th Edition 2021 https://www.icao.int/publications/Documents/9303_p4_cons_en.pdf Field optionally used for personal identification number given to holder by the issuing State or organization. For additional details see Doc 9303-3.",
+                          "type": "string",
+                          "maxLength": 35
+                        }
+                      }
+                    },
+                    "dataGroup2EncodedFaceBiometrics": {
+                      "title": "Data Group 2 Encoded Face Biometrics",
+                      "description": "First (latest) face biometric image from data group 2. Reference: 4.7.2 DATA GROUP 2 Encoded Identification Features Face version: - 240523 See page 43 https://www.icao.int/publications/Documents/9303_p10_cons_en.pdf.",
+                      "type": "object",
+                      "required": [
+                        "faceBiometricDataEncodedPicture"
+                      ],
+                      "properties": {
+                        "faceBiometricDataEncodedPicture": {
+                          "title": "Data Group 2 Encoded Face Biometrics Face Biometric Data Encoded Picture",
+                          "description": "First (latest) face biometric image from data group 2. Reference: 4.7.2 DATA GROUP 2 Encoded Identification Features Face (MANDATORY) See page 54 https://www.icao.int/publications/Documents/9303_p10_cons_en.pdf.",
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      }
+                    },
+                    "docSecurityObject": {
+                      "title": "Document Security Object",
+                      "description": "Document Security Object which contains the hashing information including hashed ePassport data. Ref: DTCData . dtcSOD EF.SOD MUST be present if DTC is eMRTD Bound or eMRTD-PC Bound. This field MUST NOT be present if DTC is 4.6.2.3 ASN.1 Profile LDS Document Security Object for SOD V1 in https://www.icao.int/publications/Documents/9303_p10_cons_en.pdf.",
+                      "type": "object",
+                      "required": [
+                        "dataGroupHash",
+                        "digestHashAlgorithmIdentifier",
+                        "versionNumber"
+                      ],
+                      "properties": {
+                        "digestHashAlgorithmIdentifier": {
+                          "title": "Document Security Object Digest Hash Algorithm Identifier",
+                          "description": "This is the Digest Algorithm Identifier used to perform hashing on the data groups. 4.6.2.3 ASN.1 Profile LDS Document Security Object for SOD V1 in https://www.icao.int/publications/Documents/9303_p10_cons_en.pdf.",
+                          "type": "string",
+                          "maxLength": 35
+                        },
+                        "versionNumber": {
+                          "title": "Document Security Object Version Number",
+                          "description": "This is the security object version 4.6.2.3 ASN.1 Profile LDS Document Security Object for SOD V1 in https://www.icao.int/publications/Documents/9303_p10_cons_en.pdf.",
+                          "type": "number"
+                        },
+                        "dataGroupHash": {
+                          "title": "Data Group Hash",
+                          "description": "Data group with corresponding hash value. Reference: 4.6.2.3 ASN.1 Profile LDS Document Security Object for SOD V1 in https://www.icao.int/publications/Documents/9303_p10_cons_en.pdf.",
+                          "type": "array",
+                          "items": {
+                            "title": "Data Group Hash",
+                            "description": "Data group with corresponding hash value. 4.6.2.3 ASN.1 Profile LDS Document Security Object for SOD V1 in https://www.icao.int/publications/Documents/9303_p10_cons_en.pdf.",
+                            "type": "object",
+                            "required": [
+                              "dataGroupNumber",
+                              "valueBinaryObject"
+                            ],
+                            "properties": {
+                              "dataGroupNumber": {
+                                "title": "Data Group Hash Data Group Number",
+                                "description": "Data group number. Reference: 4.6.2.3 ASN.1 Profile LDS Document Security Object for SOD V1 in https://www.icao.int/publications/Documents/9303_p10_cons_en.pdf.",
+                                "type": "number",
+                                "minimum": 1,
+                                "maximum": 16
+                              },
+                              "valueBinaryObject": {
+                                "title": "Data Group Hash Value Binary Object",
+                                "description": "Hash value for the corresponding data group. 4.6.2.3 ASN.1 Profile LDS Document Security Object for SOD V1 in https://www.icao.int/publications/Documents/9303_p10_cons_en.pdf.",
+                                "type": "string",
+                                "format": "uri"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "securityInfo": {
+                      "title": "Security Information",
+                      "description": "The DTC-PC has an EF.CardAccess which contains the Security Infos for PACE, defined in [Doc 9303]-11 Section 9.2, along with an additional Security Info, DTCCapabilitiesInfo (See Section 2.1.1). The additional DTCCapabilitiesInfo MUST be present in EF.CardAccess of the DTC-PC and it can be used to determine that the presented document is a DTC-PC. If it does not contain the additional field, it is an eMRTD. To indicate support for the protocols and supported parameters, the DTC-VC SHALL provide the following Security Infos in this field: - All the Security Infos contained in EF.CardAccess (See above) including the DTCCapabilitiesInfo - At least one of the following Security Infos o Security Infos for Active Authentication (See [Doc 9303]-11 Section 9.2) o Security Infos for Chip Authentication (See [Doc 9303]-11 Section 9.2)<b><i> </i></b> Reference: ICAO Machine Readable Travel Documents Digital Travel Credentials (DTC) Virtual Component Data Structure and PKI Mechanisms Technical Report Version1.2 October 2020 https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Credential%20%28DTC%29.pdf 2.1.2.3 SecurityInfos.",
+                      "type": "object",
+                      "required": [
+                        "expiryDate",
+                        "uniqueIdentifier"
+                      ],
+                      "properties": {
+                        "expiryDate": {
+                          "title": "Security Information Expiry Date",
+                          "description": "Date of expiry of the DTC is represented by DTCDOE. It is present only in the case of an eMRTD-PC bound and PC bound DTC. In the case of the eMRTD-PC bound DTC, it SHALL NOT be greater than the date of expiry of the eMRTD (as encoded in DG1). In the case of the PC Bound DTC, the value encoded in DTCDOE MUST exactly match the date of expiry encoded in DG1. The date of expiry of the DTC MUST be encoded as an eight-digit string consisting of four digits for the year (YYYY) immediately followed by two digits for the number of the month (MM) and by two digits for the day (DD). The structure SHALL be as follows: YYYYMMDD. Following this format, 13 September 2019 will be shown as: 20190913. Reference: section 2.1.2.2 of ICAO MRTD digital Travel Credential (DTC) version 1.2 Oct 2020. https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Credential%20%28DTC%29.pdf.",
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "uniqueIdentifier": {
+                          "title": "Security Information Unique Identifier",
+                          "description": "The DTC-VC will have a unique identifier only in the case of an eMRTD-PC bound and PC bound DTC. In the case case of eMRTD-PC bound DTC, the DTC Identifier MUST be different from the Document Number in DG1. This allows the DTC to be revoked independently of the eMRTD. In the case of a PC bound DTC, the DTC Identifier MUST be the same as the Document Number in DG1. The restrictions for document number in DG1 as specified in [Doc 9303-10] apply to DTCIdentifier as well. Reference: section 2.1.2.1 of ICAO MRTD digital Travel Credential (DTC) version 1.2 Oct 2020. https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Credential%20%28DTC%29.pdf.",
+                          "type": "string",
+                          "maxLength": 35
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "docSecurityObject": {
+              "title": "Document Security Object",
+              "description": "Document Security Object which contains the hashing information including hashed ePassport data. Ref: DTCData . dtcSOD EF.SOD MUST be present if DTC is eMRTD Bound or eMRTD-PC Bound. This field MUST NOT be present if DTC is 4.6.2.3 ASN.1 Profile LDS Document Security Object for SOD V1 in https://www.icao.int/publications/Documents/9303_p10_cons_en.pdf.",
+              "type": "object",
+              "required": [
+                "dataGroupHash",
+                "digestHashAlgorithmIdentifier",
+                "versionNumber"
+              ],
+              "properties": {
+                "digestHashAlgorithmIdentifier": {
+                  "title": "Document Security Object Digest Hash Algorithm Identifier",
+                  "description": "Digest Algorithm Identifier used to perform hashing on the data groups. Reference: 4.6.2.3 ASN.1 Profile LDS Document Security Object for SOD V1 in https://www.icao.int/publications/Documents/9303_p10_cons_en.pdf.",
+                  "type": "string",
+                  "maxLength": 35
+                },
+                "versionNumber": {
+                  "title": "Document Security Object Version Number",
+                  "description": "Security object version. Reference: 4.6.2.3 ASN.1 Profile LDS Document Security Object for SOD V1 in https://www.icao.int/publications/Documents/9303_p10_cons_en.pdf.",
+                  "type": "number"
+                },
+                "dataGroupHash": {
+                  "title": "Data Group Hash",
+                  "description": "Data group with corresponding hash value. Reference: 4.6.2.3 ASN.1 Profile LDS Document Security Object for SOD V1 in https://www.icao.int/publications/Documents/9303_p10_cons_en.pdf.",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "title": "Data Group Hash",
+                    "description": "Data group with corresponding hash value. Reference: 4.6.2.3 ASN.1 Profile LDS Document Security Object for SOD V1 in https://www.icao.int/publications/Documents/9303_p10_cons_en.pdf.",
+                    "required": [
+                      "dataGroupNumber",
+                      "valueBinaryObject"
+                    ],
+                    "properties": {
+                      "dataGroupNumber": {
+                        "title": "Data Group Hash Data Group Number",
+                        "description": "Data group number. Reference: 4.6.2.3 ASN.1 Profile LDS Document Security Object for SOD V1 in https://www.icao.int/publications/Documents/9303_p10_cons_en.pdf.",
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 16
+                      },
+                      "valueBinaryObject": {
+                        "title": "Data Group Hash Value Binary Object",
+                        "description": "Hash value for the corresponding data group. Reference: 4.6.2.3 ASN.1 Profile LDS Document Security Object for SOD V1 in https://www.icao.int/publications/Documents/9303_p10_cons_en.pdf.",
+                        "type": "string",
+                        "format": "uri"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "id",
+        "electronicPassport"
+      ],
+      "additionalProperties": false
+    },
+    "credentialSchema": {
+      "type": "object",
+      "required": [
+        "id",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uri",
+          "const": "https://schemas.prod.digitalcredentials.iata.org/epassport.json"
+        },
+        "type": {
+          "type": "string",
+          "const": "JsonSchemaValidator2018"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

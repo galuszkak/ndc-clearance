@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="1.000" id="IATA2021.3">
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_SlotCommonTypes.xsd"/>
+	<xs:element name="IATA_SlotRestrictionCapacityNotifRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">This message is used to push restriction capacity information for a specific airport.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="POS_Type" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">The originator of the message.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="CapacityInformation" type="RestrictionCapacityInformationType">
+					<xs:annotation>
+						<xs:documentation>The capacity information for an airport.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="TimeType" type="TimeType" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Specifies that times are either in local or UTC.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

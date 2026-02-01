@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="2.003" id="IATA2022.1">
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_SlotCommonTypes.xsd"/>
+	<xs:element name="IATA_SlotDynamicUpdateNotifRQ">
+		<xs:annotation>
+			<xs:documentation>Allows a coordinator to send to a third party the changes that have been made in the coordinator's database..</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Season" type="SeasonType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The coordination season for this slot information.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Airport" maxOccurs="9">
+					<xs:annotation>
+						<xs:documentation>The changed information for a specific airport.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="UpdateItem" maxOccurs="99999">
+								<xs:annotation>
+									<xs:documentation>A block of related submission details.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ClearanceChangeType" type="MovementChangeType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation xml:lang="en">The type of transactions contained in the update item.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="ClearanceChgItem" maxOccurs="99">
+											<xs:annotation>
+												<xs:documentation>The additions and deletions that make up a single change. </xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Deletion" minOccurs="0" maxOccurs="99">
+														<xs:annotation>
+															<xs:documentation>An existing schedule movement that has been deleted.</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="OperatingPeriod" type="OperatingPeriodType">
+																	<xs:annotation>
+																		<xs:documentation>The start and end dates, days of operation, frequency, and over midnight.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="ArrivalMovement" type="AllocatedSlotType" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>An operation at the airport that applies to an arrival.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="DepartureMovement" type="AllocatedSlotType" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>An operation at the airport that applies to a departure.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="Addition" minOccurs="0" maxOccurs="99">
+														<xs:annotation>
+															<xs:documentation>Aschedule movement that has been added.</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="OperatingPeriod" type="OperatingPeriodType">
+																	<xs:annotation>
+																		<xs:documentation>The start and end dates, days of operation, frequency, and over midnight.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="ArrivalMovement" type="AllocatedSlotType" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>An operation at the airport that applies to an arrival.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="DepartureMovement" type="AllocatedSlotType" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>An operation at the airport that applies to a departure.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="CoorAirport" type="StationType" use="required">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">The airport code for this slot information.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="optional">
+							<xs:annotation>
+								<xs:documentation>Used to specify if IATA or ICAO airline code.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="TimeType" type="TimeType" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Specifies that times are either in local or UTC.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="EntireSeasonInd" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Indicates that the message represents all of the flights scheduled for the season</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

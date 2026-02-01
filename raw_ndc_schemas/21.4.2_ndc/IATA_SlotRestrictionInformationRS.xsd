@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="1.000" id="IATA2021.4">
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_SlotCommonTypes.xsd"/>
+	<xs:element name="IATA_SlotRestrictionInformationRS">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">This message is sent from a coordinator to an airline to list the restrictions held at the airport</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="Success" type="SuccessType">
+						<xs:annotation>
+							<xs:documentation>Standard way to indicate successful processing of an IATA message. Returning an empty element of this type indicates success.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Season" type="SeasonType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The coordination season for this information</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Airport">
+						<xs:annotation>
+							<xs:documentation>The coordinated airport for which restriction information is shown.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:attribute name="Station" type="StationType" use="required">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">The coordinated airport code for which restriction information is shown.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="optional">
+								<xs:annotation>
+									<xs:documentation>Used to specify if an IATA or an ICAO code.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="RestrictionList">
+						<xs:annotation>
+							<xs:documentation>A list of restrictions applicable at the airport</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="RestrictionItem" maxOccurs="99">
+									<xs:annotation>
+										<xs:documentation>An individual restriction that is applicable at the airport</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:attribute name="RestrictionCode" type="UpperCaseAlphaNumericStringLength1to20" use="required">
+											<xs:annotation>
+												<xs:documentation>The Identifier for the restriction</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="InquirableInd" type="xs:boolean" use="required">
+											<xs:annotation>
+												<xs:documentation>When true, the client can inquire on the capacity/availability for this restriction</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="RestrictionType" use="optional">
+											<xs:annotation>
+												<xs:documentation xml:lang="en">How is the restriction maintained</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:NMTOKEN">
+													<xs:enumeration value="Interval"/>
+													<xs:enumeration value="Season"/>
+													<xs:enumeration value="Daily"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:attribute>
+										<xs:attribute name="BracketSize" type="Numeric0to9999" use="optional">
+											<xs:annotation>
+												<xs:documentation>The size of the time bracket used to measure capacity/availability for interval based restrictions</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="Description" type="StringLength1to255" use="required">
+											<xs:annotation>
+												<xs:documentation>Detailed description of the restriction</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:element name="Errors" type="ErrorsType">
+					<xs:annotation>
+						<xs:documentation>Errors are returned if the request was unable to be processed.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
+
+

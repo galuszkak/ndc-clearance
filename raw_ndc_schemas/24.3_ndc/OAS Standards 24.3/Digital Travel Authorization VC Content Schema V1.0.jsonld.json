@@ -1,0 +1,63 @@
+{
+	"@context": {
+		"@protected": true,
+		"IATACredential": "http://iata.org/iataCredentialDefinitions#IATACredential",
+		"digitalTravelAuthorization": {
+			"@id": "http://iata.org/iataCredentialDefinitions#digitalTravelAuthorization",
+			"@context": {
+				"@protected": true,
+				"authorityDocName": {
+					"@id": "http://iata.org/iataCredentialDefinitions/digitalTravelAuthorization#digitalTravelAuthorization"
+				},
+				"birthdate": {
+					"@id": "http://iata.org/iataCredentialDefinitions/digitalTravelAuthorization#birthdate",
+					"@type": "http://www.w3.org/2001/XMLSchema#date"
+				},
+				"detailedTypeText": {
+					"@id": "http://iata.org/iataCredentialDefinitions/digitalTravelAuthorization#detailedTypeText"
+				},
+				"entriesNumber": {
+					"@id": "http://iata.org/iataCredentialDefinitions/digitalTravelAuthorization#entriesNumber",
+					"@type": "https://schema.org/Number"
+				},
+				"sexCode": {
+					"@id": "http://iata.org/iataCredentialDefinitions/digitalTravelAuthorization#sexCode"
+				},
+				"identifyingNumberText": {
+					"@id": "http://iata.org/iataCredentialDefinitions/digitalTravelAuthorization#identifyingNumberText"
+				},
+				"natlCode": {
+					"@id": "http://iata.org/iataCredentialDefinitions/digitalTravelAuthorization#natlCode"
+				},
+				"officialTravelDocExpiryDate": {
+					"@id": "http://iata.org/iataCredentialDefinitions/digitalTravelAuthorization#officialTravelDocExpiryDate",
+					"@type": "http://www.w3.org/2001/XMLSchema#date"
+				},
+				"officialTravelDocHoldersName": {
+					"@id": "http://iata.org/iataCredentialDefinitions/digitalTravelAuthorization#officialTravelDocHoldersName"
+				},
+				"officialTravelDocIssuerName": {
+					"@id": "http://iata.org/iataCredentialDefinitions/digitalTravelAuthorization#officialTravelDocIssuerName"
+				},
+				"officialTravelDocNumberIdentifier": {
+					"@id": "http://iata.org/iataCredentialDefinitions/digitalTravelAuthorization#officialTravelDocNumberIdentifier"
+				},
+				"placeOfIssueName": {
+					"@id": "http://iata.org/iataCredentialDefinitions/digitalTravelAuthorization#placeOfIssueName"
+				},
+				"validFromDate": {
+					"@id": "http://iata.org/iataCredentialDefinitions/digitalTravelAuthorization#validFromDate",
+					"@type": "http://www.w3.org/2001/XMLSchema#date"
+				},
+				"validUntilDate": {
+					"@id": "http://iata.org/iataCredentialDefinitions/digitalTravelAuthorization#validUntilDate",
+					"@type": "http://www.w3.org/2001/XMLSchema#date"
+				},
+				"visibleDigitalSealNonConstrainedBinaryObject": {
+					"@id": "http://iata.org/iataCredentialDefinitions/digitalTravelAuthorization#visibleDigitalSealNonConstrainedBinaryObject",
+					"@type": "@id"
+				}
+			}
+		}
+	}
+}

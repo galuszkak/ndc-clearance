@@ -1,0 +1,32 @@
+<?xml  version="1.0" encoding="UTF-8" ?>
+<xs:schema targetNamespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" elementFormDefault="qualified" version="4.003" xmlns:cns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" id="IATA2024.4"><xs:import namespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" schemaLocation="IATA_OffersAndOrdersCommonTypes.xsd"/>
+<xs:element name="IATA_ServiceDeliveryNotifRQ">
+<xs:annotation>
+<xs:documentation>The Airline pushes to the Delivery Provider the list of Services that are to be delivered in future with or without any further action required.  (e.g. This notification may be sent, for example, per Passenger, per Order, or may be batched per flight or per a certain time period, (batched based on parameters as defined between the Airline and Delivery Provider)</xs:documentation>
+</xs:annotation>
+<xs:complexType>
+<xs:sequence>
+<xs:element name="AugmentationPoint" type="cns:AugmentationPointType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Implementer-Augmented Structure.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="DistributionChain" type="cns:DistributionChainType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>An instance of a distribution channel. That is, the set of organizations involved in the development of the current transaction.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="PayloadAttributes" type="cns:IATA_PayloadStandardAttributesType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>IATA standard payload attributes</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="Request" type="cns:ServiceDeliveryNotifRequestType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>ServiceDeliveryNotifRQ request information</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:schema>

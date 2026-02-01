@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- IATA Passenger Conformance Qualify Response v1.1 - Implementation Guide can be found here: https://extranet2.iata.org/sites/pemg/common-use-wg/tsg-webservices/Implementation%20Guide/Forms/AllItems.aspx -->
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="1.002" id="IATA2021.3">
+	<xs:include schemaLocation="IATA_PBCS_CommonTypes.xsd"/>
+	<xs:element name="IATA_PassengerConformanceQualifyRS">
+		<xs:annotation>
+			<xs:documentation>The response message for the Qualify operation in the PassengerConformance services</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice>
+					<xs:sequence>
+						<xs:element name="Success" type="SuccessType">
+							<xs:annotation>
+								<xs:documentation>Standard way to indicate successful processing of an IATA message.  Returning an empty element of this type indicates success.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Warnings" type="WarningsType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Used in conjunction with the Success element to define one or more business warnings.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="QualifiedBusinessActivity" minOccurs="0" maxOccurs="99">
+							<xs:annotation>
+								<xs:documentation>The set of next qualified business activity for the passenger.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="BusinessActivity" type="BusinessActivityType">
+										<xs:annotation>
+											<xs:documentation>The Business Activity.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="QualifiedResource" type="xs:string" minOccurs="0" maxOccurs="99">
+										<xs:annotation>
+											<xs:documentation>A set of qualified facility resource. Free text to describe the facility and its location for the next qualified business activity. i.e. Security – fast travel, zone A</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="QualifiedResourceEquipment" type="xs:string" minOccurs="0" maxOccurs="99">
+										<xs:annotation>
+											<xs:documentation>A set of qualified resource equipment. i.e. security zone a, security gate b</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="QualifiedResourceTransport" type="xs:string" minOccurs="0" maxOccurs="99">
+										<xs:annotation>
+											<xs:documentation>A set of qualified resource transports. i.e. coach X going to stand.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:element name="Errors" type="ErrorsType">
+						<xs:annotation>
+							<xs:documentation>Errors are returned if the request was unable to be processed.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

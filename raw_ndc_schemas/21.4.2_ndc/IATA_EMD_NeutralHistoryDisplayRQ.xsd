@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="1.002" id="IATA2021.4">
+	<xs:include schemaLocation="IATA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_ET_CommonTypes.xsd"/>
+	<xs:element name="IATA_EMD_NeutralHistoryDisplayRQ">
+		<xs:annotation>
+			<xs:documentation>This message requests the display of history for an electronic miscellaneous document.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="POS_Type">
+					<xs:annotation>
+						<xs:documentation>Information to identifty the requestor of the ticket/document display.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="TicketDocument">
+					<xs:annotation>
+						<xs:documentation>Ticket/document number</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CouponInfo" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>The coupon number.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:attribute name="Number" type="Numeric1to4" use="optional">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">The coupon number of the coupon for which history is requested.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="TicketDocumentNbr" type="StringLength1to16" use="required">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Document number comprised of the airline code, form code, and serial number.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="DateOfIssue" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>The date of issue.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="Function" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Used to specify if the request is for the neutral, airline or ground handling display.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Neutral"/>
+						<xs:enumeration value="Airline"/>
+						<xs:enumeration value="GrHandling"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

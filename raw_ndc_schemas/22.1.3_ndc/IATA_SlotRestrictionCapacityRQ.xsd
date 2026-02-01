@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="1.000" id="IATA2022.1">
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_SlotCommonTypes.xsd"/>
+	<xs:element name="IATA_SlotRestrictionCapacityRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">This message is used to request capacity information against a named restriction for a specific airport.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="POS_Type" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">The originator of the message.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="CapacityDetail">
+					<xs:annotation>
+						<xs:documentation>Specifies the details for which capacity is requested.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Airport">
+								<xs:annotation>
+									<xs:documentation>The airport for which runway capacity is requested.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:attribute name="Station" type="StationType" use="required">
+										<xs:annotation>
+											<xs:documentation>The airport code.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="required">
+										<xs:annotation>
+											<xs:documentation>Used to specify if an IATA or an ICAO code.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="RestrictionCode" type="UpperCaseAlphaNumericStringLength1to20" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>The name of the restriction that this availability item relates to.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="RunwayMovement" type="RunwayMovementType" maxOccurs="3">
+								<xs:annotation>
+									<xs:documentation>Specifies whether capacity is for arrivals, departures, or a combination of both.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="Time" maxOccurs="9">
+								<xs:annotation>
+									<xs:documentation>A time bracket for which the capacity is requested.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:attribute name="BracketSize" type="Numeric0to9999" use="required">
+										<xs:annotation>
+											<xs:documentation>The size of the time bracket used to measure capacity in terms of the number of movements per time bracket.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="RollingOffset" type="Numeric0to99" use="optional">
+										<xs:annotation>
+											<xs:documentation>The number of minutes for staggering rolling time brackets.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="DisplayBracket" type="Numeric0to99" use="optional">
+										<xs:annotation>
+											<xs:documentation>The size of the time bracket used to measure capacity that is to be returned to the client.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attributeGroup ref="DateTimeSpanGroup"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Dates">
+								<xs:annotation>
+									<xs:documentation>The start date or date range and days of operation for which capacity is requested.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:attributeGroup ref="DateTimeSpanGroup"/>
+									<xs:attribute name="DaysOfOperation" type="DaysOperatedType">
+										<xs:annotation>
+											<xs:documentation>The days of the week for which capacity is requested.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="AdditionalCriteria" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Additional information to help refine the response</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="OrigDestStn" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>To limit the retrieval of availability to a specific origin or destination station.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:attribute name="Station" type="StationType" use="required">
+													<xs:annotation>
+														<xs:documentation>The origin or destination station for which availability is requested.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="required">
+													<xs:annotation>
+														<xs:documentation>Used to specify if an IATA or an ICAO code.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="PrevNextStn" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>To limit the retrieval of availability to a specific previous or next station.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:attribute name="Station" type="StationType" use="required">
+													<xs:annotation>
+														<xs:documentation>The previous or next station for which availability is requested.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="required">
+													<xs:annotation>
+														<xs:documentation>Used to specify if an IATA or an ICAO code.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="Aircraft" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>To limit the retrieval of availability to a specific aircraft type.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:attribute name="Type" type="AirEquipType" use="required">
+													<xs:annotation>
+														<xs:documentation>The type of aircraft for which availability is requested.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="CodeContext" type="IATA_OrICAO_Type">
+													<xs:annotation>
+														<xs:documentation>Used to specify if an IATA or an ICAO code.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="Service" type="ServiceType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Used to specify availability for specific SSIM services.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="Airline" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>To limit the retrieval of availability to a specific airline.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:attribute name="AirlineCode" type="AirlineType" use="required">
+													<xs:annotation>
+														<xs:documentation>An airline for which availability is requested.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="CodeContext" type="IATA_OrICAO_Type">
+													<xs:annotation>
+														<xs:documentation>Used to specify if an IATA or an ICAO code.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="Type" type="RunwayCapacityType" use="required">
+							<xs:annotation>
+								<xs:documentation>The type of capacity information requested.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="DetailLevel" type="IATA_CodeType">
+							<xs:annotation>
+								<xs:documentation>The level of detail excpected in the response.  Refer to IATA PADIS Code List DTL.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="TimeType" type="TimeType" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Specifies that times are either in local or UTC.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,120 @@
+<?xml  version="1.0" encoding="UTF-8" ?>
+<xs:schema targetNamespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" elementFormDefault="qualified" version="11.005" xmlns:cns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" xmlns:opt="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypesFullyOptional" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" id="IATA2024.3"><xs:import namespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" schemaLocation="IATA_OffersAndOrdersCommonTypes.xsd"/><xs:import namespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypesFullyOptional" schemaLocation="IATA_OffersAndOrdersCommonTypesFullyOptional.xsd"/>
+<xs:element name="IATA_OrderHistoryRS">
+<xs:annotation>
+<xs:documentation>The OrderHistory transaction of an Order managed and tracked by the Airline in their Order Management System from the time of Order creation.</xs:documentation>
+</xs:annotation>
+<xs:complexType>
+<xs:sequence>
+<xs:choice minOccurs="1" maxOccurs="1">
+<xs:element name="Error" type="cns:ErrorType" minOccurs="1" maxOccurs="unbounded">
+<xs:annotation>
+<xs:documentation>Contains information related to errors detected during processing of the preceding request.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="Response" type="OrderHistoryResponseType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Order History RS response information.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:choice>
+<xs:element name="AugmentationPoint" type="cns:AugmentationPointType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Implementer-Augmented Structure.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="DistributionChain" type="cns:DistributionChainType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>An instance of a distribution channel. That is, the set of organizations involved in the development of the current transaction.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="PayloadAttributes" type="cns:IATA_PayloadStandardAttributesType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>IATA standard payload attributes</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:complexType name="ChangeGroupType">
+<xs:annotation>
+<xs:documentation>A node containing change operation group</xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="ChangeOperationGroup" type="ChangeOperationGroupType" minOccurs="1" maxOccurs="unbounded">
+<xs:annotation>
+<xs:documentation>Change Operation is an Instruction on addition, replacement or deletion of elements within an Order.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ChangeOperationGroupType">
+<xs:annotation>
+<xs:documentation>Change Operation Group is a logical grouping of one or more operations that leads to a new Order Version.
+Should not have multiple change operations to the same element.</xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="ChangeOperation" type="ChangeOperationType" minOccurs="1" maxOccurs="unbounded">
+<xs:annotation>
+<xs:documentation>Change Operation is an Instruction on addition, replacement or deletion of elements within an Order.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="DistributionChain" type="cns:DistributionChainType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>An organization playing a participating role in an instance of a distribution channel.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="OrderVersionNumber" type="cns:OrderVersionNumberType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Version of the Order.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ChangeOperationType">
+<xs:annotation>
+<xs:documentation>Change Operation is an Instruction on addition, replacement or deletion of elements within an Order.</xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="ChangeDateTime" type="cns:DateTimeType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Change Operation Date and Time within an Order.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ChangeTypeCode" type="cns:CodeType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Refer to IATA ATSB Codeset: CHT Indicates to the Seller the type of change.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="New" type="opt:ChangeDetailsType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>A Structural node used in messages which contains details of the changes.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="Old" type="opt:ChangeDetailsType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>A Structural node used in messages which contains details of the changes.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ReasonCode" type="cns:CodeType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Refer to ATSB Codeset: CHR Indicating the reason for change.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="OrderHistoryResponseType">
+<xs:sequence>
+<xs:element name="ChangeGroup" type="ChangeGroupType" minOccurs="0" maxOccurs="unbounded">
+<xs:annotation>
+<xs:documentation>Order History RS response information.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="OrderRefID" type="cns:ID_Type" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Carrier assigned ID which uniquely identifies a specific Order across several messages.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

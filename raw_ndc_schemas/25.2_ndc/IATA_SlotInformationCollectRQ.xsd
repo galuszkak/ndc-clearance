@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="1.000" id="IATA2022.1">
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_SlotCommonTypes.xsd"/>
+	<xs:element name="IATA_SlotInformationCollectRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">This message allows an airline to request the collection of the coordinators response to a slot previous slot information request that was deferred</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="CollectionReference" type="StringLength1to32">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The collection reference indicated by the coordinator in the original "deferred" response</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="RangeStart" type="xs:integer" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The number of the first schedule movement record to be returned</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="RangeEnd" type="xs:integer" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The number of the last schedule movement record to be returned</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

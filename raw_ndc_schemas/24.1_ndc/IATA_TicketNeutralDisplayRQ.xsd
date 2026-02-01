@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="1.003" id="IATA2022.1">
+	<xs:include schemaLocation="IATA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_ET_CommonTypes.xsd"/>
+	<xs:element name="IATA_TicketNeutralDisplayRQ">
+		<xs:annotation>
+			<xs:documentation>This message requests the display an electronic ticket/document.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="POS_Type">
+					<xs:annotation>
+						<xs:documentation>Information to identifty the requestor of the ticket/document display.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ValidatingAirline" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Used to specify the validating carrier to which the display should be routed.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attributeGroup ref="CompanyID_AttributesGroup"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="TicketDocument" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Ticket/document number</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="TicketDocumentNbr" type="StringLength1to16" use="required">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Document number comprised of the airline code, form code, and serial number.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="DateOfIssue" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>The date of issue.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AddlReferenceID" type="UniqueID_Type" minOccurs="0" maxOccurs="3">
+					<xs:annotation>
+						<xs:documentation>ID contains the actual identifier  - Foid, airline confirmation number or airline indexing field.  Refer to IATA PADIS Code List data element 1153 for the code value to send in Type for a Foid and the Code List data element 9958 for the code value for airline confirmation number or airline indexing field. If FOID information is being sent, the type of FOID as defined by AIRIMP is sent in ID_Context.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="CustLoyalty" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Frequent flyer reference.  ProgramID=airline code, MembershipID=FF number.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="ProgramID" type="StringLength1to16" use="required">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Used to identify the airline designator of the frequent flyer program.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="MembershipID" type="StringLength1to32" use="required">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">The frequent flyer number.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="DepartureDateTime" type="xs:dateTime" use="required">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">The departure date of the flight.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Passenger" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The passenge3r information for whom the ticket is requested.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Name">
+								<xs:annotation>
+									<xs:documentation>The passenger name.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="PersonNameType">
+											<xs:attributeGroup ref="TravelerCountGroup">
+												<xs:annotation>
+													<xs:documentation>use code for ptc.  </xs:documentation>
+												</xs:annotation>
+											</xs:attributeGroup>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="SoldAirlineInfo" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Sold date of flight and flight number.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="MarketingAirline" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation xml:lang="en">The marketing airline.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="CompanyNameType"/>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="DepartureAirport" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>The origin airport/city code.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:attributeGroup ref="LocationGroup"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="ArrivalAirport" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>The destination airport/city code.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:attributeGroup ref="LocationGroup"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="DepartureDateTime" type="xs:date" use="required">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">The departure date of the flight.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="FlightNumber" type="FlightNumberType" use="optional">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">The marketing carrier's flight number for the sold flight.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="CurrentAirlineInfo" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Current date of flight and flight number.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="MarketingAirline" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation xml:lang="en">The marketing airline.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="CompanyNameType"/>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="DepartureAirport" minOccurs="0">
+											<xs:complexType>
+												<xs:attributeGroup ref="LocationGroup"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="ArrivalAirport" minOccurs="0">
+											<xs:complexType>
+												<xs:attributeGroup ref="LocationGroup"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="DepartureDateTime" type="xs:date" use="required">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">The departure date of the flight.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="FlightNumber" type="FlightNumberType" use="optional">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">The marketing carrier's flight number for the sold flight.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="CreditCard" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Credit card vendor and number.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:attribute name="CardCode" type="PaymentCardCodeType" use="optional">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">The 2 character code of the credit card issuer.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="CardNumber" type="NumericStringLength1to19" use="optional">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">Credit card number embossed on the card.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="PhoneNumber" type="StringLength1to32" use="optional">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">The passenger telephone number.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="Function" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Used to specify if the request is for the neutral, airline or ground handling display.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Neutral"/>
+						<xs:enumeration value="Airline"/>
+						<xs:enumeration value="GrHandling"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

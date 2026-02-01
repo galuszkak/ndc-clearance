@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="2.001" id="IATA2021.4">
+	<xs:include schemaLocation="IATA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_ScheduleCommonTypes.xsd"/>
+	<xs:element name="IATA_ScheduleRQ">
+		<xs:annotation>
+			<xs:documentation>Used to request schedules data.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="RemarkText" type="AlphaNumericStringLength1to99" minOccurs="0" maxOccurs="9">
+					<xs:annotation>
+						<xs:documentation>Free text remarks assigned by carrier for bilateral or internal use.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Originator" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The originating system airline designator, name and type.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attributeGroup ref="CompanyID_AttributesGroup"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Schedules">
+					<xs:annotation>
+						<xs:documentation>A collection of schedules.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Schedule" maxOccurs="999">
+								<xs:annotation>
+									<xs:documentation>Schedule data.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Flights">
+											<xs:annotation>
+												<xs:documentation>A collection of flights.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Flight" maxOccurs="999">
+														<xs:annotation>
+															<xs:documentation>Flight information.</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="AirlineInformation">
+																	<xs:annotation>
+																		<xs:documentation>The airline designator, controlled duplicate indicator, and controlled duplicate name for this flight.</xs:documentation>
+																	</xs:annotation>
+																	<xs:complexType>
+																		<xs:attributeGroup ref="AirlineInformationGroup"/>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="FlightRange" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>First and last flight numbers in a range.</xs:documentation>
+																	</xs:annotation>
+																	<xs:complexType>
+																		<xs:attribute name="First" type="FlightNumberType">
+																			<xs:annotation>
+																				<xs:documentation>First number in flight range.</xs:documentation>
+																			</xs:annotation>
+																		</xs:attribute>
+																		<xs:attribute name="OperationalSuffix" type="OperationalSuffixType" use="optional">
+																			<xs:annotation>
+																				<xs:documentation>The operational suffix of the first flight in the range.</xs:documentation>
+																			</xs:annotation>
+																		</xs:attribute>
+																		<xs:attribute name="Last" type="FlightNumberType">
+																			<xs:annotation>
+																				<xs:documentation>Last number in flight range.</xs:documentation>
+																			</xs:annotation>
+																		</xs:attribute>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="DateRange" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Frist and last date in schedule.</xs:documentation>
+																	</xs:annotation>
+																	<xs:complexType>
+																		<xs:attributeGroup ref="DateTimeSpanGroup"/>
+																		<xs:attribute name="DaysOfOperation" type="DaysOperatedType" use="optional">
+																			<xs:annotation>
+																				<xs:documentation>The days of the week that a flight operates. </xs:documentation>
+																			</xs:annotation>
+																		</xs:attribute>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="TimeMode" use="optional">
+				<xs:annotation>
+					<xs:documentation>Specifies if local time or UTC is used.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="L">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Local time</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="U">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">UTC time</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="AirlineDesig" type="AirlineType" use="optional">
+				<xs:annotation>
+					<xs:documentation>Specifies the airline for which  schedule information is requested.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

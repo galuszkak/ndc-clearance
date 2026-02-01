@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2015/00/2021.4/IATA_OperationalAircraftRegistrationNotifRQ" targetNamespace="http://www.iata.org/IATA/2015/00/2021.4/IATA_OperationalAircraftRegistrationNotifRQ" elementFormDefault="qualified" version="1.000" id="IATA2021.4">
+	<xs:element name="IATA_OperationalAircraftRegistrationNotifRQ">
+		<xs:annotation>
+			<xs:documentation>Used to exchange aircraft registration identifier for a flight for first information and in case of event/change.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Payload" type="PayloadType" minOccurs="1" maxOccurs="1"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="AircraftRegistrationID_Type">
+		<xs:annotation>
+			<xs:documentation>The complete alphanumeric identification assigned by the appropriate licensing authority to an individual aircraft. Hyphens contained within the registration shall not be included. E.g. G-BOAC, N46573, ZZ123.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:maxLength value="10"/>
+			<xs:minLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AirlineDesigCodeContentType">
+		<xs:annotation>
+			<xs:documentation>The codelist contents of IATA Resolution 762 airline codes, or of ICAO airline codes. {codeListAgencyName}IATA or ICAO{/codeListAgencyName} {codeListName}Resolution 762 Airline Codes or ICAO Airline Codes{/codeListName} </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:pattern value="([A-Z]{3}|[A-Z]{2})|([0-9][A-Z])|([A-Z][0-9])"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AirlineDesigCodeType">
+		<xs:annotation>
+			<xs:documentation>Either the IATA-defined 2-character code or the ICAO-defined 3-character code of an airline, as per the length of the value.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="AirlineDesigCodeContentType"/>
+	</xs:simpleType>
+	<xs:complexType name="CabinLayoutClassInfoType">
+		<xs:annotation>
+			<xs:documentation>Cabin Layout information by cabin type.
+ </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CabinTypeCode" type="CabinTypeCodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Cabin Type Code as defined by PADIS code set (e.g. 1, 2, 3, etc.)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SeatsQty" type="QtyType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Total number of seats in the specified class.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CabinLayoutType">
+		<xs:annotation>
+			<xs:documentation>Planned utilization layout of aircraft cabin section/zone.
+ </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CabinLayoutID" type="ID_Type" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Identifies the cabin layout (seating configuration) for a given aircraft type e.g. 10C/200Y.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ClassInfo" type="CabinLayoutClassInfoType" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Cabin Layout information by cabin type.
+ </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="CabinTypeCodeContentType">
+		<xs:annotation>
+			<xs:documentation>Enumeration values of Cabin Type Codes as defined by PADIS codeset 9873 {codeListAgencyName}IATA{/codeListAgencyName} {codeListName}PADIS Codeset 9873{/codeListName} </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:length value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CabinTypeCodeType">
+		<xs:annotation>
+			<xs:documentation>Additional BDT to specify the Cabin Type Code as defined by PADIS.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="CabinTypeCodeContentType"/>
+	</xs:simpleType>
+	<xs:simpleType name="ChangeReasonCodeContentType">
+		<xs:annotation>
+			<xs:documentation>Enumeration set for the Change Reason Code BDT. {codeListAgencyName}IATA{/codeListAgencyName} {codeListName}SSIM Chapter 2 Change Reason{/codeListName} </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:pattern value="[A-Z]{4}"/>
+			<xs:enumeration value="AIRS">
+				<xs:annotation>
+					<xs:documentation>Airspace restrictions</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ARPT">
+				<xs:annotation>
+					<xs:documentation>Airfield restrictions</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="COMM">
+				<xs:annotation>
+					<xs:documentation>Commercial reasons, demand or lack of demand</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CREW">
+				<xs:annotation>
+					<xs:documentation>Crew shortage</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DAMA">
+				<xs:annotation>
+					<xs:documentation>Aircraft damage</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="EQUI">
+				<xs:annotation>
+					<xs:documentation>Equipment shortage</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="FUEL">
+				<xs:annotation>
+					<xs:documentation>Fuel shortage</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="HDLG">
+				<xs:annotation>
+					<xs:documentation>Ground handling</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="HOLI">
+				<xs:annotation>
+					<xs:documentation>Holiday</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="INDU">
+				<xs:annotation>
+					<xs:documentation>Industrial dispute</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="OPER">
+				<xs:annotation>
+					<xs:documentation>Operational reasons</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PERF">
+				<xs:annotation>
+					<xs:documentation>Aircraft performance</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="POLI">
+				<xs:annotation>
+					<xs:documentation>Political situation</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="POSI">
+				<xs:annotation>
+					<xs:documentation>Aircraft positioning</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="REPO">
+				<xs:annotation>
+					<xs:documentation>Aircraft re-positioning</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ROTA">
+				<xs:annotation>
+					<xs:documentation>Aircraft rotation</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="RTNS">
+				<xs:annotation>
+					<xs:documentation>Return to normal schedule or reinstatement of flight status prior to issuance of ASM(s) (withdrawal of ASM change)</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="RUNW">
+				<xs:annotation>
+					<xs:documentation>Runway restrictions</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TECH">
+				<xs:annotation>
+					<xs:documentation>Technical reasons, maintenance, etc.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="WEAT">
+				<xs:annotation>
+					<xs:documentation>Weather conditions</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ChangeReasonCodeType">
+		<xs:annotation>
+			<xs:documentation>Specifies the Change reason code list as defined by IATA SSIM.
+ 
+ Code assigned by the airlines to be able to inform recipients of the main reason for an ad hoc schedule change and to simultaneously provide statistical information (e.g WEAT, TECH).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="ChangeReasonCodeContentType"/>
+	</xs:simpleType>
+	<xs:complexType name="DatedOperatingFlight1Type">
+		<xs:annotation>
+			<xs:documentation>Daughter ABIE of Dated Operating Flight (ABIE) to display only the selected Business Identifier Fields 
+ </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AdministratingCarrierFlightNumberText" type="FlightNumberTextType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The numerical designation of a flight.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AirlineDesigCode" type="AirlineDesigCodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Airline code assigned to a carrier. Either ICAO-defined 3-character code or IATA-defined 2-character code.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FlightID_Date" type="DateType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The (UTC) date of the scheduled aircraft departure from the station of origin.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OperationalSuffixText" type="OperationalSuffixTextType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>from SIX XSD:
+ Alphabetical character following a flight number assigned for operational purposes
+ 
+ SSIM: A code assigned by the administrating carrier for operational purposes</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DatedOperatingFlightType">
+		<xs:annotation>
+			<xs:documentation>The operation of one or more Dated Legs in a specified sequence, with the same flight designator. Could use a flight number for other transport vehicles such as train or bus etc.
+ </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AdministratingCarrierFlightNumberText" type="FlightNumberTextType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The numerical designation of a flight.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AirlineDesigCode" type="AirlineDesigCodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Airline code assigned to a carrier. Either ICAO-defined 3-character code or IATA-defined 2-character code.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DatedOperatingLeg" type="DatedOperatingLegType" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The nonstop operation of a transport vehicle between the departure station and the arrival station. Can be used for aircrafts as well as other transport vehicles such as train or bus etc.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FlightID_Date" type="DateType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The (UTC) date of the scheduled aircraft departure from the station of origin.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OnwardFlight" type="DatedOperatingFlight1Type" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Daughter ABIE of Dated Operating Flight (ABIE) to display only the selected Business Identifier Fields 
+ </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OperationalSuffixText" type="OperationalSuffixTextType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>from SIX XSD:
+ Alphabetical character following a flight number assigned for operational purposes
+ 
+ SSIM: A code assigned by the administrating carrier for operational purposes</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DatedOperatingLegType">
+		<xs:annotation>
+			<xs:documentation>The nonstop operation of a transport vehicle between the departure station and the arrival station. Can be used for aircrafts as well as other transport vehicles such as train or bus etc.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AircraftOwnerCode" type="AirlineDesigCodeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Airline code assigned to a carrier. Either ICAO-defined 3-character code or IATA-defined 2-character code.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ArrivalDateTime" type="DateTimeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The modified one if any, otherwise the Scheduled Date and Time of Arrival of the aircraft at the terminal or departure gate at an airport.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ArrivalIATA_LocationCode" type="IATA_LocationCodeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>IATA defined code identifying the arrival city or station.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CommercialPaxConfiguration" type="SaleableConfigurationType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Planned utilization layout of aircraft cabin section/zone that is fit or able to be sold.
+ </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DepDateTime" type="DateTimeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The modified one if any, otherwise the Scheduled Date and Time of Departure of the aircraft at the terminal or departure gate at an airport.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DepIATA_LocationCode" type="IATA_LocationCodeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>IATA defined code identifying the departure city or station.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IATA_AircraftTypeCode" type="IATA_AircraftTypeCodeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Code assigned to an aircraft type in IATA SSIM.
+ </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TailAssignment" type="TailAssignmentType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The assignment of a well-identified aircraft to a dated operating flight leg
+ </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TechnicalPaxConfiguration" type="CabinLayoutType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Planned utilization layout of aircraft cabin section/zone.
+ </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="DateTimeType">
+		<xs:annotation>
+			<xs:documentation>A date time identifies a date and time of day to various common resolutions: year, month, week, day, hour, minute, second, and fraction of second.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:dateTime"/>
+	</xs:simpleType>
+	<xs:simpleType name="DateType">
+		<xs:annotation>
+			<xs:documentation>A date is a Gregorian calendar representation in various common resolutions: year, month, week, day.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="FlightNumberTextType">
+		<xs:annotation>
+			<xs:documentation>Identifies a flight number. 
+ 1 to 4 digits. May or may not have leading zeros when less than 4 digits. The use of leading zeros does not create a different Flight Number. For example, Flight Numbers 123 and 0123 are the same.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{1,4}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IATA_AircraftTypeCodeContentType">
+		<xs:annotation>
+			<xs:documentation>Enumeration set for the IATA Aircraft Type Code BDT. {codeListAgencyName}IATA{/codeListAgencyName} {codeListName}SSIM Appendix A Aircraft Type Code{/codeListName} </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:pattern value="[0-9A-Z]{3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IATA_AircraftTypeCodeType">
+		<xs:annotation>
+			<xs:documentation>Specifies the IATA defined code of an aircraft type.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="IATA_AircraftTypeCodeContentType"/>
+	</xs:simpleType>
+	<xs:simpleType name="IATA_LocationCodeContentType">
+		<xs:annotation>
+			<xs:documentation>Enumeration set for the Location Code BDT. {codeListAgencyName}IATA{/codeListAgencyName} {codeListName}Location code{/codeListName} {enumerationURI}http://www.iata.org/publications/Pages/code-search.aspx{/enumerationURI}</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:length value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IATA_LocationCodeType">
+		<xs:annotation>
+			<xs:documentation>Additional BDT to specify the codeset which defines the IATA airport or city codes.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="IATA_LocationCodeContentType"/>
+	</xs:simpleType>
+	<xs:simpleType name="ID_Type">
+		<xs:annotation>
+			<xs:documentation>An identifier is a character string used to uniquely identify one instance of an object within an identification scheme that is managed by an agency.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token"/>
+	</xs:simpleType>
+	<xs:simpleType name="OperationalSuffixTextType">
+		<xs:annotation>
+			<xs:documentation>Defines the Operational Suffix which is appended to a flight number.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="PayloadType">
+		<xs:annotation>
+			<xs:documentation>The IATA_PayloadStdAttributes defines the standard attributes that appear on the root element for all IATA payloads.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DatedOperatingFlight" type="DatedOperatingFlightType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The operation of one or more Dated Legs in a specified sequence, with the same flight designator. Could use a flight number for other transport vehicles such as train or bus etc.
+ </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SupplementaryInfo" type="RemarkType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Additional, supplementary information about the document or service.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TimeModeCode" type="TimeModeCodeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Code of the time mode used in the message</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="QtyType">
+		<xs:annotation>
+			<xs:documentation>A quantity is a counted number of non-monetary units, possibly including fractions</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<xs:complexType name="RemarkType">
+		<xs:annotation>
+			<xs:documentation>Additional, supplementary information about the document or service.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="RemarkText" type="TextType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Additional, supplementary information about the document or service.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SaleableConfigurationClassInfoType">
+		<xs:annotation>
+			<xs:documentation>Saleable configuration information by cabin type.
+ </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CabinTypeCode" type="CabinTypeCodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Cabin Type Code as defined by PADIS code set (e.g. 1, 2, 3, etc.)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SeatsQty" type="QtyType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Total number of seats in the specified class.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SaleableConfigurationType">
+		<xs:annotation>
+			<xs:documentation>Planned utilization layout of aircraft cabin section/zone that is fit or able to be sold.
+ </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ClassInfo" type="SaleableConfigurationClassInfoType" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Saleable configuration information by cabin type.
+ </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SaleableConfigurationID" type="ID_Type" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Identifies a saleable configuration e.g. P10J20Y52, 10P/20J/52Y, A01, etc..</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="TailAssignmentActionCodeContentType">
+		<xs:annotation>
+			<xs:documentation>Enumeration set for the Tail Assignment Action Code BDT. </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="CHANGE">
+				<xs:annotation>
+					<xs:documentation>When the flight is assigned to another tail</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DELETE">
+				<xs:annotation>
+					<xs:documentation>When the flight is purposely removed from a tail</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NEW">
+				<xs:annotation>
+					<xs:documentation>When the flight is assigned to a tail</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TailAssignmentActionCodeType">
+		<xs:annotation>
+			<xs:documentation>Specifies the Tail assignment action code list as defined by AHM 790.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TailAssignmentActionCodeContentType"/>
+	</xs:simpleType>
+	<xs:complexType name="TailAssignmentType">
+		<xs:annotation>
+			<xs:documentation>The assignment of a well-identified aircraft to a dated operating flight leg
+ </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ActionCode" type="TailAssignmentActionCodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Code identifying the kind of tail assignment (e.g. NEW, CHANGE, DELETE)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AircraftRegistrationID" type="AircraftRegistrationID_Type" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The complete alphanumeric identification assigned by the appropriate licensing authority to an individual aircraft. Hyphens contained within the registration shall not be included. E.g. GBOAC, N46573, ZZ123.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ReasonCode" type="ChangeReasonCodeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Code assigned by the airlines to be able to inform recipients of the main reason for an ad hoc schedule change and to simultaneously provide statistical information (e.g WEAT, TECH).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ReasonCodeDesc" type="TextType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Description of the applied reason code (e.g. Weather conditions)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="TextType">
+		<xs:annotation>
+			<xs:documentation>Text is a character string such as a finite set of characters generally in the form of words of a language.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="TimeModeCodeContentType">
+		<xs:annotation>
+			<xs:documentation>Enumeration set for the Time Mode Code BDT. {codeListAgencyName}IATA{/codeListAgencyName} {codeListName}SSIM Chapter 2 Time Mode{/codeListName} </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:pattern value="[A-Z]{3}"/>
+			<xs:enumeration value="LT">
+				<xs:annotation>
+					<xs:documentation>Local Time</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="UTC">
+				<xs:annotation>
+					<xs:documentation>UTC (Universal Time Coordinated)</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TimeModeCodeType">
+		<xs:annotation>
+			<xs:documentation>Specifies Time Mode code list (UTC, LT).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TimeModeCodeContentType"/>
+	</xs:simpleType>
+</xs:schema>

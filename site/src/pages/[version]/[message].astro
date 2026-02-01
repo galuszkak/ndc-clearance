@@ -26,14 +26,49 @@ export function getStaticPaths() {
 }
 
 const { version, message } = Astro.params;
-const { versions, messages, allVersions } = Astro.props; // messages here are for THIS version
+const { versions, messages, allVersions } = Astro.props;
 
-const schemaUrl = `/schemas/${version}/${message}.xsd`;
+import fs from "node:fs";
+import path from "node:path";
+
+const schemaDir = path.join(
+    process.cwd(),
+    "public",
+    "schemas",
+    version,
+    message,
+);
+let schemaFiles = [];
+
+// Fallback if directory doesn't exist (e.g. detailed flattened schemas not generated yet)
+// But we expect them to be there.
+try {
+    if (fs.existsSync(schemaDir)) {
+        schemaFiles = fs
+            .readdirSync(schemaDir)
+            .filter((f) => f.endsWith(".xsd"))
+            .map((f) => ({
+                name: f,
+                url: `/schemas/${version}/${message}/${f}`,
+            }));
+    }
+} catch (e) {
+    console.error(`Error reading schema directory: ${schemaDir}`, e);
+}
+
+const mainSchemaFile =
+    schemaFiles.find((f) => f.name === `${message}.xsd`)?.url ||
+    schemaFiles.find((f) => f.name === `IATA_${message}.xsd`)?.url ||
+    `/schemas/${version}/${message}.xsd`; // Fallback
+
 const downloadFilename = `${message}_${version}.xsd`;
 const cleanMessageName = message.replace("IATA_", "");
 const description = getSchemaDescription(version, message);
 
-const examples = (workedExamples as any)[message] || [];
+const examples =
+    (workedExamples as any)[message] ||
+    (workedExamples as any)[`IATA_${message}`] ||
+    [];
 ---
 
 <Layout
@@ -76,16 +111,184 @@ const examples = (workedExamples as any)[message] || [];
                         />
                     )
                 }
-                <a
-                    href={schemaUrl}
-                    download={downloadFilename}
+                <button
+                    id="download_btn"
                     class="btn btn-primary btn-sm w-full sm:w-auto"
                 >
-                    Download XSD
-                </a>
+                    Download Schema
+                </button>
+                <button
+                    id="validate_modal_trigger"
+                    class="btn btn-secondary btn-sm w-full sm:w-auto"
+                >
+                    Validate Message
+                </button>
             </div>
         </div>
 
-        <SchemaExplorer client:only="svelte" schemaUrl={schemaUrl} />
+        <dialog id="download_modal" class="modal">
+            <div class="modal-box">
+                <h3 class="font-bold text-lg mb-4">Download Schema Files</h3>
+                <div class="flex flex-col gap-2 max-h-96 overflow-y-auto">
+                    {
+                        schemaFiles.map((file) => (
+                            <a
+                                href={file.url}
+                                download={file.name}
+                                class="flex items-center justify-between p-3 bg-base-200 rounded-lg hover:bg-base-300 transition-colors"
+                            >
+                                <span class="font-mono text-xs">
+                                    {file.name}
+                                </span>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="h-5 w-5 opacity-70"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                                    />
+                                </svg>
+                            </a>
+                        ))
+                    }
+                </div>
+                <div class="modal-action">
+                    <form method="dialog">
+                        {
+                            /* if there is a button in form, it will close the modal */
+                        }
+                        <button class="btn">Close</button>
+                    </form>
+                </div>
+            </div>
+            <form method="dialog" class="modal-backdrop">
+                <button>close</button>
+            </form>
+        </dialog>
+
+        <dialog id="validate_modal" class="modal">
+            <div class="modal-box w-11/12 max-w-5xl h-[80vh] flex flex-col">
+                <h3 class="font-bold text-lg mb-4">Validate XML Message</h3>
+                <div class="flex-1 flex flex-col gap-4 overflow-hidden">
+                    <div class="flex-1 relative">
+                        <textarea
+                            id="xml_input"
+                            class="textarea textarea-bordered w-full h-full font-mono text-xs"
+                            placeholder="Paste your XML message here..."
+                        ></textarea>
+                    </div>
+                    <div
+                        id="validation_result"
+                        class="hidden p-4 rounded-lg overflow-y-auto max-h-48 border"
+                    >
+                        <!-- Result content -->
+                    </div>
+                </div>
+                <div class="modal-action flex justify-between items-center">
+                    <div class="text-xs opacity-50">
+                        Validating against schema: {version}/{message}
+                    </div>
+                    <div class="flex gap-2">
+                        <button id="validate_action_btn" class="btn btn-primary"
+                            >Validate</button
+                        >
+                        <form method="dialog">
+                            <button class="btn">Close</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <form method="dialog" class="modal-backdrop">
+                <button>close</button>
+            </form>
+        </dialog>
+
+        <script define:vars={{ version, message }}>
+            // Modal triggers
+            document
+                .getElementById("download_btn")
+                ?.addEventListener("click", () => {
+                    document.getElementById("download_modal").showModal();
+                });
+            document
+                .getElementById("validate_modal_trigger")
+                ?.addEventListener("click", () => {
+                    document.getElementById("validate_modal").showModal();
+                });
+
+            // Validation logic
+            document
+                .getElementById("validate_action_btn")
+                ?.addEventListener("click", async () => {
+                    const input = document.getElementById("xml_input").value;
+                    const resultDiv =
+                        document.getElementById("validation_result");
+
+                    if (!input.trim()) return;
+
+                    resultDiv.className =
+                        "p-4 rounded-lg overflow-y-auto max-h-48 border bg-base-200 animate-pulse";
+                    resultDiv.innerHTML = "Validating...";
+                    resultDiv.classList.remove("hidden");
+
+                    try {
+                        // Use standard fetch without needing external env vars if problematic,
+                        // or hardcode fallback if import.meta.env fails in this context (though define:vars should be fine)
+                        // Actually, define:vars doesn't pass import.meta.env.
+                        // We can pass the API_URL via define:vars if needed, or just let it fall back.
+                        const apiUrl = "http://localhost:8080";
+
+                        const response = await fetch(`${apiUrl}/validate`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                version,
+                                message,
+                                xml: input,
+                            }),
+                        });
+
+                        if (!response.ok) {
+                            const errorText = await response.text();
+                            throw new Error(
+                                `Validation failed: ${response.status} ${response.statusText}`,
+                            );
+                        }
+
+                        const data = await response.json();
+                        let errors = data.errors || [];
+
+                        // Handle case where errors might be just a string or different format
+                        if (typeof errors === "string") errors = [errors];
+
+                        if (data.valid) {
+                            resultDiv.className =
+                                "p-4 rounded-lg overflow-y-auto max-h-48 border bg-success/10 border-success text-success-content";
+                            resultDiv.innerHTML = `<div class="flex items-center gap-2 font-bold"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg> Valid Message</div>`;
+                        } else {
+                            resultDiv.className =
+                                "p-4 rounded-lg overflow-y-auto max-h-48 border bg-error/10 border-error text-error-content font-mono text-xs";
+                            resultDiv.innerHTML = `<div class="font-bold mb-2">Validation Errors:</div><ul class="list-disc pl-4">${errors.map((e) => `<li>${e}</li>`).join("")}</ul>`;
+                        }
+                    } catch (e) {
+                        console.error(e);
+                        resultDiv.className =
+                            "p-4 rounded-lg overflow-y-auto max-h-48 border bg-error/10 border-error text-error-content";
+                        resultDiv.innerHTML = `Error: ${e.message}. Ensure backend is running at http://localhost:8080.`;
+                    }
+                });
+        </script>
+
+        <SchemaExplorer
+            client:only="svelte"
+            schemaUrl={mainSchemaFile}
+            schemaFiles={schemaFiles}
+        />
     </div>
 </Layout>

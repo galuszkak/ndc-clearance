@@ -1,0 +1,44 @@
+<?xml  version="1.0" encoding="UTF-8" ?>
+<xs:schema targetNamespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" elementFormDefault="qualified" version="6.001" xmlns:cns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" id="IATA2024.1"><xs:import namespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" schemaLocation="IATA_OffersAndOrdersCommonTypes.xsd"/>
+<xs:element name="IATA_OrderRulesRS">
+<xs:annotation>
+<xs:documentation>The Rules transaction set returns rules associated with an Order, including filed details of a specific fare basis code (FBC).</xs:documentation>
+</xs:annotation>
+<xs:complexType>
+<xs:sequence>
+<xs:choice minOccurs="1" maxOccurs="1">
+<xs:element name="Error" type="cns:ErrorType" minOccurs="1" maxOccurs="unbounded">
+<xs:annotation>
+<xs:documentation>Contains information related to errors detected during processing of the preceding request.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="Response" type="cns:OrderRulesResponseType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Order Rules RS response information.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:choice>
+<xs:element name="AugmentationPoint" type="cns:AugmentationPointType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Implementer-Augmented Structure.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="DistributionChain" type="cns:DistributionChainType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>An instance of a distribution channel. That is, the set of organizations involved in the development of the current transaction.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="PayloadAttributes" type="cns:IATA_PayloadStandardAttributesType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>IATA standard payload attributes.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="POS" type="cns:POS_Type" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Point of Sale information.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:schema>

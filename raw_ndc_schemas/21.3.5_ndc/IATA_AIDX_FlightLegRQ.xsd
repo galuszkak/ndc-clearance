@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2007/00" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="1.002" id="IATA2021.3">
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="IATA_AIDX_CommonTypes.xsd"/>
+	<xs:element name="IATA_AIDX_FlightLegRQ">
+		<xs:annotation>
+			<xs:documentation>Used to rerquest that updated flight leg data be sent.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Airline" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The airline for which updated flight leg information is requested.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="Code" type="AirlineType" use="required">
+							<xs:annotation>
+								<xs:documentation>The 2-3 character airline code.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="CodeContext" type="IATA_CodeType" use="optional">
+							<xs:annotation>
+								<xs:documentation>Specifies the context of the airline code, such as IATA or ICAO.  Refer to IATA PADIS Code List for data element 3055.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

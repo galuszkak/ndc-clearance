@@ -1,0 +1,49 @@
+{
+	"@context": {
+		"@protected": true,
+		"IATACredential": "http://iata.org/iataCredentialDefinitions#IATACredential",
+		"visa": {
+			"@id": "http://iata.org/iataCredentialDefinitions#visa",
+			"@context": {
+				"@protected": true,
+				"birthdate": {
+					"@id": "http://iata.org/iataCredentialDefinitions/visa#birthdate",
+					"@type": "http://www.w3.org/2001/XMLSchema#date"
+				},
+				"capturedVisaPicture": {
+					"@id": "http://iata.org/iataCredentialDefinitions/visa#capturedVisaPicture",
+					"@type": "@id"
+				},
+				"docNumberIdentifier": {
+					"@id": "http://iata.org/iataCredentialDefinitions/visa#docNumberIdentifier"
+				},
+				"holdersName": {
+					"@id": "http://iata.org/iataCredentialDefinitions/visa#holdersName"
+				},
+				"issuerCode": {
+					"@id": "http://iata.org/iataCredentialDefinitions/visa#issuerCode"
+				},
+				"natlCode": {
+					"@id": "http://iata.org/iataCredentialDefinitions/visa#natlCode"
+				},
+				"optionalDataElementsText": {
+					"@id": "http://iata.org/iataCredentialDefinitions/visa#optionalDataElements"
+				},
+				"sexCode": {
+					"@id": "http://iata.org/iataCredentialDefinitions/visa#sexCode"
+				},				
+				"typeCode": {
+					"@id": "http://iata.org/iataCredentialDefinitions/visa#typeCode"
+				},				
+				"validUntilDate": {
+					"@id": "http://iata.org/iataCredentialDefinitions/visa#validUntilDate",
+					"@type": "http://www.w3.org/2001/XMLSchema#date"
+				},
+				"visibleDigitalSealBinaryObject": {
+					"@id": "http://iata.org/iataCredentialDefinitions/visa#visibleDigitalSealBinaryObject",
+					"@type": "@id"
+				}
+			}
+		}
+	}
+}

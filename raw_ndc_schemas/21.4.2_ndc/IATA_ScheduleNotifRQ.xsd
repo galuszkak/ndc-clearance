@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="3
+.000" id="IATA2021.4">
+	<xs:include schemaLocation="IATA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_ScheduleCommonTypes.xsd"/>
+	<xs:element name="IATA_ScheduleNotifRQ">
+		<xs:annotation>
+			<xs:documentation>Used for complete or partial schedule update.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="RemarkText" type="AlphaNumericStringLength1to99" minOccurs="0" maxOccurs="9">
+					<xs:annotation>
+						<xs:documentation>Free text remarks assigned by carrier for bilateral or internal use.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Originator" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The originating system airline designator, name and type.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attributeGroup ref="CompanyID_AttributesGroup"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Schedules" type="SchedulesType">
+					<xs:annotation>
+						<xs:documentation>A collection of schedules.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="TimeMode" use="optional">
+				<xs:annotation>
+					<xs:documentation>Specifies if local time or UTC is used.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="L">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Local time</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="U">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">UTC time</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="2.002" id="IATA2021.4">
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_SlotCommonTypes.xsd"/>
+	<xs:element name="IATA_SlotInitialSubmissionRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">This message allows an airline to send their initial slot requirements to a coordinator.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="CreatorRef" type="StringLength0to64">
+					<xs:annotation>
+						<xs:documentation>The airlines reference to this list.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Season" type="SeasonType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The coordination season for this historic slot information.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AirportSubmissionList" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>A collection of submission movement requests for a specific airport.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SubmissionBlock" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>A block of related submission details.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="SubmissionItem" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>A single submission request.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="HistoricClaim" type="HistoricMovementIDType" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation xml:lang="en">The reference to the Historic Movement that is to be claimed by the operator and associated with this submission request</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="SubmissionRequest" type="RequestMovementType">
+														<xs:annotation>
+															<xs:documentation xml:lang="en">The details of the requested movement</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="Airport" type="StationType" use="required">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">The airport code for this slot information.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="optional">
+							<xs:annotation>
+								<xs:documentation>Used to specify if IATA or ICAO airline code.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="TimeType" type="TimeType" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Specifies that times are either in local or UTC.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

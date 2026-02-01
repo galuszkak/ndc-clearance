@@ -1,0 +1,108 @@
+{
+	"@context": {
+		"@protected": true,
+		"IATACredential": "http://iata.org/iataCredentialDefinitions#IATACredential",
+		"electronicPassport": {
+			"@id": "http://iata.org/iataCredentialDefinitions#ePassport",
+			"@context": {
+				"@protected": true,
+				"dataGroup1": {
+					"@id": "http://iata.org/iataCredentialDefinitions/ePassport#dataGroup1",
+					"@context": {
+						"@protected": true,
+						"birthdate": {
+							"@id": "http://iata.org/iataCredentialDefinitions/ePassport/dataGroup1#birthDate",
+							"@type": "http://www.w3.org/2001/XMLSchema#date"
+						},
+						"docTypeCode": {
+							"@id": "http://iata.org/iataCredentialDefinitions/ePassport/dataGroup1#docTypeCode"
+						},
+						"expiryDate": {
+							"@id": "http://iata.org/iataCredentialDefinitions/ePassport/dataGroup1#expiryDate",
+							"@type": "http://www.w3.org/2001/XMLSchema#date"
+						},
+						"sexCode": {
+							"@id": "http://iata.org/iataCredentialDefinitions/ePassport/dataGroup1#sexCode"
+						},
+						"holdersName": {
+							"@id": "http://iata.org/iataCredentialDefinitions/ePassport/dataGroup1#holdersName"
+						},
+						"issuerCode": {
+							"@id": "http://iata.org/iataCredentialDefinitions/ePassport/dataGroup1#issuerCode"
+						},
+						"natlCode": {
+							"@id": "http://iata.org/iataCredentialDefinitions/ePassport/dataGroup1#natlText"
+						},
+						"passportNumberIdentifier": {
+							"@id": "http://iata.org/iataCredentialDefinitions/ePassport/dataGroup1#passportNumberIdentifier"
+						}
+					}
+				},
+				"dataGroup15": {
+					"@id": "http://iata.org/iataCredentialDefinitions/ePassport#dataGroup15",
+					"@context": {
+						"@protected": true,
+						"activeAuthentication": {
+							"@id": "http://iata.org/iataCredentialDefinitions/ePassport/dataGroup15#activeAuthentication",
+							"@context": {
+								"@protected": true,
+								"publicKeyBinaryObject": {
+									"@id": "http://iata.org/iataCredentialDefinitions/ePassport/dataGroup15/activeAuthentication#publicKeyBinaryObject",
+									"@type": "@id"
+								}
+							}
+						}
+					}
+				},
+				"dataGroup2EncodedFaceBiometrics": {
+					"@id": "http://iata.org/iataCredentialDefinitions/ePassport#dataGroup2EncodedFaceBiometrics",
+					"@context": {
+						"@protected": true,
+						"faceBiometricDataEncodedPicture": {
+							"@id": "http://iata.org/iataCredentialDefinitions/ePassport/dataGroup2EncodedFaceBiometrics#faceBiometricDataEncodedPicture",
+							"@type": "@id"
+						}
+					}
+				},
+				"digitalTravelCredential": {
+					"@id": "http://iata.org/iataCredentialDefinitions/ePassport#digitalTravelCredential",
+					"@context": {
+						"@protected": true,
+						"dTCContentInfo": {
+							"@id": "http://iata.org/iataCredentialDefinitions/ePassport/digitalTravelCredential#dTCContentInfo",
+							"@type": "@id"
+						}
+					}
+				},
+				"docSecurityObject": {
+					"@id": "http://iata.org/iataCredentialDefinitions/ePassport#docSecurityObject",
+					"@context": {
+						"@protected": true,
+						"versionNumber": {
+							"@id": "http://iata.org/iataCredentialDefinitions/ePassport/docSecurityObject#versionNumber",
+							"@type": "http://www.w3.org/2001/XMLSchema#decimal"
+						},
+						"dataGroupHash": {
+							"@id": "http://iata.org/iataCredentialDefinitions/ePassport/docSecurityObject#dataGroupHash",
+							"@context": {
+								"@protected": true,
+								"dataGroupNumber": {
+									"@id": "http://iata.org/iataCredentialDefinitions/ePassport/docSecurityObject/dataGroupHash#dataGroupNumber",
+									"@type": "http://www.w3.org/2001/XMLSchema#integer"
+								},
+								"valueBinaryObject": {
+									"@id": "http://iata.org/iataCredentialDefinitions/ePassport/docSecurityObject/dataGroupHash#valueBinaryObject",
+									"@type": "@id"
+								}
+							}
+						},
+						"digestHashAlgorithmIdentifier": {
+							"@id": "http://iata.org/iataCredentialDefinitions/ePassport/docSecurityObject#digestHashAlgorithmIdentifier",
+							"@type": "@id"
+						}
+					}
+				}
+			}
+		}
+	}
+}

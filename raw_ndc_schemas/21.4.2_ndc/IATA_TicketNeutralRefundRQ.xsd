@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2007/00" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="2.002" id="IATA2021.4">
+	<xs:include schemaLocation="IATA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_ET_CommonTypes.xsd"/>
+	<xs:element name="IATA_TicketNeutralRefundRQ">
+		<xs:annotation>
+			<xs:documentation>This message requests a refund of a previously issued ticket.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="POS_Type">
+					<xs:annotation>
+						<xs:documentation>Information to identifty the requestor of the refund of the ticket/document.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="TicketDocument" maxOccurs="99">
+					<xs:annotation>
+						<xs:documentation>Ticket/document number and date of issue for the ticket to be refunded.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CouponInfo" minOccurs="0" maxOccurs="4">
+								<xs:annotation>
+									<xs:documentation>The coupon number to be refunded.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:attribute name="Number" type="Numeric1to4" use="optional">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">The coupon number.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="TicketDocumentNbr" type="StringLength1to16" use="required">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Document number comprised of the airline code, form code, and serial number.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="DateOfIssue" type="DateOrDateTimeType" use="optional">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">The date a document was issued.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Waiver" minOccurs="0" maxOccurs="3">
+					<xs:annotation>
+						<xs:documentation>A code assigned by the validating carrier that allows fare rule modification or override.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="Code" type="AlphaNumericStringLength1to19" use="optional">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">A code assigned by the validating carrier that allows fare rule modification or override.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="Type" use="optional">
+							<xs:annotation>
+								<xs:documentation>To specify whether this is the waiver code for the exchange/reissue or the fare component.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:NMTOKEN">
+									<xs:enumeration value="ExchangedReissued"/>
+									<xs:enumeration value="FareComponent"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PaymentAmount" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The form of payment amount to be refunded.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attributeGroup ref="CurrencyAmountGroup"/>
+						<xs:attribute name="ApprovalCode" type="StringLength1to16" use="optional">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">The approval code returned as part of an authorization process.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="RefundCalcMethod" use="optional">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Specifies the method of how the refund was calculated.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:NMTOKEN">
+									<xs:enumeration value="System"/>
+									<xs:enumeration value="Manual"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PaymentDetail" minOccurs="0" maxOccurs="4">
+					<xs:annotation>
+						<xs:documentation>Not included in 722g or 20.61 for the refund function and to be used only for sending information to update a hub database.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="PaymentDetailType">
+								<xs:attribute name="PaymentType" type="IATA_CodeType" use="optional">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">The type of form of payment, e.g. credit card, cash.  Refer to IATA PADIS code list for data element 9888.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="Text" type="StringLength1to70" use="optional">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">Free text for a form of payment.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="TicketDocQuantity" type="Numeric1to99" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The total number of ticket/document numbers sent in this message.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

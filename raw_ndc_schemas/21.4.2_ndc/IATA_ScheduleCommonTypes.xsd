@@ -1,0 +1,1236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="3.000" id="IATA2021.4">
+	<xs:include schemaLocation="IATA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:simpleType name="AlphaNumericStringLength3">
+		<xs:annotation>
+			<xs:documentation>Used for  Alpha-Numeric Strings, length 3</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9a-zA-Z]{3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AlphaNumericStringLength1to99">
+		<xs:annotation>
+			<xs:documentation>Used for Alpha-Numeric Strings, length 1 to 99</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9a-zA-Z]{1,99}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DaysOperatedType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en"> Used to specify the days a flight operates.  0 indicates flight doesn't operate on that day -              			eg 0204567 etc...
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="7"/>
+			<xs:maxLength value="7"/>
+			<xs:pattern value="[1|0][2|0][3|0][4|0][5|0][6|0][7|0]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NumericStringLength3">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Used for Numeric Strings, length exactly 3.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:attributeGroup name="AirlineInformationGroup">
+		<xs:annotation>
+			<xs:documentation>Provides the airline designator and controlled airline information.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="AirlineDesig" type="AirlineType" use="required">
+			<xs:annotation>
+				<xs:documentation>Airline code assigned to a carrier.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ControlledDuplicateInd" type="xs:boolean" use="required">
+			<xs:annotation>
+				<xs:documentation>When true, carrier holds a duplicate airline designator.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ControlledDuplicateName" type="AlphaNumericStringLength1to99" use="required">
+			<xs:annotation>
+				<xs:documentation>Name of carrier holding the duplicate carrier code.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="StationInformationAttributeGroup">
+		<xs:annotation>
+			<xs:documentation>Provides the station location, termininal and min/max connect type.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="Station" type="StationType" use="required">
+			<xs:annotation>
+				<xs:documentation>The location identifier.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="PaxTerminal" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">The physical passenger terminal used at an airport with multiple terminals.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:minLength value="0"/>
+					<xs:maxLength value="2"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="AircraftTerminal" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">The physical aircraft terminal used at an airport with multiple terminals.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="MinConnectTimeDomInd" type="xs:boolean" use="optional">
+			<xs:annotation>
+				<xs:documentation>When true, this flight is considered domestic for connection purposes.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="MinConnectTimeIntlInd" type="xs:boolean" use="optional">
+			<xs:annotation>
+				<xs:documentation>When true, this flight should be considered international for connection purposes.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="TrafficRestrictionGroup">
+		<xs:annotation>
+			<xs:documentation>Provides traffic restriction codes and text and whether information applies to board or off point.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="Code" type="AlphaLength1">
+			<xs:annotation>
+				<xs:documentation>The traffic restriction code.  Reference SSIM Appendix G.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="CodeInfo" type="AlphaNumericStringLength1to99">
+			<xs:annotation>
+				<xs:documentation>Text used to further define traffic restriction.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ServiceType">
+			<xs:annotation>
+				<xs:documentation>Specifies if the traffic restriction applies to passngers, cargo, and/or mail.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:pattern value="[a-zA-Z]{1,2}"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="BoardInd" type="xs:boolean">
+			<xs:annotation>
+				<xs:documentation>When true, the restriction applies at the boardpoint.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="OffInd" type="xs:boolean">
+			<xs:annotation>
+				<xs:documentation>When true, the restriction applies at the offpoint.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:complexType name="StationInformation">
+		<xs:annotation>
+			<xs:documentation>Provides station information.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="TimeInfo">
+				<xs:annotation>
+					<xs:documentation>The scheduled aircraft and passenger times for this station.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Aircraft" type="DateOrTimeOrDateTimeType">
+						<xs:annotation>
+							<xs:documentation>The scheduled arrival  or departure time of an aircraft. </xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="Passenger" type="DateOrTimeOrDateTimeType">
+						<xs:annotation>
+							<xs:documentation>The scheduled arrival  or departure time of passengers.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="DateVariation" type="AlphaNumericStringLength1">
+						<xs:annotation>
+							<xs:documentation>Arrival /departure variance relative to the origin date of the flight </xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="UTC_LocalTimeVariation" use="required">
+			<xs:annotation>
+				<xs:documentation>The difference in hours and minutes between UTC and local time.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="FlagLandingInd" type="xs:boolean">
+			<xs:annotation>
+				<xs:documentation>When true, indicates the flight calls upon demand.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="GroundEventID">
+			<xs:annotation>
+				<xs:documentation>Identifies an operation that does not involve taking off or landing (such as publicity, maintenance, air show, engine test).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attributeGroup ref="StationInformationAttributeGroup"/>
+	</xs:complexType>
+	<xs:complexType name="SchedulesType">
+		<xs:annotation>
+			<xs:documentation>The schedule information for a airline.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Schedule" maxOccurs="999">
+				<xs:annotation>
+					<xs:documentation>Schedule data.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AirlineInformation">
+							<xs:annotation>
+								<xs:documentation>The airline designator, controlled duplicate airline indicator and the controlled duplicate name.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attributeGroup ref="AirlineInformationGroup"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="DateRange" minOccurs="0" maxOccurs="99">
+							<xs:annotation>
+								<xs:documentation>Frist and last date in schedule.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attributeGroup ref="DateTimeSpanGroup"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="FlightRange" minOccurs="0" maxOccurs="99">
+							<xs:annotation>
+								<xs:documentation>First and last flight numbers in a range.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="First" type="FlightNumberType">
+									<xs:annotation>
+										<xs:documentation>First number in flight range.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="Last" type="FlightNumberType">
+									<xs:annotation>
+										<xs:documentation>Last number in flight range.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="InflightSvcInfo" type="Numeric1to3" minOccurs="0" maxOccurs="25">
+							<xs:annotation>
+								<xs:documentation>Idetntifies in-flight services offered and applies to all flights unless overridden on the leg level.  See SSIM in-flight service information - Chap 2.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Flights" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>A collection of flights.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Flight" maxOccurs="99999">
+										<xs:annotation>
+											<xs:documentation>Flight information.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="AdhocInfo" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Ad-hoc information for this flight.</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:attribute name="Indicator" type="xs:boolean">
+															<xs:annotation>
+																<xs:documentation>When true, indicates a change, cancellation, or addition of a flight on an ad-hoc basis.</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+														<xs:attribute name="ChangeReason">
+															<xs:annotation>
+																<xs:documentation>Reason for ad-hoc change.  Refer to Change Reason code set in SSIM, chapter 2.6.</xs:documentation>
+															</xs:annotation>
+															<xs:simpleType>
+																<xs:restriction base="xs:string">
+																	<xs:pattern value="[a-zA-Z]{1,4}"/>
+																</xs:restriction>
+															</xs:simpleType>
+														</xs:attribute>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="AirlineInformation">
+													<xs:annotation>
+														<xs:documentation>The airline designator, controlled duplicate indicator, and controlled duplicate name for this flight.</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:attributeGroup ref="AirlineInformationGroup"/>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="FlightNumber">
+													<xs:annotation>
+														<xs:documentation>Flight number information for this flight.</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="PreviousFlightInfo">
+																<xs:annotation>
+																	<xs:documentation>Previous flight information for this changed flight.</xs:documentation>
+																</xs:annotation>
+																<xs:complexType>
+																	<xs:attribute name="FlightNumber" type="FlightNumberType" use="required">
+																		<xs:annotation>
+																			<xs:documentation>The previously assigned flight number assigned to a flight that was changed.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																	<xs:attribute name="AirlineDesig" type="AirlineType">
+																		<xs:annotation>
+																			<xs:documentation>The previously assigned airline designator assigned to a flight that was changed.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																	<xs:attribute name="OperationalSuffix" type="OperationalSuffixType">
+																		<xs:annotation>
+																			<xs:documentation>The previously assigned operational suffix assigned to a flight that was changed.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+														<xs:attribute name="Number" type="FlightNumberType" use="required">
+															<xs:annotation>
+																<xs:documentation>Actual flight number of flight.</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+														<xs:attribute name="OperationalSuffix" type="OperationalSuffixType">
+															<xs:annotation>
+																<xs:documentation>Alphabetical character following a flight number assigned for operational purposes.</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+														<xs:attribute name="NumberOverride" type="FlightNumberType">
+															<xs:annotation>
+																<xs:documentation>A flight number that is used for commercial display purposes.</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+														<xs:attribute name="ReferenceNumber" type="AlphaNumericStringLength1to20">
+															<xs:annotation>
+																<xs:documentation>Refernce number used internally or bilaterally to associate specific flight numbers.</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+														<xs:attribute name="GroundEventID" type="AlphaNumericStringLength1to99">
+															<xs:annotation>
+																<xs:documentation>Identifies an operation that does not involve taking off or landing.</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RemarkNumber" type="NumericStringLength3" minOccurs="0" maxOccurs="9">
+													<xs:annotation>
+														<xs:documentation>A numbered remark assigned by carrier for bilateral or internal use.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="DateInfo">
+													<xs:annotation>
+														<xs:documentation>The start and end dates and days of operation for this flight.</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:attribute name="DaysOfOperation" type="DaysOperatedType" use="required">
+															<xs:annotation>
+																<xs:documentation>Days of the week a flight operates.</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+														<xs:attribute name="FlightID_Date" type="DateOrDateTimeType">
+															<xs:annotation>
+																<xs:documentation>Date of the scheduled aircraft departure from the station of origin.</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+														<xs:attributeGroup ref="DateTimeSpanGroup"/>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RemarkText" type="AlphaNumericStringLength1to99" minOccurs="0" maxOccurs="9">
+													<xs:annotation>
+														<xs:documentation>Free text remarks assigned by carrier for bilateral or internal use.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="SegmentOverride" minOccurs="0" maxOccurs="99">
+													<xs:annotation>
+														<xs:documentation>Leg override information.</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="DepartureStation">
+																<xs:annotation>
+																	<xs:documentation>Departure station information for this leg override.</xs:documentation>
+																</xs:annotation>
+																<xs:complexType>
+																	<xs:attributeGroup ref="StationInformationAttributeGroup"/>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="ArrivalStation">
+																<xs:annotation>
+																	<xs:documentation>Arrival station information for this leg override.</xs:documentation>
+																</xs:annotation>
+																<xs:complexType>
+																	<xs:attributeGroup ref="StationInformationAttributeGroup"/>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="InFlightSvcInfo" type="Numeric1to3" minOccurs="0" maxOccurs="25">
+																<xs:annotation>
+																	<xs:documentation>Identifies in-flight services offered on this leg. Reference SSIM.</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="Class" minOccurs="0" maxOccurs="26">
+																<xs:annotation>
+																	<xs:documentation>Class information for this leg override.</xs:documentation>
+																</xs:annotation>
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="MealServiceCode" type="AlphaLength1" minOccurs="0">
+																			<xs:annotation>
+																				<xs:documentation>Meal service provided in a cabin/class.  Reference SSIM, Appendisx B.</xs:documentation>
+																			</xs:annotation>
+																		</xs:element>
+																		<xs:element name="PassengerCounts" minOccurs="0">
+																			<xs:annotation>
+																				<xs:documentation>The forecasted and booked passenger counts for this class.</xs:documentation>
+																			</xs:annotation>
+																			<xs:complexType>
+																				<xs:attribute name="Forecast" type="Numeric1to3" use="optional">
+																					<xs:annotation>
+																						<xs:documentation>The number of passengers forecasted to travel in this class.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																				<xs:attribute name="Booked" type="Numeric1to3" use="optional">
+																					<xs:annotation>
+																						<xs:documentation>The number of passengers booked in this class.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																			</xs:complexType>
+																		</xs:element>
+																	</xs:sequence>
+																	<xs:attribute name="Code" use="required">
+																		<xs:annotation>
+																			<xs:documentation>The code used to describe the reservation classes provided (RBD).</xs:documentation>
+																		</xs:annotation>
+																		<xs:simpleType>
+																			<xs:restriction base="xs:string">
+																				<xs:pattern value="[a-zA-Z]{1,2}"/>
+																			</xs:restriction>
+																		</xs:simpleType>
+																	</xs:attribute>
+																	<xs:attribute name="NbrOfSeats" type="NumericStringLength3" use="optional">
+																		<xs:annotation>
+																			<xs:documentation>The number of seats offered by a class.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="TrafficRestriction" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Information provided to specify restrictions to carry traffic or specify limitations on the carriage of traffic.</xs:documentation>
+																</xs:annotation>
+																<xs:complexType>
+																	<xs:attributeGroup ref="TrafficRestrictionGroup"/>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="JointOperation" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Joint operation airline designators.</xs:documentation>
+																</xs:annotation>
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="AirlineDesig" type="AirlineType" maxOccurs="2">
+																			<xs:annotation>
+																				<xs:documentation>The airline code of carrier in joint operation.</xs:documentation>
+																			</xs:annotation>
+																		</xs:element>
+																	</xs:sequence>
+																	<xs:attribute name="AirlineDesigResControl" type="AirlineType" use="required">
+																		<xs:annotation>
+																			<xs:documentation>Airline code of res control carrier in joint operation.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="RemarkNumber" type="NumericStringLength3" minOccurs="0" maxOccurs="9">
+																<xs:annotation>
+																	<xs:documentation>A numbered remark assigned by carrier for bilateral or internal use.</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="RemarkText" type="AlphaNumericStringLength1to99" minOccurs="0" maxOccurs="9">
+																<xs:annotation>
+																	<xs:documentation>Free text remarks assigned by carrier for bilateral or internal use.</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+														</xs:sequence>
+														<xs:attribute name="PublicationCode" type="AlphaNumericStringLength3" use="optional">
+															<xs:annotation>
+																<xs:documentation>Allows a carrier to override the aircraft type for publication purposes.</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+														<xs:attribute name="PartnershipSpec" type="IATA_CodeType">
+															<xs:annotation>
+																<xs:documentation>The name of a partnership or alliance in which the flight is being operated.  Reference IATA PADIS codelist 9906.</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+														<xs:attribute name="RequestResInd" type="xs:boolean">
+															<xs:annotation>
+																<xs:documentation>When true, all reservations must be requeste4d from control point in advance of any sale.</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+														<xs:attribute name="SubjectGovtApprovalInd" type="xs:boolean">
+															<xs:annotation>
+																<xs:documentation>When true, the flight is pending government approval.</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+														<xs:attribute name="NumberOverride" type="FlightNumberType" use="optional">
+															<xs:annotation>
+																<xs:documentation>Indication that different flight number is used for commercial display purposes.</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="Legs">
+													<xs:annotation>
+														<xs:documentation>A collection of legs for this flight number.</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="Leg" maxOccurs="999">
+																<xs:annotation>
+																	<xs:documentation>A leg for this flight.</xs:documentation>
+																</xs:annotation>
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="DepartureStation" type="StationInformation">
+																			<xs:annotation>
+																				<xs:documentation>Departure station information for this flight.</xs:documentation>
+																			</xs:annotation>
+																		</xs:element>
+																		<xs:element name="ArrivalStation">
+																			<xs:annotation>
+																				<xs:documentation>Arrival station information for this flight.</xs:documentation>
+																			</xs:annotation>
+																			<xs:complexType>
+																				<xs:complexContent>
+																					<xs:extension base="StationInformation">
+																						<xs:attribute name="TechnicalStopInd" type="xs:boolean">
+																							<xs:annotation>
+																								<xs:documentation>When true, a flight stops at a station for purposes other than to discharge or take on revenue load.</xs:documentation>
+																							</xs:annotation>
+																						</xs:attribute>
+																					</xs:extension>
+																				</xs:complexContent>
+																			</xs:complexType>
+																		</xs:element>
+																		<xs:element name="AircraftEquipment">
+																			<xs:annotation>
+																				<xs:documentation>Aircraft equipment information.</xs:documentation>
+																			</xs:annotation>
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element name="OnwardFlight" minOccurs="0">
+																						<xs:complexType>
+																							<xs:attribute name="AirlineDesig" type="AirlineType" use="required">
+																								<xs:annotation>
+																									<xs:documentation>Airline code of the onward flight.</xs:documentation>
+																								</xs:annotation>
+																							</xs:attribute>
+																							<xs:attribute name="FlightNumber" type="FlightNumberType" use="required">
+																								<xs:annotation>
+																									<xs:documentation>The flight number of the onward flight.</xs:documentation>
+																								</xs:annotation>
+																							</xs:attribute>
+																							<xs:attribute name="OperationalSuffix" type="OperationalSuffixType">
+																								<xs:annotation>
+																									<xs:documentation>Operational suffix of the onward flight.</xs:documentation>
+																								</xs:annotation>
+																							</xs:attribute>
+																							<xs:attribute name="OnwardFlightType" type="AlphaLength1" use="optional">
+																								<xs:annotation>
+																									<xs:documentation>Indicates the airline must operate this way e.g. due to government regulations.</xs:documentation>
+																								</xs:annotation>
+																							</xs:attribute>
+																							<xs:attribute name="TransitLayover" type="Numeric1" use="optional">
+																								<xs:annotation>
+																									<xs:documentation>Indicates that the rotation/layover of the onward aircraft is over midnight.</xs:documentation>
+																								</xs:annotation>
+																							</xs:attribute>
+																							<xs:attribute name="IdentifierDate" type="xs:date" use="optional">
+																								<xs:annotation>
+																									<xs:documentation>Date of the scheduled onward aircraft departure from the station of origin.</xs:documentation>
+																								</xs:annotation>
+																							</xs:attribute>
+																						</xs:complexType>
+																					</xs:element>
+																				</xs:sequence>
+																				<xs:attribute name="Type" type="AirEquipType" use="required">
+																					<xs:annotation>
+																						<xs:documentation>The ATA/IATA standard code indicating the main model of commercial aircraft.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																				<xs:attribute name="OwnerAirlrineDesig" type="AirlineType" use="required">
+																					<xs:annotation>
+																						<xs:documentation>Identification of the aircraft owner's airline designator when the aircraft does not belong to the fleet of the adminstrating carrier.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																				<xs:attribute name="OwnerName" type="AlphaNumericStringLength1to99" use="required">
+																					<xs:annotation>
+																						<xs:documentation>Identification of the aircraft owner's name when the aircraft does not belong to the fleet of the adminstrating carrier.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																				<xs:attribute name="Registration">
+																					<xs:annotation>
+																						<xs:documentation>The complete identification number of an aircraft as assigned by the apropriate licensing authority.</xs:documentation>
+																					</xs:annotation>
+																					<xs:simpleType>
+																						<xs:restriction base="xs:string">
+																							<xs:pattern value="[0-9a-zA-Z]{2,10}"/>
+																						</xs:restriction>
+																					</xs:simpleType>
+																				</xs:attribute>
+																				<xs:attribute name="FlightTransitLayover" type="Numeric1">
+																					<xs:annotation>
+																						<xs:documentation>Indicates that the rotation/layover of the aircraft is over midnight.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																				<xs:attribute name="PublicationCode" type="AlphaNumericStringLength3">
+																					<xs:annotation>
+																						<xs:documentation>Allows a carrier to override the aircraft type for publication purposes.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																				<xs:attribute name="PlaneTypeChangeInd" type="xs:boolean" use="required">
+																					<xs:annotation>
+																						<xs:documentation>When true, the plane change is not an aircraft type change at board point.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																				<xs:attribute name="ShipID_Name">
+																					<xs:annotation>
+																						<xs:documentation>Identification number used for internal or bilateral use to identify an aircraft in an airline's fleet.</xs:documentation>
+																					</xs:annotation>
+																					<xs:simpleType>
+																						<xs:restriction base="xs:string">
+																							<xs:pattern value="[0-9a-zA-Z]{1,50}"/>
+																						</xs:restriction>
+																					</xs:simpleType>
+																				</xs:attribute>
+																				<xs:attribute name="SpecialAircraftcode">
+																					<xs:annotation>
+																						<xs:documentation>Non-standard aricraft code assigned for internal or bilateral use.</xs:documentation>
+																					</xs:annotation>
+																					<xs:simpleType>
+																						<xs:restriction base="xs:string">
+																							<xs:pattern value="[0-9a-zA-Z]{3,10}"/>
+																						</xs:restriction>
+																					</xs:simpleType>
+																				</xs:attribute>
+																				<xs:attribute name="SpecialSvcReqLimitations" type="IATA_CodeType">
+																					<xs:annotation>
+																						<xs:documentation>Indicates special service requests (SSRs) which are not permitted on a flight.  Reference IATA PADIS codelist 9962.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																				<xs:attribute name="TailNumber">
+																					<xs:annotation>
+																						<xs:documentation>The identification number of an aircraft used internally or bilaterally.</xs:documentation>
+																					</xs:annotation>
+																					<xs:simpleType>
+																						<xs:restriction base="xs:string">
+																							<xs:pattern value="[0-9a-zA-Z]{1,10}"/>
+																						</xs:restriction>
+																					</xs:simpleType>
+																				</xs:attribute>
+																			</xs:complexType>
+																		</xs:element>
+																		<xs:element name="SpecialEmphasis" type="IATA_CodeType" minOccurs="0">
+																			<xs:annotation>
+																				<xs:documentation>A code used to flag the flight for special handling.  Reference IATA PADIS codelist EMP.</xs:documentation>
+																			</xs:annotation>
+																		</xs:element>
+																		<xs:choice>
+																			<xs:element name="Cabin" maxOccurs="9">
+																				<xs:annotation>
+																					<xs:documentation>The information for a cabin.</xs:documentation>
+																				</xs:annotation>
+																				<xs:complexType>
+																					<xs:sequence>
+																						<xs:element name="PassengerCounts" minOccurs="0">
+																							<xs:annotation>
+																								<xs:documentation>The forecasted and booked passenger counts for a cabin. </xs:documentation>
+																							</xs:annotation>
+																							<xs:complexType>
+																								<xs:attribute name="Forecast" type="Numeric1to3">
+																									<xs:annotation>
+																										<xs:documentation>The number of passengers forecasted to travel in this cabin.</xs:documentation>
+																									</xs:annotation>
+																								</xs:attribute>
+																								<xs:attribute name="Booked" type="Numeric1to3">
+																									<xs:annotation>
+																										<xs:documentation>The number of passengers booked in a cabin.</xs:documentation>
+																									</xs:annotation>
+																								</xs:attribute>
+																							</xs:complexType>
+																						</xs:element>
+																						<xs:element name="Class" minOccurs="0" maxOccurs="26">
+																							<xs:annotation>
+																								<xs:documentation>Class information for a cabin.</xs:documentation>
+																							</xs:annotation>
+																							<xs:complexType>
+																								<xs:sequence>
+																									<xs:element name="MealServiceCode" type="AlphaLength1" minOccurs="0" maxOccurs="4">
+																										<xs:annotation>
+																											<xs:documentation>Meal service provided in a cabin/class.  Reference SSIM, Appendisx B.</xs:documentation>
+																										</xs:annotation>
+																									</xs:element>
+																									<xs:element name="PassengerCounts">
+																										<xs:annotation>
+																											<xs:documentation>The forecasted and booked passenger counts for this class.</xs:documentation>
+																										</xs:annotation>
+																										<xs:complexType>
+																											<xs:attribute name="Forecast" type="Numeric1to3">
+																												<xs:annotation>
+																													<xs:documentation>The number of passengers forecasted to travel in this class.</xs:documentation>
+																												</xs:annotation>
+																											</xs:attribute>
+																											<xs:attribute name="Booked" type="Numeric1to3">
+																												<xs:annotation>
+																													<xs:documentation>The number of passengers booked in this class.</xs:documentation>
+																												</xs:annotation>
+																											</xs:attribute>
+																										</xs:complexType>
+																									</xs:element>
+																									<xs:element name="BlockedSpace" minOccurs="0">
+																										<xs:annotation>
+																											<xs:documentation>The number of seats and airline designator of the blocked space.</xs:documentation>
+																										</xs:annotation>
+																										<xs:complexType>
+																											<xs:attribute name="Seats" type="NumericStringLength3" use="required">
+																												<xs:annotation>
+																													<xs:documentation>Number of seats offered in blocked space capacity.</xs:documentation>
+																												</xs:annotation>
+																											</xs:attribute>
+																											<xs:attribute name="AirlineDesig" type="AirlineType" use="required">
+																												<xs:annotation>
+																													<xs:documentation>Airline designator of carrier offering capacity.</xs:documentation>
+																												</xs:annotation>
+																											</xs:attribute>
+																										</xs:complexType>
+																									</xs:element>
+																								</xs:sequence>
+																								<xs:attribute name="Code">
+																									<xs:annotation>
+																										<xs:documentation>The code used to describe the reservation classes provided (RBD).</xs:documentation>
+																									</xs:annotation>
+																									<xs:simpleType>
+																										<xs:restriction base="xs:string">
+																											<xs:pattern value="[a-zA-Z]{1,2}"/>
+																										</xs:restriction>
+																									</xs:simpleType>
+																								</xs:attribute>
+																								<xs:attribute name="NbrOfSeats" type="Numeric1to3">
+																									<xs:annotation>
+																										<xs:documentation>The number of seats offered by a class.</xs:documentation>
+																									</xs:annotation>
+																								</xs:attribute>
+																							</xs:complexType>
+																						</xs:element>
+																						<xs:element name="MealServiceCode" type="AlphaLength1" minOccurs="0" maxOccurs="4">
+																							<xs:annotation>
+																								<xs:documentation>Meal service provided in a cabin/class.  Reference SSIM, Appendisx B.`</xs:documentation>
+																							</xs:annotation>
+																						</xs:element>
+																						<xs:element name="BlockedSpace" minOccurs="0">
+																							<xs:annotation>
+																								<xs:documentation>The number of seats and airline designator of the blocked space.</xs:documentation>
+																							</xs:annotation>
+																							<xs:complexType>
+																								<xs:attribute name="Seats" type="NumericStringLength1to3" use="required">
+																									<xs:annotation>
+																										<xs:documentation>Number of seats offered in blocked space capacity.</xs:documentation>
+																									</xs:annotation>
+																								</xs:attribute>
+																								<xs:attribute name="AirlineDesig" type="AirlineType" use="required">
+																									<xs:annotation>
+																										<xs:documentation>Airline designator of carrier offering capacity.</xs:documentation>
+																									</xs:annotation>
+																								</xs:attribute>
+																							</xs:complexType>
+																						</xs:element>
+																					</xs:sequence>
+																					<xs:attribute name="Code" use="required">
+																						<xs:annotation>
+																							<xs:documentation>Primary code used to identify a cabin.</xs:documentation>
+																						</xs:annotation>
+																						<xs:simpleType>
+																							<xs:restriction base="xs:string">
+																								<xs:pattern value="[0-9a-zA-Z]{1,2}"/>
+																							</xs:restriction>
+																						</xs:simpleType>
+																					</xs:attribute>
+																					<xs:attribute name="NbrOfSeats" type="Numeric1to3">
+																						<xs:annotation>
+																							<xs:documentation>The number of seats in a cabin.</xs:documentation>
+																						</xs:annotation>
+																					</xs:attribute>
+																					<xs:attribute name="BlockedSeats" type="NumericStringLength3">
+																						<xs:annotation>
+																							<xs:documentation>The number of seats that are blocked and unavailable out of the total capacity shown in cabin seats.</xs:documentation>
+																						</xs:annotation>
+																					</xs:attribute>
+																				</xs:complexType>
+																			</xs:element>
+																			<xs:element name="Class" maxOccurs="26">
+																				<xs:complexType>
+																					<xs:sequence>
+																						<xs:element name="Cabin">
+																							<xs:complexType>
+																								<xs:attribute name="Code" use="required">
+																									<xs:annotation>
+																										<xs:documentation>Primary code used to identify a cabin.</xs:documentation>
+																									</xs:annotation>
+																									<xs:simpleType>
+																										<xs:restriction base="xs:string">
+																											<xs:pattern value="[0-9a-zA-Z]{1,2}"/>
+																										</xs:restriction>
+																									</xs:simpleType>
+																								</xs:attribute>
+																								<xs:attribute name="NbrOfSeats" type="Numeric1to3">
+																									<xs:annotation>
+																										<xs:documentation>The number of seats in a cabin.</xs:documentation>
+																									</xs:annotation>
+																								</xs:attribute>
+																								<xs:attribute name="BlockedSeats" type="NumericStringLength1to3">
+																									<xs:annotation>
+																										<xs:documentation>The number of seats that are blocked and unavailable out of the total capacity shown in cabin seats.</xs:documentation>
+																									</xs:annotation>
+																								</xs:attribute>
+																							</xs:complexType>
+																						</xs:element>
+																						<xs:element name="MealServiceCode" type="AlphaLength1" minOccurs="0" maxOccurs="4">
+																							<xs:annotation>
+																								<xs:documentation>Meal service provided in a cabin/class.  Reference SSIM, Appendisx B.</xs:documentation>
+																							</xs:annotation>
+																						</xs:element>
+																						<xs:element name="PassengerCounts" minOccurs="0">
+																							<xs:annotation>
+																								<xs:documentation>The forecasted and booked passenger counts for this class.</xs:documentation>
+																							</xs:annotation>
+																							<xs:complexType>
+																								<xs:attribute name="Forecast" type="Numeric1to3">
+																									<xs:annotation>
+																										<xs:documentation>The number of passengers forecasted to travel in this class</xs:documentation>
+																									</xs:annotation>
+																								</xs:attribute>
+																								<xs:attribute name="Blocked" type="Numeric1to3">
+																									<xs:annotation>
+																										<xs:documentation>The number of passsengers booked in this class</xs:documentation>
+																									</xs:annotation>
+																								</xs:attribute>
+																							</xs:complexType>
+																						</xs:element>
+																						<xs:element name="BlockedSpace" minOccurs="0">
+																							<xs:annotation>
+																								<xs:documentation>The number of seats and airline designator of the blocked space.</xs:documentation>
+																							</xs:annotation>
+																							<xs:complexType>
+																								<xs:attribute name="Seats" type="NumericStringLength1to3" use="optional">
+																									<xs:annotation>
+																										<xs:documentation>Number of seats offered in blocked space capacity.</xs:documentation>
+																									</xs:annotation>
+																								</xs:attribute>
+																								<xs:attribute name="AirlineDesig" type="AirlineType" use="optional">
+																									<xs:annotation>
+																										<xs:documentation>Airline designator of carrier offering capacity.</xs:documentation>
+																									</xs:annotation>
+																								</xs:attribute>
+																							</xs:complexType>
+																						</xs:element>
+																					</xs:sequence>
+																				</xs:complexType>
+																			</xs:element>
+																		</xs:choice>
+																		<xs:element name="Cargo" minOccurs="0">
+																			<xs:annotation>
+																				<xs:documentation>Cargoe compartment codes and units.</xs:documentation>
+																			</xs:annotation>
+																			<xs:complexType>
+																				<xs:attribute name="CompartmentCode" use="required">
+																					<xs:annotation>
+																						<xs:documentation>Unit load devices or pallets that are blocked/unavailable.</xs:documentation>
+																					</xs:annotation>
+																					<xs:simpleType>
+																						<xs:restriction base="xs:string">
+																							<xs:pattern value="[a-zA-Z]{2}"/>
+																						</xs:restriction>
+																					</xs:simpleType>
+																				</xs:attribute>
+																				<xs:attribute name="CompartmentUnits" type="Numeric1to3" use="required">
+																					<xs:annotation>
+																						<xs:documentation>The nmber of unit load devices or pallets that are blocked/unavailable.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																			</xs:complexType>
+																		</xs:element>
+																		<xs:element name="CodeShare" minOccurs="0">
+																			<xs:annotation>
+																				<xs:documentation>The code share information for this leg.</xs:documentation>
+																			</xs:annotation>
+																			<xs:complexType>
+																				<xs:attribute name="Type" use="required">
+																					<xs:annotation>
+																						<xs:documentation>The code share type.</xs:documentation>
+																					</xs:annotation>
+																					<xs:simpleType>
+																						<xs:restriction base="xs:NMTOKEN">
+																							<xs:enumeration value="S"/>
+																							<xs:enumeration value="X"/>
+																							<xs:enumeration value="L"/>
+																							<xs:enumeration value="Z"/>
+																						</xs:restriction>
+																					</xs:simpleType>
+																				</xs:attribute>
+																				<xs:attribute name="OperLegAirlineDesig" type="AirlineType" use="required">
+																					<xs:annotation>
+																						<xs:documentation>Identifis the airline code of the operating flight.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																				<xs:attribute name="OperLegAirlineName" type="AlphaNumericStringLength1to99" use="required">
+																					<xs:annotation>
+																						<xs:documentation>The name of the operating carrier in a code share or wet lease agreement.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																			</xs:complexType>
+																		</xs:element>
+																		<xs:element name="CrossRefInfo" minOccurs="0">
+																			<xs:annotation>
+																				<xs:documentation>Cross reference information for a leg.</xs:documentation>
+																			</xs:annotation>
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element name="Duplicate" minOccurs="0" maxOccurs="99">
+																						<xs:annotation>
+																							<xs:documentation>The marketing flight information.</xs:documentation>
+																						</xs:annotation>
+																						<xs:complexType>
+																							<xs:attribute name="LegAirlineDesig" type="AirlineType" use="required">
+																								<xs:annotation>
+																									<xs:documentation>Identifies airline code of the marketing flight.</xs:documentation>
+																								</xs:annotation>
+																							</xs:attribute>
+																							<xs:attribute name="LegFlightNbr" type="FlightNumberType" use="required">
+																								<xs:annotation>
+																									<xs:documentation>Identifies flight number of marketing flight.</xs:documentation>
+																								</xs:annotation>
+																							</xs:attribute>
+																							<xs:attribute name="LegOperationalSuffix" type="OperationalSuffixType">
+																								<xs:annotation>
+																									<xs:documentation>Identifies operational suffix of marketing flight.</xs:documentation>
+																								</xs:annotation>
+																							</xs:attribute>
+																						</xs:complexType>
+																					</xs:element>
+																					<xs:element name="Operational" minOccurs="0">
+																						<xs:annotation>
+																							<xs:documentation>The operational flight information.</xs:documentation>
+																						</xs:annotation>
+																						<xs:complexType>
+																							<xs:attribute name="LegAirlineDesig" type="AirlineType" use="required">
+																								<xs:annotation>
+																									<xs:documentation>Identifies airline code of operating flight.</xs:documentation>
+																								</xs:annotation>
+																							</xs:attribute>
+																							<xs:attribute name="LegFlightNbr" type="FlightNumberType" use="required">
+																								<xs:annotation>
+																									<xs:documentation>Identifies flight number of operating flight.</xs:documentation>
+																								</xs:annotation>
+																							</xs:attribute>
+																							<xs:attribute name="LegOperationalSuffix" type="OperationalSuffixType">
+																								<xs:annotation>
+																									<xs:documentation>Identifies operational suffix of operating flight.</xs:documentation>
+																								</xs:annotation>
+																							</xs:attribute>
+																						</xs:complexType>
+																					</xs:element>
+																				</xs:sequence>
+																			</xs:complexType>
+																		</xs:element>
+																		<xs:element name="CrewEmployer" minOccurs="0">
+																			<xs:annotation>
+																				<xs:documentation>Cabin and cockpit crew employer information.</xs:documentation>
+																			</xs:annotation>
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element name="Cabin">
+																						<xs:annotation>
+																							<xs:documentation>The cabin crew employer information</xs:documentation>
+																						</xs:annotation>
+																						<xs:complexType>
+																							<xs:attribute name="AirlineDesig" type="AirlineType" use="required">
+																								<xs:annotation>
+																									<xs:documentation>Identificaiton of the employer's airline designator when the cabin crew is not employed the aircraft owner.</xs:documentation>
+																								</xs:annotation>
+																							</xs:attribute>
+																							<xs:attribute name="Name" type="AlphaNumericStringLength1to99" use="required">
+																								<xs:annotation>
+																									<xs:documentation>Identification of the employer's name when the cabin cre is not employed by the aircraft owner.</xs:documentation>
+																								</xs:annotation>
+																							</xs:attribute>
+																						</xs:complexType>
+																					</xs:element>
+																					<xs:element name="Cockpit">
+																						<xs:annotation>
+																							<xs:documentation>The cockpit crew employer information</xs:documentation>
+																						</xs:annotation>
+																						<xs:complexType>
+																							<xs:attribute name="AirlineDesig" type="AirlineType" use="required">
+																								<xs:annotation>
+																									<xs:documentation>Identificaiton of the employer's airline designator when the cockpit crew is not employed the aircraft owner.</xs:documentation>
+																								</xs:annotation>
+																							</xs:attribute>
+																							<xs:attribute name="Name" type="AlphaNumericStringLength1to99" use="required">
+																								<xs:annotation>
+																									<xs:documentation>Identificaiton of the employer's name when the cockpit crew is not employed the aircraft owner.</xs:documentation>
+																								</xs:annotation>
+																							</xs:attribute>
+																						</xs:complexType>
+																					</xs:element>
+																				</xs:sequence>
+																			</xs:complexType>
+																		</xs:element>
+																		<xs:element name="RestrictedPayload" minOccurs="0">
+																			<xs:annotation>
+																				<xs:documentation>The restrricted payload unit of measure and weight.</xs:documentation>
+																			</xs:annotation>
+																			<xs:complexType>
+																				<xs:attributeGroup ref="UnitsOfMeasureGroup"/>
+																			</xs:complexType>
+																		</xs:element>
+																		<xs:element name="JointOperation" minOccurs="0">
+																			<xs:annotation>
+																				<xs:documentation>Joint operation ariline designators.</xs:documentation>
+																			</xs:annotation>
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element name="AirlineDesig" type="AirlineType" maxOccurs="2">
+																						<xs:annotation>
+																							<xs:documentation>The airline code of carrier in joint operation.</xs:documentation>
+																						</xs:annotation>
+																					</xs:element>
+																				</xs:sequence>
+																				<xs:attribute name="AirlineDesigResControl" type="AirlineType" use="required">
+																					<xs:annotation>
+																						<xs:documentation>Airline code of res control carrier in joint operation.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																			</xs:complexType>
+																		</xs:element>
+																		<xs:element name="OnTimePerformance" minOccurs="0">
+																			<xs:annotation>
+																				<xs:documentation>On-time performance for this leg.</xs:documentation>
+																			</xs:annotation>
+																			<xs:complexType>
+																				<xs:attribute name="Percent" type="Percentage" use="optional">
+																					<xs:annotation>
+																						<xs:documentation>Accuracy percentage of on time performance of a leg.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																				<xs:attribute name="Period" type="xs:gYearMonth" use="required">
+																					<xs:annotation>
+																						<xs:documentation>Month and year for which the on-time performance has been calculated.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																				<xs:attribute name="Type">
+																					<xs:annotation>
+																						<xs:documentation>Used if unable to provide information or is not applicable.</xs:documentation>
+																					</xs:annotation>
+																					<xs:simpleType>
+																						<xs:restriction base="xs:NMTOKEN">
+																							<xs:enumeration value="U">
+																								<xs:annotation>
+																									<xs:documentation xml:lang="en">Unable to provide information.</xs:documentation>
+																								</xs:annotation>
+																							</xs:enumeration>
+																							<xs:enumeration value="N">
+																								<xs:annotation>
+																									<xs:documentation xml:lang="en">Not applicable.</xs:documentation>
+																								</xs:annotation>
+																							</xs:enumeration>
+																						</xs:restriction>
+																					</xs:simpleType>
+																				</xs:attribute>
+																				<xs:attribute name="LatePercent" type="Percentage">
+																					<xs:annotation>
+																						<xs:documentation>The percentage of arrivals that were more than 30 minutes late.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																				<xs:attribute name="CancelledPercent" type="Percentage">
+																					<xs:annotation>
+																						<xs:documentation>The percentage of cancellations.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																				<xs:attribute name="SpecialHighlightInd" type="xs:boolean">
+																					<xs:annotation>
+																						<xs:documentation>When true, the flight was late more than 30 minutes of scheduled arrival more than 50 percent of the time.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																			</xs:complexType>
+																		</xs:element>
+																		<xs:element name="PsgrCheckInInfo" minOccurs="0">
+																			<xs:annotation>
+																				<xs:documentation>Passenger checki=in location and airline.</xs:documentation>
+																			</xs:annotation>
+																			<xs:complexType>
+																				<xs:attribute name="Location" type="AlphaNumericStringLength1to99" use="optional">
+																					<xs:annotation>
+																						<xs:documentation>Advises location for airport check-in.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																				<xs:attribute name="AirlineDesig" type="AirlineType">
+																					<xs:annotation>
+																						<xs:documentation>Advises the airline that handles the airport check-in.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																			</xs:complexType>
+																		</xs:element>
+																		<xs:element name="InflightSvcInfo" type="Numeric1to3" minOccurs="0" maxOccurs="25">
+																			<xs:annotation>
+																				<xs:documentation>Identifies in-flight services offered on this leg. Reference SSIM.</xs:documentation>
+																			</xs:annotation>
+																		</xs:element>
+																		<xs:element name="TrafficRestriction" minOccurs="0">
+																			<xs:annotation>
+																				<xs:documentation>Information provided to specify restrictions to carry traffic or specify limitations on the carriage of traffic.</xs:documentation>
+																			</xs:annotation>
+																			<xs:complexType>
+																				<xs:attributeGroup ref="TrafficRestrictionGroup"/>
+																			</xs:complexType>
+																		</xs:element>
+																		<xs:element name="CrewRotationNbr" minOccurs="0" maxOccurs="99">
+																			<xs:annotation>
+																				<xs:documentation>A cabin and/or crew rotation number.</xs:documentation>
+																			</xs:annotation>
+																			<xs:complexType>
+																				<xs:attribute name="Cabin" type="AlphaNumericStringLength1to10">
+																					<xs:annotation>
+																						<xs:documentation>Identification of crew line of flying for a flight leg for internal or bilateral use.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																				<xs:attribute name="Cockpit" type="AlphaNumericStringLength1to10" use="optional">
+																					<xs:annotation>
+																						<xs:documentation>Identification of crew line of flying for a flight leg for internal or bilateral use.</xs:documentation>
+																					</xs:annotation>
+																				</xs:attribute>
+																			</xs:complexType>
+																		</xs:element>
+																		<xs:element name="RemarkNumber" type="NumericStringLength3" minOccurs="0" maxOccurs="99">
+																			<xs:annotation>
+																				<xs:documentation>A numbered remark assigned by carrier for bilateral or internal use.</xs:documentation>
+																			</xs:annotation>
+																		</xs:element>
+																		<xs:element name="RemarkText" type="AlphaNumericStringLength1to99" minOccurs="0" maxOccurs="9">
+																			<xs:annotation>
+																				<xs:documentation>Free text remarks assigned by carrier for bilateral or internal use.</xs:documentation>
+																			</xs:annotation>
+																		</xs:element>
+																	</xs:sequence>
+																	<xs:attribute name="ServiceType" type="AlphaLength1" use="required">
+																		<xs:annotation>
+																			<xs:documentation>The type of service provided.  Reference SSIM Appendix C.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																	<xs:attribute name="ET_Ind" type="xs:boolean">
+																		<xs:annotation>
+																			<xs:documentation>When true this flight leg is ET eligible.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																	<xs:attribute name="PartnershipSpec" type="IATA_CodeType">
+																		<xs:annotation>
+																			<xs:documentation>The name of a partnership or alliance in which the flight is being operated.  Reference IATA PADIS codelist 9906.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																	<xs:attribute name="RequestResInd" type="xs:boolean">
+																		<xs:annotation>
+																			<xs:documentation>When true, all reservations must be requeste4d from control point in advance of any sale.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																	<xs:attribute name="SubjectGovtApprovalInd" type="xs:boolean">
+																		<xs:annotation>
+																			<xs:documentation>When true, the flight is pending government approval.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																	<xs:attribute name="SecureFlightInd" type="xs:boolean">
+																		<xs:annotation>
+																			<xs:documentation>When true, this leg requires that Secure Flight Data be sent to TSA.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																	<xs:attribute name="AutoCheckInInd" type="xs:boolean" use="optional">
+																		<xs:annotation>
+																			<xs:documentation>Use this when a carrier allows automatic advance check in.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attribute name="WithdrawalInd" type="xs:boolean">
+												<xs:annotation>
+													<xs:documentation>When true, currently held ad-hoc schedule information is to be overridden with the data contained in this message.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="Type" use="required">
+						<xs:annotation>
+							<xs:documentation>The type of schedule mesage.  </xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:NMTOKEN">
+								<xs:enumeration value="UPD">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">Update schedule.</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="CNL">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">Cancel schedule.</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="ConfirmedInd" type="xs:boolean" use="optional">
+						<xs:annotation>
+							<xs:documentation>When true, the schedule is confirmed.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="ET_Ind" type="xs:boolean" use="optional">
+						<xs:annotation>
+							<xs:documentation>When true this flight in this schedule are ET eligible.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="ReleaseDate" type="xs:date" use="optional">
+						<xs:annotation>
+							<xs:documentation>First date a schedule may be opened for sale.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="CreatorReference" type="AlphaNumericStringLength1to99" use="optional">
+						<xs:annotation>
+							<xs:documentation>Free form text containing data assigned by creator for internal use.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="SecureFlightInd" type="xs:boolean" use="optional">
+						<xs:annotation>
+							<xs:documentation>Use this when there is a legal requirement to disclose fulllSecure Flight passenger data for flights that are operated by a carrier (operating and marketing) flying to/from/within/over the U.S.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="AutoCheckInInd" type="xs:boolean" use="optional">
+						<xs:annotation>
+							<xs:documentation>Use this when a carrier allows automatic advance check in.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

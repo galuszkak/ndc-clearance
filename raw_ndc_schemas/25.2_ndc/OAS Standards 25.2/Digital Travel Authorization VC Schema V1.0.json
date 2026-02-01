@@ -1,0 +1,218 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.prod.digitalcredentials.iata.org/DigitalTravelAuthorization.json",
+  "title": "DigitalTravelAuthorization",
+  "description": "Verifiable Credential for a Digital Travel Authorization.",
+  "type": "object",
+  "required": [
+    "@context",
+    "type",
+    "issuer",
+    "issuanceDate",
+    "expirationDate",
+    "credentialSubject",
+    "credentialSchema"
+  ],
+  "properties": {
+    "@context": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "prefixItems": [
+        {
+          "const": "https://www.w3.org/2018/credentials/v1"
+        },
+        {
+          "const": "https://schemas.prod.digitalcredentials.iata.org/contexts/iata_credential.jsonld"
+        }
+      ],
+      "items": {
+        "type": "string",
+        "format": "uri"
+      }
+    },
+    "id": {
+      "type": "string",
+      "format": "uri"
+    },
+    "type": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "prefixItems": [
+        {
+          "const": "VerifiableCredential"
+        },
+        {
+          "const": "IATACredential"
+        },
+        {
+          "const": "DigitalTravelAuthorization"
+        }
+      ]
+    },
+    "issuer": {
+      "type": "string",
+      "format": "uri"
+    },
+    "issuanceDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expirationDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "credentialSubject": {
+      "type": "object",
+      "required": [
+        "id",
+        "digitalTravelAuthorization"
+      ],	  
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "string",
+          "format": "uri",
+          "description": "DID of the subject."
+        },
+        "digitalTravelAuthorization": {
+          "title": "Digital Travel Authorization",
+          "description": "A Digital Travel Authorization. Reference: ICAO Machine Readable Travel Documents, Technical Report, Digital Travel Authorizations, Version 2.15, June 2021, ISO/IEC JTC1 SC17 WG3/TF1. Note filler characters are not required.",
+          "type": "object",
+          "required": [
+            "authorityDocName",
+            "birthdate",
+            "detailedTypeText",
+            "entriesNumber",
+            "sexCode",
+            "identifyingNumberText",
+            "natlCode",
+            "officialTravelDocExpiryDate",
+            "officialTravelDocHoldersName",
+            "officialTravelDocIssuerName",
+            "officialTravelDocNumberIdentifier",
+            "placeOfIssueName",
+            "validFromDate",
+            "validUntilDate",
+			"visibleDigitalSealNonConstrainedBinaryObject"
+          ],
+          "properties": {
+            "authorityDocName": {
+              "title": "Digital Travel Authorization Authority Document Name",
+              "description": "The word or phrase in the language of the issuing State for the Digital Travel Authorization document which confers on the holder that State's authority to travel to a port of entry in its territory.",
+              "type": "string"
+            },
+            "birthdate": {
+              "title": "Digital Travel Authorization Birthdate",
+              "description": "The date on which the holder of the Digital Travel Authorization was born.",
+              "type": "string",
+              "format": "date"
+            },
+            "detailedTypeText": {
+              "title": "Digital Travel Authorization Detailed Type Text",
+              "description": "One or more of the following elements: the issuing State's indication of the type and/or class of DTA granted in accordance with the law/practice of that State; the broad categorization of the type of DTA granted, e.g. visitor/resident/ temporary resident/student/diplomat, etc., in accordance with the law/practice of the issuing State; any limitations on the territorial validity of the travel authorization.",
+              "type": "string",
+              "maxLength": 46			  
+            },
+            "entriesNumber": {
+              "title": "Digital Travel Authorization Entries Number",
+              "description": "The number of entries for which the authorization is valid.",
+              "type": "string",
+			  "enum": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "M"]
+            },
+            "sexCode": {
+              "title": "Digital Travel Authorization Sex Code",
+              "description": "Sex of the DTA Holder; typically, F for Female, M for Male or < for non-specified.",
+              "type": "string",
+			  "enum": ["F", "M", "<"]			  
+            },
+            "identifyingNumberText": {
+              "title": "Digital Travel Authorization Identifing Number Text",
+              "description": "An identifying number for the instance of this specfic digital travel Authorization given by the Authorization Issuing State Type.",
+              "type": "string",
+              "maxLength": 13			  
+            },
+            "natlCode": {
+              "title": "Digital Travel Authorization Nationality Code",
+              "description": "The code for the nationality of the holder of the digital travel authorization.",
+              "type": "string",
+              "minLength": 3,				  
+              "maxLength": 3				  
+            },
+            "officialTravelDocExpiryDate": {
+              "title": "Digital Travel Authorization Official Travel Document Expiry Date",
+              "description": "The expiry date of the passport with which the travel authorization is linked.",
+              "type": "string",
+              "format": "date"
+            },
+            "officialTravelDocHoldersName": {
+              "title": "Digital Travel Authorization Official Travel Document Holders Name",
+              "description": "Family name and given name(s) of the holder as it appears on the official travel document.",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 39
+            },
+            "officialTravelDocIssuerName": {
+              "title": "Digital Travel Authorization Official Travel Document Issuer Name",
+              "description": "Name of the State or Organization responsible for the issuance of the official travel document.",
+              "type": "string"
+            },
+            "officialTravelDocNumberIdentifier": {
+              "title": "Digital Travel Authorization Official Travel Document Number Identifier",
+              "description": "The number of the official travel document with which the travel authorization is linked.",
+              "type": "string",
+              "maxLength": 11
+            },
+            "placeOfIssueName": {
+              "title": "Digital Travel Authorization Place Of Issue Name",
+              "description": "The name of the location (usually a city, town or village) where the DTA was issued. A translation of the name into one or more languages, one of which should be English, French or Spanish, shall be given when the translated name is more familiar to the international community.",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 15
+            },
+            "validFromDate": {
+              "title": "Digital Travel Authorization Valid From Date",
+              "description": "The first date from which the authorization can be used to seek entry. Note that, for some States the date of issue and the date the DTA becomes valid may differ. In such cases the latter shall be provided.",
+              "type": "string",
+              "format": "date"
+            },
+            "validUntilDate": {
+              "title": "Digital Travel Authorization Valid Until Date",
+              "description": "The last day on which the DTA can be used to seek entry. For some States this will be the date by or on which the holder should have left the country concerned.",
+              "type": "string",
+              "format": "date"
+            },
+            "visibleDigitalSealNonConstrainedBinaryObject": {
+              "title": "Digital Travel Authorization Visible Digital Seal Non Constrained Binary Object",
+              "description": "Visible Digital Seal for Non-Electronic Documents. Reference: ICAO Machine Readable Travel Documents, Technical Report, VDS-NC Visible Digital Seal for non-constrained environments, Version 1.4, May 27th 2022, ISO/IEC JTC1 SC17 WG3/TF5. Example uri format data:application/octet-stream;base64,...",
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "credentialSchema": {
+      "type": "object",
+      "required": [
+        "id",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uri",
+          "const": "https://schemas.prod.digitalcredentials.iata.org/DigitalTravelAuthorization.json"
+        },
+        "type": {
+          "type": "string",
+          "const": "JsonSchemaValidator2018"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+      "additionalProperties": false
+}

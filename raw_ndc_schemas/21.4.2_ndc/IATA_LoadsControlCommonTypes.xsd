@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="2.000" id="IATA2021.4">
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:attributeGroup name="CodeInfoGroup">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">This is intended to be used in conjunction with an attribute that uses an IATA code list. It is used  to provide additional information about the code being referenced. </xs:documentation>
+			<xs:documentation xml:lang="en">May be used to give further detail on the code or to remove an obsolete item.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="CodeDetail" type="StringLength1to64" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">May be used to give further detail on the code. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attributeGroup ref="RemovalGroup"/>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="DateTimeStampGroup">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Creation date time, Creator Id, last modification date time and last Modifier Id.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="CreateDateTime" type="xs:dateTime" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">Time stamp of the creation.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="CreatorID" type="StringLength1to32" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">ID of creator. The creator could be a software system identifier or an identifier of an employee resposible for the creation.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="LastModifyDateTime" type="xs:dateTime" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">Time stamp of last modification.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="LastModifierID" type="StringLength1to32" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">Identifies the last software system or person to modify a record.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="FileAttachmentGroup">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Provides information about any files attached (e.g., multimedia objects) at the transport layer (e.g., HTTP/SOAP)</xs:documentation>
+		</xs:annotation>
+		<xs:attributeGroup ref="CodeInfoGroup">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">May be used to give further detail on the code or to remove an obsolete item.
+								</xs:documentation>
+			</xs:annotation>
+		</xs:attributeGroup>
+		<xs:attribute name="ContentData" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">Vendor-specific format that contains the content data for the multimedia object.  </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Description" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">A short description of the multimedia object.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="PictureCategoryCode" type="IATA_CodeType" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">A code defining the type of picture (e.g. Exterior, Lobby, Reception area, RoomTypes, Facilities, Dining areas, Meeting Rooms, Logo). Refer to IATA Code List Picture Category Code (PIC).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Version" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">The version of the multimedia object. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ContentTitle" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">The title for the multimedia object. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ContentCaption" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">The caption to be published with the multimedia file. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="CopyrightNotice" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">The information describing the copyright notice for the multimedia object at a hotel facility. If this field is filled in, this copyright notice must be printed with the multimedia object.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="FileName" type="StringLength1to64" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">Specifies the name of the file being sent.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="FileSize" type="xs:positiveInteger" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">The size of the file sent, in bytes.  This may be used to validate that the received file is the correct size.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="MultimediaObjectHeight" type="xs:positiveInteger" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">The height of the image.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="MultimediaObjectWidth" type="xs:positiveInteger" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">The width of the image.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="UnitOfMeasureCode" type="IATA_CodeType" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">The unit of measure for the multimedia object (e.g., inches, pixels, centimeters). Refer to IATA Code List Unit of Measure Code (UOM).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ContentID" type="StringLength1to64" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">The content ID of a file attachment with the prefix 'cid:'. The value of this can be used to retrieve the corresponding attachment by the receiving system.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ContentCode" type="IATA_CodeType" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">Description of the multimedia object or attached file contents. Refer to IATA Code List Content Code (CTT).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ContentFormatCode" type="IATA_CodeType" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">The specific file format of the multimedia object or attached file (e.g., mpeg, jpg, gif). Refer to IATA Code List Content Format Code (CFC).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="RecordID" type="StringLength1to32" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">Uniquely identifies this file in the message.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="LengthInfluenceGroup">
+		<xs:annotation>
+			<xs:documentation>An adjustment factor used in computation.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="Length" use="required">
+			<xs:annotation>
+				<xs:documentation>A length used in the computation.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:decimal">
+					<xs:minInclusive value="-9999"/>
+					<xs:maxInclusive value="9999"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="IndexInfluence" use="required">
+			<xs:annotation>
+				<xs:documentation>A value used in the weight and balance computation.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:decimal">
+					<xs:minInclusive value="-999.99"/>
+					<xs:maxInclusive value="999.99"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="RemovalGroup">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">This is used to indicate that an item is obsolete.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="Removal" type="xs:boolean" use="optional" default="false">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">If true, this item is obsolete and should be removed from the receiving system.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="VariationGroup">
+		<xs:annotation>
+			<xs:documentation>Used to define variations and possible subvariations for passenger and baggage weights.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="VariationType" type="IATA_CodeType" use="required">
+			<xs:annotation>
+				<xs:documentation>Refers to IATA PADIS code list VAR.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="VariationSubType" type="AlphaNumericStringLength1to20" use="optional">
+			<xs:annotation>
+				<xs:documentation>Provides additional information for a variation, e. g. VariationType="Route" and VariationSubType="FRAATL", "FRACPT".</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="WeightGroup">
+		<xs:annotation>
+			<xs:documentation>In combination with WeightInfoType used to define passenger and cabin baggage weights.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="Child" use="required">
+			<xs:annotation>
+				<xs:documentation>The weight of a child.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					<xs:minInclusive value="0"/>
+					<xs:maxInclusive value="999"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="Infant" use="required">
+			<xs:annotation>
+				<xs:documentation>The weight of an infant.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					<xs:minInclusive value="0"/>
+					<xs:maxInclusive value="999"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="CabinBaggage" use="optional">
+			<xs:annotation>
+				<xs:documentation>The weight of cabin baggage.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					<xs:minInclusive value="0"/>
+					<xs:maxInclusive value="999"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="WeightItemGroup">
+		<xs:annotation>
+			<xs:documentation>A weight and an index for an item.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="Weight" use="required">
+			<xs:annotation>
+				<xs:documentation>A weight for an item.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					<xs:minInclusive value="0"/>
+					<xs:maxInclusive value="9999999"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="Index" use="required">
+			<xs:annotation>
+				<xs:documentation>An index for an item.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:decimal">
+					<xs:minInclusive value="-999.99"/>
+					<xs:maxInclusive value="999.99"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="WeightVolumeGroup">
+		<xs:annotation>
+			<xs:documentation>Provides a total weight and volume.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="GrossWeight" use="required">
+			<xs:annotation>
+				<xs:documentation>A total weight.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					<xs:minInclusive value="0"/>
+					<xs:maxInclusive value="99999"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="Volume" use="optional">
+			<xs:annotation>
+				<xs:documentation>The space occupied by an item.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:decimal">
+					<xs:minInclusive value="0"/>
+					<xs:maxInclusive value="9999"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:complexType name="FormattedTextTextType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Provides text and indicates whether it is formatted or not.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="Formatted" type="xs:boolean" use="optional">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">Textual information, which may be formatted as a line of information, or unformatted, as a paragraph of text.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attributeGroup ref="LanguageGroup"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="MultimediaObjectType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Used to pass a multimedia object such as an image, and the associated details .</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ParagraphType">
+				<xs:attributeGroup ref="FileAttachmentGroup"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ParagraphType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">An indication of a new paragraph for a sub-section of a formatted text message.</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0" maxOccurs="300">
+			<xs:element name="Text" type="FormattedTextTextType">
+				<xs:annotation>
+					<xs:documentation>Formatted text content.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Image" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>An image for this paragraph.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="URL" type="xs:anyURI">
+				<xs:annotation>
+					<xs:documentation>A URL for this paragraph.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ListItem">
+				<xs:annotation>
+					<xs:documentation>Formatted text content and an associated item or sequence number.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="FormattedTextTextType">
+							<xs:attribute name="ListItem" type="xs:integer" use="optional">
+								<xs:annotation>
+									<xs:documentation>A number identifying an item in a list of items.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+		<xs:attribute name="Name" type="StringLength1to64" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">In many cases the description repeats, this will allow you to define the information that is being sent, typically used when multiple occurrences of ParagraphType are being sent.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ParagraphNumber" type="xs:nonNegativeInteger" use="optional"/>
+		<xs:attributeGroup ref="DateTimeStampGroup"/>
+		<xs:attributeGroup ref="LanguageGroup"/>
+	</xs:complexType>
+	<xs:complexType name="WeightInfoType">
+		<xs:annotation>
+			<xs:documentation>Used to define weights for adult passengers and crew members.</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="AverageAdult">
+				<xs:annotation>
+					<xs:documentation>Average weight for an adult.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Weight" use="required">
+						<xs:annotation>
+							<xs:documentation>The average weigh for an adult.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:integer">
+								<xs:minInclusive value="0"/>
+								<xs:maxInclusive value="999"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PerGender">
+				<xs:annotation>
+					<xs:documentation>Average weight per gender.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Male" use="required">
+						<xs:annotation>
+							<xs:documentation>The average weight for a male.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:integer">
+								<xs:minInclusive value="0"/>
+								<xs:maxInclusive value="999"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="Female" use="required">
+						<xs:annotation>
+							<xs:documentation>The average weight for a female.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:integer">
+								<xs:minInclusive value="0"/>
+								<xs:maxInclusive value="999"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+</xs:schema>

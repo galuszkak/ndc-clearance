@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="2.002" id="IATA2022.1">
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_SlotCommonTypes.xsd"/>
+	<xs:element name="IATA_SlotHistoricListRS">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">This message allows an airline to respond to historical slot information sent by a coordinator.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="CreatorRef" type="StringLength0to64">
+					<xs:annotation>
+						<xs:documentation>The airlines reference to this list.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="MessageRef" type="StringLength0to64">
+					<xs:annotation>
+						<xs:documentation>The original (coordinators) reference to this list.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Season" type="SeasonType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The coordination season for this historic slot information.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AirportContestMovementList" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>A collection of contested or accepted historic slot movements for a specific airport.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ContestMovement" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>A single contested or accepted historic slot movement</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="HistoricMovementID" type="HistoricMovementIDType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>An item of historic slot movement information .</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="ContestMovement" type="HistoricMovementType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>An item of historic slot movement information .</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="ContestReason" use="required">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">Reason for contestation or acceptance</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:NMTOKEN">
+												<xs:enumeration value="ACCEPT"/>
+												<xs:enumeration value="DTLS"/>
+												<xs:enumeration value="DATES"/>
+												<xs:enumeration value="HISTO"/>
+												<xs:enumeration value="UNLISTED"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="Airport" type="StationType" use="required">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">The airport code for this slot information.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="optional">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Used to specify if an IATA or ICAO code</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="Time" type="TimeType" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Used to specify if times should be in local time or UTC.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="TimeType" type="TimeType" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Specifies that times are either in local or UTC.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

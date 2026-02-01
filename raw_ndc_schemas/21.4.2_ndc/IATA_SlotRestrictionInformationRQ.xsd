@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="1.000" id="IATA2021.4">
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_SlotCommonTypes.xsd"/>
+	<xs:element name="IATA_SlotRestrictionInformationRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">This message allows an airline to request information on the airport restrictions held by the coordinator.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="POS_Type" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The originator of the message.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Season" type="SeasonType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">The coordination season for this information request.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Airport">
+					<xs:annotation>
+						<xs:documentation>The coordinated airport for which restriction information is requested.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="Station" type="StationType" use="required">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">The coordinated airport code for which restriction information is requested.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="optional">
+							<xs:annotation>
+								<xs:documentation>Used to specify if an IATA or an ICAO code.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

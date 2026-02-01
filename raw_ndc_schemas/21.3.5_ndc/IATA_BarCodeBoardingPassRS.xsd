@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="2.002" id="IATA2021.3">
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:element name="IATA_BarCodeBoardingPassRS">
+		<xs:annotation>
+			<xs:documentation>Message response from the entity validating the data from the 2D barcode boarding pass request</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="Success" type="SuccessType">
+						<xs:annotation>
+							<xs:documentation>Standard way to indicate successful processing of an IATA message.  Returning an empty element of this type indicates success.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Warnings" type="WarningsType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Used in confunction with the Success element to define one or more business errors.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ResponseInfo">
+						<xs:annotation>
+							<xs:documentation>Information to scanning entity on result of the validation of the 2D barcode data</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:attribute name="ValidationInd" type="xs:boolean" use="required">
+								<xs:annotation>
+									<xs:documentation>When true, the boarding pass is valid.  When false, it is not.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="Reason" type="IATA_CodeType">
+								<xs:annotation>
+									<xs:documentation>Used to specify a reason when the boarding pass is not valid.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="Comment" type="StringLength0to250">
+								<xs:annotation>
+									<xs:documentation>Used for free text as provided by airline validating the 2D barcode data</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:element name="Errors" type="ErrorsType">
+					<xs:annotation>
+						<xs:documentation>Errors are returned if the request was unable to be processed.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

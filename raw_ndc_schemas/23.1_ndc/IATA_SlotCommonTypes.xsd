@@ -1,0 +1,2320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2007/00" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="4.006" id="IATA2023.1">
+	<xs:include schemaLocation="IATA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:complexType name="BaseTransactionType">
+		<xs:annotation>
+			<xs:documentation>The basis for all Clearance Request and Response transactions</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="TransactionID" type="xs:integer" use="optional">
+			<xs:annotation>
+				<xs:documentation>Transaction Id will be used as a technical key and it is not required.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:simpleType name="AllocatedStatusType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Status of allocated flight</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKENS">
+			<xs:enumeration value="CONF">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Confirmed as requested</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="RHIS">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Returned to historic (for slot allocation)</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ALTV">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Alternative slot allocated (for slot allocation)</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="OFFR">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Offer raised.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NOSL">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">No acceptable slot</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PROV">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Provisionally granted</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CNL">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Cancelled slot - for SlotInformation messages only</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ChangeReasonType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Reason for clearance transaction.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKENS">
+			<xs:enumeration value="Operational">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">For operational reasons.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Improvement">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">To move towards initial rquested time.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="IndustrialAction">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Due to industrial action.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AptClosure">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Due to airport closure.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AspClosure">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Due airspace closure.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Other">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Other</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AptSpecific">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Due to airport specific reason</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CoordinatorReasonType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Coordinator Reason Codes.  See SSIM Appendix J</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKENS">
+			<xs:enumeration value="AA"/>
+			<xs:enumeration value="AB"/>
+			<xs:enumeration value="CF"/>
+			<xs:enumeration value="GA"/>
+			<xs:enumeration value="GRD"/>
+			<xs:enumeration value="HA"/>
+			<xs:enumeration value="NA"/>
+			<xs:enumeration value="NB"/>
+			<xs:enumeration value="NE"/>
+			<xs:enumeration value="OK"/>
+			<xs:enumeration value="PA"/>
+			<xs:enumeration value="QT"/>
+			<xs:enumeration value="R6A"/>
+			<xs:enumeration value="R6D"/>
+			<xs:enumeration value="R005"/>
+			<xs:enumeration value="R010"/>
+			<xs:enumeration value="R015"/>
+			<xs:enumeration value="R020"/>
+			<xs:enumeration value="R030"/>
+			<xs:enumeration value="R060"/>
+			<xs:enumeration value="R120"/>
+			<xs:enumeration value="SE"/>
+			<xs:enumeration value="TA"/>
+			<xs:enumeration value="T005"/>
+			<xs:enumeration value="T010"/>
+			<xs:enumeration value="T015"/>
+			<xs:enumeration value="T020"/>
+			<xs:enumeration value="T030"/>
+			<xs:enumeration value="T060"/>
+			<xs:enumeration value="T120"/>
+			<xs:enumeration value="UA"/>
+			<xs:enumeration value="WA"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DataSourceType">
+		<xs:annotation>
+			<xs:documentation>Indicates whether requests relate to either the operational database, the waitlist or the historic baseline</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="Operated"/>
+			<xs:enumeration value="Historic"/>
+			<xs:enumeration value="Waitlist"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DateOffsetType">
+		<xs:annotation>
+			<xs:documentation>To indicate no days offset -999 to +999</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="-999"/>
+			<xs:maxInclusive value="999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DaysOperatedType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en"> Used to specify the days a flight operates.  0 indicates flight doesn't operate on that day -              			eg 0204567 etc...
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="7"/>
+			<xs:maxLength value="7"/>
+			<xs:pattern value="[1|0][2|0][3|0][4|0][5|0][6|0][7|0]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="HistoricReferenceType">
+		<xs:annotation>
+			<xs:documentation>The referene used to identify historic baseline items.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="25"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="HistoricStatusType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Indicates if historic or non-historice status.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Historic"/>
+			<xs:enumeration value="NonHistoric"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ItemFailureReasonType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Used to specify the types of reasons for failure.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKENS">
+			<xs:enumeration value="NoFlights">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Matching flights not found.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Overlap">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Overlapping flights exist.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="OK">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Success but other requests in same transaction failed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="UnknownData">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">One of the elements contains an unrecognized value.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NotAuthorized">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Automatic processing of this request is not permitted for this client.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NotSupported">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Automatic processing of this request is not supported.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="InvalidData">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">One of the elements contains an invalid value.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MovementChangeType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Specifies the types of clearance transaction.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKENS">
+			<xs:enumeration value="Addition"/>
+			<xs:enumeration value="Deletion"/>
+			<xs:enumeration value="Modification"/>
+			<xs:enumeration value="Merge"/>
+			<xs:enumeration value="Split"/>
+			<xs:enumeration value="Accept"/>
+			<xs:enumeration value="Reject"/>
+			<xs:enumeration value="Combined"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NonHistoricReasonType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Specifies the reasons for a non-historic status.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKENS">
+			<xs:enumeration value="N80">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Less than 80%</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NP">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Non recognisable period.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MU">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Misuse of slots</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NE">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">New entrant</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="XX">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Movement not given potential historic status when first granted.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ProcessingType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">How the request message is to be processed. If this attribute is not set, the processing is Normal</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKENS">
+			<xs:enumeration value="Normal">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The message is to be processed automatically</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Escalate">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The message is to be transmitted to the coordinator for manual processing</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ProvisionalConditionsType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Specifies provisional conditions.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKENS">
+			<xs:enumeration value="LCNC">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Operationl licence required.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NHIS">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Movement will not accrue historic status.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MISC">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Miscellaneous Airport Specific Condition.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RegistrationType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Registration Type 1-10 AlphaNumeric</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9A-Z]{1,10}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RestrictionType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Specifies the possible restrictions of a slot operation.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKENS">
+			<xs:enumeration value="PSO">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Public service obligation.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="EAS">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Essential air services.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RunwayCapacityType">
+		<xs:annotation>
+			<xs:documentation>Specifies the type of runway capacity information.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="MAX"/>
+			<xs:enumeration value="ALO"/>
+			<xs:enumeration value="AVL"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RunwayMovementType">
+		<xs:annotation>
+			<xs:documentation>Specifies whether capacity is for arrivals, departures, or a combination of both.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="ARR"/>
+			<xs:enumeration value="DEP"/>
+			<xs:enumeration value="COM"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RunwayType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Runway Identifier - currently single alpha</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Z0-9]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SeasonType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Used to specify the season codes, eg W06 S07</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="3"/>
+			<xs:maxLength value="3"/>
+			<xs:pattern value="[S|W][0-9][0-9]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TransactionFailureReasonType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Specifies the types of reasons the transaction failed.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKENS">
+			<xs:enumeration value="Item">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">At least one item failed independently.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Combined">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Each item OK but combined transaction failed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="AirportSlotInformationType">
+		<xs:annotation>
+			<xs:documentation>A collection of clearance responses for a specific airport.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SlotInformationTransaction" minOccurs="0" maxOccurs="99">
+				<xs:annotation>
+					<xs:documentation>A transaction containing related clearance details.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DateRange" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The dates of the first and last flight scheduled operation for which information is requested.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attributeGroup ref="DateTimeSpanGroup"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="MovementType" type="RunwayMovementType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Used torequest only departing or arriving slot information.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Service" type="ServiceType" minOccurs="0" maxOccurs="9">
+							<xs:annotation>
+								<xs:documentation>Used to specify slot informaion for  specific SSIM services.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="DaysOfOperation" type="DaysOperatedType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>To limit the retrieval of slot information to certain days of the week.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="OrigDestStn" minOccurs="0" maxOccurs="9">
+							<xs:annotation>
+								<xs:documentation>To limit the retrieval of slot information to a specific origin or destination station.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="Station" type="StationType" use="required">
+									<xs:annotation>
+										<xs:documentation>The origin or destination station for which slot information is requested.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="required">
+									<xs:annotation>
+										<xs:documentation>Used to specify if an IATA or an ICAO code.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="AllocatedStatus" type="AllocatedStatusType" minOccurs="0" maxOccurs="9">
+							<xs:annotation>
+								<xs:documentation>To limit the retrieval of slot information to a aspecific allocated status.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Registration" type="RegistrationType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>To limit the retrieval of slot information to a specific registration code. </xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ScheduledTimeRange" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>To limit the retrieval of slot information to a specific scheduled time range.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="ScheduledStart" type="xs:time" use="required">
+									<xs:annotation>
+										<xs:documentation>The scheduled start time for which slot information is requested.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="ScheduledEnd" type="xs:time" use="required">
+									<xs:annotation>
+										<xs:documentation>The scheduled end time for which slot information is requested.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="RequestedTimeRange" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>To limit the retrieval of slot information to a specific requested time range.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="RequestedStart" type="xs:time" use="required">
+									<xs:annotation>
+										<xs:documentation>The requested start time for which slot information is requested.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="RequestedEnd" type="xs:time" use="required">
+									<xs:annotation>
+										<xs:documentation>The requested end time for which slot information is requested.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="AirlineList" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>A collection of airlines for which slot information is requested.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="AirlineItem" maxOccurs="9">
+										<xs:annotation>
+											<xs:documentation>To limit the retrieval of slot information to a specific airline.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:attribute name="Airline" type="AirlineType" use="required">
+												<xs:annotation>
+													<xs:documentation>An airline for which slot information is requested.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="CodeContext" type="IATA_OrICAO_Type">
+												<xs:annotation>
+													<xs:documentation>Used to specify if an IATA or an ICAO code.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="IncludeExclude">
+									<xs:annotation>
+										<xs:documentation>To specify whether an airline should be included or excluded.</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:NMTOKEN">
+											<xs:enumeration value="INCLUDE">
+												<xs:annotation>
+													<xs:documentation>Slot information should be returned for this airline.</xs:documentation>
+												</xs:annotation>
+											</xs:enumeration>
+											<xs:enumeration value="EXCLUDE">
+												<xs:annotation>
+													<xs:documentation>Slot information should not be returned for this airline.</xs:documentation>
+												</xs:annotation>
+											</xs:enumeration>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="FlightRange" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>To limit the retrieval of slot information to a specific flight or a range of flights.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="Airline" type="AirlineType" use="required">
+									<xs:annotation>
+										<xs:documentation>Airline for this flight number.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="CodeContext" type="IATA_OrICAO_Type">
+									<xs:annotation>
+										<xs:documentation>Used to specify if an IATA or an ICAO code.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="FromNumber" type="Numeric0to9999" use="required">
+									<xs:annotation>
+										<xs:documentation>The first number in a flight range or a specific flight number.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="ToNumber" type="Numeric0to9999">
+									<xs:annotation>
+										<xs:documentation>The last number of a flight range.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="FromSuffix" type="OperationalSuffixType">
+									<xs:annotation>
+										<xs:documentation>The operational suffix for the  first number in range.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="ToSuffix" type="OperationalSuffixType">
+									<xs:annotation>
+										<xs:documentation>The operational suffix for the last number in range.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="PrevNextStn" minOccurs="0" maxOccurs="9">
+							<xs:annotation>
+								<xs:documentation>To limit the retrieval of slot information to a specific previous or next station. </xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="Station" type="StationType" use="required">
+									<xs:annotation>
+										<xs:documentation>The previous or next station for which slot information is requested.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="required">
+									<xs:annotation>
+										<xs:documentation>Used to specify if an IATA or an ICAO code.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Aircraft" minOccurs="0" maxOccurs="9">
+							<xs:annotation>
+								<xs:documentation>To limit the retrieval of slot information to a specific aircraft type.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="Type" type="AirEquipType" use="required">
+									<xs:annotation>
+										<xs:documentation>The type of aircraft for which slot information is requested.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="CodeContext" type="IATA_OrICAO_Type">
+									<xs:annotation>
+										<xs:documentation>Used to specify if an IATA or an ICAO code.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="MovementHeld" type="AllocatedMovementType" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Movement records that have been created by this transaction.</xs:documentation>
+								<xs:documentation>At least one of which is an offer.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="Airport" type="StationType" use="required">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">The airport code for this slot information.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="optional">
+			<xs:annotation>
+				<xs:documentation>Used to specify if an IATA or an ICAO code.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="AsOfDateTime" type="xs:dateTime" use="optional">
+			<xs:annotation>
+				<xs:documentation>Indicates the date/time that the Slot Information was last updated. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="AllocatedMovementType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A single allocated airline movement.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="OperatingPeriod" type="OperatingPeriodType">
+				<xs:annotation>
+					<xs:documentation>The start and end dates, days of operation, frequency, and over midnight.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AllocatedArrival" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The allocated flight arrival information.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="AllocatedSlotType"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AllocatedDeparture" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The allocated flight departure information.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="AllocatedSlotType"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AllocatedSlotType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A slot allocated to an airline.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Flight" minOccurs="0" maxOccurs="10">
+				<xs:annotation>
+					<xs:documentation>The airline code and flight number.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Airline" type="AirlineType" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The airline code.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Used to specify if an IATA or an ICAO code.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="Number" type="Numeric0to9999" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The flight number.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="OperationalSuffix" type="OperationalSuffixType" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The operational suffix.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Aircraft" minOccurs="0" maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>The aircraft type.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Type" type="AirEquipType" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The type of aircraft.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Used to specify if an IATA or an ICAO code.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Seats" type="Numeric0to999" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The number of seats.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OrigDestStn" minOccurs="0" maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>The origin/destination airport code.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Station" type="StationType" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The airport code for the origin/destination.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Used to specify if an IATA or an ICAO code.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PrevNextStn" minOccurs="0" maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>The previous/next airport code.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Station" type="StationType" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The airport code for the previous/next station.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Used to specify if an IATA or an ICAO code.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Service" type="ServiceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The SSIM service type.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ScheduledTime" type="xs:time" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The allocated schedule time.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OutstandingRequest" type="OutstandingRequestType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The airlines outstanding request.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CoordinatorReason" type="CoordinatorReasonType" minOccurs="0" maxOccurs="50">
+				<xs:annotation>
+					<xs:documentation>The Waitlist Reason given by the coordinator.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Terminal" type="UpperCaseAlphaNumericStringLength1to2" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The allocated terminal.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Runway" type="RunwayType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The allocated runway.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Restriction" type="RestrictionType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An indication if any restrictions apply as to how the slot must be operated (eg PSO or EAS)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Registration" type="RegistrationType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The aircraft registration.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NewEntrant" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Whether the slot has been granted new entrant status Y/N.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="YearRound" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Whether the slot has been granted year round status Y/N.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CoordReference" type="UpperCaseAlphaNumericStringLength1to10" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A unique reference allocated by the coordinator to this slot.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AirportSlotID" type="AlphaNumericStringLength1to20" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A unique reference allocated by the airport to this slot.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OperatorMovementRef" type="StringLength0to50" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The airlines reference for the movement.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HistoricReference" type="HistoricReferenceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A unique reference allocated by the airport to this slot.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OperatingPercentage" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The percentage of scheduled operations considered operated.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="TotalPC" type="Percentage">
+						<xs:annotation>
+							<xs:documentation>The percentage operated across all days.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="MondayPC" type="Percentage">
+						<xs:annotation>
+							<xs:documentation>The percentage operated on Mondays.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="TuesdayPC" type="Percentage">
+						<xs:annotation>
+							<xs:documentation>The percentage operated on Tuesdays..</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="WednesdayPC" type="Percentage">
+						<xs:annotation>
+							<xs:documentation>The percentage operated on Wednedays.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="ThursdayPC" type="Percentage">
+						<xs:annotation>
+							<xs:documentation>The percentage operated on Thursdays.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="FridayPC" type="Percentage">
+						<xs:annotation>
+							<xs:documentation>The percentage operated on Fridays.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="SaturdayPC" type="Percentage">
+						<xs:annotation>
+							<xs:documentation>The percentage operated on Saturdays,</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="SundayPC" type="Percentage">
+						<xs:annotation>
+							<xs:documentation>The percentage operated on Sundays.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BaselineLinkID" type="StringLength0to50" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An identifier linking the slot to its associated counterpart on the historic baseline</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="AllocatedStatus" type="AllocatedStatusType" use="required">
+			<xs:annotation>
+				<xs:documentation>The Allocated Status.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ProvisionalConditions" type="ProvisionalConditionsType" use="optional">
+			<xs:annotation>
+				<xs:documentation>If the slot has an allocated status of PROV then this element indicates the applicable conditions.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ProvisionalComment" type="StringLength0to50" use="optional">
+			<xs:annotation>
+				<xs:documentation>Additional comments as to why slot granted provisional status</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="OfferExpiry" type="xs:date">
+			<xs:annotation>
+				<xs:documentation>If the slot has an allocated status of OFFR then this element indicates the expiry date of the offer.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="LastModified" type="xs:dateTime">
+			<xs:annotation>
+				<xs:documentation>An indicator of when this slot record was last updated. For newly created/modified slots this can be the current date time.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="AirportComment" type="StringLength0to50" use="optional">
+			<xs:annotation>
+				<xs:documentation>Comment added by the airport</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="CoordComment" type="StringLength0to50" use="optional">
+			<xs:annotation>
+				<xs:documentation>Comment added by the coordinator</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="ClearanceSlotIDType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Data to uniquely identify a slot (arrival or departure)		</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Flight" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The airline code and flight number.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Airline" type="AirlineType" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The airline code.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Used to specify if an IATA or an ICAO code.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="Number" type="Numeric0to9999" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The flight number.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="OperationalSuffix" type="OperationalSuffixType" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The operational suffix.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="ScheduledTime" type="xs:time" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">
+							    The scheduled time of the operation
+						    </xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CoordReference" type="UpperCaseAlphaNumericStringLength1to10" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A unique reference allocated by the coordinator to the slot.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AirportSlotID" type="AlphaNumericStringLength1to20" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A unique reference allocated by the airport to the slot.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="HistoricMovementIDType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Identification of a historic movement		</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="OperatingPeriod" type="OperatingPeriodType">
+				<xs:annotation>
+					<xs:documentation>The start and end dates, days of operation, frequency, and over midnight.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HistoricArrivalID" type="ClearanceSlotIDType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The flight arrival historic information.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HistoricDepartureID" type="ClearanceSlotIDType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The flight departure historic information.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="HistoricMovementType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A single Historic Movement		</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="OperatingPeriod" type="OperatingPeriodType">
+				<xs:annotation>
+					<xs:documentation>The start and end dates, days of operation, frequency, and over midnight.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HistoricStatus">
+				<xs:annotation>
+					<xs:documentation>Specifies if the schedule movement record is historic or non historic.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Type" type="HistoricStatusType" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Specfies if this is a historic or non historic schedule movement.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="NonHistoricReason" type="NonHistoricReasonType" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">If non historic, this is the reason.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="HistoricArrival" type="HistoricSlotType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The flight arrival historic information.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HistoricDeparture" type="HistoricSlotType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The flight departure historic information.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="HistoricSlotType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A historic slot (arrival or departure)			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Flight">
+				<xs:annotation>
+					<xs:documentation>The airline code and flight number.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Airline" type="AirlineType" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The airline code.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Used to specify if an IATA or an ICAO code.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="Number" type="Numeric0to9999" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The flight number.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="OperationalSuffix" type="OperationalSuffixType" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The operational suffix.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Aircraft">
+				<xs:annotation>
+					<xs:documentation>The aircraft type.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Type" type="AirEquipType" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The type of aircraft.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Used to specify if an IATA or an ICAO code.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Seats" type="Numeric0to999">
+				<xs:annotation>
+					<xs:documentation>The number of seats.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OrigDestStn">
+				<xs:annotation>
+					<xs:documentation>The origin/destination airport code.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Station" type="StationType" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The airport code for the origin/destination.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Used to specify if an IATA or an ICAO code.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PrevNextStn">
+				<xs:annotation>
+					<xs:documentation>The previous/next airport code.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Station" type="StationType" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The airport code for the previous/next station.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Used to specify if an IATA or an ICAO code.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Service" type="ServiceType">
+				<xs:annotation>
+					<xs:documentation>The SSIM service type.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SchedTime" type="xs:time">
+				<xs:annotation>
+					<xs:documentation>The flight schedule time.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Terminal" type="UpperCaseAlphaNumericStringLength1to2" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The terminal Identifier.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CoordReference" type="UpperCaseAlphaNumericStringLength1to10" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A unique reference allocated by the coordinator to this slot.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Restriction" type="RestrictionType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An indication if any restrictions apply as to how the slot must be operated (eg PSO or EAS)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OperatingPeriodType">
+		<xs:annotation>
+			<xs:documentation>Specifies a period of operation.</xs:documentation>
+		</xs:annotation>
+		<xs:attributeGroup ref="DateTimeSpanGroup">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">The period of operation start and end dates</xs:documentation>
+			</xs:annotation>
+		</xs:attributeGroup>
+		<xs:attribute name="DaysOfOperation" type="DaysOperatedType" use="required">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">The days of operation.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Frequency" type="Numeric1to4" use="required">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">The weekly frequency.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="DateChangeNbr" type="Numeric0to999" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">Used to specify if over-midnight.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="OutstandingRequestType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">An airlines outstanding request details for a slot (arrival or departure)			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ReqTime" type="xs:time" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The airlines outstanding requested schedule time.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ReqAircraft" minOccurs="0" maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>The aircraft type of the outstanding request.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Type" type="AirEquipType" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The type of aircraft.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Used to specify if an IATA or an ICAO code.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReqSeats" type="Numeric0to999" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The outstanding number of seats requested by the airline.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ReqTerminal" type="UpperCaseAlphaNumericStringLength1to2" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The requested terminal Identifier.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ReqOrigDestStn" minOccurs="0" maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>The requested origin/destination airport.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Station" type="StationType" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The airport code for the origin/destination.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Used to specify if an IATA or an ICAO code.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReqPrevNextStn" minOccurs="0" maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>The requested previous/next airport code.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Station" type="StationType" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The airport code for the previous/next station.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Used to specify if an IATA or an ICAO code.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReqOffset" type="DateOffsetType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The number of days difference between outstanding request and scheduled time.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CoordinatorReason" type="CoordinatorReasonType" minOccurs="0" maxOccurs="50">
+				<xs:annotation>
+					<xs:documentation>The reason the coordinator cannot grant the movement detail as requested.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RequestMovementDeletionType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A request to delete a schedule movement	</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="OperatingPeriod" type="OperatingPeriodType">
+				<xs:annotation>
+					<xs:documentation>The start and end dates, days of operation, frequency, and over midnight.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ClearanceArrivalID" type="ClearanceSlotIDType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The flight arrival identifier.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ClearanceDepartureID" type="ClearanceSlotIDType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The flight departure identifier.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RequestMovementType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A single airline movement request.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="OperatingPeriod" type="OperatingPeriodType">
+				<xs:annotation>
+					<xs:documentation>The start and end dates, days of operation, frequency, and over midnight.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RequestArrival" type="RequestSlotType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The flight arrival information.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RequestDeparture" type="RequestSlotType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The flight departure information.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="MaxTotalAvlLines" type="Numeric0to99" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">
+	               Indicates the maximum availability lines expected in response to this request.
+			   </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="MaxAvlLinesBefore" type="Numeric0to99" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">
+                  Indicates the maximum availability lines expected that are earlier than the requested time.
+               </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="MaxAvlLinesAfter" type="Numeric0to99" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">
+                  Indicates the maximum availability lines expected that are later than the requested time.
+			   </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="RequestOfferAcceptanceType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A request to accept an offered schedule movement			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="OperatingPeriod" type="OperatingPeriodType">
+				<xs:annotation>
+					<xs:documentation>The start and end dates, days of operation, frequency, and over midnight.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OfferArrivalID" type="ClearanceSlotIDType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The flight arrival identifier.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OfferArrivalOSReq" type="OutstandingRequestType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>If the airline wishes the arrival slot to remain as outstanding request (on waitlist) then the details should go here.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OfferDepartureID" type="ClearanceSlotIDType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The flight departure identifier.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OfferDepartureOSReq" type="OutstandingRequestType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>If the airline wishes the departure slot to remain as outstanding request (on waitlist) then the details should go here.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RequestOfferRejectionType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A request to reject an offered schedule movement		</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="OperatingPeriod" type="OperatingPeriodType">
+				<xs:annotation>
+					<xs:documentation>The start and end dates, days of operation, frequency, and over midnight.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OfferArrivalID" type="ClearanceSlotIDType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The identifier of the arrival offer to be rejected.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OfferDepartureID" type="ClearanceSlotIDType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The identifier of the departure offer to be rejected.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RequestSlotType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">An airlines requested slot (arrival or departure)		</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Flight" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The airline code and flight number.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Airline" type="AirlineType" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The airline code.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Used to specify if an IATA or an ICAO code.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="Number" type="Numeric0to9999" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The flight number.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="OperationalSuffix" type="OperationalSuffixType" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The operational suffix.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Aircraft">
+				<xs:annotation>
+					<xs:documentation>The aircraft type.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Type" type="AirEquipType" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The type of aircraft.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Used to specify if an IATA or an ICAO code.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Seats" type="Numeric0to999" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The number of seats.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OrigDestStn" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The origin/destination airport code.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Station" type="StationType" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The airport code for the origin/destination.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Used to specify if an IATA or an ICAO code.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PrevNextStn" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The previous/next airport code.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Station" type="StationType" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The airport code for the previous/next station.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Used to specify if an IATA or an ICAO code.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Service" type="ServiceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The SSIM service type.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RequestTime" type="xs:time" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The airlines requested schedule time.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Terminal" type="UpperCaseAlphaNumericStringLength1to2" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The terminal requested by the airline.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Runway" type="RunwayType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The runway requested by the airline.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Registration" type="RegistrationType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The registration of the aircraft.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Restriction" type="RestrictionType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An indication if any restrictions apply as to how the slot must be operated (eg PSO or EAS)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AcceptTimeChange" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An indication as to whether the airline will accept times different from that requested</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Flexibility" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Range Of Acceptable Times</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="FlexibilityStart" type="xs:time">
+						<xs:annotation>
+							<xs:documentation>The earliest acceptable time</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="FlexibilityEnd" type="xs:time">
+						<xs:annotation>
+							<xs:documentation>The latest acceptable time</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="PrevDayStartInd" type="xs:boolean" use="optional">
+						<xs:annotation>
+							<xs:documentation>
+								If true, indicates that the earliest acceptable time is on the previous day
+							</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="NextDayEndInd" type="xs:boolean" use="optional">
+						<xs:annotation>
+							<xs:documentation>
+								If true, indicates that the latest acceptable time is on the next day
+							</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ClaimedNewEntrant" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Whether the airline claims new entrant status.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ClaimedYearRound" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Whether the airline claims year round status.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExtensionOfFlight" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Whether the request is to extend the operational dates for the slot.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OutstandingRequest" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The airlines outstanding request.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="OutstandingRequestType"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="OperatorMovementRef" type="StringLength0to50" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The airlines reference for the movement.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CoordinatorReason" type="CoordinatorReasonType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The reason that the coordinator cannot grant the movement detail as requested.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OnGroundRange" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The on ground time range acceptable to the airline.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Minimum" type="Numeric0to9999">
+						<xs:annotation>
+							<xs:documentation>The lowest acceptable on ground time in minutes.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="Maximum" type="Numeric0to9999">
+						<xs:annotation>
+							<xs:documentation>The highest acceptable on ground time in minutes.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CoordReference" type="UpperCaseAlphaNumericStringLength1to10" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A unique reference allocated by the coordinator to this slot.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="RequestedStatus" type="AllocatedStatusType" use="optional">
+			<xs:annotation>
+				<xs:documentation>
+					Indicates the allocated status requested for the slot
+					If omitted assumed to be CONF
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="AirportComment" type="StringLength0to50" use="optional">
+			<xs:annotation>
+				<xs:documentation>Comment added by the airport</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="CoordComment" type="StringLength0to50" use="optional">
+			<xs:annotation>
+				<xs:documentation>Comment added by the coordinator</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="RestrictionCapacityInformationType">
+		<xs:annotation>
+			<xs:documentation>The capacity information for a specific airport restriction.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Airport">
+				<xs:annotation>
+					<xs:documentation>The airport for the capacity information.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Station" type="StationType" use="required">
+						<xs:annotation>
+							<xs:documentation>The airport code.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="required">
+						<xs:annotation>
+							<xs:documentation>Used to specify if an IATA or an ICAO code.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RestrictionCode" type="UpperCaseAlphaNumericStringLength1to20">
+				<xs:annotation>
+					<xs:documentation>The name of the restriction that capacity information relates to</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Remark" minOccurs="0" maxOccurs="9">
+				<xs:annotation>
+					<xs:documentation>Free text remark for this capacity information.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CapacityDetail" maxOccurs="99999">
+				<xs:annotation>
+					<xs:documentation>The capacity information for a specific start date or date range.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Dates">
+							<xs:annotation>
+								<xs:documentation>The start date or date range and days of operation for this capacity information.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attributeGroup ref="DateTimeSpanGroup"/>
+								<xs:attribute name="DaysOfOperation" type="DaysOperatedType">
+									<xs:annotation>
+										<xs:documentation>The days of operation for this capacity information.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="CapacityItem" maxOccurs="999">
+							<xs:annotation>
+								<xs:documentation>The capacity information for a specfic start and end time and runway movement type.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Time">
+										<xs:annotation>
+											<xs:documentation>The start and end time for this capacity information.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:attributeGroup ref="DateTimeSpanGroup"/>
+											<xs:attribute name="BracketSize" type="Numeric0to9999" use="optional">
+												<xs:annotation>
+													<xs:documentation>The size of the time bracket used to measure capacity in terms of the number of movements per time bracket.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="RunwayMovement" type="RunwayMovementType">
+										<xs:annotation>
+											<xs:documentation>Specifies whether capacity is for arrivals, departures, or a combination of both.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="Quantity" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Specifies an absolute capacity number.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:integer">
+												<xs:minInclusive value="-9999"/>
+												<xs:maxInclusive value="9999"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="AvailabilityLevel" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>A non-mumric indicator of availability.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:NMTOKEN">
+												<xs:enumeration value="None"/>
+												<xs:enumeration value="Limited"/>
+												<xs:enumeration value="Open"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="InternalComment" type="AlphaNumericStringLength1to30" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Free text information describing the nature of the capacity limitation - Bilateral use only.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="Type" type="RunwayCapacityType" use="required">
+			<xs:annotation>
+				<xs:documentation>The type of runway capacity information.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="DetailLevel" type="IATA_CodeType">
+			<xs:annotation>
+				<xs:documentation>The level of detail returned in the response.  Refer to IATA PADIS Code List DTL.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="AsOfDateTime" type="xs:dateTime" use="optional">
+			<xs:annotation>
+				<xs:documentation>Indicates the date/time that the Capacity Information was last updated</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="RunwayCapacityInformationType">
+		<xs:annotation>
+			<xs:documentation>The capacity information for a specific airport.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Airport">
+				<xs:annotation>
+					<xs:documentation>The airport for the runway capacity information.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Station" type="StationType" use="required">
+						<xs:annotation>
+							<xs:documentation>The airport code.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="required">
+						<xs:annotation>
+							<xs:documentation>Used to specify if an IATA or an ICAO code.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Remark" minOccurs="0" maxOccurs="9">
+				<xs:annotation>
+					<xs:documentation>Free text remark for this capacity runway information.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CapacityDetail" maxOccurs="99999">
+				<xs:annotation>
+					<xs:documentation>The capacity information for a specific start date or date range.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Dates">
+							<xs:annotation>
+								<xs:documentation>The start date or date range and days of operation for this runway capacity information.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attributeGroup ref="DateTimeSpanGroup"/>
+								<xs:attribute name="DaysOfOperation" type="DaysOperatedType">
+									<xs:annotation>
+										<xs:documentation>The days of operation for this runway capacity information.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="CapacityItem" maxOccurs="999">
+							<xs:annotation>
+								<xs:documentation>The capacity information for a specfic start and end time and runway movement type.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Time">
+										<xs:annotation>
+											<xs:documentation>The start and end time for this capacity information.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:attributeGroup ref="DateTimeSpanGroup"/>
+											<xs:attribute name="BracketSize" type="Numeric0to9999" use="optional">
+												<xs:annotation>
+													<xs:documentation>The size of the time bracket used to measure capacity in terms of the number of movements per time bracket.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="ConstraintName" type="UpperCaseAlphaNumericStringLength1to20" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>The name of the constraint that this availability item relates to.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="RunwayMovement" type="RunwayMovementType">
+										<xs:annotation>
+											<xs:documentation>Specifies whether capacity is for arrivals, departures, or a combination of both.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="Quantity" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Specifies an absolute capacity number.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:integer">
+												<xs:minInclusive value="-9999"/>
+												<xs:maxInclusive value="9999"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="AvailabilityLevel" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>A non-mumric indicator of availability.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:NMTOKEN">
+												<xs:enumeration value="None"/>
+												<xs:enumeration value="Limited"/>
+												<xs:enumeration value="Open"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="InternalComment" type="AlphaNumericStringLength1to30" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Free text information describing the nature of the capacity limitation - Bilateral use only.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="Type" type="RunwayCapacityType" use="required">
+			<xs:annotation>
+				<xs:documentation>The type of runway capacity information.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="DetailLevel" type="IATA_CodeType">
+			<xs:annotation>
+				<xs:documentation>The level of detail returned in the response.  Refer to IATA PADIS Code List DTL.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="AsOfDateTime" type="xs:dateTime" use="optional">
+			<xs:annotation>
+				<xs:documentation>Indicates the date/time that the Capacity Information was last updated</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="SlotUsageType">
+		<xs:annotation>
+			<xs:documentation>The schema in which this complexType was used have been deleted.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Season" type="SeasonType">
+				<xs:annotation>
+					<xs:documentation>The season for the data.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TimeType" type="TimeType">
+				<xs:annotation>
+					<xs:documentation>Specifies if time is UTC or local.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Airport" minOccurs="0" maxOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The airport for which slot usage information is being reported.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="CalculationDate" type="DateOrDateTimeType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The calculation date for the slot usage information.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="SlotInformation" maxOccurs="9999">
+							<xs:annotation>
+								<xs:documentation>The slot id, time, date and day of the week </xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Dates">
+										<xs:annotation>
+											<xs:documentation>The reference date and the start and end dates.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:attribute name="Reference" type="DateOrDateTimeType" use="required">
+												<xs:annotation>
+													<xs:documentation xml:lang="en">The reference date.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attributeGroup ref="DateTimeSpanGroup">
+												<xs:annotation>
+													<xs:documentation xml:lang="en">Used to specify the start and end dates.</xs:documentation>
+												</xs:annotation>
+											</xs:attributeGroup>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="StationInformation">
+										<xs:annotation>
+											<xs:documentation>The direction and the origin/destination and previous/next airport codes.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:attribute name="Direction" use="required">
+												<xs:annotation>
+													<xs:documentation xml:lang="en">Used to specify if the information is for arrival or departure.</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:NMTOKEN">
+														<xs:enumeration value="Arr"/>
+														<xs:enumeration value="Dep"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:attribute>
+											<xs:attribute name="OrigDest" type="StationType" use="optional"/>
+											<xs:attribute name="PrevNext" type="StationType" use="optional"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Operations">
+										<xs:annotation>
+											<xs:documentation>Information concerning the operations.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:attribute name="ReferenceHeld" type="Numeric1to99" use="required">
+												<xs:annotation>
+													<xs:documentation xml:lang="en">The reference operations held.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="InitialRequest" type="Numeric1to99" use="optional">
+												<xs:annotation>
+													<xs:documentation xml:lang="en">The operations initially requested.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="MinRequired" type="Numeric1to99" use="optional">
+												<xs:annotation>
+													<xs:documentation xml:lang="en">The minimum operations required.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="ActualPlanned" type="Numeric1to99" use="optional">
+												<xs:annotation>
+													<xs:documentation xml:lang="en">The number of actual and planned operations.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="Usage" type="Percentage" use="optional">
+												<xs:annotation>
+													<xs:documentation xml:lang="en">The percentage of usage.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="ForecastUsageTrend" type="Percentage" use="optional">
+												<xs:annotation>
+													<xs:documentation xml:lang="en">The forecasted usage trend percentage.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="SignificantlyOffInd" type="xs:boolean" use="optional">
+												<xs:annotation>
+													<xs:documentation xml:lang="en">When true, the number of operations is signifcantly off.  When false, it is not.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="FlightInformation" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>The flight information for slot.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:attribute name="Airline" type="AirlineType" use="required">
+												<xs:annotation>
+													<xs:documentation xml:lang="en">The airline code for the flight.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="Number" type="Numeric0to9999" use="required">
+												<xs:annotation>
+													<xs:documentation xml:lang="en">The operating flight number.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="OperationalSuffix" type="OperationalSuffixType" use="optional">
+												<xs:annotation>
+													<xs:documentation xml:lang="en">The operational suffix for the flight.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="OperatingTime" type="TimeType" use="optional">
+												<xs:annotation>
+													<xs:documentation xml:lang="en">The actual operating time for the flight.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="OperatedDate" type="DateOrDateTimeType" use="required">
+												<xs:annotation>
+													<xs:documentation xml:lang="en">The date the flight operated.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="CancelledInd" type="xs:boolean" use="optional">
+												<xs:annotation>
+													<xs:documentation xml:lang="en">When true, the flight cancelled.  When false, it did not.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="TreatedAsOperatedInd" type="xs:boolean" use="optional">
+												<xs:annotation>
+													<xs:documentation xml:lang="en">When true, the flight was counted as operated even though it may not have operated.  </xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="ActualSlottedDifference" type="xs:decimal" use="optional">
+												<xs:annotation>
+													<xs:documentation xml:lang="en">The diffence in minutes between the actual operation time and the slotted operation time.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Comment" type="FreeTextType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Comments for this slot.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="ID" type="UpperCaseAlphaNumericStringLength1to10" use="required">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">The slot id.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="Time" type="DateOrTimeOrDateTimeType" use="required">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">The slot time.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="Date" type="DateOrDateTimeType" use="optional">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">The date for which slot information is being reported.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="DayOfWeek" type="xs:integer" use="optional">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">The day of the week for this slot information.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="Code" type="StationType" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The IATA or ICAO code for the airport.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="Type" use="required">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">Used to specify the type of information - summary or detail.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="Summary"/>
+					<xs:enumeration value="Detail"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="UtilizationItemType">
+		<xs:sequence>
+			<xs:element name="HistScheduleMovement" minOccurs="0" maxOccurs="9">
+				<xs:annotation>
+					<xs:documentation>A historic schedule movement detail.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="OperatingPeriod">
+							<xs:annotation>
+								<xs:documentation>A date range and frequency for the operaton.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attributeGroup ref="DateTimeSpanGroup"/>
+								<xs:attribute name="Frequency" type="Numeric1" use="required">
+									<xs:annotation>
+										<xs:documentation>Indicates whether the movement is scheduled to operate every week or will operate every other week.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Flight" maxOccurs="2">
+							<xs:annotation>
+								<xs:documentation>The flight number for which usage information is requested.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="Airline" type="AirlineType" use="required">
+									<xs:annotation>
+										<xs:documentation>The airline designator.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="CodeContext" type="IATA_OrICAO_Type">
+									<xs:annotation>
+										<xs:documentation>Used to specify if code is an IATA or ICAO code.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="Number" type="Numeric0to9999" use="required">
+									<xs:annotation>
+										<xs:documentation>The flight number.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="OperationalSuffix" type="OperationalSuffixType" use="optional">
+									<xs:annotation>
+										<xs:documentation>The operational suffix.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Aircraft" minOccurs="0" maxOccurs="2">
+							<xs:annotation>
+								<xs:documentation>The aircraft type.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="Type" type="AirEquipType" use="required">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">The type of aircraft.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="optional">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">Used to specify if an IATA or an ICAO code.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Seats" type="Numeric0to999" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The number of seats.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="OrigDestStn" minOccurs="0" maxOccurs="2">
+							<xs:annotation>
+								<xs:documentation>The origin/destination airport code.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="Station" type="StationType" use="required">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">The airport code for the origin/destination.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="required">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">Used to specify if an IATA or an ICAO code.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="PrevNextStn" minOccurs="0" maxOccurs="2">
+							<xs:annotation>
+								<xs:documentation>The previous/next airport code.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="Station" type="StationType" use="required">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">The airport code for the previous/next station.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="required">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">Used to specify if an IATA or an ICAO code.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Service" type="ServiceType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The SSIM service type.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ScheduledTime" type="xs:time">
+							<xs:annotation>
+								<xs:documentation>The airlines requested schedule time.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Terminal" type="UpperCaseAlphaNumericStringLength1to2" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The terminal requested by the airline.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Runway" type="RunwayType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The runway requested by the airline.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Summary">
+				<xs:annotation>
+					<xs:documentation>Summary information.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="CalculationDate" type="DateOrDateTimeType">
+						<xs:annotation>
+							<xs:documentation>The date the report was calculated.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="ReferenceDate" type="DateOrDateTimeType">
+						<xs:annotation>
+							<xs:documentation>The date used as the baseline for the calculation.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="ReferenceHeld" type="Numeric1to99" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The number of operations held on the reference date.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="InitialRequest" type="Numeric1to99" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The number of operatons initially held.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="MinRequired" type="Numeric1to99" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The minimum number of ops required to claim historic.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="ActualPlanned" type="Numeric1to99" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The number of flights operated plus the number of ops planned to operate in the future.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="Usage" type="Percentage" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The percentage of the reference slots that have operated.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="Comment" type="StringLength0to128"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="FlightOperation" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The flight operaton details.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Flight" minOccurs="0" maxOccurs="2">
+							<xs:complexType>
+								<xs:attribute name="Airline" type="AirlineType" use="required">
+									<xs:annotation>
+										<xs:documentation>The airline code for the flight.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="CodeContext" type="IATA_OrICAO_Type">
+									<xs:annotation>
+										<xs:documentation>Used to specify if airline code is IATA or ICAO.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="Number" type="Numeric0to9999" use="required">
+									<xs:annotation>
+										<xs:documentation>The flight number.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="OperationalSuffix" type="OperationalSuffixType" use="optional">
+									<xs:annotation>
+										<xs:documentation>The operational suffix for the flight</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="ScheduledDate" type="DateOrDateTimeType" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The scheduled date of the operation.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="ScheduledTime" type="xs:time" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The scheduled time of the operation.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="OperatedInd" type="xs:boolean" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">For past dates, indicates whether the flight was operated.  For future dates indicates that the flight has not yet operated.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="Cancellnd" type="xs:boolean" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">When true, the flight was cancelled by the airline prior to the operation.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="TreatedAsOperatedInd" type="xs:boolean" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">When true, the flight was counted as operated even though it may not have operated. </xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<!--				<xs:attribute name="OperationalSuffix" type="OperationalSuffixType" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The operational suffix for the flight.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>-->
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="HistoricReference" type="HistoricReferenceType">
+			<xs:annotation>
+				<xs:documentation>The identifier for the historic movement detail.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="DayOfWeek" type="xs:integer" use="required">
+			<xs:annotation>
+				<xs:documentation>The day of the week that this utilization item relates to.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Direction" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="A">
+						<xs:annotation>
+							<xs:documentation>Arrival</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="D">
+						<xs:annotation>
+							<xs:documentation>Departure</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="Comment" type="StringLength0to128">
+			<xs:annotation>
+				<xs:documentation>Coordinator comment.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+</xs:schema>

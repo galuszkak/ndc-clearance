@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="1.000" id="IATA2022.1">
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:complexType name="PNR_Type">
+		<xs:annotation>
+			<xs:documentation>The Passenger Name Record of the operating carrier.</xs:documentation>
+		</xs:annotation>
+		<xs:attributeGroup ref="UniqueID_Group"/>
+	</xs:complexType>
+	<xs:simpleType name="BaggageTagNumberType">
+		<xs:annotation>
+			<xs:documentation>Baggage Identification Number as defined in Reso 740/5.1.2 and resolved in reso 751, also know as Licence Plate Code.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="10"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="GenderType">
+		<xs:annotation>
+			<xs:documentation>An enumeration for gender.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Male"/>
+			<xs:enumeration value="Female"/>
+			<xs:enumeration value="Unknown"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="GUID_Type">
+		<xs:annotation>
+			<xs:documentation>Global Unique Identifier</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="ToleranceType">
+		<xs:annotation>
+			<xs:documentation>The tolerance allowed on the quantitative measured value in the same unit of measure. If this field is omitted, a tolerance is not applicable.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<xs:complexType name="BusinessActivityType">
+		<xs:annotation>
+			<xs:documentation>Business activity invoking the function. For text and code, please refer to master data table Business Activities</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="Code" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation>The code of the business activity</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:attribute name="UnitOfMeasurement" type="IATA_CodeType">
+		<xs:annotation>
+			<xs:documentation>The unit of measurement, for example Kilograms (kg) or centimeters. Refer to IATA PADIS Code List for data element 6411</xs:documentation>
+		</xs:annotation>
+	</xs:attribute>
+</xs:schema>

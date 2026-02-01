@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="3.001" id="IATA2022.1">
+	<xs:include schemaLocation="IATA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_ScheduleCommonTypes.xsd"/>
+	<xs:element name="IATA_ScheduleRS">
+		<xs:annotation>
+			<xs:documentation>Used to respond to a schedules request or a schedules notification request.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="Success" type="SuccessType">
+						<xs:annotation>
+							<xs:documentation>Standard way to indicate successful processing of an IATA message. Returning an empty element of this type indicates success.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Warnings" type="WarningsType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Used to acknowledge that the message was processed but that there are errors.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="RemarkText" type="AlphaNumericStringLength1to99" minOccurs="0" maxOccurs="9">
+						<xs:annotation>
+							<xs:documentation>Free text remarks assigned by carrier for bilateral or internal use.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Schedules" type="SchedulesType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A collection of schedules.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:element name="Errors" type="WarningsType">
+					<xs:annotation>
+						<xs:documentation>Errors are returned if the request was unable to be processed or processing is delayed.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="TimeMode" use="optional">
+				<xs:annotation>
+					<xs:documentation>Specifies if local time or UTC is used.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="L">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Local time</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="U">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">UTC time</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

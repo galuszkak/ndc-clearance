@@ -1,0 +1,1663 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified"
+	version="2.009" id="IATA2022.1">
+	<xs:include schemaLocation="IATA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:simpleType name="DepartureArrivalType">
+		<xs:annotation>
+			<xs:documentation>Used to specify if information is for a departure or an arrival.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="Departure"/>
+			<xs:enumeration value="Arrival"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DestinationType">
+		<xs:annotation>
+			<xs:documentation>Used to specify the destination type such as local, transit, or transfer.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="Local"/>
+			<xs:enumeration value="Transfer"/>
+			<xs:enumeration value="Transit"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DCS_UsageType">
+		<xs:annotation>
+			<xs:documentation>Used to specify if booked, accepted or boarded..</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="Booked"/>
+			<xs:enumeration value="Accepted"/>
+			<xs:enumeration value="Boarded"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="FlightLegScopeType">
+		<xs:annotation>
+			<xs:documentation>To specify if information is for a departure or an arrival or overall flight.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="Departure"/>
+			<xs:enumeration value="Arrival"/>
+			<xs:enumeration value="FlightLeg"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="FuelQualifierEnumType">
+		<xs:annotation>
+			<xs:documentation>Fuel qualifier to specify the fuel being measured. An "Other_" value to support open enumeration list.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="FuelUplift">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The amount of fuel the fuelling company should load on the aircraft.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="FuelOnboard">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The amount of fuel the aircraft has in its tanks while on the ramp/stand.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TripFuel">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The amount of fuel the flight planning system predicts the aircraft will burn in flight.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TakeoffFuel">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The amount of fuel the aircraft has in its tanks at takeoff (fuel  onboard less the amount burned to get to start of runway).</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Other_">
+				<xs:annotation>
+					<xs:documentation xml:lang="en"> "Other_" as enumerated value for  open enumeration support. See AccommodationClass. </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MeasurementUnitType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Kilogram"/>
+			<xs:enumeration value="Pound"/>
+			<xs:enumeration value="Ton"/>
+			<xs:enumeration value="Tonne"/>
+			<xs:enumeration value="Litre"/>
+			<xs:enumeration value="USGallon"/>
+			<xs:enumeration value="ImperialGallon"/>
+			<xs:enumeration value="CubicMetre"/>
+			<xs:enumeration value="Centigrade"/>
+			<xs:enumeration value="Fahrenheit"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OriginationType">
+		<xs:annotation>
+			<xs:documentation>Used to specify the origination type sucha as local, transit or transfer.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="Local"/>
+			<xs:enumeration value="Transfer"/>
+			<xs:enumeration value="Transit"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="QualifierType">
+		<xs:union memberTypes="AlphaLength4 IATA_CodeType"/>
+	</xs:simpleType>
+	<xs:complexType name="BaggageLoadType">
+		<xs:annotation>
+			<xs:documentation>Summary information of baggage weight and count loaded on aircraft,   optionally summarized by destination type, and service class</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="BagCount" nillable="true" minOccurs="0" maxOccurs="50">
+				<xs:annotation>
+					<xs:documentation>Number of bags for a destination type and cabin class in a specified location.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:positiveInteger">
+							<xs:attribute name="Location" type="xs:string" use="required">
+								<xs:annotation>
+									<xs:documentation>The location of the baggage count on the aircraft., i.e. Bin name or ULD ID. Repeating group to cover the different bins and total.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Weight" type="MeasurementType" nillable="true" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Weight of baggage loaded on the aircraft </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="ServiceClass" type="IATA_CodeType">
+			<xs:annotation>
+				<xs:documentation>Specifies a class of service for the baggage loaded information.  Refer to IATA PADIS Code List for data element 9873.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="DestinationType" type="DestinationType">
+			<xs:annotation>
+				<xs:documentation>Used to specify the destination type such as local, transit or transfer.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="RepeatIndex">
+			<xs:annotation>
+				<xs:documentation>Identifies an order for a repeating item.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="DeadLoadType">
+		<xs:sequence>
+			<xs:element name="Type" type="IATA_CodeType">
+				<xs:annotation>
+					<xs:documentation>Type of dead load. Refer to IATA PADIS code list for data element 7085</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Weight" type="MeasurementType" nillable="true" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A weight and unit of measurement.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="DestinationType" type="DestinationType"/>
+	</xs:complexType>
+	<xs:complexType name="FlightLegIdentifierType">
+		<xs:annotation>
+			<xs:documentation>Identifies a flight leg.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Airline">
+				<xs:annotation>
+					<xs:documentation>The operating airline code.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="AirlineType">
+							<xs:attribute name="CodeContext" type="IATA_CodeType" use="optional">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">Specifies the context of the airline code, such as IATA or ICAO.  Refer to IATA PADIS Code List for data element 3055.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="FlightNumber" type="NumericStringLength1to4">
+				<xs:annotation>
+					<xs:documentation>The actual flight number.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OperationalSuffix" type="OperationalSuffixType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The operational suffix for the flight.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DepartureAirport">
+				<xs:annotation>
+					<xs:documentation>The scheduled departure airport.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StationType">
+							<xs:attribute name="CodeContext" type="IATA_CodeType" use="optional">
+								<xs:annotation>
+									<xs:documentation>Specifies the context of the airport code, such as IATA or ICAO.  Refer to IATA PADIS Code List for data element 3055.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ArrivalAirport">
+				<xs:annotation>
+					<xs:documentation>The scheduled arrival airport.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StationType">
+							<xs:attribute name="CodeContext" type="IATA_CodeType" use="optional">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">Specifies the context of the airport code, such as IATA or ICAO.  Refer to IATA PADIS Code List for data element 3055.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="OriginDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>The scheduled flight origin date based on the flight not the flight leg.  This date must not change once intialized in an AIDX message.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RepeatNumber" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The repeat or departure attempt number.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="Numeric1to99">
+							<xs:attribute name="CurrentInd" type="xs:boolean">
+								<xs:annotation>
+									<xs:documentation>When true the leg with this repeat number operated the flight and when  false this leg has been replaced by another leg.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="AirborneReturnNumber" type="Numeric1to99">
+								<xs:annotation>
+									<xs:documentation>Determines the quantity of airborne returns in RepeatNumber.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GeneralAviationFlightLegIdentifierType">
+		<xs:annotation>
+			<xs:documentation>The GA identifier.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Airline">
+				<xs:annotation>
+					<xs:documentation>The operating airline code.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="AirlineType">
+							<xs:attribute name="CodeContext" type="IATA_CodeType"
+								use="optional">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">Specifies the context of the airline code, such as IATA or ICAO.  Refer to IATA PADIS Code List for data element 3055.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="GeneralAviationIdentifier">
+				<xs:annotation>
+					<xs:documentation>The GA identifier.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="Category" use="required">
+								<xs:annotation>
+									<xs:documentation>The category of General Aviation identifier such as Callsign, Registraton, Other</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:NMTOKEN">
+										<xs:enumeration value="Callsign"/>
+										<xs:enumeration value="Registration"/>
+										<xs:enumeration value="Other"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DepartureAirport">
+				<xs:annotation>
+					<xs:documentation>The scheduled departure airport.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StationType">
+							<xs:attribute name="CodeContext" type="IATA_CodeType"
+								use="optional">
+								<xs:annotation>
+									<xs:documentation>Specifies the context of the airport code, such as IATA or ICAO.  Refer to IATA PADIS Code List for data element 3055.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PlannedDepartureDateTime" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>Planned departure time (UTC).  Is part of the fllight identifier so does not change once set.  Does not reflect the actual departure time.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FlightNumber" type="NumericStringLength1to4"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The actual flight number.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OperationalSuffix" type="OperationalSuffixType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The operational suffix for the flight.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ArrivalAirport" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The scheduled arrival airport.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="StationType">
+							<xs:attribute name="CodeContext" type="IATA_CodeType"
+								use="optional">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">Specifies the context of the airport code, such as IATA or ICAO.  Refer to IATA PADIS Code List for data element 3055.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RepeatNumber" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The repeat or departure attempt number.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="Numeric1to99">
+							<xs:attribute name="CurrentInd" type="xs:boolean">
+								<xs:annotation>
+									<xs:documentation>When true the leg with this repeat number operated the flight and when  false this leg has been replaced by another leg.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="AirborneReturnNumber"
+								type="Numeric1to99">
+								<xs:annotation>
+									<xs:documentation>Determines the quantity of airborne returns in RepeatNumber.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FlightLegType">
+		<xs:annotation>
+			<xs:documentation> Used to specify all the information for a flight leg.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:annotation>
+					<xs:documentation>Identifies a flight leg.</xs:documentation>
+				</xs:annotation>
+				<xs:element name="LegIdentifier" type="FlightLegIdentifierType">
+					<xs:annotation>
+						<xs:documentation>Uniquely identify a flight leg.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="GeneralAviationLegIdentifier" type="GeneralAviationFlightLegIdentifierType">
+					<xs:annotation>
+						<xs:documentation>The GA identifier.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="SpecialAction" nillable="true" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A special action which should be taken on the record.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:token">
+						<xs:enumeration value="Delete"/>
+						<xs:enumeration value="LockDown"/>
+						<xs:enumeration value="DoNotDisplay"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="LegData">
+				<xs:annotation>
+					<xs:documentation>Flight leg information.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="OperationalStatus" type="OperationalStatusType"
+							nillable="true" minOccurs="0" maxOccurs="5"/>
+						<xs:element name="PublicStatus" nillable="true" minOccurs="0" maxOccurs="2">
+							<xs:annotation>
+								<xs:documentation>A list of flight leg statuses that can be displayed to the public.  Refer to IATA PADIS Code List for data element 1245 and 2005.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="IATA_CodeType">
+										<xs:attribute name="CodeContext" type="xs:string"
+											use="optional">
+											<xs:annotation>
+												<xs:documentation xml:lang="en">Used to specify if the remark text code is from IATA PADIS Code List for data element 1245 or 2005.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="FlightLegScope"
+											type="FlightLegScopeType">
+											<xs:annotation>
+												<xs:documentation>To specify if information is for a departure or arrival or overall flight.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="OperatingAlliance" type="IATA_CodeType" nillable="true"
+							minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The operating alliance for the flight.  Refer to IATA PADIS Code List for data element 9906.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ServiceType" type="ServiceType" nillable="true"
+							minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The IATA flight service type of the operating flight.  Use SSIM service types.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="TechnicalStopInd" nillable="true" minOccurs="0"
+							maxOccurs="2">
+							<xs:annotation>
+								<xs:documentation>If true, this is a technical stop.  If false, it is not a technical stop.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:boolean">
+										<xs:attribute name="DepartureOrArrival"
+											type="DepartureArrivalType">
+											<xs:annotation>
+												<xs:documentation>Specifies if the technical stop applies to the departure or arrival part of the flight leg.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="DepSecurityCheckInd" type="xs:boolean" nillable="true"
+							minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>If true, additional security checks are required for departure.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ArrSecurityCheckInd" type="xs:boolean" nillable="true"
+							minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>If true, addtional security checks are required for the arrival part of the flight leg.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="EstFlightDuration" type="xs:duration" nillable="true"
+							minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The estimated flight duration time (the time  from off blocks to block time).</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="OwnerAirline" nillable="true" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Aircraft owner information.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Airline">
+										<xs:annotation>
+											<xs:documentation>The aircraft owner code.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="AirlineType">
+												<xs:attribute name="CodeContext"
+												type="IATA_CodeType" use="optional">
+												<xs:annotation>
+												<xs:documentation xml:lang="en">Specifies the context of the airline code, such as IATA or ICAO.  Refer to IATA PADIS Code List for data element 3055.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="FlightNumber" type="NumericStringLength1to4"
+										minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>The aircraft owner flight number.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="OperationalSuffix"
+										type="OperationalSuffixType" nillable="true" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>The operational suffix for the flight.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="PlannedArrivalAptHistory"
+							type="PlannedArrivalAptHistoryType" nillable="true" minOccurs="0"
+							maxOccurs="10"/>
+						<xs:element name="SpecialEmphasis" nillable="true" minOccurs="0"
+							maxOccurs="3">
+							<xs:annotation>
+								<xs:documentation>Used to specify if the flight requires special attention or handling.  Refer to IATA PADIS Code List EMP.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="IATA_CodeType">
+										<xs:attribute name="RepeatIndex" type="Numeric1to99"
+											use="optional">
+											<xs:annotation>
+												<xs:documentation>Identifies an order for a repeating item.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="IrregularityDelay" nillable="true" minOccurs="0"
+							maxOccurs="8">
+							<xs:annotation>
+								<xs:documentation>The reason and duration for a departure or arrival irregularity delay.  </xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ReasonCode"
+										type="AlphaNumericStringLength1to3">
+										<xs:annotation>
+											<xs:documentation>Used to specify the reason for a departure irregularity delay. </xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="Duration" type="xs:duration" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>The duration of the delay.  Format PT2H15M.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="DepartureOrArrival" type="DepartureArrivalType"
+									use="required">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">Specifies if the delay is for a departure or an arrival.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="RepeatIndex" type="Numeric1to99" use="optional">
+									<xs:annotation>
+										<xs:documentation>Identifies an order for a repeating item.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="CabinClass" minOccurs="0" maxOccurs="5">
+							<xs:annotation>
+								<xs:documentation>A cabin class for this flight leg.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="InflightService" nillable="true" minOccurs="0"
+										maxOccurs="20">
+										<xs:annotation>
+											<xs:documentation>The facilities/services off ered during this flight leg.  Refer to IATA PADIS Code List 9932.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="IATA_CodeType">
+												<xs:attribute name="RepeatIndex"
+												type="Numeric1to99" use="optional">
+												<xs:annotation>
+												<xs:documentation>Identifies an order for a repeating item.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="InflightMealService" nillable="true"
+										minOccurs="0" maxOccurs="20">
+										<xs:annotation>
+											<xs:documentation>The meal services offered during this flight.  Refer to IATA PADIS Code List 7161.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="IATA_CodeType">
+												<xs:attribute name="RepeatIndex"
+												type="Numeric1to99" use="optional">
+												<xs:annotation>
+												<xs:documentation>Identifies an order for a repeating item.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="PaxCount" nillable="true" minOccurs="0"
+										maxOccurs="99">
+										<xs:annotation>
+											<xs:documentation>The passenger type and count.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="Numeric0to999">
+												<xs:attribute name="Qualifier"
+												type="AlphaNumericStringLength1to4" use="required">
+												<xs:annotation>
+												<xs:documentation xml:lang="en">The type of passenger count.  Reference PSCRM RP1708a par 2.12.6 for the list of SSRs with PRM qualifying codes in addition to PADIS Codeset 6353.  Other codes can be used on a bilateral basis.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="Usage" type="UsageType"
+												use="optional">
+												<xs:annotation>
+												<xs:documentation>Used to indicate if this is a planned or actual count.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="RepeatIndex"
+												type="Numeric1to99" use="optional">
+												<xs:annotation>
+												<xs:documentation>Identifies an order for a repeating item.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="DestinationType"
+												type="DestinationType">
+												<xs:annotation>
+												<xs:documentation>Used to specify the destination type such as transit or local or transfer for this pasenger count.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="DCS_Usage"
+												type="DCS_UsageType" use="optional">
+												<xs:annotation>
+												<xs:documentation>Used to specify the DCS usage type such as booked, accepted or boarded.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="OriginationType"
+												type="OriginationType" use="optional">
+												<xs:annotation>
+												<xs:documentation>Used to specify the origination type such as local, transit or transfer.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="SeatCapacity" nillable="true" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>The seating capacity  by cabin class.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="Numeric0to999"/>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="Class" type="IATA_CodeType" use="optional">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">Specifies a class of service for which the inflight service or meal applies.  Refer to IATA PADIS Code List for data element 9873.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="RepeatIndex" type="Numeric1to99" use="optional">
+									<xs:annotation>
+										<xs:documentation>Identifies an order for a repeating item.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="SpecialCargo" nillable="true" minOccurs="0" maxOccurs="20">
+							<xs:annotation>
+								<xs:documentation>Identifies any special cargo on board.  Refer to IATA PADIS Code List CAR.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="IATA_CodeType">
+										<xs:attribute name="RepeatIndex" type="Numeric1to99"
+											use="optional">
+											<xs:annotation>
+												<xs:documentation>Identifies an order for a repeating item.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="CodeShareInfo" nillable="true" minOccurs="0"
+							maxOccurs="20">
+							<xs:annotation>
+								<xs:documentation>The code share information for this flight leg.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Airline">
+										<xs:annotation>
+											<xs:documentation>The marketing airline code.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="AirlineType">
+												<xs:attribute name="CodeContext"
+												type="IATA_CodeType" use="optional">
+												<xs:annotation>
+												<xs:documentation xml:lang="en">Specifies the context of the airline code, such as IATA or ICAO.  Refer to IATA PADIS Code List for data element 3055.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="FlightNumber" type="NumericStringLength1to4"
+										minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>The marketing airline flight number.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="OperationalSuffix"
+										type="OperationalSuffixType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>The operational suffix for the flight.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="OriginationDate" type="xs:date" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>The date of departure of the leg on which the codeshare started.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="SharedAlliance" type="ListOfIATA_CodeType"
+										minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Used to specify the alliance partner(s) for this flight leg.  Refer to IATA PADIS Code List for data element 9906.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="RepeatIndex" type="Numeric1to99" use="optional">
+									<xs:annotation>
+										<xs:documentation>Identifies an order for a repeating item.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>										
+						<xs:choice>
+							<xs:element name="AssociatedFlightLegAircraft" type="AssociatedFlightLegAircraftType" nillable="true" minOccurs="0"
+								maxOccurs="2"/>
+							<xs:element name="AssociatedGeneralAviationFlightLegAircraft" type="AssociatedGeneralAviationFlightLegAircraftType" nillable="true" minOccurs="0"
+								maxOccurs="2"/>
+						</xs:choice>
+						<xs:element name="AssociatedFlightLegSchedule" nillable="true" minOccurs="0"
+							maxOccurs="20">
+							<xs:annotation>
+								<xs:documentation>Flight routing information.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="DepartureAirport">
+										<xs:annotation>
+											<xs:documentation>The departure airport.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="StationType">
+												<xs:attribute name="CodeContext"
+												type="IATA_CodeType" use="optional">
+												<xs:annotation>
+												<xs:documentation xml:lang="en">Specifies the context of the airport code, such as IATA or ICAO.  Refer to IATA PADIS Code List for data element 3055.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="ArrivalAirport">
+										<xs:annotation>
+											<xs:documentation>The arrival airport.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="StationType">
+												<xs:attribute name="CodeContext"
+												type="IATA_CodeType" use="optional">
+												<xs:annotation>
+												<xs:documentation xml:lang="en">Specifies the context of the airport code, such as IATA or ICAO.  Refer to IATA PADIS Code List for data element 3055.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="RepeatIndex" type="Numeric1to99" use="optional">
+									<xs:annotation>
+										<xs:documentation>Identifies an order for a repeating item.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="FlightSequence">
+									<xs:annotation>
+										<xs:documentation>Indicates if the leg is before (upline) or afer (downline) the current leg.</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:NMTOKEN">
+											<xs:enumeration value="downline"/>
+											<xs:enumeration value="upline"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="RemarkTextCode" type="RemarkTextCodeType" nillable="true"
+							minOccurs="0" maxOccurs="50"/>
+						<xs:element name="RemarkFreeText" nillable="true" minOccurs="0"
+							maxOccurs="2">
+							<xs:annotation>
+								<xs:documentation>'To be used for ad-hoc non-fixed remarks or information where a code set value is not defined, e.g. cargo load information which will constantly differ.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:string">
+										<xs:attribute name="FlightLegScope"
+											type="FlightLegScopeType" use="optional">
+											<xs:annotation>
+												<xs:documentation>To specify if information is for a departure or arrival or overall flight.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="AirportResources" minOccurs="0" maxOccurs="2">
+							<xs:annotation>
+								<xs:documentation>The planned and actual airport resources.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Resource" minOccurs="0" maxOccurs="2">
+										<xs:annotation>
+											<xs:documentation>The airport resource  for a departure or arrival.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="AirportZone" nillable="true"
+												minOccurs="0">
+												<xs:annotation>
+												<xs:documentation>The area in the airport which the flight uses.</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+												<xs:restriction base="xs:string">
+												<xs:minLength value="0"/>
+												<xs:maxLength value="30"/>
+												</xs:restriction>
+												</xs:simpleType>
+												</xs:element>
+												<xs:element name="AircraftParkingPosition"
+												type="AircraftParkingPositionType" nillable="true"
+												minOccurs="0"/>
+												<xs:element name="PassengerGate" nillable="true"
+												minOccurs="0" maxOccurs="3">
+												<xs:annotation>
+												<xs:documentation>The public gate which the passengers will use to board or disembark.</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+												<xs:simpleContent>
+												<xs:extension base="StringLength0to5">
+												<xs:attribute name="RepeatIndex"
+												type="Numeric1to99">
+												<xs:annotation>
+												<xs:documentation>Identifies an order for a repeating item.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												</xs:extension>
+												</xs:simpleContent>
+												</xs:complexType>
+												</xs:element>
+												<xs:element name="RemoteOperationalGate"
+												nillable="true" minOccurs="0" maxOccurs="3">
+												<xs:annotation>
+												<xs:documentation>An additional location used to transfer passengers to or from a remote parking position.</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+												<xs:simpleContent>
+												<xs:extension base="StringLength0to5">
+												<xs:attribute name="RepeatIndex"
+												type="Numeric1to99">
+												<xs:annotation>
+												<xs:documentation>Identifies an order for a repeating item.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												</xs:extension>
+												</xs:simpleContent>
+												</xs:complexType>
+												</xs:element>
+												<xs:element name="Runway" nillable="true"
+												minOccurs="0">
+												<xs:annotation>
+												<xs:documentation>The runway.</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+												<xs:restriction base="xs:string">
+												<xs:minLength value="0"/>
+												<xs:maxLength value="4"/>
+												</xs:restriction>
+												</xs:simpleType>
+												</xs:element>
+												<xs:element name="AircraftTerminal" nillable="true" minOccurs="0" type="TerminalIdentifierType">
+												<xs:annotation>
+												<xs:documentation>Terminal where the aircraft is located.  Refer to SSIM Appendix D.</xs:documentation>
+												</xs:annotation>
+												</xs:element>																							
+												<xs:element name="PublicTerminal" nillable="true" minOccurs="0" maxOccurs="3">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="TerminalIdentifierType">
+																	<xs:attribute name="RepeatIndex" type="Numeric1to99" use="optional">
+																		<xs:annotation>
+																			<xs:documentation>Identifies an order for a repeating item.</xs:documentation>
+																		</xs:annotation>
+																	</xs:attribute>	
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="CrewBusInd" type="xs:boolean"
+												nillable="true" minOccurs="0">
+												<xs:annotation>
+												<xs:documentation>If true, an airside bus will be used for the crew.</xs:documentation>
+												</xs:annotation>
+												</xs:element>
+												<xs:element name="PaxBusInd" type="xs:boolean"
+												nillable="true" minOccurs="0">
+												<xs:annotation>
+												<xs:documentation>If true, an airside bus will be used for the passengers.</xs:documentation>
+												</xs:annotation>
+												</xs:element>
+												<xs:element name="BaggageClaimUnit" nillable="true"
+												minOccurs="0" maxOccurs="100">
+												<xs:annotation>
+												<xs:documentation>The number or name of the assigned baggage claim unit. leg.</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+												<xs:simpleContent>
+												<xs:extension base="xs:string">
+												<xs:attribute name="Qualifier"
+												type="IATA_CodeType" use="optional">
+												<xs:annotation>
+												<xs:documentation xml:lang="en">The type of baggage claim device.  Refer to IATA PADIS code list BAG.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="AreaLocation"
+												type="IATA_CodeType" use="optional">
+												<xs:annotation>
+												<xs:documentation xml:lang="en">The location of the baggage claim device.  Refer to IATA PADIS Code List for data element 9988.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="RepeatIndex"
+												type="Numeric1to99" use="optional">
+												<xs:annotation>
+												<xs:documentation>Identifies an order for a repeating item.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="ServiceClass"
+												type="IATA_CodeType">
+												<xs:annotation>
+												<xs:documentation>The class of service for this baggage claim unit.  Refer to  IATA PADIS Code List for data element 9873. </xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="BaggageProcess"
+												type="xs:string">
+												<xs:annotation>
+												<xs:documentation>The baggage sortation process</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="SegregationName"
+												type="xs:string">
+												<xs:annotation>
+												<xs:documentation>The segregation name for sub-sortation</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>													
+												<xs:attribute name="OpenTime"
+													type="xs:dateTime">
+													<xs:annotation>
+														<xs:documentation>Open Time</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="CloseTime"
+													type="xs:dateTime">
+													<xs:annotation>
+														<xs:documentation>Close Time</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>																																															
+												</xs:extension>
+												</xs:simpleContent>
+												</xs:complexType>
+												</xs:element>
+												<xs:element name="BaggageMakeupBelt" nillable="true"
+												minOccurs="0" maxOccurs="100">
+												<xs:annotation>
+												<xs:documentation>The baggage makeup belt assigned for outgoing bags.</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+												<xs:simpleContent>
+												<xs:extension base="xs:string">
+												<xs:attribute name="RepeatIndex"
+												type="Numeric1to99" use="optional">
+												<xs:annotation>
+												<xs:documentation>Identifies an order for a repeating item.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="BaggageProcess"
+												type="xs:string">
+												<xs:annotation>
+												<xs:documentation>The baggage sortation process</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="SegregationName"
+												type="xs:string">
+												<xs:annotation>
+												<xs:documentation>The segregation name for sub-sortation</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="OpenTime"
+													type="xs:dateTime">
+													<xs:annotation>
+														<xs:documentation>Open Time</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="CloseTime"
+													type="xs:dateTime">
+													<xs:annotation>
+														<xs:documentation>Close Time</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												</xs:extension>
+												</xs:simpleContent>
+												</xs:complexType>
+												</xs:element>
+												<xs:element name="CheckInInfo" nillable="true"
+												minOccurs="0" maxOccurs="5">
+												<xs:annotation>
+												<xs:documentation>Check in resource information.</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+												<xs:sequence>
+												<xs:element name="FirstPosition"
+												type="StringLength0to15" minOccurs="0">
+												<xs:annotation>
+												<xs:documentation>The start of an allocated range of positions for check-in activities.</xs:documentation>
+												</xs:annotation>
+												</xs:element>
+												<xs:element name="LastPosition"
+												type="StringLength0to15" minOccurs="0">
+												<xs:annotation>
+												<xs:documentation>The last of anallocated range of positions for check-in activities.</xs:documentation>
+												</xs:annotation>
+												</xs:element>
+												</xs:sequence>
+												<xs:attribute name="Qualifier"
+												type="IATA_CodeType" use="optional">
+												<xs:annotation>
+												<xs:documentation xml:lang="en">The type of the allocated range of positions for check-in activities. Refer to IATA PADIS Code List  CHK.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="Location" type="IATA_CodeType"
+												use="optional">
+												<xs:annotation>
+												<xs:documentation xml:lang="en">The area in the passenger terminal where the allocated range of positions for check-in activies is located.  Refer to IATA PADIS Code List for data element 9932.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="Class" type="IATA_CodeType"
+												use="optional">
+												<xs:annotation>
+												<xs:documentation xml:lang="en">The passenger class of the allocated range of ositions for check-in activites.  Refer to IATA PADIS Code List for data element 9873.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="RepeatIndex"
+												type="Numeric1to99" use="optional">
+												<xs:annotation>
+												<xs:documentation>Identifies an order for a repeating item.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												</xs:complexType>
+												</xs:element>
+												<xs:element name="PreClearedGateInd"
+												type="xs:boolean" nillable="true" minOccurs="0">
+												<xs:annotation>
+												<xs:documentation>If true, the departure gate used for this flight leg is an immigaration 'pre-cleared' gate.</xs:documentation>
+												</xs:annotation>
+												</xs:element>
+												<xs:element name="DeIceLocation" nillable="true"
+												minOccurs="0">
+												<xs:annotation>
+												<xs:documentation>De-ice location, either at aircraft parking position or remote location.</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+												<xs:simpleContent>
+												<xs:extension base="AlphaNumericStringLength1to30">
+												<xs:attribute name="Qualifier"
+												type="IATA_CodeType">
+												<xs:annotation>
+												<xs:documentation>Used to specify the type of de-ice location.  Reference IATA PADIS codeset 9932.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												</xs:extension>
+												</xs:simpleContent>
+												</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attribute name="DepartureOrArrival"
+												type="DepartureArrivalType" use="required">
+												<xs:annotation>
+												<xs:documentation xml:lang="en">Specifies if the resource is for a departure or arrival.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="ChargeType" type="IATA_CodeType">
+												<xs:annotation>
+												<xs:documentation>Used to specify how the customer using the resource pays.  Refer to IATA PADIS Code List for data element 5903.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="Usage" type="UsageType" use="required">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">Specifies whether the resource usage is planned or actual.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="OperationTime" type="OperationTimeType" nillable="true"
+							minOccurs="0" maxOccurs="50"/>
+						<xs:element name="AircraftInfo" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Aircraft information for the the flight leg.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="AircraftType" nillable="true" minOccurs="0"
+										maxOccurs="2">
+										<xs:annotation>
+											<xs:documentation>The IATA or ICAO aircraft type.  Use SSIM Appendix A.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="AlphaNumericStringLength1to4">
+												<xs:attribute name="CodeContext"
+												type="IATA_CodeType">
+												<xs:annotation>
+												<xs:documentation>Specifies the context of the aircraft type code, i.e., IATA, ICAO or other.  Refer to IATA PADIS Code List for data element 3055.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="AircraftSubType" type="StringLength3"
+										nillable="true" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>The IATA aircraft subtype.  Use SSIM Appendix A.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="Registration" nillable="true" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>The aircraft registration number as assigned by the aircraft manufacturer.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:minLength value="0"/>
+												<xs:maxLength value="10"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="TailNumber" nillable="true" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>The tail number as painted on the tail.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:minLength value="0"/>
+												<xs:maxLength value="5"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="CrewInfo" nillable="true" minOccurs="0"
+										maxOccurs="5">
+										<xs:annotation>
+											<xs:documentation>The crew count per crew type.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="Numeric0to99">
+												<xs:attribute name="Qualifier"
+												type="IATA_CodeType" use="required">
+												<xs:annotation>
+												<xs:documentation xml:lang="en">The type of crew.  Refer to IATA PADIS Code List for data element 9873.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="RepeatIndex"
+												type="Numeric1to99" use="optional">
+												<xs:annotation>
+												<xs:documentation>Identifies an order for a repeating item.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="Airline" type="AirlineType">
+												<xs:annotation>
+												<xs:documentation>The airline for this crew information.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="CodeContext"
+												type="IATA_CodeType">
+												<xs:annotation>
+												<xs:documentation>Used to specify if the airline code is IATA or ICAO.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="AgentInfo" nillable="true" minOccurs="0"
+										maxOccurs="5">
+										<xs:annotation>
+											<xs:documentation>Identification of the handling agent for the flight leg.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="IATA_CodeType">
+												<xs:attribute name="Qualifier"
+												type="IATA_CodeType" use="required">
+												<xs:annotation>
+												<xs:documentation xml:lang="en">The handling agent type.  Refer to IATA PADIS Code List 3035.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="DepartureOrArrival"
+												type="DepartureArrivalType" use="required">
+												<xs:annotation>
+												<xs:documentation xml:lang="en">Specifies if information is for a departure or an arrival flight.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="RepeatIndex"
+												type="Numeric1to99" use="optional">
+												<xs:annotation>
+												<xs:documentation>Identifies an order for a repeating item.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="FleetNumber" nillable="true" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>The airline ship/fleet number as assigned by the airline.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:minLength value="0"/>
+												<xs:maxLength value="10"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="CallSign" nillable="true" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>As assigned by the airline.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:minLength value="0"/>
+												<xs:maxLength value="8"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="DeadLoad" type="DeadLoadType" minOccurs="0"
+										maxOccurs="99"/>
+									<xs:element name="Baggage" type="BaggageLoadType" minOccurs="0"
+										maxOccurs="99">
+										<xs:annotation>
+											<xs:documentation>Baggage information for this flight.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="Fuel" type="FuelDataType" minOccurs="0"
+										maxOccurs="9">
+										<xs:annotation>
+											<xs:documentation>The measurement of fuel for a specified state of the aircraft movment.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ClearanceAgreement" type="IATA_CodeType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Specifies the type of clearance agreement.  Refer to IATA PADIS Code List for data element 9970.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="PublicFlightDisplay" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Specifies how a flight should be shown on a public display.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="AirlineType">
+										<xs:annotation>
+											<xs:documentation>Specifies how the carrier code should be shown on a public display.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="AirlineType">
+												<xs:attribute name="CodeContext"
+												type="IATA_CodeType">
+												<xs:annotation>
+												<xs:documentation>Specifies the context of the airline code, such as IATA or ICAO.  Refer to IATA PADIS Code List for data element 3055.</xs:documentation>
+												</xs:annotation>
+												</xs:attribute>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="FlightNumber" type="NumericStringLength1to4">
+										<xs:annotation>
+											<xs:documentation>The flight number to be shown in a public display.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="FlightCrewAirline" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The flight crew airline code</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="AirlineType">
+										<xs:attribute name="CodeContext" type="IATA_CodeType">
+											<xs:annotation>
+												<xs:documentation>Specifies the context of the flight crew airline code, such as IATA or ICAO.  Refer to  IATA PADIS Code List for data element 3055.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="CabinCrewAirline" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The cabin crew airline code</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="AirlineType">
+										<xs:attribute name="CodeContext" type="IATA_CodeType">
+											<xs:annotation>
+												<xs:documentation>Specifies the context of the cabin crew airline code, such as IATA or ICAO.  Refer to  IATA PADIS Code List for data element 3055.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="OperationDuration" minOccurs="0" maxOccurs="20">
+							<xs:annotation>
+								<xs:documentation>Duration information related to flight operations.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:duration">
+										<xs:attribute name="RepeatIndex" type="Numeric1to99"
+											use="optional">
+											<xs:annotation>
+												<xs:documentation>Identifies an order for a repeating item.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="TimeType" type="IATA_CodeType">
+											<xs:annotation>
+												<xs:documentation>Used to specify the basis of the duration (e.g. estimated or actual0.  Refere to IATA PADIS Code List for data element 2005 or 9750.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="OperationQualifier" type="IATA_CodeType">
+											<xs:annotation>
+												<xs:documentation>The operation to which the duration relates.  Refer to IATA PADIS Code List for data element 2005 and 9750.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="FlightClassification" use="optional">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The commercial name for express or other sub-carriers for the operating flight.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:minLength value="0"/>
+								<xs:maxLength value="10"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="InternationalStatus">
+						<xs:annotation>
+							<xs:documentation>Specifies if the flight is international or domestic.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:NMTOKEN">
+								<xs:enumeration value="International">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">Used to specify if the flight leg is international.</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="Domestic">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">Used to specify if the flight leg is domestic.</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="TPA_Extension" type="TPA_ExtensionsType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Allows extensions to be added to the IATA specification per trading partner agreement.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FuelDataType">
+		<xs:annotation>
+			<xs:documentation>The measurement of fuel for a specified state of the aircraft movment.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Type" type="FuelQualifierType">
+				<xs:annotation>
+					<xs:documentation>Type of  fuel data: Fuel Uplift, Fuel Onboard, Trip Fuel, Take off Fuel </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Quantity" type="MeasurementType" nillable="true">
+				<xs:annotation>
+					<xs:documentation>The quanity of fuel and the unit of measurement.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FuelQualifierType">
+		<xs:annotation>
+			<xs:documentation>Fuel qualifier with an associated attribute to capture additional enumerated vales as agreed upon beteen trading partners.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="FuelQualifierEnumType">
+				<xs:attribute name="extension" type="xs:string" use="optional">
+					<xs:annotation>
+						<xs:documentation>A string value that represents an "Other_", or extended, enumerated value agreed upon between trading partners.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="MeasurementType">
+		<xs:annotation>
+			<xs:documentation>A quantitative measured value in Unit of measurement</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:decimal">
+				<xs:attribute name="MeasurementUnit" type="MeasurementUnitType">
+					<xs:annotation>
+						<xs:documentation>The unit used to measure the weight.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="AircraftParkingPositionType">
+		<xs:annotation>
+			<xs:documentation>Gate or hard stand where the aircraft is located.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="Qualifier" type="xs:NMTOKEN" use="required">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">Used to specify the type of aircraft parking position.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="AssociatedFlightLegAircraftType">
+		<xs:annotation>
+			<xs:documentation>Associated flight leg routing for the physical aircraft.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="FlightLegIdentifierType">
+				<xs:attribute name="RepeatIndex" type="Numeric1to99" use="optional">
+					<xs:annotation>
+						<xs:documentation>Identifies an order for a repeating item.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="FlightSequence">
+					<xs:annotation>
+						<xs:documentation>Indicates if the leg is before (upline) or after (downline) the current leg.</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="downline"/>
+							<xs:enumeration value="upline"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AssociatedGeneralAviationFlightLegAircraftType">
+		<xs:annotation>
+			<xs:documentation>Associated general aviation flight leg routing for the physical aircraft.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="GeneralAviationFlightLegIdentifierType">
+				<xs:attribute name="RepeatIndex" type="Numeric1to99" use="optional">
+					<xs:annotation>
+						<xs:documentation>Identifies an order for a repdeating item.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="FlightSequence">
+					<xs:annotation>
+						<xs:documentation>Indicates if the leg is before (upline) or after (downline) the current leg.</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="downline"/>
+							<xs:enumeration value="upline"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="OperationTimeType">
+		<xs:annotation>
+			<xs:documentation>Time information related to an arrival or departure.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="DateOrTimeOrDateTimeType">
+				<xs:attribute name="OperationQualifier" type="IATA_CodeType" use="required">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">The type of time and date value.  Refer to IATA PADIS Code List for data element 2005 and 9750.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="CodeContext" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">Used to specify if the OperationQualifier is from IATA PADIS Code List 2005 or 9750.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="RepeatIndex" type="Numeric1to99" use="optional">
+					<xs:annotation>
+						<xs:documentation>Identifies a repeating item.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="TimeType" type="IATA_CodeType">
+					<xs:annotation>
+						<xs:documentation>Used to specify the type of operation time.  Refer to IATA PADIS Code List for data element 2005.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="OperationalStatusType">
+		<xs:annotation>
+			<xs:documentation>Used to inform the airline and airport operational staff concerning the status of a flight leg.  Refer to IATA PADIS Code List for data element 1245 and 2005</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="IATA_CodeType">
+				<xs:attribute name="RepeatIndex" type="Numeric1to99" use="optional">
+					<xs:annotation>
+						<xs:documentation>Identifies an order for a repeating item.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="CodeContext" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Used to specify if the operational status code is from IATA PADIS Code List for data element 1245 or 2005.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="FlightLegScope" type="FlightLegScopeType" use="optional">
+					<xs:annotation>
+						<xs:documentation>To specify if information is for a departure or arrival or overall flight.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="PlannedArrivalAptHistoryType">
+		<xs:annotation>
+			<xs:documentation>An airport where the leg has either arrived or is planned to arrive.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="StationType">
+				<xs:attribute name="CodeContext" type="IATA_CodeType" use="optional">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">Specifies the context of the airport code, such as IATA or ICAO.  Refer to IATA PADIS Code List for data element 3055.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="RepeatIndex" type="Numeric1to99" use="optional">
+					<xs:annotation>
+						<xs:documentation>Identifies an order for a repeating item.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="RemarkTextCodeType">
+		<xs:annotation>
+			<xs:documentation>A code specifying the remark.  Refer to IATA PADIS Code List for data element 9750 and 2005.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="IATA_CodeType">
+				<xs:attribute name="Qualifier" type="IATA_CodeType" use="required">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">Specifies the type of remark such as general public, staff breakroom, gate. Refer to IATA PADIS Code List for data element 9932.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="CodeContext" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">Used to specify if the remark text code is from IATA PADIS Code List 2005 or 9750.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="RepeatIndex" type="Numeric1to99" use="optional">
+					<xs:annotation>
+						<xs:documentation>Identifies a repeating item.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="FlightLegScope" type="FlightLegScopeType" use="optional">
+					<xs:annotation>
+						<xs:documentation>To specify if information is for a departure or arrival or overall flight.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:simpleType name="TerminalIdentifierType">
+		<xs:restriction base="xs:token">
+			<xs:pattern value="[0-9A-Z]{1,2}"></xs:pattern>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="TPA_ExtensionsType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Allows extensions to be added to the IATA specification per trading partner agreement.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

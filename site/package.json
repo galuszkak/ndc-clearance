@@ -3,8 +3,9 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
+    "copy-schemas": "node scripts/copy-schemas.js",
+    "dev": "npm run copy-schemas && astro dev",
+    "build": "npm run copy-schemas && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -12,10 +13,10 @@
     "@astrojs/sitemap": "^3.7.0",
     "@astrojs/svelte": "^7.2.5",
     "@tailwindcss/vite": "^4.1.18",
-    "astro": "^5.16.11",
-    "daisyui": "^5.5.14",
+    "astro": "^5.17.1",
+    "daisyui": "^5.5.16",
     "highlight.js": "^11.11.1",
-    "svelte": "^5.46.4",
+    "svelte": "^5.49.1",
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {

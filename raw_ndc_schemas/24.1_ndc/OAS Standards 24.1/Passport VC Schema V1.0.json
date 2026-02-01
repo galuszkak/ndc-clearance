@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.prod.digitalcredentials.iata.org/passport.json",
+  "title": "Passport",
+  "description": "Verifiable Credential for a non-electronic Passport.",
+  "type": "object",
+  "required": [
+    "@context",
+    "type",
+    "issuer",
+    "issuanceDate",
+    "expirationDate",
+    "credentialSubject",
+    "credentialSchema"
+  ],
+  "properties": {
+    "@context": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "prefixItems": [
+        {
+          "const": "https://www.w3.org/2018/credentials/v1"
+        },
+        {
+          "const": "https://schemas.prod.digitalcredentials.iata.org/contexts/iata_credential.jsonld"
+        }
+      ],
+      "items": {
+        "type": "string",
+        "format": "uri"
+      }
+    },
+    "id": {
+      "type": "string",
+      "format": "uri"
+    },
+    "type": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "prefixItems": [
+        {
+          "const": "VerifiableCredential"
+        },
+        {
+          "const": "IATACredential"
+        },
+        {
+          "const": "PassportCredential"
+        }
+      ]
+    },
+    "issuer": {
+      "type": "string",
+      "format": "uri"
+    },
+    "issuanceDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expirationDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "credentialSubject": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "string",
+          "format": "uri",
+          "description": "DID of the subject."
+        },
+        "passport": {
+          "title": "Passport",
+          "description": "A non-electronic passport, that is, a passport that does not have an embedded electronic microprocessor chip.",
+          "type": "object",
+          "required": [
+            "authorityDocName",
+            "birthdate",
+			"capturedBioPagePicture",			
+            "docTypeCode",
+            "expiryDate",
+            "genderCode",
+            "holdersName",
+            "issuerCode",
+            "natlText",
+            "passportNumberIdentifier"
+          ],
+          "properties": {
+            "authorityDocName": {
+              "title": "Passport Authority Document Name",
+              "description": "Word or phrase in the language of the issuing State for the Passport document which confers on the holder that State's authority to travel to a port of entry in its territory. The word for 'passport' in the language of the issuing State or organization, plus either PASSPORT (English), PASSEPORT (French) or PASAPORTE (Spanish) if the language of the issuing State or organization is not English, French or Spanish Reference: Doc 9303 ICAO Machine readable Travel Documents 8th Edition 2021 https://www.icao.int/publications/Documents/9303_p4_cons_en.pdf.",
+              "type": "string",
+              "maxLength": 13
+            },
+            "birthdate": {
+              "title": "Birthdate",
+              "description": "Passport holder's date of birth as recorded by the issuing State or organization. If the date of birth is unknown see Doc 9303-3 for guidance. Reference: Doc 9303 ICAO Machine readable Travel Documents 8th Edition 2021 https://www.icao.int/publications/Documents/9303_p4_cons_en.pdf.",
+              "type": "string",
+              "format": "date"
+            },
+            "capturedBioPagePicture": {
+              "title": "Bio-data Page Image",
+              "description": "Image of the bio-data page in the passport",
+              "type": "string",
+              "format": "uri"			  
+            },			
+            "docTypeCode": {
+              "title": "Document Type Code",
+              "description": "Capital letter P to designate an MRP. One additional capital letter may be used, in the character position after the letter P and at the discretion of the issuing State or organization, to designate other types of passports such as MRP issued to diplomatic staff. Reference: Doc 9303 ICAO Machine readable Travel Documents 8th Edition 2021 https://www.icao.int/publications/Documents/9303_p4_cons_en.pdf.",
+              "type": "string",
+              "maxLength": 2
+            },
+            "expiryDate": {
+              "title": "Expiry Date",
+              "description": "Date of expiry of the passport. For additional details see Doc 9303-3. Reference: Doc 9303 ICAO Machine readable Travel Documents 8th Edition 2021 https://www.icao.int/publications/Documents/9303_p4_cons_en.pdf.",
+              "type": "string",
+              "format": "date"
+            },
+            "genderCode": {
+              "title": "Digital Travel Authorisation Gender Code",
+              "description": "Gender of the individual (Typically, M, F or X for unspecified).",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1
+            },
+            "holdersName": {
+              "title": "Holders Name",
+              "description": "Full name of the passport holder, as identified by the issuing State or organization. For additional details see Doc 9303-3. Reference: Doc 9303 ICAO Machine readable Travel Documents 8th Edition 2021 https://www.icao.int/publications/Documents/9303_p4_cons_en.pdf.",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64
+            },
+            "issuerCode": {
+              "title": "Issuer Code",
+              "description": "Code of the State or Organization responsible for the issuance of the passport. Reference: Doc 9303 ICAO Machine readable Travel Documents 8th Edition 2021 https://www.icao.int/publications/Documents/9303_p4_cons_en.pdf.",
+              "type": "string",
+              "maxLength": 13
+            },
+            "natlText": {
+              "title": "Nationality Text",
+              "description": "Nationality of the passport holder. Reference: Digital Travel Authorizations Version 2.15 June 2021 ISO/IEC JTC1 SC17 WG3/TF1 https://www.icao.int/Security/FAL/TRIP/PublishingImages/Pages/Publications/Digital%20Travel%20Authorizations.%20%28New%29.pdf Doc 9303 ICAO Machine readable Travel Documents 8th Edition 2021 https://www.icao.int/publications/Documents/9303_p4_cons_en.pdf.",
+              "type": "string"
+            },
+            "passportNumberIdentifier": {
+              "title": "Passport Number Identifier",
+              "description": "As given by the issuing State organization to uniquely identify the document from all other MRTDs issued by the State or organization. For additional details see Doc 9303-3. REF: Doc 9303 ICAO Machine readable Travel Documents 8th Edition 2021 https://www.icao.int/publications/Documents/9303_p4_cons_en.pdf.",
+              "type": "string",
+              "maxLength": 35
+            }
+          }
+        }
+      },
+      "required": [
+        "id",
+        "passport"
+      ],
+      "additionalProperties": false
+    },
+    "credentialSchema": {
+      "type": "object",
+      "required": [
+        "id",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uri",
+          "const": "https://schemas.prod.digitalcredentials.iata.org/passport.json"
+        },
+        "type": {
+          "type": "string",
+          "const": "JsonSchemaValidator2018"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

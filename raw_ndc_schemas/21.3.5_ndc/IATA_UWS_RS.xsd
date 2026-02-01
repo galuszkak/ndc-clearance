@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="1.002" id="IATA2021.3">
+	<xs:include schemaLocation="IATA_UWS_CommonTypes.xsd"/>
+	<xs:element name="IATA_UWS_RS">
+		<xs:annotation>
+			<xs:documentation>The unit load device weight signal response message is used to send the cargo and mail information for a flight.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="Success" type="SuccessType"/>
+					<xs:element name="Warnings" type="WarningsType" minOccurs="0"/>
+					<xs:element name="UWS_Info" type="UWS_Type">
+						<xs:annotation>
+							<xs:documentation>The unit weight signal information for a flight.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:element name="Error" type="ErrorsType"/>
+			</xs:choice>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

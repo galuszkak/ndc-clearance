@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2007/00" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="2.003" id="IATA2022.1">
+	<xs:include schemaLocation="IATA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_ET_CommonTypes.xsd"/>
+	<xs:element name="IATA_EMD_AirlineChangeOfStatusRQ">
+		<xs:annotation>
+			<xs:documentation>This message allows a carrier to change the coupon status of an EMD.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="POS_Type" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The ticket handler system indicator and ticket handler ailrine designator, and transaction agent id.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ValidatingAirline" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Used to specify the validating carrier to which the display should be routed.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attributeGroup ref="CompanyID_AttributesGroup">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Used to specify the validating airline code.</xs:documentation>
+							</xs:annotation>
+						</xs:attributeGroup>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AirlineInfo" type="FlightSegmentType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The flight information for which a change of status is being requested.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="TicketDocument" maxOccurs="99">
+					<xs:annotation>
+						<xs:documentation>EMD number, type, exchanged ticket/number qualifier, and the new resissue ticket number qualifier.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CouponInfo" maxOccurs="4">
+								<xs:annotation>
+									<xs:documentation>Number, status, and involuntary indicator code.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="CheckedInAirlineInfo" type="FlightSegmentType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>The checke-in/lifted airline information.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="FlownAirlineInfo" type="FlightSegmentType" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>The flown airline information.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="Number" type="Numeric1to4" use="required">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">The coupon number.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="CpnStatus" type="IATA_CodeType" use="required"/>
+									<xs:attribute name="InvoluntaryIndCode" use="optional">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">Used to indicate when a transaction occurred due to an involuntary change.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:NMTOKEN">
+												<xs:enumeration value="I"/>
+												<xs:enumeration value="S"/>
+												<xs:enumeration value="L"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+									<xs:attribute name="BillingAirlineAcctCode" type="AlphaNumericStringLength1to4">
+										<xs:annotation>
+											<xs:documentation>The airline accounting code of the billing airline.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Waiver" minOccurs="0" maxOccurs="5">
+								<xs:annotation>
+									<xs:documentation>A code assigned by the validating carrier that allows fare rule modification or override.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:attribute name="Code" type="AlphaNumericStringLength1to19" use="required">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">A code assigned by the validating carrier that allows fare rule modification or override.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Remark" type="AlphaNumericStringLength1to71" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Free text to provide further information related to the document.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="TicketDocumentNbr" type="StringLength1to16" use="required">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Document number comprised of the airline code, form code, and serial number.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="Type" use="required">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Used to indicate a ticket or EMD.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:NMTOKEN">
+									<xs:enumeration value="Ticket"/>
+									<xs:enumeration value="EMD"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="PrimaryDocInd" type="xs:boolean" use="optional">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">When true, this is the primary ticket/document number. </xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="ExchangeTktNbrInd" type="xs:boolean" use="optional">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">If true, this is the ticket/document number for a ticket/document that is being exchanged.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="ReissueTktNbrInd" type="xs:boolean" use="optional">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">If true, this is the new ticket number for a ticket that is being reissued.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="ExchangeDocDateOfIssue" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>The exchanged document date of issue.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="DatOfIssue" type="xs:date" use="optional">
+							<xs:annotation>
+								<xs:documentation>The date of issue.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="TktDocQuantity" type="Numeric1to99" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The total number of ticket/document numbers sent in a single message.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

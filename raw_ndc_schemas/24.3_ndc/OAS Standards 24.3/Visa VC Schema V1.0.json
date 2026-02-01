@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.prod.digitalcredentials.iata.org/visa.json",
+  "title": "Visa",
+  "description": "Verifiable Credential for a Visa.",
+  "type": "object",
+  "required": [
+    "@context",
+    "type",
+    "issuer",
+    "issuanceDate",
+    "expirationDate",
+    "credentialSubject",
+    "credentialSchema"
+  ],
+  "properties": {
+    "@context": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "prefixItems": [
+        {
+          "const": "https://www.w3.org/2018/credentials/v1"
+        },
+        {
+          "const": "https://schemas.prod.digitalcredentials.iata.org/contexts/iata_credential.jsonld"
+        }
+      ],
+      "items": {
+        "type": "string",
+        "format": "uri"
+      }
+    },
+    "id": {
+      "type": "string",
+      "format": "uri"
+    },
+    "type": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "prefixItems": [
+        {
+          "const": "VerifiableCredential"
+        },
+        {
+          "const": "IATACredential"
+        },
+        {
+          "const": "Visa"
+        }
+      ]
+    },
+    "issuer": {
+      "type": "string",
+      "format": "uri"
+    },
+    "issuanceDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expirationDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "credentialSubject": {
+      "type": "object",
+      "required": [
+         "id",
+         "visa"
+       ],	  
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "string",
+          "format": "uri",
+          "description": "DID of the subject."
+        },
+        "visa": {
+          "title": "Visa",
+          "description": "An official entry in a Passport or other Travel Document made by an official of a government to indicate that the bearer has been granted authority to enter or re-enter the country or region concerned. Reference: Section 4.2.2 and 7.2.2 of Doc 9303 Machine Readable Travel Documents, Eighth Edition 2021, Part 7: Machine Readable Visas. This reference does not apply to the property capturedVisaPicture. For property visibleDigitalSealBinaryObject see reference: Doc9303 Machine Readable Travel Documents, Eighth Edition 2021, Part13 Visible Digital Seal. Note filler characters are not required.",
+          "type": "object",
+          "required": [
+            "birthdate",
+            "capturedVisaPicture",
+            "docNumberIdentifier",
+            "holdersName",
+            "issuerName",
+            "natlCode",
+			"optionalDataElementsText",
+            "sexCode",			
+			"typeCode",
+            "validUntilDate"
+          ],
+          "properties": {
+            "birthdate": {
+              "title": "Visa Birthdate",
+              "description": "Date of birth of the holder of the visa in the format YYMMDD with unknown values replaced by <.",
+              "type": "string",			  
+              "pattern": "^[0-9<]{2}([0<][1-9<]|[1<][0-2<])([0<][1-9<]|[12<][0-9<]|[3<][01<])$"
+            },
+            "capturedVisaPicture": {
+              "title": "Visa Captured Visa Picture",
+              "description": "Image of the holder of the Visa. Example uri, data:image/jpeg;base64,...",
+              "type": "string",
+              "format": "uri"			  
+            },
+            "docNumberIdentifier": {
+              "title": "Visa Document Number Identifier",
+              "description": "An identifier given by the issuing State or organization to uniquely identify the document from all other official travel documents issued by the State or organization.",
+              "type": "string",
+              "maxLength": 9
+            },
+            "holdersName": {
+              "title": "Visa Holders Full Name",
+              "description": "Family name and given name(s) of the visa holder.",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 39
+            },
+            "issuerCode": {
+              "title": "Visa Issuer Code",
+              "description": "Code of the State or Organization responsible for the issuance of the Visa.",
+              "type": "string",
+              "minLength": 3,			  
+              "maxLength": 3
+            },
+            "natlCode": {
+              "title": "Visa Nationality Code",
+              "description": "The code for the nationality of the holder of the visa.",
+              "type": "string",
+              "minLength": 3,			  
+              "maxLength": 3			  
+            },
+            "optionalDataElementsText": {
+              "title": "Optional Data Elements",
+              "description": "A structured field for proprietry use by the state issuer of the Visa.",
+              "type": "string",
+			  "minLength": 16,			  
+			  "maxLength": 16
+            },
+            "sexCode": {
+              "title": "Digital Travel Authorisation Sex Code",
+              "description": "Sex of the visa holder; typically, F for Female, M for Male or < for non-specified.",
+              "type": "string",
+			  "minLength": 1,			  
+			  "maxLength": 1,			  
+			  "enum": ["F", "M", "<"]	
+            },			
+            "typeCode": {
+              "title": "Visa Document Type",
+              "description": "The type of document where the first character is a capital letter V which designates a machine readable visa. One additional character may be used, at the discretion of the issuing State, to designate a particular type of visa.",
+              "type": "string",
+			  "pattern": "^V.$"
+            },			
+            "validUntilDate": {
+              "title": "Visa Valid Until Date",
+              "description": "The last day on which the Visa can be used in the format YYMMDD. For some States this will be the date by or on which the holder should have left the country concerned.",
+              "type": "string",		  
+              "pattern": "^[0-9]{2}([0][1-9]|[1][0-2])([0][1-9]|[12][0-9]|[3][01])$"
+            },
+            "visibleDigitalSealBinaryObject": {
+              "title": "Visa Visible Digital Seal Binary Object",
+              "description": "Visible Digital Seal for non-electronic documents. Example uri format data:application/octet-stream;base64,...",
+              "type": "string",
+              "format": "uri"			  
+            }
+		  }
+        }
+      },
+       "additionalProperties": false
+    },
+    "credentialSchema": {
+      "type": "object",
+      "required": [
+        "id",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uri",
+          "const": "https://schemas.prod.digitalcredentials.iata.org/visa.json"
+        },
+        "type": {
+          "type": "string",
+          "const": "JsonSchemaValidator2018"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+      "additionalProperties": false
+}

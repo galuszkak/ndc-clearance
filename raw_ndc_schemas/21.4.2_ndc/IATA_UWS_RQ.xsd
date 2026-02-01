@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="1.001" id="IATA2021.4">
+	<xs:include schemaLocation="IATA_UWS_CommonTypes.xsd"/>
+	<xs:element name="IATA_UWS_RQ">
+		<xs:annotation>
+			<xs:documentation>The unit load device weight signal request message is used to request cargo and mail information for a given flight.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Originator" type="POS_Type">
+					<xs:annotation>
+						<xs:documentation>The originator of the request.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Remark" type="FreeTextType" minOccurs="0" maxOccurs="9">
+					<xs:annotation>
+						<xs:documentation>need annotation</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="FlightID">
+					<xs:annotation>
+						<xs:documentation>The flight for which information is requested.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attributeGroup ref="FlightID_Group"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

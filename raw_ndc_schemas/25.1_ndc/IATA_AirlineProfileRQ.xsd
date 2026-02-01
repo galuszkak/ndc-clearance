@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2024 rel. 2 sp1 (x64) (https://www.altova.com) by Claudia Toma (Iata) -->
+<xs:schema xmlns:cns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" targetNamespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" elementFormDefault="qualified" version="7.001" id="IATA2024.1">
+	<xs:import namespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" schemaLocation="IATA_OffersAndOrdersCommonTypes.xsd"/>
+	<xs:element name="IATA_AirlineProfileRQ">
+		<xs:annotation>
+			<xs:documentation>Request from an Airline Profile Sender to an Airline Profile Receiver to get one or more Airlines' Profiles.
+The Airline Profile schemas provide the ability for an Airline to communicate information to the Seller on a periodic basis with general information about the products and Services, or about that Airline.
+With shopping requests, the Airline Profile provides information about what it is willing to receive and has the capability to respond to. These schemas are a way for an Airline to manage the volume of requests they receive and reduce queries it cannot fulfil.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="AugmentationPoint" type="cns:AugmentationPointType" minOccurs="0" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>Implementer-Augmented Structure.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="DistributionChain" type="cns:DistributionChainType" minOccurs="1" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>An instance of a distribution channel. That is, the set of organizations involved in the development of the current transaction.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="PayloadAttributes" type="cns:IATA_PayloadStandardAttributesType" minOccurs="0" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>IATA standard payload attributes.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="POS" type="cns:POS_Type" minOccurs="0" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>Point of Sale information.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Request" type="cns:AirlineProfileRequestType" minOccurs="1" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>AirlineProfileRQ request information.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

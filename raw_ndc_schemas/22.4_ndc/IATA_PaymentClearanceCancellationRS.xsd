@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:cns="http://www.iata.org/IATA/2015/00/2022.1/IATA_PaymentClearanceCommonTypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2015/00/2022.1/IATA_PaymentClearanceCancellationRS" targetNamespace="http://www.iata.org/IATA/2015/00/2022.1/IATA_PaymentClearanceCancellationRS" elementFormDefault="qualified" version="2.001" id="IATA2022.1">
+	<xs:import namespace="http://www.iata.org/IATA/2015/00/2022.1/IATA_PaymentClearanceCommonTypes" schemaLocation="IATA_PaymentClearanceCommonTypes.xsd"/>
+	<xs:element name="IATA_PaymentClearanceCancellationRS">
+		<xs:annotation>
+			<xs:documentation>the request to cancel clearance by providing the ClearanceID of the clearance that needs to be cancelled. Only the entity who originated the clearance can cancel it and within the deadlines and guidelines provided by the Clearance Manager. 
+This clearance related message is about the flow of money and it cannot, under any circumstances, be used, treated or considered as legal invoice.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice minOccurs="1" maxOccurs="1">
+					<xs:element name="Clearance" type="cns:ClearanceCancellationResponseType" minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>the delivery of funds from one party - payer- to another party - the payee - to fulfil contractual obligations, i.e. commitment between the two parties.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Error" type="cns:ErrorType" minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Contains information related to errors detected during processing of the preceding request.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+				<xs:element name="PayloadStandardAttributes" type="cns:IATA_PayloadStandardAttributesType" minOccurs="0" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>The IATA_PayloadStdAttributes defines the standard attributes that appear on the root element for all IATA payloads.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -9,12 +9,22 @@
     hljs.registerLanguage("xml", xml);
 
     export let schemaUrl: string;
+    export let schemaFiles: { name: string; url: string }[] = [];
 
     let doc: XMLDocument | null = null;
     let rootElement: Element | null = null;
     let definitions: Record<string, Element> = {};
     let loading = true;
     let error = "";
+
+    // Store content of all loaded files
+    let loadedFiles: {
+        name: string;
+        content: string;
+        url: string;
+        doc: XMLDocument;
+    }[] = [];
+    let selectedFileIndex = 0;
 
     // Search & Interaction State
     let query = "";
@@ -35,7 +45,7 @@
 
     // Tabs & XML View
     let activeTab: "tree" | "xml" = "tree";
-    let rawXml = "";
+    let rawXml = ""; // Currently selected file content for view
     let highlightedXml = "";
 
     let searchInput: HTMLInputElement;
@@ -63,64 +73,119 @@
         error = "";
         selectedNode = null;
         selectedPath = "";
+        definitions = {};
+        loadedFiles = [];
+
         try {
-            const res = await fetch(schemaUrl);
-            if (!res.ok)
-                throw new Error(`Failed to load schema: ${res.statusText}`);
-            const text = await res.text();
-            rawXml = text;
-            const parser = new DOMParser();
-            doc = parser.parseFromString(text, "application/xml");
+            // Determine files to load
+            let filesToLoad =
+                schemaFiles.length > 0
+                    ? schemaFiles
+                    : [
+                          {
+                              name: schemaUrl.split("/").pop() || "schema.xsd",
+                              url: schemaUrl,
+                          },
+                      ];
 
-            const parseError = doc.querySelector("parsererror");
-            if (parseError) throw new Error("XML Parse Error");
+            // Fetch all in parallel
+            const promises = filesToLoad.map(async (file) => {
+                const res = await fetch(file.url);
+                if (!res.ok)
+                    throw new Error(
+                        `Failed to load ${file.name}: ${res.statusText}`,
+                    );
+                const text = await res.text();
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(text, "application/xml");
+                if (xmlDoc.querySelector("parsererror")) {
+                    throw new Error(`XML Parse Error in ${file.name}`);
+                }
+                return {
+                    name: file.name,
+                    url: file.url,
+                    content: text,
+                    doc: xmlDoc,
+                };
+            });
 
-            // Build Definition Map
-            definitions = {};
-            const schema = doc.documentElement;
+            loadedFiles = await Promise.all(promises);
 
-            for (const child of Array.from(schema.children)) {
-                const name = child.getAttribute("name");
-                if (name) {
-                    const key = `${child.localName}:${name}`;
-                    definitions[key] = child;
+            // Aggregate definitions from ALL files
+            for (const file of loadedFiles) {
+                const schema = file.doc.documentElement;
+                for (const child of Array.from(schema.children)) {
+                    const name = child.getAttribute("name");
+                    if (name) {
+                        const key = `${child.localName}:${name}`;
+                        // Last one wins if duplicates, but they should be unique in flattened set
+                        definitions[key] = child;
+                    }
                 }
             }
 
-            // Determine the expected root element name from the URL
-            const filename = schemaUrl.split("/").pop() || "";
-            const expectedRootName = filename.replace(".xsd", "");
+            // Find Root Element
+            // We look for the file that matches the schemaUrl (main file)
+            // Or if not found, try to guess from the first file
+            const mainFilename = schemaUrl.split("/").pop();
+            const mainFile =
+                loadedFiles.find((f) => f.name === mainFilename) ||
+                loadedFiles[0];
 
-            // Find the root element: try to match filename, otherwise pick the first element found
-            rootElement =
-                Array.from(schema.children).find(
-                    (n) =>
-                        n.localName === "element" &&
-                        n.getAttribute("name") === expectedRootName,
-                ) ||
-                Array.from(schema.children).find(
-                    (n) => n.localName === "element",
-                ) ||
-                null;
+            if (mainFile) {
+                doc = mainFile.doc;
+                const schema = doc.documentElement;
+                const expectedRootName =
+                    mainFilename?.replace(".xsd", "") || "";
+
+                rootElement =
+                    Array.from(schema.children).find(
+                        (n) =>
+                            n.localName === "element" &&
+                            n.getAttribute("name") === expectedRootName,
+                    ) ||
+                    Array.from(schema.children).find(
+                        (n) => n.localName === "element",
+                    ) ||
+                    null;
+            }
+
             if (rootElement) {
                 const path = `/${rootElement.getAttribute("name")}`;
                 handleSelect({ node: rootElement, path });
             }
 
-            // Update stats
-            schemaStats.set({
-                elements: Array.from(schema.children).filter(
+            // Update stats (Aggregation across all)
+            let totalElements = 0;
+            let totalComplex = 0;
+            let totalSimple = 0;
+
+            loadedFiles.forEach((f) => {
+                const children = Array.from(f.doc.documentElement.children);
+                totalElements += children.filter(
                     (n) => n.localName === "element",
-                ).length,
-                complexTypes: Array.from(schema.children).filter(
+                ).length;
+                totalComplex += children.filter(
                     (n) => n.localName === "complexType",
-                ).length,
-                simpleTypes: Array.from(schema.children).filter(
+                ).length;
+                totalSimple += children.filter(
                     (n) => n.localName === "simpleType",
-                ).length,
+                ).length;
             });
+
+            schemaStats.set({
+                elements: totalElements,
+                complexTypes: totalComplex,
+                simpleTypes: totalSimple,
+            });
+
+            // Set initial view for XML tab
+            if (loadedFiles.length > 0) {
+                rawXml = loadedFiles[0].content;
+            }
         } catch (e: any) {
             error = e.message;
+            console.error(e);
         } finally {
             loading = false;
         }
@@ -495,8 +560,9 @@
         highlightedXml = "";
     }
 
-    $: if (activeTab === "xml" && rawXml && !highlightedXml) {
+    $: if (activeTab === "xml" && rawXml) {
         // Highlight in next tick to avoid blocking immediately
+        highlightedXml = ""; // Clear first
         setTimeout(() => {
             try {
                 highlightedXml = hljs.highlight(rawXml, {
@@ -509,6 +575,11 @@
                     .replace(/>/g, "&gt;");
             }
         }, 10);
+    }
+
+    function selectFile(index: number) {
+        selectedFileIndex = index;
+        rawXml = loadedFiles[index].content;
     }
 </script>
 
@@ -876,24 +947,53 @@
                         >
                     </div>
                 {:else}
-                    <!-- XML View -->
+                    <!-- XML Source View with File List -->
                     <div
-                        class="flex-1 bg-base-100 rounded-lg shadow border border-base-200 overflow-hidden flex flex-col"
+                        class="flex h-full flex-col md:flex-row bg-base-100 rounded-lg shadow border border-base-200 overflow-hidden"
                     >
-                        {#if loading}
+                        <!-- File List sidebar (visible on desktop) -->
+                        {#if loadedFiles.length > 1}
                             <div
-                                class="flex justify-center p-10 h-full items-center"
+                                class="w-full md:w-48 border-b md:border-b-0 md:border-r border-base-200 bg-base-50 overflow-y-auto max-h-40 md:max-h-full flex-none"
                             >
-                                <span
-                                    class="loading loading-spinner text-primary"
-                                ></span>
+                                <div
+                                    class="p-2 text-xs font-bold opacity-50 uppercase tracking-wider sticky top-0 bg-base-50 z-10"
+                                >
+                                    Files
+                                </div>
+                                <div class="flex flex-col">
+                                    {#each loadedFiles as file, idx}
+                                        <button
+                                            class="text-left px-3 py-2 text-xs font-mono truncate hover:bg-base-200 transition-colors {selectedFileIndex ===
+                                            idx
+                                                ? 'bg-primary/10 text-primary border-r-2 border-primary'
+                                                : ''}"
+                                            on:click={() => selectFile(idx)}
+                                            title={file.name}
+                                        >
+                                            {file.name}
+                                        </button>
+                                    {/each}
+                                </div>
                             </div>
-                        {:else}
-                            <div
-                                class="flex-1 overflow-auto relative text-sm group"
-                            >
+                        {/if}
+
+                        <div
+                            class="flex-1 overflow-auto relative bg-[#0d1117] text-gray-300 pointer-events-auto select-text min-w-0"
+                        >
+                            {#if loading}
+                                <div
+                                    class="flex justify-center p-10 h-full items-center"
+                                >
+                                    <span
+                                        class="loading loading-spinner text-primary"
+                                    ></span>
+                                </div>
+                            {:else}
                                 {#if highlightedXml}
-                                    <pre class="p-4"><code class="language-xml"
+                                    <pre
+                                        class="m-0 p-4 font-mono text-sm leading-relaxed"><code
+                                            class="language-xml"
                                             >{@html highlightedXml}</code
                                         ></pre>
                                 {:else}
@@ -905,9 +1005,9 @@
                                         ></span> Highlighting...
                                     </div>
                                 {/if}
-                                <!-- Copy Button helper? -->
+
                                 <button
-                                    class="btn btn-xs btn-circle btn-ghost absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-base-200"
+                                    class="btn btn-xs btn-circle btn-ghost absolute top-2 right-2 opacity-50 hover:opacity-100 transition-opacity bg-base-200 text-base-content"
                                     title="Copy XML"
                                     on:click={() =>
                                         navigator.clipboard.writeText(rawXml)}
@@ -926,8 +1026,8 @@
                                         /></svg
                                     >
                                 </button>
-                            </div>
-                        {/if}
+                            {/if}
+                        </div>
                     </div>
                 {/if}
             </div>

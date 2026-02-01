@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="2.006" id="IATA2021.3">
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="IATA_AIDX_CommonTypes.xsd"/>
+	<xs:element name="IATA_AIDX_FlightLegNotifRQ">
+		<xs:annotation>
+			<xs:documentation>Used to push update flight leg data from an airline to an airport.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Originator">
+					<xs:annotation>
+						<xs:documentation>The originator of the message.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attributeGroup ref="CompanyID_AttributesGroup"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DeliveringSystem" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The identifier of the system that delivered the message if different form the originator.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attributeGroup ref="CompanyID_AttributesGroup"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="FlightLeg" type="FlightLegType" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>A collection of flight legs.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="CodeContext" type="IATA_CodeType" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Specifies the context of the airline and airport codes, such as IATA or ICAO.  Refer to IATA PADIS Code List for data element 3055.  The code context at this level applies to all airline and airport codes in the message unless overridden at a lower level by specifying a different code context for a specific data item.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
