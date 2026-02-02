@@ -40,7 +40,7 @@ jobs:
         run: |
           sudo mkdir -p /etc/apt/keyrings
           curl -fsSL https://deb.pkg.kraftkit.sh/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/unikraft.gpg
-          echo "deb [signed-by=/etc/apt/keyrings/unikraft.gpg] https://deb.pkg.kraftkit.sh stable main" | sudo tee /etc/apt/sources.list.d/unikraft.list
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/unikraft.gpg] https://deb.pkg.kraftkit.sh /" | sudo tee /etc/apt/sources.list.d/unikraft.list > /dev/null
           sudo apt-get update
           sudo apt-get install -y kraftkit
 
