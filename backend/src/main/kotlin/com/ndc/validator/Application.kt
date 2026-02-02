@@ -12,7 +12,9 @@ import kotlinx.serialization.json.Json
 
 fun main() {
     val port = System.getenv("PORT")?.toInt() ?: 8080
-    embeddedServer(Netty, port = port, module = Application::module).start(wait = true)
+    embeddedServer(Netty, port = port) {
+        module()
+    }.start(wait = true)
 }
 
 fun Application.module() {
