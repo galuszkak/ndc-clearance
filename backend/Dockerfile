@@ -32,4 +32,4 @@ ENV JAVA_HOME=/opt/java/openjdk
 ENV PATH=$JAVA_HOME/bin:$PATH
 ENV SCHEMA_ROOT=/app/schemas
 
-CMD ["/opt/java/openjdk/bin/java", "-jar", "app.jar"]
+CMD ["/opt/java/openjdk/bin/java", "-jar", "/app/app.jar"]
