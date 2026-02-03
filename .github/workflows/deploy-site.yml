@@ -6,6 +6,8 @@ on:
       - main
     paths:
       - 'site/**'
+      - 'ndc_schemas/**'
+      - '.github/workflows/deploy-site.yml'
 
 jobs:
   deploy:
@@ -30,17 +32,13 @@ jobs:
 
       - name: Build site
         run: npm run build
+        env:
+          PUBLIC_API_URL: https://bold-meadow-a9917qco.fra.unikraft.app
 
       - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v3.0
-        with:
-          publish-dir: './site/dist'
-          production-branch: main
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "Deploy from GitHub Actions"
-          enable-pull-request-comment: false
-          enable-commit-comment: true
-          overwrites-pull-request-comment: true
+        run: |
+          npm install netlify-cli -g
+          netlify deploy --dir=dist --prod --message "Deploy from GitHub Actions"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

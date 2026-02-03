@@ -209,7 +209,13 @@ const examples =
             </form>
         </dialog>
 
-        <script define:vars={{ version, message }}>
+        <script
+            define:vars={{
+                version,
+                message,
+                version_apiUrl: import.meta.env.PUBLIC_API_URL,
+            }}
+        >
             // Modal triggers
             document
                 .getElementById("download_btn")
@@ -242,7 +248,9 @@ const examples =
                         // or hardcode fallback if import.meta.env fails in this context (though define:vars should be fine)
                         // Actually, define:vars doesn't pass import.meta.env.
                         // We can pass the API_URL via define:vars if needed, or just let it fall back.
-                        const apiUrl = "http://localhost:8080";
+                        // Use environment variable for API URL, fallback to localhost for development
+                        const apiUrl =
+                            version_apiUrl || "http://localhost:8080";
 
                         const response = await fetch(`${apiUrl}/validate`, {
                             method: "POST",
