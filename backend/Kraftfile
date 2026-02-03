@@ -2,11 +2,6 @@ spec: v0.6
 
 runtime: base-compat:latest
 
-labels:
-  cloud.unikraft.v1.instances/scale_to_zero.policy: "idle"
-  cloud.unikraft.v1.instances/scale_to_zero.stateful: "true"
-  cloud.unikraft.v1.instances/scale_to_zero.cooldown_time_ms: 1000
-
 rootfs: ./Dockerfile
 
 cmd: ["/usr/lib/jvm/java-25-openjdk-amd64/bin/java", "-jar", "app.jar"]
