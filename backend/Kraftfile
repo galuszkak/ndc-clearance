@@ -2,6 +2,10 @@ spec: v0.6
 
 runtime: base-compat:latest
 
+
+env:
+  SCHEMA_ROOT: /app/schemas
+
 rootfs: ./Dockerfile
 
 cmd: ["/opt/java/openjdk/bin/java", "-jar", "/app/app.jar"]
