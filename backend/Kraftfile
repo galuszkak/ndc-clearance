@@ -8,4 +8,4 @@ env:
 
 rootfs: ./Dockerfile
 
-cmd: ["/opt/java/openjdk/bin/java", "-jar", "/app/app.jar"]
+cmd: ["/usr/bin/java", "-jar", "/app/app.jar"]
