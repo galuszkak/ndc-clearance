@@ -39,7 +39,7 @@ jobs:
       - name: Deploy to Netlify
         run: |
           npm install netlify-cli -g
-          netlify deploy --dir=dist --prod --message "Deploy from GitHub Actions"
+          netlify deploy --dir=dist --prod --message "Deploy from GitHub Actions" --no-build
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
