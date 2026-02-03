@@ -46,6 +46,6 @@ jobs:
           sudo apt-get install -y kraftkit
 
       - name: Deploy to Unikraft Cloud
-        run: kraft cloud deploy --token ${{ secrets.UKC_TOKEN }} --name ${{ secrets.UKC_DEPLOYMENT_NAME }} -p 443:8080 -M 4Gi
+        run: kraft cloud deploy --token ${{ secrets.UKC_TOKEN }} --name ${{ secrets.UKC_DEPLOYMENT_NAME }} -p 443:8080 -M 4Gi --dbg
         env:
           UKC_METRO: ${{ secrets.UKC_METRO }}
