@@ -4,4 +4,4 @@ runtime: base-compat:latest
 
 rootfs: ./Dockerfile
 
-cmd: ["/usr/lib/jvm/java-25-openjdk-amd64/bin/java", "-jar", "app.jar"]
+cmd: ["/usr/lib/jvm/default-jvm/bin/java", "-jar", "app.jar"]
