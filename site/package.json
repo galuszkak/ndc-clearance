@@ -14,12 +14,12 @@
     "@astrojs/svelte": "^7.2.5",
     "@tailwindcss/vite": "^4.1.18",
     "astro": "^5.17.1",
-    "daisyui": "^5.5.16",
+    "daisyui": "^5.5.17",
     "highlight.js": "^11.11.1",
     "svelte": "^5.49.1",
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
-    "@types/node": "^25.0.9"
+    "@types/node": "^25.2.0"
   }
 }
