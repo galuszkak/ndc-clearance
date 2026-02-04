@@ -19,7 +19,11 @@ import io.modelcontextprotocol.kotlin.sdk.types.CallToolResult
 import io.modelcontextprotocol.kotlin.sdk.types.TextContent
 import io.modelcontextprotocol.kotlin.sdk.types.ToolSchema
 
-fun Route.configureMcpRoutes(schemaService: SchemaService, validatorService: ValidatorService) {
+fun Route.configureMcpRoutes(
+    schemaService: SchemaService, 
+    validatorService: ValidatorService,
+    postHogService: PostHogService
+) {
     val server = Server(
         Implementation(
             name = "ndc-validator",
@@ -49,6 +53,9 @@ fun Route.configureMcpRoutes(schemaService: SchemaService, validatorService: Val
         val message = (args?.get("message") as? JsonPrimitive)?.content ?: ""
         val xml = (args?.get("xml") as? JsonPrimitive)?.content ?: ""
 
+        // Track validation request
+        postHogService.capture("mcp_validate_ndc_xml", mapOf("version" to version, "message" to message))
+
         val result = validatorService.validate(version, message, xml)
 
         CallToolResult(
@@ -69,6 +76,7 @@ fun Route.configureMcpRoutes(schemaService: SchemaService, validatorService: Val
             required = emptyList()
         )
     ) { _ ->
+        postHogService.capture("mcp_list_versions")
         val schemas = schemaService.listSchemas()
         CallToolResult(content = listOf(TextContent(text = schemas.keys.sorted().joinToString("\n"))))
     }
@@ -85,6 +93,8 @@ fun Route.configureMcpRoutes(schemaService: SchemaService, validatorService: Val
     ) { request ->
         val args = request.arguments
         val version = (args?.get("version") as? JsonPrimitive)?.content
+
+        postHogService.capture("mcp_list_schemas", mapOf("version" to (version ?: "all")))
 
         val schemas = schemaService.listSchemas()
         
@@ -122,6 +132,8 @@ fun Route.configureMcpRoutes(schemaService: SchemaService, validatorService: Val
         val args = request.arguments
         val version = (args?.get("version") as? JsonPrimitive)?.content ?: ""
         val message = (args?.get("message") as? JsonPrimitive)?.content ?: ""
+
+        postHogService.capture("mcp_get_schema_files", mapOf("version" to version, "message" to message))
 
         val files = schemaService.getSchemaFiles(version, message)
 

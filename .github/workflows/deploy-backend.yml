@@ -46,6 +46,12 @@ jobs:
           sudo apt-get install -y kraftkit
 
       - name: Deploy to Unikraft Cloud
-        run: kraft cloud deploy --token ${{ secrets.UKC_TOKEN }} --name ${{ secrets.UKC_DEPLOYMENT_NAME }} -p 443:8080 -M 4Gi -d mcp-ndc.sunrisehikers.io
+        run: |
+          if kraft cloud instance get --token ${{ secrets.UKC_TOKEN }} ${{ secrets.UKC_DEPLOYMENT_NAME }} > /dev/null 2>&1; then
+            echo "Instance exists. Removing..."
+            kraft cloud instance remove --token ${{ secrets.UKC_TOKEN }} ${{ secrets.UKC_DEPLOYMENT_NAME }}
+            sleep 5
+          fi
+          kraft cloud deploy --token ${{ secrets.UKC_TOKEN }} --name ${{ secrets.UKC_DEPLOYMENT_NAME }} -p 443:8080 -M 4Gi -d mcp-ndc.sunrisehikers.io -e POSTHOG_API_KEY=${{ secrets.POSTHOG_API_KEY }}
         env:
           UKC_METRO: ${{ secrets.UKC_METRO }}
