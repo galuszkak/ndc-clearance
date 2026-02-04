@@ -10,6 +10,10 @@ import kotlinx.serialization.Serializable
 data class ValidationRequest(val version: String, val message: String, val xml: String)
 
 fun Route.configureRoutes(schemaService: SchemaService, validatorService: ValidatorService) {
+    get("/") {
+        call.respondRedirect("https://ndc-clearance.netlify.app", permanent = false)
+    }
+
     get("/schemas") {
         call.respond(schemaService.listSchemas())
     }

@@ -1,38 +1,241 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { getVersions, getMessages } from '../utils/schemas';
+import Layout from "../layouts/Layout.astro";
+import { getVersions, getMessages } from "../utils/schemas";
 
 const versions = getVersions();
 // Default to the first message of the latest version for the "Quick Start"
 const latestVersion = versions[0];
 const latestMessages = latestVersion ? getMessages(latestVersion) : [];
-const firstMessage = latestMessages[0] || 'IATA_AirShoppingRQ';
+const firstMessage = latestMessages[0] || "IATA_AirShoppingRQ";
+
+const vsCodeConfig = `{
+  "servers": {
+    "ndc-validator": {
+      "type": "sse",
+      "url": "https://mcp-ndc.sunrisehikers.io/mcp/sse"
+    }
+  }
+}`;
+
+const openCodeConfig = `{
+  "mcp": {
+    "ndc-validator": {
+      "type": "remote",
+      "url": "https://mcp-ndc.sunrisehikers.io/mcp/sse",
+      "enabled": true
+    }
+  }
+}`;
 ---
 
 <Layout title="IATA NDC Schema Browser - All Versions | NDC Clearance">
-	<div class="hero min-h-[50vh] bg-base-200 rounded-box">
-		<div class="hero-content text-center">
-		  <div class="max-w-md">
-			<h1 class="text-5xl font-bold">NDC Clearance</h1>
-			<p class="py-6">Browse and search IATA NDC Schemas.</p>
-            {latestVersion && (
-			<a href={`/${latestVersion}/${firstMessage}`} class="btn btn-primary">Get Started ({latestVersion})</a>
-            )}
-		  </div>
-		</div>
-	  </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
-        {versions.map(version => (
-            <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all">
-                <div class="card-body">
-                    <h2 class="card-title">Version {version}</h2>
-                    <p>{getMessages(version).length} Messages</p>
-                    <div class="card-actions justify-end">
-                        <a href={`/${version}/${getMessages(version)[0]}`} class="btn btn-sm btn-outline">Browse</a>
-                    </div>
-                </div>
+  <div class="hero min-h-[60vh] bg-base-200 rounded-box mb-12">
+    <div
+      class="hero-content flex-col lg:flex-row-reverse gap-12 w-full max-w-6xl p-8"
+    >
+      <!-- Right Column: MCP Server -->
+      <div class="card flex-shrink-0 w-full max-w-lg shadow-2xl bg-base-100">
+        <div class="card-body">
+          <div class="flex items-center gap-3 mb-2">
+            <h2 class="card-title text-2xl">NDC Tools for Your AI Agent</h2>
+            <div class="badge badge-secondary badge-outline font-mono text-xs">
+              MCP ENABLED
             </div>
-        ))}
+          </div>
+
+          <p class="text-base-content/70 mb-6">
+            Connect your favorite AI agent directly to our live MCP validation
+            backend. Verify messages against any schema version instantly.
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <button
+              class="btn btn-outline btn-sm"
+              onclick="modal_claude_code.showModal()">Claude Code</button
+            >
+            <button
+              class="btn btn-outline btn-sm"
+              onclick="modal_claude_desktop.showModal()">Claude.ai</button
+            >
+            <button
+              class="btn btn-outline btn-sm"
+              onclick="modal_vscode.showModal()">VS Code</button
+            >
+            <button
+              class="btn btn-outline btn-sm"
+              onclick="modal_gemini.showModal()">Gemini CLI</button
+            >
+            <button
+              class="btn btn-outline btn-sm sm:col-span-2"
+              onclick="modal_opencode.showModal()">OpenCode</button
+            >
+          </div>
+        </div>
       </div>
+
+      <!-- Left Column: Schema Browser -->
+      <div class="text-center lg:text-left">
+        <h1 class="text-5xl font-bold mb-4">NDC Clearance</h1>
+        <p class="py-6 text-lg">
+          The comprehensive reference for IATA NDC Schemas. Browse hierarchies,
+          search definitions, and validate messages.
+        </p>
+        <div
+          class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+        >
+          {
+            latestVersion && (
+              <a
+                href={`/${latestVersion}/${firstMessage}`}
+                class="btn btn-primary"
+              >
+                Browse Latest ({latestVersion})
+              </a>
+            )
+          }
+          <a href="#versions" class="btn btn-ghost">View All Versions</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="versions"></div>
+
+  <!-- Modals -->
+  <dialog id="modal_claude_code" class="modal">
+    <div class="modal-box w-11/12 max-w-3xl">
+      <h3 class="font-bold text-lg mb-4">Setup for Claude Code</h3>
+      <p class="mb-4">
+        Run the following command in your terminal to add the NDC Validator
+        tool:
+      </p>
+      <div class="mockup-code mb-4">
+        <pre
+          data-prefix="$"><code>claude mcp add --transport sse ndc-validator https://mcp-ndc.sunrisehikers.io/mcp/sse</code></pre>
+      </div>
+      <p class="text-sm opacity-70">
+        This will configure Claude Code to communicate with the live NDC
+        Clearance backend.
+      </p>
+      <div class="modal-action">
+        <form method="dialog">
+          <button class="btn">Close</button>
+        </form>
+      </div>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+      <button>close</button>
+    </form>
+  </dialog>
+
+  <dialog id="modal_claude_desktop" class="modal">
+    <div class="modal-box w-11/12 max-w-3xl">
+      <h3 class="font-bold text-lg mb-4">Setup for Claude.ai</h3>
+      <p class="mb-4">To use this tool in Claude.ai:</p>
+      <ol class="list-decimal list-inside mb-4 space-y-2">
+        <li>
+          Open <a href="https://claude.ai" target="_blank" class="link"
+            >Claude.ai</a
+          >
+        </li>
+        <li>
+          Go to <strong>Settings</strong> &gt; <strong>Connectors</strong>
+        </li>
+        <li>Click <strong>Add Custom Connector</strong></li>
+        <li>Enter the following URL:</li>
+      </ol>
+      <div class="mockup-code mb-4">
+        <pre><code>https://mcp-ndc.sunrisehikers.io/mcp/sse</code></pre>
+      </div>
+      <div class="modal-action">
+        <form method="dialog">
+          <button class="btn">Close</button>
+        </form>
+      </div>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+      <button>close</button>
+    </form>
+  </dialog>
+
+  <dialog id="modal_vscode" class="modal">
+    <div class="modal-box w-11/12 max-w-3xl">
+      <h3 class="font-bold text-lg mb-4">Setup for VS Code (GitHub Copilot)</h3>
+      <p class="mb-4">
+        Add the following to your VS Code MCP server configuration file
+        (typically found at <code
+          >~/.config/Code/User/globalStorage/mcp-servers.json</code
+        > or configured via extension settings):
+      </p>
+      <div class="mockup-code mb-4">
+        <pre><code>{vsCodeConfig}</code></pre>
+      </div>
+      <div class="modal-action">
+        <form method="dialog">
+          <button class="btn">Close</button>
+        </form>
+      </div>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+      <button>close</button>
+    </form>
+  </dialog>
+
+  <dialog id="modal_gemini" class="modal">
+    <div class="modal-box w-11/12 max-w-3xl">
+      <h3 class="font-bold text-lg mb-4">Setup for Gemini CLI</h3>
+      <p class="mb-4">Run the following command in your terminal:</p>
+      <div class="mockup-code mb-4">
+        <pre
+          data-prefix="$"><code>gemini mcp add --transport sse ndc-validator https://mcp-ndc.sunrisehikers.io/mcp/sse</code></pre>
+      </div>
+      <div class="modal-action">
+        <form method="dialog">
+          <button class="btn">Close</button>
+        </form>
+      </div>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+      <button>close</button>
+    </form>
+  </dialog>
+
+  <dialog id="modal_opencode" class="modal">
+    <div class="modal-box w-11/12 max-w-3xl">
+      <h3 class="font-bold text-lg mb-4">Setup for OpenCode</h3>
+      <p class="mb-4">Add to your <code>opencode.json</code>:</p>
+      <div class="mockup-code mb-4">
+        <pre><code>{openCodeConfig}</code></pre>
+      </div>
+      <div class="modal-action">
+        <form method="dialog">
+          <button class="btn">Close</button>
+        </form>
+      </div>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+      <button>close</button>
+    </form>
+  </dialog>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+    {
+      versions.map((version) => (
+        <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all">
+          <div class="card-body">
+            <h2 class="card-title">Version {version}</h2>
+            <p>{getMessages(version).length} Messages</p>
+            <div class="card-actions justify-end">
+              <a
+                href={`/${version}/${getMessages(version)[0]}`}
+                class="btn btn-sm btn-outline"
+              >
+                Browse
+              </a>
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
 </Layout>
