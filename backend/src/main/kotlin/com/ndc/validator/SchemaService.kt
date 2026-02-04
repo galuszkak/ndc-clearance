@@ -53,4 +53,9 @@ class SchemaService {
         return schemas.groupBy { it.version }
             .mapValues { entry -> entry.value.map { it.message }.sorted() }
     }
+
+    fun getSchemaFiles(version: String, message: String): List<File>? {
+        val schemaRef = schemas.find { it.version == version && it.message == message } ?: return null
+        return schemaRef.path.parentFile.listFiles()?.filter { it.isFile && (it.name.endsWith(".xsd") || it.name.endsWith(".xml")) }?.toList()
+    }
 }

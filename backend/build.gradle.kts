@@ -26,6 +26,8 @@ dependencies {
     implementation("io.ktor:ktor-server-content-negotiation-jvm")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
     implementation("io.ktor:ktor-server-cors-jvm")
+    implementation("io.ktor:ktor-server-sse-jvm")
+    implementation("io.modelcontextprotocol:kotlin-sdk:0.8.3")
 
 
     testImplementation("io.ktor:ktor-server-test-host:3.4.0")

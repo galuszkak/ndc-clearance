@@ -4,95 +4,178 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.server.sse.*
 import io.ktor.http.*
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.*
-import java.util.UUID
+import kotlinx.coroutines.awaitCancellation
+import java.util.concurrent.ConcurrentHashMap
+import io.modelcontextprotocol.kotlin.sdk.server.Server
+import io.modelcontextprotocol.kotlin.sdk.server.ServerOptions
+import io.modelcontextprotocol.kotlin.sdk.server.ServerSession
+import io.modelcontextprotocol.kotlin.sdk.server.SseServerTransport
+import io.modelcontextprotocol.kotlin.sdk.types.Implementation
+import io.modelcontextprotocol.kotlin.sdk.types.ServerCapabilities
+import io.modelcontextprotocol.kotlin.sdk.types.CallToolResult
+import io.modelcontextprotocol.kotlin.sdk.types.TextContent
+import io.modelcontextprotocol.kotlin.sdk.types.ToolSchema
 
-// Basic MCP Protocol Types
-@Serializable
-data class JsonRpcRequest(val jsonrpc: String = "2.0", val method: String, val params: JsonObject? = null, val id: Int? = null)
-
-@Serializable
-data class JsonRpcResponse(val jsonrpc: String = "2.0", val result: JsonElement? = null, val error: JsonRpcError? = null, val id: Int? = null)
-
-@Serializable
-data class JsonRpcError(val code: Int, val message: String, val data: JsonElement? = null)
-
-// Tool Definition Structure
-@Serializable
-data class ToolDefinition(val name: String, val description: String, val inputSchema: JsonObject)
-
-fun Route.configureMcpRoutes(validatorService: ValidatorService) {
-    val tools = listOf(
-        ToolDefinition(
-            name = "validate_ndc_xml",
-            description = "Validates an NDC XML message against a specific schema version.",
-            inputSchema = buildJsonObject {
-                put("type", "object")
-                put("properties", buildJsonObject {
-                    put("version", buildJsonObject { put("type", "string"); put("description", "NDC Schema Version (e.g., 21.3)") })
-                    put("message", buildJsonObject { put("type", "string"); put("description", "Message Name (e.g., AirShoppingRQ)") })
-                    put("xml", buildJsonObject { put("type", "string"); put("description", "Raw XML content to validate") })
-                })
-                put("required", buildJsonArray { add("version"); add("message"); add("xml") })
-            }
-        )
+fun Route.configureMcpRoutes(schemaService: SchemaService, validatorService: ValidatorService) {
+    val server = Server(
+        Implementation(
+            name = "ndc-validator",
+            version = "0.1.0",
+        ),
+        ServerOptions(
+            capabilities = ServerCapabilities(
+                tools = ServerCapabilities.Tools(listChanged = true),
+            ),
+        ),
     )
 
-    // MCP SSE Endpoint
-    get("/mcp/sse") {
-        // SSE implementation requires persistent connection handling, simplify for now by just returning endpoint info
-        // Typically, MCP over HTTP SSE involves:
-        // 1. Client connects to /sse -> receives events
-        // 2. Client posts messages to /messages -> processed, responses sent via SSE
-        call.respondText("See /mcp/messages for POST interactions. This endpoint is a placeholder for SSE subscription.", ContentType.Text.EventStream)
+    server.addTool(
+        name = "validate_ndc_xml",
+        description = "Validates an NDC XML message against a specific schema version.",
+        inputSchema = ToolSchema(
+            properties = buildJsonObject {
+                put("version", buildJsonObject { put("type", "string"); put("description", "NDC Schema Version (e.g., 21.3)") })
+                put("message", buildJsonObject { put("type", "string"); put("description", "Message Name (e.g., AirShoppingRQ)") })
+                put("xml", buildJsonObject { put("type", "string"); put("description", "Raw XML content to validate") })
+            },
+            required = listOf("version", "message", "xml")
+        )
+    ) { request ->
+        val args = request.arguments
+        val version = (args?.get("version") as? JsonPrimitive)?.content ?: ""
+        val message = (args?.get("message") as? JsonPrimitive)?.content ?: ""
+        val xml = (args?.get("xml") as? JsonPrimitive)?.content ?: ""
+
+        val result = validatorService.validate(version, message, xml)
+
+        CallToolResult(
+            content = listOf(
+                TextContent(
+                    text = if (result.valid) "Valid" else "Invalid: ${result.errors.joinToString(", ")}"
+                )
+            ),
+            isError = !result.valid
+        )
     }
 
-    // Direct JSON-RPC Endpoint (simpler than full SSE for basic tool use)
-    post("/mcp/messages") {
-        val request = call.receive<JsonRpcRequest>()
+    server.addTool(
+        name = "list_versions",
+        description = "Lists all available NDC schema versions.",
+        inputSchema = ToolSchema(
+            properties = buildJsonObject {},
+            required = emptyList()
+        )
+    ) { _ ->
+        val schemas = schemaService.listSchemas()
+        CallToolResult(content = listOf(TextContent(text = schemas.keys.sorted().joinToString("\n"))))
+    }
+
+    server.addTool(
+        name = "list_schemas",
+        description = "Lists available NDC messages. If version is provided, lists for that version. Otherwise lists all messages for all versions.",
+        inputSchema = ToolSchema(
+            properties = buildJsonObject {
+                put("version", buildJsonObject { put("type", "string"); put("description", "Optional: Specific version to list messages for (e.g., 21.3)") })
+            },
+            required = emptyList()
+        )
+    ) { request ->
+        val args = request.arguments
+        val version = (args?.get("version") as? JsonPrimitive)?.content
+
+        val schemas = schemaService.listSchemas()
         
-        when (request.method) {
-            "tools/list" -> {
-                val response = JsonRpcResponse(
-                    id = request.id,
-                    result = buildJsonObject {
-                        put("tools", Json.encodeToJsonElement(tools))
-                    }
-                )
-                call.respond(response)
+        val resultText = if (!version.isNullOrEmpty()) {
+            val messages = schemas[version]
+            if (messages != null) {
+                messages.joinToString("\n")
+            } else {
+                "Version $version not found. Available versions: ${schemas.keys.sorted().joinToString(", ")}"
             }
-            "tools/call" -> {
-                val params = request.params ?: throw IllegalArgumentException("Missing params")
-                val name = params["name"]?.jsonPrimitive?.content
-                val args = params["arguments"]?.jsonObject
-
-                if (name == "validate_ndc_xml" && args != null) {
-                    val version = args["version"]?.jsonPrimitive?.content ?: ""
-                    val message = args["message"]?.jsonPrimitive?.content ?: ""
-                    val xml = args["xml"]?.jsonPrimitive?.content ?: ""
-
-                    val validationResult = validatorService.validate(version, message, xml)
-                    
-                    val toolResult = buildJsonObject {
-                        put("content", buildJsonArray {
-                            add(buildJsonObject {
-                                put("type", "text")
-                                put("text", if (validationResult.valid) "Valid" else "Invalid: ${validationResult.errors.joinToString("\n")}")
-                            })
-                        })
-                        put("isError", !validationResult.valid)
-                    }
-
-                    call.respond(JsonRpcResponse(id = request.id, result = toolResult))
-                } else {
-                    call.respond(JsonRpcResponse(id = request.id, error = JsonRpcError(-32601, "Method not found or invalid params")))
-                }
+        } else {
+            val sb = StringBuilder()
+            schemas.toSortedMap().forEach { (ver, msgs) ->
+                sb.append("Version $ver:\n")
+                msgs.forEach { sb.append("  - $it\n") }
+                sb.append("\n")
             }
-            else -> {
-                call.respond(JsonRpcResponse(id = request.id, error = JsonRpcError(-32601, "Method not supported")))
-            }
+            sb.toString()
         }
+
+        CallToolResult(content = listOf(TextContent(text = resultText)))
+    }
+
+    server.addTool(
+        name = "get_schema_files",
+        description = "Retrieves all XSD files for a specific message and version.",
+        inputSchema = ToolSchema(
+            properties = buildJsonObject {
+                put("version", buildJsonObject { put("type", "string"); put("description", "NDC Schema Version (e.g., 21.3)") })
+                put("message", buildJsonObject { put("type", "string"); put("description", "Message Name (e.g., OfferPriceRS)") })
+            },
+            required = listOf("version", "message")
+        )
+    ) { request ->
+        val args = request.arguments
+        val version = (args?.get("version") as? JsonPrimitive)?.content ?: ""
+        val message = (args?.get("message") as? JsonPrimitive)?.content ?: ""
+
+        val files = schemaService.getSchemaFiles(version, message)
+
+        if (files != null) {
+            val contentList = files.map { file ->
+                TextContent(
+                    text = "// File: ${file.name}\n\n${file.readText()}"
+                )
+            }
+            CallToolResult(content = contentList)
+        } else {
+            CallToolResult(
+                content = listOf(TextContent(text = "Schema not found for version $version and message $message")),
+                isError = true
+            )
+        }
+    }
+
+    val serverSessions = ConcurrentHashMap<String, ServerSession>()
+
+    sse("/mcp/sse") {
+        val transport = SseServerTransport("/mcp/messages", this)
+        val serverSession = server.createSession(transport)
+        serverSessions[transport.sessionId] = serverSession
+
+        try {
+            serverSession.onClose {
+                serverSessions.remove(transport.sessionId)
+            }
+            awaitCancellation()
+        } finally {
+            serverSessions.remove(transport.sessionId)
+        }
+    }
+
+    post("/mcp/messages") {
+        val sessionId = call.request.queryParameters["sessionId"]
+        if (sessionId == null) {
+            call.respond(HttpStatusCode.BadRequest, "Missing sessionId parameter")
+            return@post
+        }
+
+        val session = serverSessions[sessionId]
+        if (session == null) {
+            call.respond(HttpStatusCode.NotFound, "Session not found")
+            return@post
+        }
+
+        val transport = session.transport as? SseServerTransport
+        if (transport == null) {
+            call.respond(HttpStatusCode.InternalServerError, "Invalid session transport")
+            return@post
+        }
+
+        transport.handlePostMessage(call)
     }
 }
