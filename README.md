@@ -2,7 +2,7 @@
 
 **Live Version: [ndc-clearance.netlify.app](https://ndc-clearance.netlify.app)**
 
-NDC Clearance is an interactive explorer for IATA NDC (New Distribution Capability) schemas.
+NDC Clearance is the comprehensive reference for IATA NDC (New Distribution Capability) Schemas and a live MCP Server for AI Agents. Browse hierarchies, search definitions, and validate messages.
 
 ![NDC Clearance Screenshot](screenshot.png)
 
@@ -10,10 +10,10 @@ NDC Clearance is an interactive explorer for IATA NDC (New Distribution Capabili
 
 This project was created to address several challenges with standard NDC distributions:
 
-1.  **LLM-Friendly Schemas**: Standard NDC messages are typically split into a small message file and a massive common file containing thousands of types, the majority of which are unused by any single message. This makes them difficult for Large Language Models (LLMs) to process effectively. Our tools flatten these schemas, including ONLY the types actually used by a specific message, making them compact and context-window friendly.
-2.  **Improved UI/UX**: Browsing and searching complex XSD structures in a standard text editor is cumbersome. NDC Clearance provides a modern, interactive interface to visualize the hierarchical structure and perform deep searches with XPath awareness.
-
-3.  **Open Source Accessibility**: Providing a community-driven tool to navigate the industry standards more efficiently.
+1.  **Live Validation for AI Agents**: Connect your favorite AI tools (Claude, Cursor, etc.) directly to our live [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) backend to verify NDC messages against any schema version instantly.
+2.  **LLM-Friendly Schemas**: Standard NDC messages are typically split into a small message file and a massive common file containing thousands of types, the majority of which are unused by any single message. This makes them difficult for Large Language Models (LLMs) to process effectively. Our tools flatten these schemas, including ONLY the types actually used by a specific message, making them compact and context-window friendly.
+3.  **Improved UI/UX**: Browsing and searching complex XSD structures in a standard text editor is cumbersome. NDC Clearance provides a modern, interactive interface to visualize the hierarchical structure and perform deep searches with XPath awareness.
+4.  **Open Source Accessibility**: Providing a community-driven tool to navigate the industry standards more efficiently.
 
 ## Project Structure
 
@@ -58,7 +58,78 @@ python3 flatten_ndc_schemas.py --help
 
 This project is an independent open-source tool and is **not affiliated with, endorsed by, or sponsored by IATA** (International Air Transport Association).
 
+## Testing Locally
+
+You can run the full stack (Site + Backend) locally without Unikraft using Docker Compose.
+
+1. **Start the stack**:
+   ```bash
+   docker-compose up --build
+   ```
+2. **Access the application**:
+   - **Site**: [http://localhost:4321](http://localhost:4321)
+   - **Backend API**: [http://localhost:8080](http://localhost:8080)
+
+## Using the MCP Server
+
+The backend exposes a [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server that provides tools for validating NDC messages.
+
+### Supported Tools
+- **`validate_ndc_xml`**: Validates raw XML against a specific NDC schema version.
+
+### Public Server
+**URL**: `https://mcp-ndc.sunrisehikers.io/mcp/sse`
+
+#### 1. Claude Code
+Run the following command:
+```bash
+claude mcp add --transport sse ndc-validator https://mcp-ndc.sunrisehikers.io/mcp/sse
+```
+
+#### 2. Claude.ai
+1. Open [Claude.ai](https://claude.ai)
+2. Go to **Settings** > **Connectors**
+3. Click **Add Custom Connector**
+4. Enter URL: `https://mcp-ndc.sunrisehikers.io/mcp/sse`
+
+#### 3. VS Code (GitHub Copilot)
+Add to your MCP server configuration file (e.g., `~/.config/Code/User/globalStorage/mcp-servers.json`):
+```json
+{
+  "servers": {
+    "ndc-validator": {
+      "type": "sse",
+      "url": "https://mcp-ndc.sunrisehikers.io/mcp/sse"
+    }
+  }
+}
+```
+
+#### 4. Gemini CLI
+Run the following command:
+```bash
+gemini mcp add --transport sse ndc-validator https://mcp-ndc.sunrisehikers.io/mcp/sse
+```
+
+#### 5. OpenCode
+Add to your `opencode.json`:
+```json
+{
+  "mcp": {
+    "ndc-validator": {
+      "type": "remote",
+      "url": "https://mcp-ndc.sunrisehikers.io/mcp/sse",
+      "enabled": true
+    }
+  }
+}
+```
+
+### Local Development Server
+**Base URL**: `http://localhost:8080/mcp/sse`
+
+To use the local server, replace the `https://mcp-ndc.sunrisehikers.io/mcp/sse` URL in the instructions above with `http://localhost:8080/mcp/sse`.
+
 ## License
 
 AGPL
-
