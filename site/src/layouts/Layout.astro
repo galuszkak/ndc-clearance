@@ -4,9 +4,9 @@ interface Props {
     description?: string;
 }
 
-const { 
-    title, 
-    description = "Browse and explore IATA NDC (New Distribution Capability) XML schemas. Documentation for airline distribution standards." 
+const {
+    title,
+    description = "Browse and explore IATA NDC (New Distribution Capability) XML schemas. Documentation for airline distribution standards.",
 } = Astro.props;
 import "../styles/global.css";
 import PostHog from "../components/posthog.astro";
@@ -60,6 +60,7 @@ import PostHog from "../components/posthog.astro";
                 });
             })();
         </script>
+        <slot name="head" />
     </head>
     <body
         class="h-dvh flex flex-col bg-base-100 text-base-content overflow-hidden font-sans"

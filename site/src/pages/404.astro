@@ -1,0 +1,36 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Page Not Found | NDC Clearance">
+    <slot slot="head">
+        <meta http-equiv="refresh" content="10;url=/" />
+    </slot>
+    <div class="hero min-h-[60vh]">
+        <div class="hero-content text-center">
+            <div class="max-w-md">
+                <h1 class="text-9xl font-bold text-primary">404</h1>
+                <h2 class="text-4xl font-bold mt-4">Page Not Found</h2>
+                <p class="py-6 text-lg opacity-70">
+                    The page you are looking for does not exist or has been
+                    moved.
+                    <br />
+                    Redirecting to home in <span id="countdown">10</span> seconds...
+                </p>
+                <a href="/" class="btn btn-primary">Go Home Now</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        let seconds = 10;
+        const countdown = document.getElementById("countdown");
+        const interval = setInterval(() => {
+            seconds--;
+            if (countdown) countdown.innerText = seconds.toString();
+            if (seconds <= 0) {
+                clearInterval(interval);
+                window.location.href = "/";
+            }
+        }, 1000);
+    </script>
+</Layout>
