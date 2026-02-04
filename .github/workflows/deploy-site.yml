@@ -34,7 +34,7 @@ jobs:
       - name: Build site
         run: npm run build
         env:
-          PUBLIC_API_URL: https://bold-meadow-a9917qco.fra.unikraft.app
+          PUBLIC_API_URL: https://mcp-ndc.sunrisehikers.io
 
       - name: Deploy to Netlify
         run: |
