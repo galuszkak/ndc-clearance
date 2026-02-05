@@ -31,7 +31,7 @@ const openCodeConfig = `{
 <Layout title="IATA NDC Schema Browser - All Versions | NDC Clearance">
   <div class="hero min-h-[60vh] bg-base-200 rounded-box mb-12">
     <div
-      class="hero-content flex-col lg:flex-row-reverse gap-12 w-full max-w-6xl p-8"
+      class="hero-content flex-col-reverse xl:flex-row-reverse gap-12 w-full max-w-6xl p-8"
     >
       <!-- Right Column: MCP Server -->
       <div class="card flex-shrink-0 w-full max-w-lg shadow-2xl bg-base-100">
@@ -74,14 +74,14 @@ const openCodeConfig = `{
       </div>
 
       <!-- Left Column: Schema Browser -->
-      <div class="text-center lg:text-left">
+      <div class="text-center xl:text-left">
         <h1 class="text-5xl font-bold mb-4">NDC Clearance</h1>
         <p class="py-6 text-lg">
           The comprehensive reference for IATA NDC Schemas. Browse hierarchies,
           search definitions, and validate messages.
         </p>
         <div
-          class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+          class="flex flex-col sm:flex-row sm:flex-wrap gap-4 justify-center xl:justify-start relative z-10"
         >
           {
             latestVersion && (
@@ -94,7 +94,7 @@ const openCodeConfig = `{
             )
           }
           <a href="#versions" class="btn btn-ghost">View All Versions</a>
-          <a href="/diff" class="btn btn-outline">Compare Versions</a>
+          <a href="/diff" class="btn btn-outline">Compare Versions Tool</a>
         </div>
       </div>
     </div>
