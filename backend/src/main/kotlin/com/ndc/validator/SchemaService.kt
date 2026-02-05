@@ -4,8 +4,8 @@ import java.io.File
 
 data class SchemaRef(val version: String, val message: String, val path: File)
 
-class SchemaService {
-    private val schemaRoot: File = File(System.getenv("SCHEMA_ROOT") ?: "src/main/resources/schemas")
+class SchemaService(rootPath: File? = null) {
+    private val schemaRoot: File = rootPath ?: File(System.getenv("SCHEMA_ROOT") ?: "src/main/resources/schemas")
     private val schemas = mutableListOf<SchemaRef>()
 
     init {
@@ -57,5 +57,10 @@ class SchemaService {
     fun getSchemaFiles(version: String, message: String): List<File>? {
         val schemaRef = schemas.find { it.version == version && it.message == message } ?: return null
         return schemaRef.path.parentFile.listFiles()?.filter { it.isFile && (it.name.endsWith(".xsd") || it.name.endsWith(".xml")) }?.toList()
+    }
+
+    fun getSchemasForVersion(version: String): Map<String, File> {
+        return schemas.filter { it.version == version }
+            .associate { it.message to it.path }
     }
 }

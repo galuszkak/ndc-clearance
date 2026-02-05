@@ -1,0 +1,27 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SchemaDiffViewer from "../components/SchemaDiffViewer.svelte";
+import { getVersions } from "../utils/schemas";
+
+const versions = getVersions();
+---
+
+<Layout title="Schema Comparison | NDC Clearance">
+    <div class="container mx-auto px-4 py-8">
+        <div class="mb-8">
+            <div class="text-sm breadcrumbs mb-4">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li>Compare Versions</li>
+                </ul>
+            </div>
+            <h1 class="text-3xl font-bold">Schema Version Comparison</h1>
+            <p class="py-2 text-base-content/70">
+                Select two versions to view identifying differences in messages,
+                fields, and documentation.
+            </p>
+        </div>
+
+        <SchemaDiffViewer client:load allVersions={versions} />
+    </div>
+</Layout>
