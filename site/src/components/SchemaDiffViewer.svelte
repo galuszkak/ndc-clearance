@@ -139,21 +139,24 @@
                     <div class="collapse-content">
                         {#if msg.differences && msg.differences.length > 0}
                             <div class="overflow-x-auto">
-                                <table class="table table-zebra w-full">
+                                <table
+                                    class="table table-fixed table-zebra w-full"
+                                >
                                     <thead>
                                         <tr>
-                                            <th>Path</th>
-                                            <th>Type</th>
-                                            <th>Description</th>
+                                            <th class="w-1/2">Path</th>
+                                            <th class="w-32">Type</th>
+                                            <th class="w-1/2">Description</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {#each msg.differences as diff}
                                             <tr>
-                                                <td class="font-mono text-xs"
+                                                <td
+                                                    class="font-mono text-xs break-all align-top"
                                                     >{diff.path}</td
                                                 >
-                                                <td>
+                                                <td class="align-top">
                                                     <span
                                                         class={`badge badge-sm ${
                                                             diff.type ===
@@ -171,7 +174,7 @@
                                                         {diff.type}
                                                     </span>
                                                 </td>
-                                                <td class="text-sm">
+                                                <td class="text-sm align-top">
                                                     <div>
                                                         {diff.description}
                                                     </div>
