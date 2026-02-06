@@ -48,6 +48,80 @@
             loading = false;
         }
     }
+
+    function exportCSV() {
+        if (!diffResults) return;
+
+        const headers = [
+            "Message",
+            "Message Status",
+            "Path",
+            "Change Type",
+            "Description",
+            "Old Value",
+            "New Value",
+        ];
+
+        let csvContent = headers.join(",") + "\n";
+
+        diffResults.forEach((msg) => {
+            if (msg.differences && msg.differences.length > 0) {
+                msg.differences.forEach((diff) => {
+                    const row = [
+                        msg.messageName,
+                        msg.status,
+                        diff.path,
+                        diff.type,
+                        diff.description,
+                        diff.oldValue || "",
+                        diff.newValue || "",
+                    ].map((field) => {
+                        if (field === null || field === undefined) return "";
+                        const stringField = String(field);
+                        // Escape quotes and handle newlines (RFC 4180)
+                        if (
+                            stringField.includes(",") ||
+                            stringField.includes("\n") ||
+                            stringField.includes('"')
+                        ) {
+                            return `"${stringField.replace(/"/g, '""')}"`;
+                        }
+                        return stringField;
+                    });
+                    csvContent += row.join(",") + "\n";
+                });
+            } else {
+                // Include message even if no structural diffs
+                const row = [
+                    msg.messageName,
+                    msg.status,
+                    "",
+                    "",
+                    "No structural changes listed",
+                    "",
+                    "",
+                ];
+                csvContent += row.join(",") + "\n";
+            }
+        });
+
+        const blob = new Blob([csvContent], {
+            type: "text/csv;charset=utf-8;",
+        });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute(
+            "download",
+            `ndc_diff_${fromVersion}_${toVersion}.csv`,
+        );
+        link.style.visibility = "hidden";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
 </script>
 
 <div class="flex flex-col gap-6">
@@ -96,6 +170,12 @@
                     {/if}
                     Compare
                 </button>
+
+                {#if diffResults && diffResults.length > 0}
+                    <button class="btn btn-outline" on:click={exportCSV}>
+                        Export CSV
+                    </button>
+                {/if}
             </div>
             {#if error}
                 <div class="alert alert-error mt-4">
@@ -122,7 +202,7 @@
                 >
                     <input type="checkbox" />
                     <div
-                        class="collapse-title text-xl font-medium flex items-center gap-3"
+                        class="collapse-title text-xl font-medium flex flex-wrap items-center gap-3"
                     >
                         <span>{msg.messageName}</span>
                         {#if msg.status === "ADDED"}
@@ -137,6 +217,35 @@
                         {/if}
                     </div>
                     <div class="collapse-content">
+                        <!-- View Version Buttons -->
+                        <div class="flex gap-2 mb-4 mt-2">
+                            {#if msg.status === "ADDED"}
+                                <a
+                                    href={`/${toVersion}/${msg.messageName}`}
+                                    class="btn btn-sm btn-outline btn-success"
+                                    target="_blank">View {toVersion}</a
+                                >
+                            {:else if msg.status === "REMOVED"}
+                                <a
+                                    href={`/${fromVersion}/${msg.messageName}`}
+                                    class="btn btn-sm btn-outline btn-error"
+                                    target="_blank">View {fromVersion}</a
+                                >
+                            {:else if msg.status === "CHANGED"}
+                                <a
+                                    href={`/${fromVersion}/${msg.messageName}`}
+                                    class="btn btn-sm btn-outline btn-error"
+                                    target="_blank">View {fromVersion}</a
+                                >
+                                <span class="self-center opacity-30">→</span>
+                                <a
+                                    href={`/${toVersion}/${msg.messageName}`}
+                                    class="btn btn-sm btn-outline btn-success"
+                                    target="_blank">View {toVersion}</a
+                                >
+                            {/if}
+                        </div>
+
                         {#if msg.differences && msg.differences.length > 0}
                             <div class="overflow-x-auto">
                                 <table
