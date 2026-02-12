@@ -22,15 +22,23 @@ import Layout from "../layouts/Layout.astro";
         </div>
     </div>
     <script>
-        let seconds = 10;
-        const countdown = document.getElementById("countdown");
-        const interval = setInterval(() => {
-            seconds--;
-            if (countdown) countdown.innerText = seconds.toString();
-            if (seconds <= 0) {
-                clearInterval(interval);
-                window.location.href = "/";
-            }
-        }, 1000);
+        {
+            let seconds = 10;
+            const countdown = document.getElementById("countdown");
+            const interval = setInterval(() => {
+                seconds--;
+                if (countdown) countdown.innerText = seconds.toString();
+                if (seconds <= 0) {
+                    clearInterval(interval);
+                    window.location.href = "/";
+                }
+            }, 1000);
+            // Clean up if user navigates away before redirect
+            document.addEventListener(
+                "astro:before-preparation",
+                () => clearInterval(interval),
+                { once: true },
+            );
+        }
     </script>
 </Layout>

@@ -1,15 +1,21 @@
 <script lang="ts">
-    export let currentVersion: string;
-    export let currentMessage: string;
-    export let allVersions: string[];
+    import { IATA_PREFIX } from "../utils/constants";
+
+    let {
+        currentVersion,
+        currentMessage,
+        allVersions,
+    }: {
+        currentVersion: string;
+        currentMessage: string;
+        allVersions: string[];
+    } = $props();
 
     async function handleVersionChange(event: Event) {
         const newVersion = (event.target as HTMLSelectElement).value;
         if (newVersion === currentVersion) return;
 
-        // Check if message exists in new version
-        // The structure is /schemas/[version]/[message]/IATA_[message].xsd
-        const targetUrl = `/schemas/${newVersion}/${currentMessage}/IATA_${currentMessage}.xsd`;
+        const targetUrl = `/schemas/${newVersion}/${currentMessage}/${IATA_PREFIX}${currentMessage}.xsd`;
 
         try {
             const res = await fetch(targetUrl, { method: "HEAD" });
@@ -21,8 +27,7 @@
                 );
                 window.location.href = `/`;
             }
-        } catch (e) {
-            console.error(e);
+        } catch {
             window.location.href = `/`;
         }
     }
@@ -31,9 +36,9 @@
 <select
     class="select select-bordered select-sm w-full max-w-xs"
     value={currentVersion}
-    on:change={handleVersionChange}
+    onchange={handleVersionChange}
 >
-    {#each allVersions as v}
+    {#each allVersions as v (v)}
         <option value={v}>Version {v}</option>
     {/each}
 </select>

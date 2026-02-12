@@ -31,3 +31,4 @@ __pycache__/
 *$py.class
 
 local/*
+.claude

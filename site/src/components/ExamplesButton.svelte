@@ -1,19 +1,12 @@
 <script lang="ts">
     import ExamplesModal from "./ExamplesModal.svelte";
+    import { MODAL_IDS } from "../utils/constants";
+    import { openModal } from "../utils/modal";
 
-    let { examples = [], message = "", version = "" } = $props();
-
-    function openModal() {
-        const modal = document.getElementById(
-            "examples_modal",
-        ) as HTMLDialogElement;
-        if (modal) {
-            modal.showModal();
-        }
-    }
+    let { examples = [], message = "" } = $props();
 </script>
 
-<button class="btn btn-secondary btn-sm w-full sm:w-auto" onclick={openModal}>
+<button class="btn btn-secondary btn-sm w-full sm:w-auto" onclick={() => openModal(MODAL_IDS.EXAMPLES)} aria-label={`View examples (${examples.length})`}>
     <svg
         xmlns="http://www.w3.org/2000/svg"
         class="h-4 w-4 mr-1"
@@ -34,4 +27,4 @@
     </div>
 </button>
 
-<ExamplesModal {examples} {message} {version} />
+<ExamplesModal {examples} {message} />

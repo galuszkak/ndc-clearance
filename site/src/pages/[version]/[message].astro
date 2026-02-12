@@ -1,17 +1,22 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import SchemaExplorer from "../../components/SchemaExplorer.svelte";
-import VersionSelector from "../../components/VersionSelector.svelte";
 import StructureOverview from "../../components/StructureOverview.svelte";
 import MessageSidebar from "../../components/MessageSidebar.svelte";
 import { getVersions, getMessages } from "../../utils/schemas";
 import { getSchemaDescription } from "../../utils/schema-description";
 import ExamplesButton from "../../components/ExamplesButton.svelte";
+import ValidateModal from "../../components/ValidateModal.svelte";
+import { API_URL } from "../../utils/config";
+import { MODAL_IDS } from "../../utils/constants";
+import type { SchemaFileRef, WorkedExamplesMap } from "../../utils/types";
 import workedExamples from "../../data/worked_examples.json";
+import fs from "node:fs";
+import path from "node:path";
 
 export function getStaticPaths() {
     const versions = getVersions();
-    const paths: any[] = [];
+    const paths: { params: { version: string; message: string }; props: { versions: string[]; messages: string[]; allVersions: string[] } }[] = [];
 
     versions.forEach((version) => {
         const messages = getMessages(version);
@@ -26,10 +31,7 @@ export function getStaticPaths() {
 }
 
 const { version, message } = Astro.params;
-const { versions, messages, allVersions } = Astro.props;
-
-import fs from "node:fs";
-import path from "node:path";
+const { messages, allVersions } = Astro.props;
 
 const schemaDir = path.join(
     process.cwd(),
@@ -38,7 +40,7 @@ const schemaDir = path.join(
     version,
     message,
 );
-let schemaFiles = [];
+let schemaFiles: SchemaFileRef[] = [];
 
 // Fallback if directory doesn't exist (e.g. detailed flattened schemas not generated yet)
 // But we expect them to be there.
@@ -61,13 +63,12 @@ const mainSchemaFile =
     schemaFiles.find((f) => f.name === `IATA_${message}.xsd`)?.url ||
     `/schemas/${version}/${message}.xsd`; // Fallback
 
-const downloadFilename = `${message}_${version}.xsd`;
 const cleanMessageName = message.replace("IATA_", "");
 const description = getSchemaDescription(version, message);
 
 const examples =
-    (workedExamples as any)[message] ||
-    (workedExamples as any)[`IATA_${message}`] ||
+    (workedExamples as WorkedExamplesMap)[message] ||
+    (workedExamples as WorkedExamplesMap)[`IATA_${message}`] ||
     [];
 ---
 
@@ -107,26 +108,25 @@ const examples =
                             client:load
                             examples={examples}
                             message={message}
-                            version={version}
                         />
                     )
                 }
                 <button
-                    id="download_btn"
                     class="btn btn-primary btn-sm w-full sm:w-auto"
+                    onclick={`document.getElementById('${MODAL_IDS.DOWNLOAD}').showModal()`}
                 >
                     Download Schema
                 </button>
-                <button
-                    id="validate_modal_trigger"
-                    class="btn btn-secondary btn-sm w-full sm:w-auto"
-                >
-                    Validate Message
-                </button>
+                <ValidateModal
+                    client:load
+                    version={version}
+                    message={message}
+                    apiBaseUrl={API_URL}
+                />
             </div>
         </div>
 
-        <dialog id="download_modal" class="modal">
+        <dialog id={MODAL_IDS.DOWNLOAD} class="modal">
             <div class="modal-box">
                 <h3 class="font-bold text-lg mb-4">Download Schema Files</h3>
                 <div class="flex flex-col gap-2 max-h-96 overflow-y-auto">
@@ -171,127 +171,6 @@ const examples =
                 <button>close</button>
             </form>
         </dialog>
-
-        <dialog id="validate_modal" class="modal">
-            <div class="modal-box w-11/12 max-w-5xl h-[80vh] flex flex-col">
-                <h3 class="font-bold text-lg mb-4">Validate XML Message</h3>
-                <div class="flex-1 flex flex-col gap-4 overflow-hidden">
-                    <div class="flex-1 relative">
-                        <textarea
-                            id="xml_input"
-                            class="textarea textarea-bordered w-full h-full font-mono text-xs"
-                            placeholder="Paste your XML message here..."
-                        ></textarea>
-                    </div>
-                    <div
-                        id="validation_result"
-                        class="hidden p-4 rounded-lg overflow-y-auto max-h-48 border"
-                    >
-                        <!-- Result content -->
-                    </div>
-                </div>
-                <div class="modal-action flex justify-between items-center">
-                    <div class="text-xs opacity-50">
-                        Validating against schema: {version}/{message}
-                    </div>
-                    <div class="flex gap-2">
-                        <button id="validate_action_btn" class="btn btn-primary"
-                            >Validate</button
-                        >
-                        <form method="dialog">
-                            <button class="btn">Close</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <form method="dialog" class="modal-backdrop">
-                <button>close</button>
-            </form>
-        </dialog>
-
-        <script
-            define:vars={{
-                version,
-                message,
-                version_apiUrl: import.meta.env.PUBLIC_API_URL,
-            }}
-        >
-            // Modal triggers
-            document
-                .getElementById("download_btn")
-                ?.addEventListener("click", () => {
-                    document.getElementById("download_modal").showModal();
-                });
-            document
-                .getElementById("validate_modal_trigger")
-                ?.addEventListener("click", () => {
-                    document.getElementById("validate_modal").showModal();
-                });
-
-            // Validation logic
-            document
-                .getElementById("validate_action_btn")
-                ?.addEventListener("click", async () => {
-                    const input = document.getElementById("xml_input").value;
-                    const resultDiv =
-                        document.getElementById("validation_result");
-
-                    if (!input.trim()) return;
-
-                    resultDiv.className =
-                        "p-4 rounded-lg overflow-y-auto max-h-48 border bg-base-200 animate-pulse";
-                    resultDiv.innerHTML = "Validating...";
-                    resultDiv.classList.remove("hidden");
-
-                    try {
-                        // Use standard fetch without needing external env vars if problematic,
-                        // or hardcode fallback if import.meta.env fails in this context (though define:vars should be fine)
-                        // Actually, define:vars doesn't pass import.meta.env.
-                        // We can pass the API_URL via define:vars if needed, or just let it fall back.
-                        // Use environment variable for API URL, fallback to localhost for development
-                        const apiUrl =
-                            version_apiUrl || "http://localhost:8080";
-
-                        const response = await fetch(`${apiUrl}/validate`, {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({
-                                version,
-                                message,
-                                xml: input,
-                            }),
-                        });
-
-                        if (!response.ok) {
-                            const errorText = await response.text();
-                            throw new Error(
-                                `Validation failed: ${response.status} ${response.statusText}`,
-                            );
-                        }
-
-                        const data = await response.json();
-                        let errors = data.errors || [];
-
-                        // Handle case where errors might be just a string or different format
-                        if (typeof errors === "string") errors = [errors];
-
-                        if (data.valid) {
-                            resultDiv.className =
-                                "p-4 rounded-lg overflow-y-auto max-h-48 border bg-success/10 border-success text-success-content";
-                            resultDiv.innerHTML = `<div class="flex items-center gap-2 font-bold"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg> Valid Message</div>`;
-                        } else {
-                            resultDiv.className =
-                                "p-4 rounded-lg overflow-y-auto max-h-48 border bg-error/10 border-error text-error-content font-mono text-xs";
-                            resultDiv.innerHTML = `<div class="font-bold mb-2">Validation Errors:</div><ul class="list-disc pl-4">${errors.map((e) => `<li>${e}</li>`).join("")}</ul>`;
-                        }
-                    } catch (e) {
-                        console.error(e);
-                        resultDiv.className =
-                            "p-4 rounded-lg overflow-y-auto max-h-48 border bg-error/10 border-error text-error-content";
-                        resultDiv.innerHTML = `Error: ${e.message}. Ensure backend is running at http://localhost:8080.`;
-                    }
-                });
-        </script>
 
         <SchemaExplorer
             client:only="svelte"

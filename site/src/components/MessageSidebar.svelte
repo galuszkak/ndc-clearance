@@ -1,18 +1,30 @@
 <script lang="ts">
     import VersionSelector from "./VersionSelector.svelte";
+    import { IATA_PREFIX } from "../utils/constants";
 
-    export let messages: string[] = [];
-    export let currentMessage: string = "";
-    export let version: string = "";
-    export let allVersions: string[] = [];
+    let {
+        messages = [],
+        currentMessage = "",
+        version = "",
+        allVersions = [],
+    }: {
+        messages?: string[];
+        currentMessage?: string;
+        version?: string;
+        allVersions?: string[];
+    } = $props();
 
-    let query = "";
-    $: filteredMessages = query
-        ? messages.filter((m) => m.toLowerCase().includes(query.toLowerCase()))
-        : messages;
+    let query = $state("");
+    let filteredMessages = $derived(
+        query
+            ? messages.filter((m) =>
+                  m.toLowerCase().includes(query.toLowerCase()),
+              )
+            : messages,
+    );
 
     function getShortName(name: string) {
-        return name.replace("IATA_", "");
+        return name.replace(IATA_PREFIX, "");
     }
 
     let filterInput: HTMLInputElement;
@@ -32,7 +44,7 @@
     }
 </script>
 
-<svelte:window on:keydown={handleKeyDown} />
+<svelte:window onkeydown={handleKeyDown} />
 
 <div class="flex flex-col h-full overflow-hidden">
     <div
@@ -79,7 +91,7 @@
             {#if query}
                 <button
                     class="absolute inset-y-0 right-2 flex items-center text-base-content/40 hover:text-base-content"
-                    on:click={() => (query = "")}
+                    onclick={() => (query = "")}
                     aria-label="Clear filter"
                 >
                     <svg
@@ -102,7 +114,7 @@
     </div>
 
     <ul class="menu menu-sm p-0 overflow-y-auto flex-1 flex-nowrap w-full">
-        {#each filteredMessages as msg}
+        {#each filteredMessages as msg (msg)}
             <li>
                 <a
                     href={`/${version}/${msg}`}

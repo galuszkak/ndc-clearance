@@ -1,0 +1,6 @@
+dist/
+node_modules/
+.astro/
+public/schemas/
+public/worked_examples/
+src/components/posthog.astro

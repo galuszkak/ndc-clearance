@@ -1,26 +1,24 @@
 <script lang="ts">
-    import hljs from "highlight.js/lib/core";
-    import xml from "highlight.js/lib/languages/xml";
+    import { MODAL_IDS } from "../utils/constants";
+    import type { WorkedExample } from "../utils/types";
+    import { hljs } from "../utils/highlight";
     import { tick } from "svelte";
 
-    hljs.registerLanguage("xml", xml);
-
     // Svelte 5 runes
-    let { examples = [], message = "", version = "" } = $props();
+    let {
+        examples = [],
+        message = "",
+    }: {
+        examples: WorkedExample[];
+        message: string;
+    } = $props();
 
-    $effect(() => {
-        console.log("ExamplesModal received examples:", examples);
-        examples.forEach((ex) => {
-            console.log(`Title: "${ex.title}", URL: "${ex.url}"`);
-        });
-    });
-
-    let selectedExample = $state(null);
+    let selectedExample: WorkedExample | null = $state(null);
     let xmlContent = $state("");
     let loading = $state(false);
     let codeElement = $state<HTMLElement | null>(null);
 
-    async function previewExample(example: any) {
+    async function previewExample(example: WorkedExample) {
         selectedExample = example;
         loading = true;
         xmlContent = "";
@@ -28,19 +26,13 @@
             // Add a cache-busting param to avoid 404 if file was just created
             const response = await fetch(`${example.path}?t=${Date.now()}`);
             if (!response.ok) {
-                console.error(
-                    "Failed to fetch example:",
-                    example.path,
-                    response.status,
-                );
                 xmlContent = `Error ${response.status}: Failed to load ${example.path}`;
             } else {
                 xmlContent = await response.text();
                 // console.log("Loaded XML content length:", xmlContent.length);
             }
-        } catch (e: any) {
-            console.error("Fetch error:", e);
-            xmlContent = "Error loading XML content: " + e.message;
+        } catch (e: unknown) {
+            xmlContent = "Error loading XML content: " + (e instanceof Error ? e.message : String(e));
         } finally {
             loading = false;
             // Wait for DOM update then highlight
@@ -52,8 +44,8 @@
                     codeElement.removeAttribute("data-highlighted");
                     codeElement.className = "language-xml";
                     hljs.highlightElement(codeElement);
-                } catch (err) {
-                    console.error("Highlighting error:", err);
+                } catch {
+                    // Highlight failure is non-critical; raw XML is still shown
                 }
             }
         }
@@ -65,7 +57,7 @@
     }
 </script>
 
-<dialog id="examples_modal" class="modal">
+<dialog id={MODAL_IDS.EXAMPLES} class="modal">
     <div class="modal-box w-11/12 max-w-5xl h-[80vh] flex flex-col p-6">
         <div class="flex justify-between items-center mb-6">
             <h3 class="font-bold text-xl flex items-center gap-2">
@@ -138,7 +130,7 @@
                 {/if}
             {:else}
                 <div class="grid gap-4">
-                    {#each examples as example}
+                    {#each examples as example (example.path)}
                         <div
                             class="group card bg-base-200 hover:bg-base-300 transition-all duration-300 border border-base-content/5 shadow-sm hover:shadow-md"
                         >

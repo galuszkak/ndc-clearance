@@ -1,39 +1,30 @@
 <script lang="ts">
-    export let allVersions: string[];
+    import { API_URL } from "../utils/config";
+    import type { MessageDiff } from "../utils/types";
 
-    let fromVersion = allVersions.length > 1 ? allVersions[1] : allVersions[0];
-    let toVersion = allVersions[0];
+    let { allVersions }: { allVersions: string[] } = $props();
 
-    interface DiffItem {
-        path: string;
-        type: "ADDED" | "REMOVED" | "MODIFIED" | "DOC_CHANGED";
-        description: string;
-        oldValue?: string;
-        newValue?: string;
-    }
+    // allVersions is static from Astro SSR — initial-value capture is intentional
+    const versions = [...allVersions];
+    let fromVersion = $state(
+        versions.length > 1 ? versions[1] : versions[0],
+    );
+    let toVersion = $state(versions[0]);
 
-    interface MessageDiff {
-        messageName: string;
-        differences: DiffItem[];
-        status: "ADDED" | "REMOVED" | "CHANGED" | "UNCHANGED";
-    }
-
-    let diffResults: MessageDiff[] | null = null;
-    let loading = false;
-    let error: string | null = null;
+    let diffResults: MessageDiff[] | null = $state(null);
+    let loading = $state(false);
+    let error: string | null = $state(null);
+    let expandedMessages: Record<string, boolean> = $state({});
 
     async function handleCompare() {
         loading = true;
         error = null;
         diffResults = null;
+        expandedMessages = {};
 
         try {
-            // Assuming backend is running on localhost:8080 for dev.
-            // In a real setup, this might need an environment variable.
-            const apiUrl =
-                import.meta.env.PUBLIC_API_URL || "http://localhost:8080";
             const res = await fetch(
-                `${apiUrl}/api/diff?from=${fromVersion}&to=${toVersion}`,
+                `${API_URL}/api/diff?from=${fromVersion}&to=${toVersion}`,
             );
 
             if (!res.ok) {
@@ -41,12 +32,28 @@
                 throw new Error(text || res.statusText);
             }
 
-            diffResults = await res.json();
-        } catch (e: any) {
-            error = e.message;
+            const data = await res.json();
+
+            if (!Array.isArray(data)) {
+                throw new Error("Invalid API response: expected an array");
+            }
+
+            diffResults = data as MessageDiff[];
+        } catch (e: unknown) {
+            error = e instanceof Error ? e.message : String(e);
         } finally {
             loading = false;
         }
+    }
+
+    /** Escape a field value for CSV output per RFC 4180. */
+    function escapeCsvField(field: string | null | undefined): string {
+        if (field === null || field === undefined) return "";
+        const s = String(field);
+        if (s.includes(",") || s.includes("\n") || s.includes('"')) {
+            return `"${s.replace(/"/g, '""')}"`;
+        }
+        return s;
     }
 
     function exportCSV() {
@@ -75,23 +82,10 @@
                         diff.description,
                         diff.oldValue || "",
                         diff.newValue || "",
-                    ].map((field) => {
-                        if (field === null || field === undefined) return "";
-                        const stringField = String(field);
-                        // Escape quotes and handle newlines (RFC 4180)
-                        if (
-                            stringField.includes(",") ||
-                            stringField.includes("\n") ||
-                            stringField.includes('"')
-                        ) {
-                            return `"${stringField.replace(/"/g, '""')}"`;
-                        }
-                        return stringField;
-                    });
+                    ].map(escapeCsvField);
                     csvContent += row.join(",") + "\n";
                 });
             } else {
-                // Include message even if no structural diffs
                 const row = [
                     msg.messageName,
                     msg.status,
@@ -100,7 +94,7 @@
                     "No structural changes listed",
                     "",
                     "",
-                ];
+                ].map(escapeCsvField);
                 csvContent += row.join(",") + "\n";
             }
         });
@@ -119,8 +113,7 @@
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        link.click();
-        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
     }
 </script>
 
@@ -139,7 +132,7 @@
                         class="select select-bordered"
                         bind:value={fromVersion}
                     >
-                        {#each allVersions as v}
+                        {#each allVersions as v (v)}
                             <option value={v}>{v}</option>
                         {/each}
                     </select>
@@ -154,7 +147,7 @@
                         class="select select-bordered"
                         bind:value={toVersion}
                     >
-                        {#each allVersions as v}
+                        {#each allVersions as v (v)}
                             <option value={v}>{v}</option>
                         {/each}
                     </select>
@@ -162,7 +155,7 @@
 
                 <button
                     class="btn btn-primary"
-                    on:click={handleCompare}
+                    onclick={handleCompare}
                     disabled={loading || !fromVersion || !toVersion}
                 >
                     {#if loading}
@@ -172,7 +165,7 @@
                 </button>
 
                 {#if diffResults && diffResults.length > 0}
-                    <button class="btn btn-outline" on:click={exportCSV}>
+                    <button class="btn btn-outline" onclick={exportCSV}>
                         Export CSV
                     </button>
                 {/if}
@@ -196,14 +189,33 @@
                 </p>
             {/if}
 
-            {#each diffResults as msg}
+            {#each diffResults as msg (msg.messageName)}
                 <div
-                    class="collapse collapse-arrow bg-base-100 border border-base-200 rounded-box"
+                    class="bg-base-100 border border-base-200 rounded-box overflow-hidden"
                 >
-                    <input type="checkbox" />
-                    <div
-                        class="collapse-title text-xl font-medium flex flex-wrap items-center gap-3"
+                    <button
+                        class="w-full text-left px-6 py-4 text-xl font-medium flex flex-wrap items-center gap-3 cursor-pointer hover:bg-base-200/50 transition-colors"
+                        aria-expanded={!!expandedMessages[msg.messageName]}
+                        aria-label={`Toggle ${msg.messageName} details`}
+                        onclick={() => {
+                            expandedMessages[msg.messageName] =
+                                !expandedMessages[msg.messageName];
+                        }}
                     >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-4 w-4 transition-transform flex-none {expandedMessages[msg.messageName]
+                                ? 'rotate-90'
+                                : ''}"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                clip-rule="evenodd"
+                            />
+                        </svg>
                         <span>{msg.messageName}</span>
                         {#if msg.status === "ADDED"}
                             <div class="badge badge-success gap-2">ADDED</div>
@@ -215,110 +227,117 @@
                                 >({msg.differences.length} changes)</span
                             >
                         {/if}
-                    </div>
-                    <div class="collapse-content">
-                        <!-- View Version Buttons -->
-                        <div class="flex gap-2 mb-4 mt-2">
-                            {#if msg.status === "ADDED"}
-                                <a
-                                    href={`/${toVersion}/${msg.messageName}`}
-                                    class="btn btn-sm btn-outline btn-success"
-                                    target="_blank">View {toVersion}</a
-                                >
-                            {:else if msg.status === "REMOVED"}
-                                <a
-                                    href={`/${fromVersion}/${msg.messageName}`}
-                                    class="btn btn-sm btn-outline btn-error"
-                                    target="_blank">View {fromVersion}</a
-                                >
-                            {:else if msg.status === "CHANGED"}
-                                <a
-                                    href={`/${fromVersion}/${msg.messageName}`}
-                                    class="btn btn-sm btn-outline btn-error"
-                                    target="_blank">View {fromVersion}</a
-                                >
-                                <span class="self-center opacity-30">→</span>
-                                <a
-                                    href={`/${toVersion}/${msg.messageName}`}
-                                    class="btn btn-sm btn-outline btn-success"
-                                    target="_blank">View {toVersion}</a
-                                >
+                    </button>
+                    {#if expandedMessages[msg.messageName]}
+                        <div class="px-6 pb-4">
+                            <!-- View Version Buttons -->
+                            <div class="flex gap-2 mb-4 mt-2">
+                                {#if msg.status === "ADDED"}
+                                    <a
+                                        href={`/${toVersion}/${msg.messageName}`}
+                                        class="btn btn-sm btn-outline btn-success"
+                                        target="_blank">View {toVersion}</a
+                                    >
+                                {:else if msg.status === "REMOVED"}
+                                    <a
+                                        href={`/${fromVersion}/${msg.messageName}`}
+                                        class="btn btn-sm btn-outline btn-error"
+                                        target="_blank">View {fromVersion}</a
+                                    >
+                                {:else if msg.status === "CHANGED"}
+                                    <a
+                                        href={`/${fromVersion}/${msg.messageName}`}
+                                        class="btn btn-sm btn-outline btn-error"
+                                        target="_blank">View {fromVersion}</a
+                                    >
+                                    <span class="self-center opacity-30">→</span
+                                    >
+                                    <a
+                                        href={`/${toVersion}/${msg.messageName}`}
+                                        class="btn btn-sm btn-outline btn-success"
+                                        target="_blank">View {toVersion}</a
+                                    >
+                                {/if}
+                            </div>
+
+                            {#if msg.differences && msg.differences.length > 0}
+                                <div class="overflow-x-auto">
+                                    <table
+                                        class="table table-fixed table-zebra w-full"
+                                    >
+                                        <thead>
+                                            <tr>
+                                                <th class="w-1/2">Path</th>
+                                                <th class="w-32">Type</th>
+                                                <th class="w-1/2"
+                                                    >Description</th
+                                                >
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {#each msg.differences as diff (diff.path + diff.type)}
+                                                <tr>
+                                                    <td
+                                                        class="font-mono text-xs break-all align-top"
+                                                        >{diff.path}</td
+                                                    >
+                                                    <td class="align-top">
+                                                        <span
+                                                            class={`badge badge-sm ${
+                                                                diff.type ===
+                                                                "ADDED"
+                                                                    ? "badge-success"
+                                                                    : diff.type ===
+                                                                        "REMOVED"
+                                                                      ? "badge-error"
+                                                                      : diff.type ===
+                                                                          "MODIFIED"
+                                                                        ? "badge-warning"
+                                                                        : "badge-info"
+                                                            }`}
+                                                        >
+                                                            {diff.type}
+                                                        </span>
+                                                    </td>
+                                                    <td
+                                                        class="text-sm align-top"
+                                                    >
+                                                        <div>
+                                                            {diff.description}
+                                                        </div>
+                                                        {#if diff.oldValue || diff.newValue}
+                                                            <div
+                                                                class="grid grid-cols-2 gap-2 mt-1 text-xs bg-base-200 p-2 rounded"
+                                                            >
+                                                                {#if diff.oldValue}
+                                                                    <div
+                                                                        class="text-error break-all"
+                                                                    >
+                                                                        - {diff.oldValue}
+                                                                    </div>
+                                                                {/if}
+                                                                {#if diff.newValue}
+                                                                    <div
+                                                                        class="text-success break-all"
+                                                                    >
+                                                                        + {diff.newValue}
+                                                                    </div>
+                                                                {/if}
+                                                            </div>
+                                                        {/if}
+                                                    </td>
+                                                </tr>
+                                            {/each}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {:else}
+                                <p class="py-4 opacity-70">
+                                    No structural changes detected.
+                                </p>
                             {/if}
                         </div>
-
-                        {#if msg.differences && msg.differences.length > 0}
-                            <div class="overflow-x-auto">
-                                <table
-                                    class="table table-fixed table-zebra w-full"
-                                >
-                                    <thead>
-                                        <tr>
-                                            <th class="w-1/2">Path</th>
-                                            <th class="w-32">Type</th>
-                                            <th class="w-1/2">Description</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {#each msg.differences as diff}
-                                            <tr>
-                                                <td
-                                                    class="font-mono text-xs break-all align-top"
-                                                    >{diff.path}</td
-                                                >
-                                                <td class="align-top">
-                                                    <span
-                                                        class={`badge badge-sm ${
-                                                            diff.type ===
-                                                            "ADDED"
-                                                                ? "badge-success"
-                                                                : diff.type ===
-                                                                    "REMOVED"
-                                                                  ? "badge-error"
-                                                                  : diff.type ===
-                                                                      "MODIFIED"
-                                                                    ? "badge-warning"
-                                                                    : "badge-info"
-                                                        }`}
-                                                    >
-                                                        {diff.type}
-                                                    </span>
-                                                </td>
-                                                <td class="text-sm align-top">
-                                                    <div>
-                                                        {diff.description}
-                                                    </div>
-                                                    {#if diff.oldValue || diff.newValue}
-                                                        <div
-                                                            class="grid grid-cols-2 gap-2 mt-1 text-xs bg-base-200 p-2 rounded"
-                                                        >
-                                                            {#if diff.oldValue}
-                                                                <div
-                                                                    class="text-error break-all"
-                                                                >
-                                                                    - {diff.oldValue}
-                                                                </div>
-                                                            {/if}
-                                                            {#if diff.newValue}
-                                                                <div
-                                                                    class="text-success break-all"
-                                                                >
-                                                                    + {diff.newValue}
-                                                                </div>
-                                                            {/if}
-                                                        </div>
-                                                    {/if}
-                                                </td>
-                                            </tr>
-                                        {/each}
-                                    </tbody>
-                                </table>
-                            </div>
-                        {:else}
-                            <p class="py-4 opacity-70">
-                                No structural changes detected.
-                            </p>
-                        {/if}
-                    </div>
+                    {/if}
                 </div>
             {/each}
         </div>

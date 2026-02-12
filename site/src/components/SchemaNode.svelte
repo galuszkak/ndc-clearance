@@ -1,34 +1,80 @@
 <script lang="ts">
-    export let node: Element;
-    export let doc: XMLDocument;
-    export let depth = 0;
-    export let path = "";
-    export let definitions: Record<string, Element> = {}; // Map of name -> definition node
-    export let searchQuery = "";
-    export let targetPath = "";
-    export let treeAction: "expand" | "collapse" | "" = "";
-    export let treeActionVersion = 0;
-    export let onmatch: (() => void) | undefined = undefined;
-    export let onselect:
-        | ((detail: {
-              node: Element;
-              path: string;
-              element?: HTMLElement;
-          }) => void)
-        | undefined = undefined;
+    import { untrack } from "svelte";
+    import SchemaNode from "./SchemaNode.svelte";
+    import {
+        getDocumentation,
+        collectElementsForTree,
+        checkExpandability,
+        matchesSearch,
+        stripNamespacePrefix,
+    } from "../utils/schema-helpers";
+    import { DEFAULT_EXPAND_DEPTH, SEARCH } from "../utils/constants";
+    import type { NodeSelectDetail } from "../utils/types";
 
-    let expanded = depth < 2; // Auto-expand top levels
-    let children: Element[] = [];
-    let typeDefinition: Element | null = null;
-    let validation = "";
-    let documentation = "";
-    let hasResolved = false;
+    let {
+        node,
+        doc,
+        depth = 0,
+        path = "",
+        definitions = {},
+        searchQuery = "",
+        targetPath = "",
+        treeAction = "",
+        treeActionVersion = 0,
+        onmatch,
+        onselect,
+    }: {
+        node: Element;
+        doc: XMLDocument;
+        depth?: number;
+        path?: string;
+        definitions?: Record<string, Element>;
+        searchQuery?: string;
+        targetPath?: string;
+        treeAction?: "expand" | "collapse" | "";
+        treeActionVersion?: number;
+        onmatch?: () => void;
+        onselect?: (detail: NodeSelectDetail) => void;
+    } = $props();
 
-    // Deterministic Expandability Check
-    // We check if the node has a type that is likely complex, or has specific children
-    let isExpandable = false;
-    $: {
-        // Re-evaluate if node changes (unlikely) or on init
+    let expanded = $state((() => depth < DEFAULT_EXPAND_DEPTH)());
+    let children: Element[] = $state([]);
+    let typeDefinition: Element | null = $state(null);
+    let hasResolved = $state(false);
+    let elementRef: HTMLElement | undefined = $state(undefined);
+    let isFlashed = $state(false);
+    let appliedActionVersion = $state(-1);
+
+    // Derived from node prop
+    let name = $derived.by(() => {
+        const raw =
+            node.getAttribute("name") ||
+            node.getAttribute("ref") ||
+            "Anonymous";
+        return stripNamespacePrefix(raw) || raw;
+    });
+
+    let typeNameOverride = $state<string | null>(null);
+    let typeName = $derived(
+        typeNameOverride ?? stripNamespacePrefix(node.getAttribute("type")),
+    );
+
+    let minOccurs = $derived(node.getAttribute("minOccurs") || "1");
+    let maxOccurs = $derived(node.getAttribute("maxOccurs") || "1");
+
+    let documentation = $derived(getDocumentation(node));
+
+    // Search match (derived from props)
+    let searchMatch = $derived(matchesSearch(name, documentation, searchQuery));
+    let nameMatch = $derived(searchMatch.nameMatch);
+    let docMatch = $derived(searchMatch.docMatch);
+    let isMatch = $derived(nameMatch || docMatch);
+
+    // Expandability (derived, not effect — avoids write-loop)
+    let isExpandable = $derived.by(() => {
+        if (hasResolved) {
+            return children.length > 0;
+        }
         const typeAttr = node.getAttribute("type");
         const refAttr = node.getAttribute("ref");
         const hasComplexChildren = Array.from(node.children).some((c) =>
@@ -41,174 +87,40 @@
                 "complexContent",
             ].includes(c.localName),
         );
-
-        // Initial guess
         const basicExpandable = !!(typeAttr || refAttr || hasComplexChildren);
-
-        if (basicExpandable) {
-            // Perform deeper check against definitions
-            isExpandable = checkExpandability(node, definitions);
-        } else {
-            isExpandable = false;
-        }
-    }
-
-    // Helper to peek if a node results in children
-    function checkExpandability(
-        root: Element,
-        defs: Record<string, Element>,
-        visited = new Set<string>(),
-    ): boolean {
-        let typeName = root.getAttribute("type");
-        if (typeName && typeName.includes(":"))
-            typeName = typeName.split(":")[1];
-
-        // 1. Check Ref
-        if (root.getAttribute("ref")) {
-            const refName = root.getAttribute("ref")!.split(":").pop()!;
-            // Avoid infinite loops if recursive
-            if (visited.has(refName)) return true; // Assume expandable if recursion
-            visited.add(refName);
-
-            const distinct = defs[`element:${refName}`];
-            if (distinct) return checkExpandability(distinct, defs, visited);
-        }
-
-        // 2. Check Type Definition
-        if (typeName) {
-            if (defs[`simpleType:${typeName}`]) return false;
-            const complex = defs[`complexType:${typeName}`];
-            if (complex) return hasElementChildren(complex, defs);
-        }
-
-        // 3. Inline Complex
-        const inline = Array.from(root.children).find(
-            (c) => c.localName === "complexType",
-        );
-        if (inline) return hasElementChildren(inline, defs);
-
-        return false;
-    }
-
-    function hasElementChildren(
-        root: Element,
-        defs: Record<string, Element>,
-    ): boolean {
-        // BFS/DFS to find first 'element'
-        // We don't need full collection, just boolean
-        const q = [root];
-        let limit = 0;
-        while (q.length > 0 && limit < 50) {
-            // Safety limit
-            const curr = q.shift()!;
-            limit++;
-
-            for (const child of Array.from(curr.children)) {
-                if (child.localName === "element") return true;
-                if (["sequence", "choice", "all"].includes(child.localName)) {
-                    q.push(child);
-                } else if (child.localName === "complexContent") {
-                    for (const cc of Array.from(child.children)) {
-                        if (
-                            cc.localName === "extension" ||
-                            cc.localName === "restriction"
-                        ) {
-                            // Check base
-                            const base = cc
-                                .getAttribute("base")
-                                ?.split(":")
-                                .pop();
-                            if (base) {
-                                // If base has children, we have children
-                                if (
-                                    defs[`complexType:${base}`] &&
-                                    hasElementChildren(
-                                        defs[`complexType:${base}`],
-                                        defs,
-                                    )
-                                )
-                                    return true;
-                            }
-                            q.push(cc);
-                        }
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    $: if (hasResolved) {
-        isExpandable = children.length > 0;
-    }
-
-    let elementRef: HTMLElement;
-    let isFlashed = false;
-
-    // Extract basic info
-    let name =
-        node.getAttribute("name") || node.getAttribute("ref") || "Anonymous";
-    if (name.includes(":")) name = name.split(":")[1]; // distinct prefix
-
-    let typeName = node.getAttribute("type");
-    if (typeName && typeName.includes(":")) typeName = typeName.split(":")[1];
-
-    let minOccurs = node.getAttribute("minOccurs") || "1";
-    let maxOccurs = node.getAttribute("maxOccurs") || "1";
-
-    // Documentation
-    // Documentation helper
-    function getDocumentation(el: Element) {
-        const annotation = Array.from(el.children).find(
-            (c) => c.localName === "annotation",
-        );
-        if (annotation) {
-            const docNode = Array.from(annotation.children).find(
-                (c) => c.localName === "documentation",
-            );
-            return docNode ? docNode.textContent || "" : "";
-        }
-        return "";
-    }
-    documentation = getDocumentation(node);
+        return basicExpandable
+            ? checkExpandability(node, definitions)
+            : false;
+    });
 
     // Resolve Type / Ref
     function resolve() {
-        // If already resolved, skip (unless we want to refresh?)
         if (typeDefinition && children.length > 0) return;
 
         children = [];
 
-        // If it's a ref, find the element definition
         if (node.getAttribute("ref")) {
-            const refName = node.getAttribute("ref")!.split(":").pop()!;
-            const distinct = definitions[`element:${refName}`];
+            const refName = stripNamespacePrefix(node.getAttribute("ref"));
+            const distinct = refName ? definitions[`element:${refName}`] : undefined;
             if (distinct) {
                 const refType = distinct.getAttribute("type");
                 if (refType) {
-                    typeName = refType.split(":").pop() ?? null;
+                    typeNameOverride = stripNamespacePrefix(refType);
                 } else {
                     const inlineType = Array.from(distinct.children).find(
                         (c) => c.localName === "complexType",
                     );
                     if (inlineType) typeDefinition = inlineType;
                 }
-                // Also, the referenced element might have children structure directly if no type
-                if (!typeDefinition && !refType) {
-                    // Check relative structure
-                    // For simplified NDC, use typeName usually.
-                }
             }
         }
 
         if (typeName) {
-            // Look for complexType or simpleType
             typeDefinition =
                 definitions[`complexType:${typeName}`] ||
                 definitions[`simpleType:${typeName}`];
         }
 
-        // If no type name, check for inline complexType/simpleType
         if (!typeDefinition) {
             typeDefinition =
                 Array.from(node.children).find(
@@ -219,109 +131,86 @@
         }
 
         if (node.localName === "choice") {
-            children = collectElements(node);
+            children = collectElementsForTree(node, definitions);
         } else if (typeDefinition) {
-            children = collectElements(typeDefinition);
+            children = collectElementsForTree(typeDefinition, definitions);
         }
         hasResolved = true;
     }
 
-    // Flatten structure: sequence, all, extension (but NOT choice)
-    function collectElements(root: Element): Element[] {
-        const els: Element[] = [];
-        for (const child of Array.from(root.children)) {
-            if (child.localName === "element") {
-                els.push(child);
-            } else if (child.localName === "choice") {
-                // Keep choice as a distinct node to render
-                els.push(child);
-            } else if (["sequence", "all"].includes(child.localName)) {
-                els.push(...collectElements(child));
-            } else if (child.localName === "complexContent") {
-                for (const cc of Array.from(child.children)) {
-                    if (
-                        cc.localName === "extension" ||
-                        cc.localName === "restriction"
-                    ) {
-                        const base = cc.getAttribute("base")?.split(":").pop();
-                        if (base) {
-                            const baseDef = definitions[`complexType:${base}`];
-                            if (baseDef) {
-                                els.push(...collectElements(baseDef));
-                            }
-                        }
-                        els.push(...collectElements(cc));
-                    }
-                }
-            } else if (
-                child.localName === "complexType" ||
-                child.localName === "simpleType"
-            ) {
-                els.push(...collectElements(child));
-            }
-        }
-        return els;
-    }
+    // Auto-resolve on search (untrack resolve to avoid circular deps)
+    $effect(() => {
+        if (searchQuery) untrack(() => resolve());
+    });
 
-    // Reactive Search Logic
-    // Reactive Search Logic
-    let nameMatch = false;
-    let docMatch = false;
-
-    $: {
-        if (searchQuery) {
-            const lowerQuery = searchQuery;
-            nameMatch = name.toLowerCase().includes(lowerQuery);
-            docMatch =
-                !nameMatch &&
-                !!documentation &&
-                documentation.toLowerCase().includes(lowerQuery);
-        } else {
-            nameMatch = false;
-            docMatch = false;
-        }
-    }
-
-    $: isMatch = nameMatch || docMatch;
-
-    $: if (searchQuery) {
-        resolve(); // Ensure children are known
-    }
-
-    $: if (isMatch) {
-        onmatch?.();
-    }
+    // Notify parent on match
+    $effect(() => {
+        if (isMatch) onmatch?.();
+    });
 
     // Target Path Logic (Auto Expand & Scroll)
-    $: if (targetPath) {
-        // If we are on the path to the target, expand!
-        if (targetPath.startsWith(path) && targetPath !== path) {
-            if (!expanded) {
-                resolve(); // Resolve first to ensure we know if we have children
-                expanded = true;
+    $effect(() => {
+        if (targetPath) {
+            if (targetPath.startsWith(path) && targetPath !== path) {
+                if (!untrack(() => expanded)) {
+                    untrack(() => resolve());
+                    expanded = true;
+                }
+            }
+            if (targetPath === path) {
+                let flashTimer: ReturnType<typeof setTimeout>;
+                const scrollTimer = setTimeout(() => {
+                    if (elementRef) {
+                        elementRef.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center",
+                        });
+                        onselect?.({ node, path, element: elementRef });
+                        isFlashed = true;
+                        flashTimer = setTimeout(() => (isFlashed = false), 2000);
+                    }
+                }, 100);
+                return () => {
+                    clearTimeout(scrollTimer);
+                    clearTimeout(flashTimer);
+                };
             }
         }
-        // If we ARE the target, scroll into view
-        if (targetPath === path) {
-            setTimeout(() => {
-                if (elementRef) {
-                    elementRef.scrollIntoView({
-                        behavior: "smooth",
-                        block: "center",
-                    });
-                    // Highlight visually
-                    onselect?.({ node, path, element: elementRef });
-                    // Trigger Flash
-                    isFlashed = true;
-                    setTimeout(() => (isFlashed = false), 2000);
+    });
+
+    // Auto-resolve on expand (only track expanded, not children/resolve internals)
+    $effect(() => {
+        if (expanded && untrack(() => children.length === 0))
+            untrack(() => resolve());
+    });
+
+    // Tree action handler (track version/action props, untrack local state)
+    $effect(() => {
+        const version = treeActionVersion;
+        const action = treeAction;
+        if (
+            version > untrack(() => appliedActionVersion) &&
+            action !== ""
+        ) {
+            if (action === "expand") {
+                if (untrack(() => isExpandable)) {
+                    expanded = true;
+                    untrack(() => resolve());
                 }
-            }, 100);
+            } else if (action === "collapse") {
+                expanded = depth < DEFAULT_EXPAND_DEPTH;
+            }
+            appliedActionVersion = version;
         }
-    }
+    });
+
+    // Auto-resolve choice
+    $effect(() => {
+        if (node.localName === "choice") untrack(() => resolve());
+    });
 
     function handleChildMatch() {
-        // Performance: Only auto-expand if query is long enough to be specific
-        if (searchQuery.length >= 3) {
+        if (searchQuery.length >= SEARCH.MIN_QUERY_LENGTH) {
             expanded = true;
         }
         onmatch?.();
@@ -330,39 +219,14 @@
     function handleClick(e: MouseEvent) {
         e.stopPropagation();
         onselect?.({ node, path, element: elementRef });
-        // Also toggle expansion if it has children
         if (!expanded) {
             expanded = true;
             resolve();
         }
     }
 
-    // Forward child selection
-    function handleChildSelect(detail: {
-        node: Element;
-        path: string;
-        element?: HTMLElement;
-    }) {
+    function handleChildSelect(detail: NodeSelectDetail) {
         onselect?.(detail);
-    }
-
-    $: if (expanded && children.length === 0) resolve();
-
-    let appliedActionVersion = -1;
-    $: if (treeActionVersion > appliedActionVersion && treeAction !== "") {
-        if (treeAction === "expand") {
-            if (isExpandable) {
-                expanded = true;
-                resolve();
-            }
-        } else if (treeAction === "collapse") {
-            expanded = depth < 2;
-        }
-        appliedActionVersion = treeActionVersion;
-    }
-
-    $: if (node.localName === "choice") {
-        resolve();
     }
 </script>
 
@@ -370,7 +234,6 @@
     {#if node.localName === "choice"}
         <!-- Choice Container -->
         <div class="ml-0 pl-0 relative my-2">
-            <!-- Visual Bracket/Label -->
             <div class="flex items-start">
                 <div
                     class="flex-none flex flex-col items-center mr-2 pt-1 opacity-50 select-none cursor-help"
@@ -389,13 +252,13 @@
                 <div
                     class="flex-1 flex flex-col gap-1 border-l-2 border-orange-100 pl-2 -ml-2 py-1"
                 >
-                    {#each children as child}
-                        <svelte:self
+                    {#each children as child, i (child.getAttribute("name") || child.getAttribute("ref") || i)}
+                        <SchemaNode
                             node={child}
                             {doc}
                             {definitions}
                             {depth}
-                            path={`${path}/${child.getAttribute("name") || child.getAttribute("ref")?.split(":").pop()}`}
+                            path={`${path}/${child.getAttribute("name") || stripNamespacePrefix(child.getAttribute("ref"))}`}
                             {searchQuery}
                             {targetPath}
                             {treeAction}
@@ -414,15 +277,30 @@
                 hover:bg-base-200/50
                 {isFlashed ? '!bg-yellow-200 !scale-[1.02] !shadow-md' : ''}"
             bind:this={elementRef}
-            on:click={handleClick}
+            onclick={handleClick}
             role="button"
             tabindex="0"
-            on:keydown={(e) => e.key === "Enter" && handleClick(e as any)}
+            onkeydown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onselect?.({ node, path, element: elementRef });
+                    if (!expanded) {
+                        expanded = true;
+                        resolve();
+                    }
+                }
+            }}
         >
             <!-- Expand Button / Icon -->
             <button
                 class="btn btn-xs btn-ghost btn-square w-5 h-5 min-h-0 mr-1 p-0 flex items-center justify-center opacity-70 hover:opacity-100 hover:bg-base-200 rounded-md transition-colors"
-                on:click|stopPropagation={() => {
+                aria-expanded={isExpandable ? expanded : undefined}
+                aria-label={isExpandable
+                    ? (expanded ? "Collapse " : "Expand ") + name
+                    : name}
+                onclick={(e) => {
+                    e.stopPropagation();
                     if (isExpandable) {
                         expanded = !expanded;
                         if (expanded) resolve();
@@ -431,7 +309,6 @@
             >
                 {#if isExpandable}
                     {#if expanded}
-                        <!-- Chevron Down -->
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             class="h-3.5 w-3.5"
@@ -445,7 +322,6 @@
                             />
                         </svg>
                     {:else}
-                        <!-- Chevron Right -->
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             class="h-3.5 w-3.5"
@@ -460,7 +336,6 @@
                         </svg>
                     {/if}
                 {:else}
-                    <!-- Leaf Dot -->
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         class="h-1.5 w-1.5 opacity-30"
@@ -478,7 +353,6 @@
                 title={typeName ? `Type: ${typeName}` : "Element"}
             >
                 {#if name.endsWith("RQ") || name.endsWith("RS")}
-                    <!-- Message Icon -->
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         class="h-4 w-4 text-purple-600"
@@ -489,7 +363,6 @@
                         /></svg
                     >
                 {:else if typeName}
-                    <!-- Typed Element Icon -->
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         class="h-4 w-4 text-blue-500"
@@ -502,7 +375,6 @@
                         /></svg
                     >
                 {:else}
-                    <!-- Generic Element Icon -->
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         class="h-4 w-4 text-orange-500"
@@ -542,7 +414,6 @@
                 {/if}
 
                 <div class="flex items-center gap-1 ml-auto flex-none">
-                    <!-- Cardinality Badges -->
                     {#if minOccurs === "0"}
                         <span
                             class="badge badge-xs badge-ghost font-mono text-[9px] uppercase tracking-wider text-base-content/50 border-base-300"
@@ -570,15 +441,15 @@
                     ? "hidden"
                     : "border-l border-base-200 ml-[0.35rem]"}
             >
-                {#each children as child}
-                    <svelte:self
+                {#each children as child, i (child.getAttribute("name") || child.getAttribute("ref") || i)}
+                    <SchemaNode
                         node={child}
                         {doc}
                         {definitions}
                         depth={depth + 1}
                         path={child.localName === "choice"
                             ? path
-                            : `${path}/${child.getAttribute("name") || child.getAttribute("ref")?.split(":").pop()}`}
+                            : `${path}/${child.getAttribute("name") || stripNamespacePrefix(child.getAttribute("ref"))}`}
                         {searchQuery}
                         {targetPath}
                         {treeAction}
