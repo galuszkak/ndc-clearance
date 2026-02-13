@@ -1,13 +1,13 @@
-<?xml version="1.0" ?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" xmlns:opt="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypesFullyOptional" xmlns:cns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" targetNamespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" elementFormDefault="qualified" version="12.004">
-  <xs:import namespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypesFullyOptional" schemaLocation="IATA_OrderChangeNotifRQ_OptionalCommonTypes.xsd"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" xmlns:cns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" xmlns:opt="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypesFullyOptional" elementFormDefault="qualified" targetNamespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" version="12.004">
   <xs:import namespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" schemaLocation="IATA_OrderChangeNotifRQ_CommonTypes.xsd"/>
+  <xs:import namespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypesFullyOptional" schemaLocation="IATA_OrderChangeNotifRQ_OptionalCommonTypes.xsd"/>
   <xs:complexType name="ChangeGroupType">
     <xs:annotation>
       <xs:documentation>A node containing change operation group</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="ChangeOperationGroup" type="ChangeOperationGroupType" minOccurs="1" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="1" name="ChangeOperationGroup" type="ChangeOperationGroupType">
         <xs:annotation>
           <xs:documentation>Change Operation Group is a logical grouping of one or more operations that leads to a new Order Version.
 Should not have multiple change operations to the same element.</xs:documentation>
@@ -21,17 +21,17 @@ Should not have multiple change operations to the same element.</xs:documentatio
 Should not have multiple change operations to the same element.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="ChangeOperation" type="ChangeOperationType" minOccurs="1" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="1" name="ChangeOperation" type="ChangeOperationType">
         <xs:annotation>
           <xs:documentation>Change Operation is an Instruction on addition, replacement or deletion of elements within an Order.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="DistributionChain" type="cns:DistributionChainType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="DistributionChain" type="cns:DistributionChainType">
         <xs:annotation>
           <xs:documentation>An organization playing a participating role in an instance of a distribution channel.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="OrderVersionNumber" type="cns:OrderVersionNumberType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="OrderVersionNumber" type="cns:OrderVersionNumberType">
         <xs:annotation>
           <xs:documentation>Version of the Order.</xs:documentation>
         </xs:annotation>
@@ -43,27 +43,27 @@ Should not have multiple change operations to the same element.</xs:documentatio
       <xs:documentation>Change Operation is an Instruction on addition, replacement or deletion of elements within an Order.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="ChangeDateTime" type="cns:DateTimeType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="ChangeDateTime" type="cns:DateTimeType">
         <xs:annotation>
           <xs:documentation>Change Operation Date and Time within an Order.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ChangeTypeCode" type="cns:CodeType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="ChangeTypeCode" type="cns:CodeType">
         <xs:annotation>
           <xs:documentation>Refer to IATA ATSB Codeset: CHT Indicates to the Seller the type of change.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="New" type="opt:ChangeDetailsType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="New" type="opt:ChangeDetailsType">
         <xs:annotation>
           <xs:documentation>A Structural node used in messages which contains details of the changes.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Old" type="opt:ChangeDetailsType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="Old" type="opt:ChangeDetailsType">
         <xs:annotation>
           <xs:documentation>A Structural node used in messages which contains details of the changes.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ReasonCode" type="cns:CodeType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="ReasonCode" type="cns:CodeType">
         <xs:annotation>
           <xs:documentation>Refer to ATSB Codeset: CHR Indicating the reason for change.</xs:documentation>
         </xs:annotation>
@@ -76,22 +76,22 @@ Should not have multiple change operations to the same element.</xs:documentatio
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="AugmentationPoint" type="cns:AugmentationPointType" minOccurs="0" maxOccurs="1">
+        <xs:element maxOccurs="1" minOccurs="0" name="AugmentationPoint" type="cns:AugmentationPointType">
           <xs:annotation>
             <xs:documentation>Implementer-Augmented Structure.</xs:documentation>
           </xs:annotation>
         </xs:element>
-        <xs:element name="DistributionChain" type="cns:DistributionChainType" minOccurs="1" maxOccurs="1">
+        <xs:element maxOccurs="1" minOccurs="1" name="DistributionChain" type="cns:DistributionChainType">
           <xs:annotation>
             <xs:documentation>An instance of a distribution channel. That is, the set of organizations involved in the development of the current transaction.</xs:documentation>
           </xs:annotation>
         </xs:element>
-        <xs:element name="Notification" type="OrderChangeNotifType" minOccurs="1" maxOccurs="1">
+        <xs:element maxOccurs="1" minOccurs="1" name="Notification" type="OrderChangeNotifType">
           <xs:annotation>
             <xs:documentation>Order Change Notification.</xs:documentation>
           </xs:annotation>
         </xs:element>
-        <xs:element name="PayloadAttributes" type="cns:IATA_PayloadStandardAttributesType" minOccurs="0" maxOccurs="1">
+        <xs:element maxOccurs="1" minOccurs="0" name="PayloadAttributes" type="cns:IATA_PayloadStandardAttributesType">
           <xs:annotation>
             <xs:documentation>IATA Standard Payload Attributes</xs:documentation>
           </xs:annotation>
@@ -104,26 +104,26 @@ Should not have multiple change operations to the same element.</xs:documentatio
       <xs:documentation>OrderHistoryRS information</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="ChangeGroup" type="ChangeGroupType" minOccurs="1" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="1" name="ChangeGroup" type="ChangeGroupType">
         <xs:annotation>
           <xs:documentation>A node containing change operation group.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="CurrentOrder" type="cns:OrderSnapshotType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="CurrentOrder" type="cns:OrderSnapshotType">
         <xs:annotation>
           <xs:documentation>Version of the Order to which the change operations above need to be applied. Once fully updated, the version of the Order would correspond to the version of the last ChangeGroup in this batch of changes (OrderChangeNotifRQ).
 Required by Sellers who are unable to store the Orders sent to them by Airlines.
 Also used by Airlines unable to persist IDs or reproduce IDs consistently between Order responses.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="OrderBaseline" type="cns:OrderSnapshotType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="OrderBaseline" type="cns:OrderSnapshotType">
         <xs:annotation>
           <xs:documentation>Version of the Order to which the change operations above need to be applied. Once fully updated, the version of the Order would correspond to the version of the last ChangeGroup in this batch of changes (OrderChangeNotifRQ).
 Required by Sellers who are unable to store the Orders sent to them by Airlines.
 Also used by Airlines unable to persist IDs or reproduce IDs consistently between Order responses.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="OrderRefID" type="cns:ID_Type" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="OrderRefID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Carrier assigned ID which uniquely identifies a specific Order across several messages.</xs:documentation>
         </xs:annotation>

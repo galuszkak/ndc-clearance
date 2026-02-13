@@ -1,5 +1,5 @@
-<?xml version="1.0" ?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2015/00/2021.3/IATA_PaymentClearingListRQ" xmlns:cns="http://www.iata.org/IATA/2015/00/2021.3/IATA_PaymentClearanceCommonTypes" targetNamespace="http://www.iata.org/IATA/2015/00/2021.3/IATA_PaymentClearingListRQ" elementFormDefault="qualified" version="2.000">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2015/00/2021.3/IATA_PaymentClearingListRQ" xmlns:cns="http://www.iata.org/IATA/2015/00/2021.3/IATA_PaymentClearanceCommonTypes" elementFormDefault="qualified" targetNamespace="http://www.iata.org/IATA/2015/00/2021.3/IATA_PaymentClearingListRQ" version="2.000">
   <xs:import namespace="http://www.iata.org/IATA/2015/00/2021.3/IATA_PaymentClearanceCommonTypes" schemaLocation="IATA_PaymentClearingListRQ_CommonTypes.xsd"/>
   <xs:element name="IATA_PaymentClearingListRQ">
     <xs:annotation>
@@ -9,19 +9,19 @@ This clearance related message is about the flow of money and it cannot, under a
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
-        <xs:choice minOccurs="1" maxOccurs="1">
-          <xs:element name="ClearingDate" type="cns:ClearingDateType" minOccurs="1" maxOccurs="unbounded">
+        <xs:choice maxOccurs="1" minOccurs="1">
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="ClearingDate" type="cns:ClearingDateType">
             <xs:annotation>
               <xs:documentation>Date, as per SwO Schedule, when payment must be made by Remittance Payer or to Settlement Payee.</xs:documentation>
             </xs:annotation>
           </xs:element>
-          <xs:element name="ClearingID" type="cns:ClearingID_Type" minOccurs="1" maxOccurs="unbounded">
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="ClearingID" type="cns:ClearingID_Type">
             <xs:annotation>
               <xs:documentation>identifier provided by the Clearance Manager to identify the movement of money.</xs:documentation>
             </xs:annotation>
           </xs:element>
         </xs:choice>
-        <xs:element name="PayloadStandardAttributes" type="cns:IATA_PayloadStandardAttributesType" minOccurs="0" maxOccurs="1">
+        <xs:element maxOccurs="1" minOccurs="0" name="PayloadStandardAttributes" type="cns:IATA_PayloadStandardAttributesType">
           <xs:annotation>
             <xs:documentation>The IATA_PayloadStdAttributes defines the standard attributes that appear on the root element for all IATA payloads.</xs:documentation>
           </xs:annotation>

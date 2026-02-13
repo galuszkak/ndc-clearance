@@ -1,16 +1,16 @@
-<?xml version="1.0" ?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cns="http://www.iata.org/IATA/2015/00/2021.3/IATA_PaymentClearanceCommonTypes" targetNamespace="http://www.iata.org/IATA/2015/00/2021.3/IATA_PaymentClearanceCommonTypes" elementFormDefault="qualified" version="1.0">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cns="http://www.iata.org/IATA/2015/00/2021.3/IATA_PaymentClearanceCommonTypes" elementFormDefault="qualified" targetNamespace="http://www.iata.org/IATA/2015/00/2021.3/IATA_PaymentClearanceCommonTypes" version="1.0">
   <xs:complexType name="ClearingDateType">
     <xs:annotation>
       <xs:documentation>Date, as per SwO Schedule, when payment must be made by Remittance Payer or to Settlement Payee.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="FromDate" type="cns:DateType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="FromDate" type="cns:DateType">
         <xs:annotation>
           <xs:documentation>the start date for the search period based on remittance date</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ToDate" type="cns:DateType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="ToDate" type="cns:DateType">
         <xs:annotation>
           <xs:documentation>the end date for the search period based on remittance date</xs:documentation>
         </xs:annotation>
@@ -51,52 +51,52 @@
       <xs:documentation>The IATA_PayloadStdAttributes defines the standard attributes that appear on the root element for all IATA payloads.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="AltLangID" type="cns:ID_Type" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="AltLangID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Identifies the alternate language for a customer or message. The human language is identified by ISO 639 codes.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="CorrelationID" type="cns:ID_Type" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="CorrelationID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Allow end-to-end correlation of log messages with the corresponding Web service message throughout the processing of the Web service message.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="EchoTokenText" type="cns:TextType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="EchoTokenText" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>A reference for additional message identification, assigned by the requesting host system. When a request message includes an echo token the corresponding response message MUST include an echo token with an identical value.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PrimaryLangID" type="cns:ID_Type" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="PrimaryLangID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Identifies the primary language preference for the message. The human language is identified by ISO 639 codes.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="RetransmissionInd" type="cns:IndType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="RetransmissionInd" type="cns:IndType">
         <xs:annotation>
           <xs:documentation>When true, indicates the message is being re-sent after a failure. It is recommended that this attribute is used (i.e., set to true) only when a message is retransmitted.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="SeqNumber" type="cns:NumberType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="SeqNumber" type="cns:NumberType">
         <xs:annotation>
           <xs:documentation>Used to identify the sequence number of the transaction as assigned by the sending system; allows for an application to process messages in a certain order or to request a resynchronization of messages in the event that a system has been off-line and needs to retrieve messages that were missed.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Timestamp" type="cns:DateTimeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="Timestamp" type="cns:DateTimeType">
         <xs:annotation>
           <xs:documentation>Indicates the creation date and time of the message in UTC.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="TrxID" type="cns:ID_Type" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="TrxID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>A unique identifier to relate all messages within a transaction (e.g. this would be sent in all request and response messages that are part of an on-going transaction).</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="TrxStatusCode" type="cns:CodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="TrxStatusCode" type="cns:CodeType">
         <xs:annotation>
           <xs:documentation>This indicates where this message falls within a sequence of messages.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="VersionNumber" type="cns:NumberType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="VersionNumber" type="cns:NumberType">
         <xs:annotation>
           <xs:documentation>For all IATA versioned messages, the version of the message is indicated by a decimal value.</xs:documentation>
         </xs:annotation>

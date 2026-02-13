@@ -1,5 +1,5 @@
-<?xml version="1.0" ?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" xmlns:cns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" targetNamespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" elementFormDefault="qualified" version="7.001">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" xmlns:cns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" elementFormDefault="qualified" targetNamespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" version="7.001">
   <xs:import namespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" schemaLocation="IATA_AirlineProfileRS_CommonTypes.xsd"/>
   <xs:element name="IATA_AirlineProfileRS">
     <xs:annotation>
@@ -8,24 +8,24 @@ The message also returns multi-media content at the message level with media con
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
-        <xs:choice minOccurs="1" maxOccurs="1">
-          <xs:element name="Error" type="cns:ErrorType" minOccurs="1" maxOccurs="unbounded">
+        <xs:choice maxOccurs="1" minOccurs="1">
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="Error" type="cns:ErrorType">
             <xs:annotation>
               <xs:documentation>Contains information related to errors detected during processing of the preceding request.</xs:documentation>
             </xs:annotation>
           </xs:element>
-          <xs:element name="Response" type="cns:AirlineProfileResponseType" minOccurs="1" maxOccurs="1">
+          <xs:element maxOccurs="1" minOccurs="1" name="Response" type="cns:AirlineProfileResponseType">
             <xs:annotation>
               <xs:documentation>Airline Profile RS response information.</xs:documentation>
             </xs:annotation>
           </xs:element>
         </xs:choice>
-        <xs:element name="AugmentationPoint" type="cns:AugmentationPointType" minOccurs="0" maxOccurs="1">
+        <xs:element maxOccurs="1" minOccurs="0" name="AugmentationPoint" type="cns:AugmentationPointType">
           <xs:annotation>
             <xs:documentation>Implementer-Augmented Structure.</xs:documentation>
           </xs:annotation>
         </xs:element>
-        <xs:element name="PayloadAttributes" type="cns:IATA_PayloadStandardAttributesType" minOccurs="0" maxOccurs="1">
+        <xs:element maxOccurs="1" minOccurs="0" name="PayloadAttributes" type="cns:IATA_PayloadStandardAttributesType">
           <xs:annotation>
             <xs:documentation>IATA standard payload attributes.</xs:documentation>
           </xs:annotation>

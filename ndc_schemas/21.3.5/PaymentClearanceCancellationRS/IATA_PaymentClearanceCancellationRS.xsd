@@ -1,5 +1,5 @@
-<?xml version="1.0" ?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2015/00/2021.3/IATA_PaymentClearanceCancellationRS" xmlns:cns="http://www.iata.org/IATA/2015/00/2021.3/IATA_PaymentClearanceCommonTypes" targetNamespace="http://www.iata.org/IATA/2015/00/2021.3/IATA_PaymentClearanceCancellationRS" elementFormDefault="qualified" version="2.001">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2015/00/2021.3/IATA_PaymentClearanceCancellationRS" xmlns:cns="http://www.iata.org/IATA/2015/00/2021.3/IATA_PaymentClearanceCommonTypes" elementFormDefault="qualified" targetNamespace="http://www.iata.org/IATA/2015/00/2021.3/IATA_PaymentClearanceCancellationRS" version="2.001">
   <xs:import namespace="http://www.iata.org/IATA/2015/00/2021.3/IATA_PaymentClearanceCommonTypes" schemaLocation="IATA_PaymentClearanceCancellationRS_CommonTypes.xsd"/>
   <xs:element name="IATA_PaymentClearanceCancellationRS">
     <xs:annotation>
@@ -8,19 +8,19 @@ This clearance related message is about the flow of money and it cannot, under a
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
-        <xs:choice minOccurs="1" maxOccurs="1">
-          <xs:element name="Clearance" type="cns:ClearanceCancellationResponseType" minOccurs="1" maxOccurs="unbounded">
+        <xs:choice maxOccurs="1" minOccurs="1">
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="Clearance" type="cns:ClearanceCancellationResponseType">
             <xs:annotation>
               <xs:documentation>the delivery of funds from one party - payer- to another party - the payee - to fulfil contractual obligations, i.e. commitment between the two parties.</xs:documentation>
             </xs:annotation>
           </xs:element>
-          <xs:element name="Error" type="cns:ErrorType" minOccurs="1" maxOccurs="unbounded">
+          <xs:element maxOccurs="unbounded" minOccurs="1" name="Error" type="cns:ErrorType">
             <xs:annotation>
               <xs:documentation>Contains information related to errors detected during processing of the preceding request.</xs:documentation>
             </xs:annotation>
           </xs:element>
         </xs:choice>
-        <xs:element name="PayloadStandardAttributes" type="cns:IATA_PayloadStandardAttributesType" minOccurs="0" maxOccurs="1">
+        <xs:element maxOccurs="1" minOccurs="0" name="PayloadStandardAttributes" type="cns:IATA_PayloadStandardAttributesType">
           <xs:annotation>
             <xs:documentation>The IATA_PayloadStdAttributes defines the standard attributes that appear on the root element for all IATA payloads.</xs:documentation>
           </xs:annotation>

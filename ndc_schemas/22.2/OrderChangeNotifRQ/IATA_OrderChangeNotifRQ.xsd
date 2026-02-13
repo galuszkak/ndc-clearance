@@ -1,5 +1,5 @@
-<?xml version="1.0" ?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" xmlns:cns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" targetNamespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" elementFormDefault="qualified" version="12.000">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" xmlns:cns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" elementFormDefault="qualified" targetNamespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage" version="12.000">
   <xs:import namespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" schemaLocation="IATA_OrderChangeNotifRQ_CommonTypes.xsd"/>
   <xs:element name="IATA_OrderChangeNotifRQ">
     <xs:annotation>
@@ -7,22 +7,22 @@
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="AugmentationPoint" type="cns:AugmentationPointType" minOccurs="0" maxOccurs="1">
+        <xs:element maxOccurs="1" minOccurs="0" name="AugmentationPoint" type="cns:AugmentationPointType">
           <xs:annotation>
             <xs:documentation>Implementer-Augmented Structure.</xs:documentation>
           </xs:annotation>
         </xs:element>
-        <xs:element name="DistributionChain" type="cns:DistributionChainType" minOccurs="1" maxOccurs="1">
+        <xs:element maxOccurs="1" minOccurs="1" name="DistributionChain" type="cns:DistributionChainType">
           <xs:annotation>
             <xs:documentation>An instance of a distribution channel. That is, the set of organizations involved in the development of the current transaction.</xs:documentation>
           </xs:annotation>
         </xs:element>
-        <xs:element name="Notification" type="cns:OrderChangeNotifType" minOccurs="1" maxOccurs="1">
+        <xs:element maxOccurs="1" minOccurs="1" name="Notification" type="cns:OrderChangeNotifType">
           <xs:annotation>
             <xs:documentation>Order Change Notification.</xs:documentation>
           </xs:annotation>
         </xs:element>
-        <xs:element name="PayloadAttributes" type="cns:IATA_PayloadStandardAttributesType" minOccurs="0" maxOccurs="1">
+        <xs:element maxOccurs="1" minOccurs="0" name="PayloadAttributes" type="cns:IATA_PayloadStandardAttributesType">
           <xs:annotation>
             <xs:documentation>IATA Standard Payload Attributes</xs:documentation>
           </xs:annotation>

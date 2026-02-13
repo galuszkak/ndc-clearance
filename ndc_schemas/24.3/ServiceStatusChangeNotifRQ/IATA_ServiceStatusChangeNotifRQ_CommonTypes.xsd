@@ -1,5 +1,5 @@
-<?xml version="1.0" ?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" targetNamespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" elementFormDefault="qualified" version="1.0">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" elementFormDefault="qualified" targetNamespace="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersCommonTypes" version="1.0">
   <xs:complexType name="AddlNameType">
     <xs:annotation>
       <xs:documentation>An additional name type.
@@ -11,7 +11,7 @@
  Name Type Code - 'Mothers Surname'.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="Name" type="cns:ProperNameType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="Name" type="cns:ProperNameType">
         <xs:annotation>
           <xs:documentation>A proper name defined by the associated name type code and further clarified by the description text.
  Name - 'Smith'.
@@ -20,7 +20,7 @@
  Name Type Code - 'Mother Surname'.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="NameTypeCode" type="cns:AddlNameTypeCodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="NameTypeCode" type="cns:AddlNameTypeCodeType">
         <xs:annotation>
           <xs:documentation>The type of proper name
  Examples:
@@ -86,7 +86,7 @@
       <xs:documentation>Implementer-Augmented Structure.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:any namespace="##other" processContents="lax" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:any maxOccurs="unbounded" minOccurs="1" namespace="##other" processContents="lax"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="BagDimensionType">
@@ -94,17 +94,17 @@
       <xs:documentation>A measurable extent of a particular bag, such as length, or height.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="HeightMeasure" type="cns:LengthMeasureType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="HeightMeasure" type="cns:LengthMeasureType">
         <xs:annotation>
           <xs:documentation>A measurement of someone or something from head to foot or from base to top. Measure. Unit. Code must be CMT (centimeters).</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="LengthMeasure" type="cns:LengthMeasureType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="LengthMeasure" type="cns:LengthMeasureType">
         <xs:annotation>
           <xs:documentation>A measurement or extent of something from end to end; the greater of two or the greatest of three dimensions of an object. Measure. Unit. Code must be CMT (centimeters).</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="WidthMeasure" type="cns:LengthMeasureType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="WidthMeasure" type="cns:LengthMeasureType">
         <xs:annotation>
           <xs:documentation>A measurement or extent of the bag from side to side; the lesser of two or the least of three dimensions of the bag. Unit must be CMT (centimeters).</xs:documentation>
         </xs:annotation>
@@ -125,12 +125,12 @@
       <xs:documentation>A small piece of paper, fabric, plastic or similar material attached to an bag and giving information about it.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="BagTagID" type="cns:BagTagID_Type" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="BagTagID" type="cns:BagTagID_Type">
         <xs:annotation>
           <xs:documentation>The identifier of bag tag.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="IssuingCarrier" type="cns:CarrierType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="IssuingCarrier" type="cns:CarrierType">
         <xs:annotation>
           <xs:documentation>The organization which carries the passenger, baggage, or goods, and/or commits to delivering the carriage as well as any related services such as issuance of ticket, creation of Order, etc.
  Business Identifier Fields:
@@ -139,17 +139,17 @@
  - Name</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="TagExpediteInd" type="cns:IndType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="TagExpediteInd" type="cns:IndType">
         <xs:annotation>
           <xs:documentation>The indicator of whether this is a expedite tag.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="TagFallbackInd" type="cns:IndType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="TagFallbackInd" type="cns:IndType">
         <xs:annotation>
           <xs:documentation>The indicator of whether this is a fallback tag.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="TagInterlineInd" type="cns:IndType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="TagInterlineInd" type="cns:IndType">
         <xs:annotation>
           <xs:documentation>The indicator of whether this is a interline tag.</xs:documentation>
         </xs:annotation>
@@ -161,12 +161,12 @@
       <xs:documentation>A piece of luggage associated with a passenger, packed for traveling, and necessary or appropriate in connection with a journey.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="BagDimension" type="cns:BagDimensionType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="BagDimension" type="cns:BagDimensionType">
         <xs:annotation>
           <xs:documentation>A measurable extent of a particular bag, such as length, or height.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="BagTag" type="cns:BagTagType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="BagTag" type="cns:BagTagType">
         <xs:annotation>
           <xs:documentation>A small piece of paper, fabric, plastic or similar material attached to an bag and giving information about it.</xs:documentation>
         </xs:annotation>
@@ -178,7 +178,7 @@
       <xs:documentation>Booking entity Information related to a booking or reservation.</xs:documentation>
     </xs:annotation>
     <xs:choice>
-      <xs:element name="Carrier" type="cns:CarrierType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="Carrier" type="cns:CarrierType">
         <xs:annotation>
           <xs:documentation>The organization which carries the passenger, baggage, or goods, and/or commits to delivering the carriage as well as any related services such as issuance of ticket, creation of Order, etc.
  Business Identifier Fields:
@@ -187,7 +187,7 @@
  - Name</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Org" type="cns:OrgType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="Org" type="cns:OrgType">
         <xs:annotation>
           <xs:documentation>An organized structure set up for a particular purpose, such as a business, government body, department, charity, or financial institution.</xs:documentation>
         </xs:annotation>
@@ -199,17 +199,17 @@
       <xs:documentation>Information related to a booking or reservation.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="BookingEntity" type="cns:BookingEntityType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="BookingEntity" type="cns:BookingEntityType">
         <xs:annotation>
           <xs:documentation>Booking entity Information related to a booking or reservation.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="BookingID" type="cns:ID_Type" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="BookingID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Existing booking reference Identifier.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="BookingRefTypeCode" type="cns:BookingRefTypeCodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="BookingRefTypeCode" type="cns:BookingRefTypeCodeType">
         <xs:annotation>
           <xs:documentation>Booking Reference Type. Example: 6 (Passenger confirmation number) Encoding Scheme: IATA Padis Codeset - List for data element [1153] Reference Qualifier</xs:documentation>
         </xs:annotation>
@@ -233,12 +233,12 @@
       <xs:documentation>These are a set of qualifying conditions/rules/restrictions that are related to a constrained priced grouping of services for the Cancellation action.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="AllowedModificationInd" type="cns:IndType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="AllowedModificationInd" type="cns:IndType">
         <xs:annotation>
           <xs:documentation>Flags if cancellation is allowed used in conjunction with defined date ranges.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="DescText" type="cns:TextType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="DescText" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>Describes what this restriction is. 
  E.G 
@@ -247,24 +247,24 @@
  -Cancellation not allowed</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="EffectiveDateTime" type="cns:DateTimeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="EffectiveDateTime" type="cns:DateTimeType">
         <xs:annotation>
           <xs:documentation>This identifies the effective date used in conjunction with the Expiration date to qualify the applicability of this condition
  This date is relative to the first flight segment.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ExpirationDateTime" type="cns:DateTimeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="ExpirationDateTime" type="cns:DateTimeType">
         <xs:annotation>
           <xs:documentation>This identifies the Expiration date used in conjunction with the Effective date to qualify the applicability of this condition
  This date is relative to the first flight segment.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Fee" type="cns:ChangeOrCancelFeeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="Fee" type="cns:ChangeOrCancelFeeType">
         <xs:annotation>
           <xs:documentation>Amount added on to a charge for a specific product, purpose, or service.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="JourneyStageCode" type="cns:JourneyStageTypeCodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="JourneyStageCode" type="cns:JourneyStageTypeCodeType">
         <xs:annotation>
           <xs:documentation>Valid Stage Codes are
  defined in the Journey Stage Type Code ENUM
@@ -274,12 +274,12 @@
  This will be used either in addition to other BBIE's or individually to qualify a condition.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PaxRefID" type="cns:ID_Type" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="PaxRefID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Used to store a ref to the passenger.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Refund" type="cns:RefundType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="Refund" type="cns:RefundType">
         <xs:annotation>
           <xs:documentation>Contains refund type, payment type and amount attributes for a specific product, purpose, or service.</xs:documentation>
         </xs:annotation>
@@ -295,17 +295,17 @@
  - Name</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="AirlineDesigCode" type="cns:AirlineDesigCodeType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="AirlineDesigCode" type="cns:AirlineDesigCodeType">
         <xs:annotation>
           <xs:documentation>Airline code assigned to a carrier. Either ICAO-defined 3-character code or IATA-defined 2-character code.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="DuplicateDesigInd" type="cns:IndType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="DuplicateDesigInd" type="cns:IndType">
         <xs:annotation>
           <xs:documentation>Indicates that the IATA Airline Designator is a duplicate code shared by multiple airlines. To identify the airline - in this case - its name must be specified in addition to the designator.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Name" type="cns:NameType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="Name" type="cns:NameType">
         <xs:annotation>
           <xs:documentation>Commercial name of the carrier.</xs:documentation>
         </xs:annotation>
@@ -317,32 +317,32 @@
       <xs:documentation>Amount added on to a charge for a specific product, purpose, or service.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="Amount" type="cns:AmountType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="Amount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Fee Amount. Example: 500 USD</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ApproximateInd" type="cns:IndType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="ApproximateInd" type="cns:IndType">
         <xs:annotation>
           <xs:documentation>When true, this fee is approximate.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="DescText" type="cns:TextType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="DescText" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>Fee/ surcharge Description. Example: U.S Customs User Fee</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="MaximumAmount" type="cns:AmountType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="MaximumAmount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Stores an Maximum fee amount which will be charged when a variable fee amount is effective.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="MinimumAmount" type="cns:AmountType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="MinimumAmount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Stores an Minimum fee amount which will be charged when a variable fee amount is effective.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Percent" type="cns:PercentType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="Percent" type="cns:PercentType">
         <xs:annotation>
           <xs:documentation>Stores a percentage which will be used to determine the Fee to be charged in conjunction or not with minimum and maximum amounts.</xs:documentation>
         </xs:annotation>
@@ -354,13 +354,13 @@
       <xs:documentation>These are a set of qualifying conditions/rules/restriction that are related to a constrained priced grouping of services for a Change/modification action.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="AllowedModificationInd" type="cns:IndType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="AllowedModificationInd" type="cns:IndType">
         <xs:annotation>
           <xs:documentation>This flags if this condition allows any modification.
  If this is set to FALSE then the condition further identified by the other attributes indicates that no Change is allowed.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ChangeTypeCode" type="cns:ChangeTypeCodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="ChangeTypeCode" type="cns:ChangeTypeCodeType">
         <xs:annotation>
           <xs:documentation>This identifies using Change type Code ENUM
  the type of change that applies to the condition.
@@ -370,7 +370,7 @@
  SERVICE</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="DescText" type="cns:TextType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="DescText" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>Describes what this restriction is. 
  E.G 
@@ -379,24 +379,24 @@
  - No change allowed</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="EffectiveDateTime" type="cns:DateTimeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="EffectiveDateTime" type="cns:DateTimeType">
         <xs:annotation>
           <xs:documentation>This identifies the effective date used in conjunction with the Expiration date to qualify the applicability of this condition
  This date is relative to the first flight segment.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ExpirationDateTime" type="cns:DateTimeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="ExpirationDateTime" type="cns:DateTimeType">
         <xs:annotation>
           <xs:documentation>This identifies the Expiration date used in conjunction with the Effective date to qualify the applicability of this condition
  This date is relative to the first flight segment.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Fee" type="cns:ChangeOrCancelFeeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="Fee" type="cns:ChangeOrCancelFeeType">
         <xs:annotation>
           <xs:documentation>Amount added on to a charge for a specific product, purpose, or service.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="JourneyStageCode" type="cns:JourneyStageTypeCodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="JourneyStageCode" type="cns:JourneyStageTypeCodeType">
         <xs:annotation>
           <xs:documentation>Valid Stage Codes are
  defined in the Journey Stage Type Code ENUM
@@ -406,12 +406,12 @@
  This will be used either in addition to other BBIE's or individually to qualify a condition.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PaxRefID" type="cns:ID_Type" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="PaxRefID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Used to store a ref to the passenger.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Refund" type="cns:RefundType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="Refund" type="cns:RefundType">
         <xs:annotation>
           <xs:documentation>Contains refund type, payment type and amount attributes for a specific product, purpose, or service.</xs:documentation>
         </xs:annotation>
@@ -472,12 +472,12 @@
       <xs:documentation>Tax data breakdown by collection point for XF(Passenger Facility Fee) and ZP(federal tax segment) taxes.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="AirportAmount" type="cns:AmountType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="AirportAmount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Amount filed by the airport in the currency applicable to the geographical location of the airport.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Station" type="cns:StationType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="Station" type="cns:StationType">
         <xs:annotation>
           <xs:documentation>Location or facility where air or surface transportation originates, stops and/or terminates, and where passengers and/or cargo can be taken on or off. 
  Those of relevance to the airline industry are identified by an IATA Location Identifier (3 letter location identifier). There are also additional airports without an IATA identifier that may be used in disruption scenarios that will be identified by an ICAO 4 letter code (assigned to every registered airport, military or civil).
@@ -501,22 +501,22 @@
       <xs:documentation>An amount of money, typically a set percentage of the value involved, paid to an agent in a commercial transaction.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="Amount" type="cns:AmountType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="Amount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Commission amount and currency code. Example: 20 USD</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="CommissionCode" type="cns:CodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="CommissionCode" type="cns:CodeType">
         <xs:annotation>
           <xs:documentation>Commission code. Example: 1000, BFST</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Percentage" type="cns:PercentType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="Percentage" type="cns:PercentType">
         <xs:annotation>
           <xs:documentation>Commission percentage. Example: 20</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PercentageAppliedToAmount" type="cns:AmountType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="PercentageAppliedToAmount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>The amount to which the percentage will be applied. 
  For Example:
@@ -525,7 +525,7 @@
  Difference between the Net and Gross amounts.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="TaxableInd" type="cns:IndType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="TaxableInd" type="cns:IndType">
         <xs:annotation>
           <xs:documentation>When TRUE, the commission amount specified is subject to Tax/VAT.</xs:documentation>
         </xs:annotation>
@@ -537,57 +537,57 @@
       <xs:documentation>The electronic or geographic address which a party has provided as the contact channel. For example, contact email, contact postal address, contact phone number.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="ContactInfoID" type="cns:ID_Type" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="ContactInfoID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Uniquely Identifies a set of Contact Information, within the context of one message.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ContactPurposeText" type="cns:TextType" minOccurs="0" maxOccurs="99">
+      <xs:element maxOccurs="99" minOccurs="0" name="ContactPurposeText" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>to identify the contact purpose (PADIS code list 3299)</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ContactRefusedInd" type="cns:IndType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="ContactRefusedInd" type="cns:IndType">
         <xs:annotation>
           <xs:documentation>When TRUE, Contact Information was refused to be provided.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="EmailAddress" type="cns:EmailAddressType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="EmailAddress" type="cns:EmailAddressType">
         <xs:annotation>
           <xs:documentation>The email address which should be used for contact purposes.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Individual" type="cns:IndividualType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="Individual" type="cns:IndividualType">
         <xs:annotation>
           <xs:documentation>A single human being as distinct from a group, class, or family.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="IndividualRefID" type="cns:ID_Type" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="IndividualRefID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Reference to Individual instance(s)</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="OtherAddress" type="cns:OtherAddressType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="OtherAddress" type="cns:OtherAddressType">
         <xs:annotation>
           <xs:documentation>Other Contact Method information. E.g. web site URL, social media handle.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PaxSegmentRefID" type="cns:ID_Type" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="PaxSegmentRefID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Uniquely identifies a Passenger Segment within the context of one message.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Phone" type="cns:PhoneType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="Phone" type="cns:PhoneType">
         <xs:annotation>
           <xs:documentation>A telephone number is a sequence of digits assigned to a fixed-line telephone subscriber station connected to a telephone line or to a wireless electronic telephony device, such as a radio telephone or a mobile telephone, or to other devices for data transmission via the public switched telephone network (PSTN) or other private networks.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PostalAddress" type="cns:PostalAddressType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="PostalAddress" type="cns:PostalAddressType">
         <xs:annotation>
           <xs:documentation>Natural or physical address used for postal service. May be a building address, airport address, etc.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="RelationshipToPax" type="cns:TextType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="RelationshipToPax" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>Relationship to the passenger e.g. used for when this individual is an emergency contact</xs:documentation>
         </xs:annotation>
@@ -635,12 +635,12 @@
       <xs:documentation>An area of land which is a sub-division within a country, such as a state, a county, a canton, a province, etc.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="CountrySubDivisionCode" type="cns:CountrySubDivisionCodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="CountrySubDivisionCode" type="cns:CountrySubDivisionCodeType">
         <xs:annotation>
           <xs:documentation>ISO code 3166-2 identifying this country sub-division within a given country. E.g. 'US-AZ' for state of Arizona (United States of America), 'DE-BY' for region of Bavaria (Germany).</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="CountrySubDivisionName" type="cns:ProperNameType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="CountrySubDivisionName" type="cns:ProperNameType">
         <xs:annotation>
           <xs:documentation>The name, expressed as text, of the sub-division of a country.</xs:documentation>
         </xs:annotation>
@@ -652,12 +652,12 @@
       <xs:documentation>A nation with its own government, occupying a particular territory.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="CountryCode" type="cns:CountryCodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="CountryCode" type="cns:CountryCodeType">
         <xs:annotation>
           <xs:documentation>ISO Country Code 3166-1 alpha-2 (can be extended by bilateral agreement in case of exceptions, e.g. Kosovo). Examples: US, FR.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="CountryName" type="cns:ProperNameType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="CountryName" type="cns:ProperNameType">
         <xs:annotation>
           <xs:documentation>The name, expressed as text, of the country.</xs:documentation>
         </xs:annotation>
@@ -669,18 +669,18 @@
       <xs:documentation>The result of converting one currency into another currency. E.g. local currency to USD, air miles to monetary.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="Amount" type="cns:AmountType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="Amount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Amount and currency specified in the converted currency. Example: 15000 USD</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ConversionRate" type="cns:RateType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="ConversionRate" type="cns:RateType">
         <xs:annotation>
           <xs:documentation>Defines the rate used to convert the local currency into the billing currency.
  Do we want to define an official name for the Billing Currency?</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="LocalAmount" type="cns:AmountType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="LocalAmount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Amount and currency as specified by the local Country.</xs:documentation>
         </xs:annotation>
@@ -704,7 +704,7 @@
       <xs:documentation>Reference to a Dated Operating Leg within this message</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="DatedOperatingLegRefID" type="cns:ID_Type" minOccurs="1" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="1" name="DatedOperatingLegRefID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Reference to the Dated Operating Legs.</xs:documentation>
         </xs:annotation>
@@ -716,37 +716,37 @@
       <xs:documentation>A Delivered Order individually priced item within a Delivered Order, made up of one or more Services. May or may not be a selected Offer Item (e.g. non-chargeable Services available on request such as a wheelchair).</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="CancelRestrictions" type="cns:CancelRestrictionsType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="CancelRestrictions" type="cns:CancelRestrictionsType">
         <xs:annotation>
           <xs:documentation>These are a set of qualifying conditions/rules/restrictions that are related to a constrained priced grouping of services for the Cancellation action.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ChangeRestrictions" type="cns:ChangeRestrictionsType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="ChangeRestrictions" type="cns:ChangeRestrictionsType">
         <xs:annotation>
           <xs:documentation>These are a set of qualifying conditions/rules/restriction that are related to a constrained priced grouping of services for a Change/modification action.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Commission" type="cns:CommissionType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="Commission" type="cns:CommissionType">
         <xs:annotation>
           <xs:documentation>An amount of money, typically a set percentage of the value involved, paid to an agent in a commercial transaction.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="CreationDateTime" type="cns:DateTimeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="CreationDateTime" type="cns:DateTimeType">
         <xs:annotation>
           <xs:documentation>Order Item creation Timestamp.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="GrandTotalAmount" type="cns:AmountType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="GrandTotalAmount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Reflects the Differential Total Amount and the Penalty Total Amount, if netted.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="OrderItemID" type="cns:ID_Type" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="OrderItemID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Carrier assigned ID which exists uniquely within an Order.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="OrderItemTypeCode" type="cns:CodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="OrderItemTypeCode" type="cns:CodeType">
         <xs:annotation>
           <xs:documentation>Specify the type of Order Item being presented to the Customer. 
  Using new 
@@ -756,34 +756,34 @@
  -COR - Corporate</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="OwnerCode" type="cns:AirlineDesigCodeType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="OwnerCode" type="cns:AirlineDesigCodeType">
         <xs:annotation>
           <xs:documentation>Airline code assigned to a carrier. Either ICAO-defined 3-character code or IATA-defined 2-character code.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PenaltyRefID" type="cns:ID_Type" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="PenaltyRefID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Reference to a Penalty ID.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Price" type="cns:PriceType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="Price" type="cns:PriceType">
         <xs:annotation>
           <xs:documentation>The amount of money expected, required, or given in payment for something.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ReusableInd" type="cns:IndType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="ReusableInd" type="cns:IndType">
         <xs:annotation>
           <xs:documentation>If Reusable = true, indicates that part of the value of the OrderItem may be reused for reshopping or refund. Exact reusable amount is unknown until Seller requests to reshop or to process a refund for this OrderItem.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Service" type="cns:DeliveredServiceType" minOccurs="1" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="1" name="Service" type="cns:DeliveredServiceType">
         <xs:annotation>
           <xs:documentation>Delivered Service is the instance of a specific flight or Service Definition as it has been offered (and eventually ordered and consumed) in the context of a specific Offer and/or Order.
  At the time of shopping, a service can be sold to multiple passengers on a given journey. 
  At time of order, the services should be applied to a single passenger on a single segment.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="WebAddressURI" type="cns:URI_Type" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="WebAddressURI" type="cns:URI_Type">
         <xs:annotation>
           <xs:documentation>Deep linking into another site to complete the transaction. E.g. to bring the customer directly to a page to continue with a purchase of a specific offer.</xs:documentation>
         </xs:annotation>
@@ -798,44 +798,44 @@
  An Order may support non-homogeneity, i.e. each passenger in an Order may hold different sets of order items at different prices.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="Commission" type="cns:CommissionType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="Commission" type="cns:CommissionType">
         <xs:annotation>
           <xs:documentation>An amount of money, typically a set percentage of the value involved, paid to an agent in a commercial transaction.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="CreationDateTime" type="cns:DateTimeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="CreationDateTime" type="cns:DateTimeType">
         <xs:annotation>
           <xs:documentation>The date time by which the order is created.
  Examples: 2018-09-05T15:52:01Z</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="LastModifiedDateTime" type="cns:DateTimeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="LastModifiedDateTime" type="cns:DateTimeType">
         <xs:annotation>
           <xs:documentation>The date time by which the order is modified.
  Examples: 2018-09-05T15:52:01Z</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="OrderID" type="cns:ID_Type" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="OrderID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Carrier assigned ID which uniquely identifies a specific Order across several messages.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="OrderItem" type="cns:DeliveredOrderItemType" minOccurs="1" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="1" name="OrderItem" type="cns:DeliveredOrderItemType">
         <xs:annotation>
           <xs:documentation>A Delivered Order individually priced item within a Delivered Order, made up of one or more Services. May or may not be a selected Offer Item (e.g. non-chargeable Services available on request such as a wheelchair).</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="OwnerCode" type="cns:AirlineDesigCodeType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="OwnerCode" type="cns:AirlineDesigCodeType">
         <xs:annotation>
           <xs:documentation>Airline code assigned to a carrier. Either ICAO-defined 3-character code or IATA-defined 2-character code.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="TotalPrice" type="cns:PriceType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="TotalPrice" type="cns:PriceType">
         <xs:annotation>
           <xs:documentation>The amount of money expected, required, or given in payment for something.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="WebAddressURI" type="cns:URI_Type" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="WebAddressURI" type="cns:URI_Type">
         <xs:annotation>
           <xs:documentation>Deep linking into another site to complete the transaction. E.g. to bring the customer directly to a page to continue with a purchase of a specific offer.</xs:documentation>
         </xs:annotation>
@@ -849,69 +849,69 @@
  At time of order, the services should be applied to a single passenger on a single segment.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="Bag" type="cns:BagType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="Bag" type="cns:BagType">
         <xs:annotation>
           <xs:documentation>A piece of luggage associated with a passenger, packed for traveling, and necessary or appropriate in connection with a journey.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="BookingRef" type="cns:BookingRefType" minOccurs="0" maxOccurs="3">
+      <xs:element maxOccurs="3" minOccurs="0" name="BookingRef" type="cns:BookingRefType">
         <xs:annotation>
           <xs:documentation>Information related to a booking or reservation.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="DeliveryCode" type="cns:CodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="DeliveryCode" type="cns:CodeType">
         <xs:annotation>
           <xs:documentation>Grouping of services on delivery aspects</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="DeliveryMilestoneCode" type="cns:CodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="DeliveryMilestoneCode" type="cns:CodeType">
         <xs:annotation>
           <xs:documentation>Records an event in the lifecycle of a service delivery that may or may not occur independently of a change of service status, e.g. passenger boarded, passenger accepted airside, bag loaded or offloaded.
  Exploratory functionality</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="DeliveryProvider" type="cns:DeliveryProviderType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="DeliveryProvider" type="cns:DeliveryProviderType">
         <xs:annotation>
           <xs:documentation>The entity responsible for delivery of a good or Service.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="DeliveryStatusCode" type="cns:ServiceDeliveryStatusCodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="DeliveryStatusCode" type="cns:ServiceDeliveryStatusCodeType">
         <xs:annotation>
           <xs:documentation>Status of the Service Delivery Service Status instance. See ATSB Codeset DeliveryService for possible values.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="DeliveryStatusDescText" type="cns:TextType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="DeliveryStatusDescText" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>To allow passing information in addition to Service Delivery Status</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="DescText" type="cns:TextType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="DescText" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>Free text for textual description.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ExpirationDateTime" type="cns:DateTimeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="ExpirationDateTime" type="cns:DateTimeType">
         <xs:annotation>
           <xs:documentation>Used to recognize the expiration of a service delivery
  e.g. lounge pass expiry date.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="FutureDeliveryStatusCode" type="cns:ServiceDeliveryStatusCodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="FutureDeliveryStatusCode" type="cns:ServiceDeliveryStatusCodeType">
         <xs:annotation>
           <xs:documentation>Preview of the Delivery Status of the Service. as it would appear in the resulting Order, once the change is accepted and committed. See ATSB CodeSet DeliveryService for possible values.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="OrderServiceAssociation" type="cns:OrderServiceAssociationType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="OrderServiceAssociation" type="cns:OrderServiceAssociationType">
         <xs:annotation>
           <xs:documentation>Order Service Association</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PaxRefID" type="cns:ID_Type" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="PaxRefID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Reference to a Passenger ID within this message</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ResponsibleAirline" type="cns:CarrierType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="ResponsibleAirline" type="cns:CarrierType">
         <xs:annotation>
           <xs:documentation>The organization which carries the passenger, baggage, or goods, and/or commits to delivering the carriage as well as any related services such as issuance of ticket, creation of Order, etc.
  Business Identifier Fields:
@@ -920,32 +920,32 @@
  - Name</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ServiceID" type="cns:ID_Type" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="ServiceID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Uniquely Identifies a Service within the context of one message.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ServiceRefID" type="cns:ID_Type" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="ServiceRefID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Reference to another service instance.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="SettlementInfo" type="cns:SettlementInfoType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="SettlementInfo" type="cns:SettlementInfoType">
         <xs:annotation>
           <xs:documentation>Information related to the value of a product or service as it pertains to interline transactions.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="StatusCode" type="cns:OrderServiceStatusCodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="StatusCode" type="cns:OrderServiceStatusCodeType">
         <xs:annotation>
           <xs:documentation>Status of the Order Service Status instance. See ATSB Codeset OrderService for possible values.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="UnchangedInd" type="cns:IndType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="UnchangedInd" type="cns:IndType">
         <xs:annotation>
           <xs:documentation>Indicated that this service is unchanged after reshopping.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ValidatingCarrier" type="cns:CarrierType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="ValidatingCarrier" type="cns:CarrierType">
         <xs:annotation>
           <xs:documentation>The organization which carries the passenger, baggage, or goods, and/or commits to delivering the carriage as well as any related services such as issuance of ticket, creation of Order, etc.
  Business Identifier Fields:
@@ -961,14 +961,14 @@
       <xs:documentation>The entity responsible for delivery of a good or Service.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="ID" type="cns:ID_Type" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="ID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>is the uniqu
  e identifier for a delivery provider. 
  is agreed identifier with the airline.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Name" type="cns:NameType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="Name" type="cns:NameType">
         <xs:annotation>
           <xs:documentation>is the name identifier for a delivery provider.</xs:documentation>
         </xs:annotation>
@@ -980,17 +980,17 @@
       <xs:documentation>An account or representation of the certain or major aspects, characteristics, or features of a person, object, or event.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="DescText" type="cns:TextType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="DescText" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>Description text value.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="MarkupStyleText" type="cns:TextType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="MarkupStyleText" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>Mark-up Style of the Description Text. Example: HTML</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="URL" type="cns:URI_Type" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="URL" type="cns:URI_Type">
         <xs:annotation>
           <xs:documentation>URL to description information source.</xs:documentation>
         </xs:annotation>
@@ -1002,32 +1002,32 @@
       <xs:documentation>Deduction from the price amount, made in advance of its payment.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="AppText" type="cns:TextType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="AppText" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>Discount application, e.g. Bag.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="DescText" type="cns:TextType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="DescText" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>Discount Description.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="DiscountAmount" type="cns:AmountType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="DiscountAmount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Discount amount applied to a price.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="DiscountContext" type="cns:KeyValuePropertyType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="DiscountContext" type="cns:KeyValuePropertyType">
         <xs:annotation>
           <xs:documentation>Contextual information to further describe something using a key-value pair.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="DiscountPercent" type="cns:PercentType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="DiscountPercent" type="cns:PercentType">
         <xs:annotation>
           <xs:documentation>Discount percentage applied to the price.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PreDiscountedAmount" type="cns:AmountType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="PreDiscountedAmount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>The original price on which the discount was applied to.</xs:documentation>
         </xs:annotation>
@@ -1039,38 +1039,38 @@
       <xs:documentation>An organization playing a participating role in an instance of a distribution channel.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="ContactInfo" type="cns:ContactInfoType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="ContactInfo" type="cns:ContactInfoType">
         <xs:annotation>
           <xs:documentation>The electronic or geographic address which a party has provided as the contact channel. For example, contact email, contact postal address, contact phone number.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Ordinal" type="cns:OrdinalType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="Ordinal" type="cns:OrdinalType">
         <xs:annotation>
           <xs:documentation>The number defining the position of the distribution chain link in the distribution chain indicating the order in which the organization participated.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="OrgRole" type="cns:DistributionChainRoleCodeType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="OrgRole" type="cns:DistributionChainRoleCodeType">
         <xs:annotation>
           <xs:documentation>The distribution chain role performed by the participating organization. That is, the Seller (end buyer facing), the Distributor (an intermediary), or the Carrier (the Responsible Supplier).
  For clarity this is different to the business model used by the participating organization, and the Nature of Business typically registered during incorporation as one of the organization's business activities.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ParticipatingOrg" type="cns:ParticipatingOrgType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="ParticipatingOrg" type="cns:ParticipatingOrgType">
         <xs:annotation>
           <xs:documentation>An organized structure set up for a particular purpose, such as a business, government body, department, charity, or financial institution.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="SalesAgent" type="cns:SalesAgentType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="SalesAgent" type="cns:SalesAgentType">
         <xs:annotation>
           <xs:documentation>An individual conducting sales activities on behalf of a sales branch or organization.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="SalesBranch" type="cns:SalesBranchType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="SalesBranch" type="cns:SalesBranchType">
         <xs:annotation>
           <xs:documentation>An organizational unit with responsibility over sales in a market, for a product or service and under any other specified criteria.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="VerifiablePresentation" type="cns:TextType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="VerifiablePresentation" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>The root mode of the IATA Verifiable Presentation schema structure based on w3c Verifiable Credential Schema</xs:documentation>
         </xs:annotation>
@@ -1110,7 +1110,7 @@
       <xs:documentation>An instance of a distribution channel, which is a chain of intermediaries through which a good or service passes until it reaches the final buyer or the end consumer.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="DistributionChainLink" type="cns:DistributionChainLinkType" minOccurs="1" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="1" name="DistributionChainLink" type="cns:DistributionChainLinkType">
         <xs:annotation>
           <xs:documentation>An organization playing a participating role in an instance of a distribution channel.</xs:documentation>
         </xs:annotation>
@@ -1122,12 +1122,12 @@
       <xs:documentation>The email address which should be used for contact purposes.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="ContactTypeText" type="cns:TextType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="ContactTypeText" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>PADIS code list: Contact Type (to identify the technical contact type information)</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="EmailAddressText" type="cns:TextType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="EmailAddressText" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>The email address which should be used for contact purposes.</xs:documentation>
         </xs:annotation>
@@ -1139,54 +1139,54 @@
       <xs:documentation>Amount added on to a charge for a specific product, purpose, or service.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="Amount" type="cns:AmountType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="Amount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Fee Amount. Example: 500 USD</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ApproximateInd" type="cns:IndType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="ApproximateInd" type="cns:IndType">
         <xs:annotation>
           <xs:documentation>When true, this fee is approximate.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="DescText" type="cns:TextType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="DescText" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>Fee/ surcharge Description. Example: U.S Customs User Fee</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="DesigText" type="cns:CodesetValueTextType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="DesigText" type="cns:CodesetValueTextType">
         <xs:annotation>
           <xs:documentation>Fee designator code. Example: USC</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="GuaranteeTimeLimitDateTime" type="cns:DateTimeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="GuaranteeTimeLimitDateTime" type="cns:DateTimeType">
         <xs:annotation>
           <xs:documentation>The length of time the fee of an offer item is guaranteed. In the absence of the fee guarantee time limit, the fee is not guaranteed. Upon expiry, the fee may no longer be guaranteed and either a new shopping process should begin, or the offer should be repriced resulting in a new Offer. 
  Should the fee guarantee time limit extend beyond Order creation, the remaining length of time persists into the corresponding Order Item. The airline can increase the remaining length of time beyond the original time limit should they wish to.
  This field should only be used when the Airline indicates that a Price Guarantee is available.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="LocalAmount" type="cns:AmountType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="LocalAmount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Fee amount specified in a local currency. Example: 7 CHF</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="MaximumAmount" type="cns:AmountType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="MaximumAmount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Stores an Maximum fee amount which will be charged when a variable fee amount is effective.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="MinimumAmount" type="cns:AmountType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="MinimumAmount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Stores an Minimum fee amount which will be charged when a variable fee amount is effective.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Percent" type="cns:PercentType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="Percent" type="cns:PercentType">
         <xs:annotation>
           <xs:documentation>Stores a percentage which will be used to determine the Fee to be charged in conjunction or not with minimum and maximum amounts.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="RefundInd" type="cns:IndType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="RefundInd" type="cns:IndType">
         <xs:annotation>
           <xs:documentation>When true, fee amount is refundable.</xs:documentation>
         </xs:annotation>
@@ -1245,42 +1245,42 @@
       <xs:documentation>The IATA_PayloadStdAttributes defines the standard attributes that appear on the root element for all IATA payloads.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="AltLangID" type="cns:ID_Type" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="AltLangID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Identifies the alternate language for a customer or message. The human language is identified by ISO 639 codes.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="CorrelationID" type="cns:ID_Type" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="CorrelationID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Allow end-to-end correlation of log messages with the corresponding Web service message throughout the processing of the Web service message.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PrimaryLangID" type="cns:ID_Type" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="PrimaryLangID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Identifes the primary language preference for the message. The human language is identified by ISO 639 codes.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="RetransmissionInd" type="cns:IndType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="RetransmissionInd" type="cns:IndType">
         <xs:annotation>
           <xs:documentation>When true, indicates the message is being re-sent after a failure. It is recommended that this attribute is used (i.e., set to true) only when a message is retransmitted.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="SeqNumber" type="cns:NumberType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="SeqNumber" type="cns:NumberType">
         <xs:annotation>
           <xs:documentation>Used to identify the sequence number of the transaction as assigned by the sending system; allows for an application to process messages in a certain order or to request a resynchronization of messages in the event that a system has been off-line and needs to retrieve messages that were missed.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Timestamp" type="cns:DateTimeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="Timestamp" type="cns:DateTimeType">
         <xs:annotation>
           <xs:documentation>Indicates the creation date and time of the message in UTC.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="TrxID" type="cns:ID_Type" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="TrxID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>A unique identifier to relate all messages within a transaction (e.g. this would be sent in all request and response messages that are part of an on-going transaction).</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="VersionNumber" type="cns:NumberType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="VersionNumber" type="cns:NumberType">
         <xs:annotation>
           <xs:documentation>For all IATA versioned messages, the version of the message is indicated by a decimal value.</xs:documentation>
         </xs:annotation>
@@ -1304,7 +1304,7 @@
       <xs:documentation>A single human being as distinct from a group, class, or family.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="AddlName" type="cns:AddlNameType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="AddlName" type="cns:AddlNameType">
         <xs:annotation>
           <xs:documentation>An additional name type.
  The structure consists of a generic proper name with associated type.
@@ -1315,47 +1315,47 @@
  Name Type Code - 'Mothers Surname'.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Birthdate" type="cns:DateType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="Birthdate" type="cns:DateType">
         <xs:annotation>
           <xs:documentation>The date on which an individual was born.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="BirthplaceText" type="cns:TextType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="BirthplaceText" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>Country Code where the Passenger was born (ISO 3166). For example: DE</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="GenderCode" type="cns:GenderCodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="GenderCode" type="cns:GenderCodeType">
         <xs:annotation>
           <xs:documentation>Gender of the individual. Refer to PADIS Codeset 6353.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="GivenName" type="cns:ProperNameType" minOccurs="0" maxOccurs="5">
+      <xs:element maxOccurs="5" minOccurs="0" name="GivenName" type="cns:ProperNameType">
         <xs:annotation>
           <xs:documentation>A personal name given to the individual at birth and used before a family name. Also called first name. E.g. JOHN.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="IndividualID" type="cns:ID_Type" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="IndividualID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Uniquely Identifies an Individual within the context of one message.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="MiddleName" type="cns:ProperNameType" minOccurs="0" maxOccurs="3">
+      <xs:element maxOccurs="3" minOccurs="0" name="MiddleName" type="cns:ProperNameType">
         <xs:annotation>
           <xs:documentation>Individual's middle name or initial. E.g. G, GEORGE.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="SuffixName" type="cns:SupplementNameType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="SuffixName" type="cns:SupplementNameType">
         <xs:annotation>
           <xs:documentation> Individual's name suffixes and letters. Examples: Jr., Sr., III, Ret., Esq.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Surname" type="cns:ProperNameType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="Surname" type="cns:ProperNameType">
         <xs:annotation>
           <xs:documentation>Individual's hereditary name(s) common to all members of a family. Also known as family name or last name. E.g. SMITH. Excludes any potential suffix.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="TitleName" type="cns:SupplementNameType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="TitleName" type="cns:SupplementNameType">
         <xs:annotation>
           <xs:documentation>A word such as Mr., Mrs., Miss or Dr that is used before an individual's name to indicate the gender, profession or marital status.</xs:documentation>
         </xs:annotation>
@@ -1404,17 +1404,17 @@
       <xs:documentation>Contextual information to further describe something using a key-value pair.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="KeyText" type="cns:TextType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="KeyText" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>Name or ID of the Keyword.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PrefLevel" type="cns:PrefLevelType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="PrefLevel" type="cns:PrefLevelType">
         <xs:annotation>
           <xs:documentation>Information supporting a preference including preference level code (Examples: Preferred, Required or Exclude.).</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ValueText" type="cns:TextType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="ValueText" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>Value corresponding to the associated Keyword.</xs:documentation>
         </xs:annotation>
@@ -1448,12 +1448,12 @@
  The amount added to the cost price of goods to cover overhead and profit. [Oxford]</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="Amount" type="cns:AmountType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="Amount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Value and sold-in currency added by an airline as part of the offer reported as calculation detail.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="TypeCode" type="cns:CodeType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="TypeCode" type="cns:CodeType">
         <xs:annotation>
           <xs:documentation>Defines the reason for the markup added by an airline as part of the offer reported as calculation detail. (Examples: currency markup, service markup, etc).</xs:documentation>
         </xs:annotation>
@@ -1485,12 +1485,12 @@
       <xs:documentation>Order Service Definition Ref Flight Associations</xs:documentation>
     </xs:annotation>
     <xs:choice>
-      <xs:element name="DatedOperatingLegRef" type="cns:DatedOperatingLegRefType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="DatedOperatingLegRef" type="cns:DatedOperatingLegRefType">
         <xs:annotation>
           <xs:documentation>Reference to a Dated Operating Leg within this message</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PaxSegmentRef" type="cns:PaxSegmentRefType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="PaxSegmentRef" type="cns:PaxSegmentRefType">
         <xs:annotation>
           <xs:documentation>Reference to a PaxSegmentID . This will be a reference to a single passenger segment that will be defined in a data list or pax segment list in the contained message.</xs:documentation>
         </xs:annotation>
@@ -1502,12 +1502,12 @@
       <xs:documentation>Order Service Association</xs:documentation>
     </xs:annotation>
     <xs:choice>
-      <xs:element name="PaxSegmentRef" type="cns:PaxSegmentRefType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="PaxSegmentRef" type="cns:PaxSegmentRefType">
         <xs:annotation>
           <xs:documentation>Reference to a PaxSegmentID . This will be a reference to a single passenger segment that will be defined in a data list or pax segment list in the contained message.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="SeatOnLeg" type="cns:SeatOnLegType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="SeatOnLeg" type="cns:SeatOnLegType">
         <xs:annotation>
           <xs:documentation>A sitting place for a passenger or crew in a cabin compartment on a Dated Operating Leg.
  Business Identifier Fields:
@@ -1515,7 +1515,7 @@
  - [Seat] (all identifier fields)</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ServiceDefinitionRef" type="cns:OrderServiceDefinitionRefType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="ServiceDefinitionRef" type="cns:OrderServiceDefinitionRefType">
         <xs:annotation>
           <xs:documentation>Airline specific definition of a product or service (excluding flights) that can be separately sold and delivered. e.g. bag, seat, meal on a flight</xs:documentation>
         </xs:annotation>
@@ -1527,12 +1527,12 @@
       <xs:documentation>Airline specific definition of a product or service (excluding flights) that can be separately sold and delivered. e.g. bag, seat, meal on a flight</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="OrderFlightAssociations" type="cns:OrderFlightAssociationsType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="OrderFlightAssociations" type="cns:OrderFlightAssociationsType">
         <xs:annotation>
           <xs:documentation>Order Service Definition Ref Flight Associations</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ServiceDefinitionRefID" type="cns:ID_Type" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="ServiceDefinitionRefID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>References a Service Definition ID within this message.</xs:documentation>
         </xs:annotation>
@@ -1562,17 +1562,17 @@
       <xs:documentation>An organized structure set up for a particular purpose, such as a business, government body, department, charity, or financial institution.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="ContactInfo" type="cns:ContactInfoType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="ContactInfo" type="cns:ContactInfoType">
         <xs:annotation>
           <xs:documentation>The electronic or geographic address which a party has provided as the contact channel. For example, contact email, contact postal address, contact phone number.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Name" type="cns:NameType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="Name" type="cns:NameType">
         <xs:annotation>
           <xs:documentation>Name of the organization</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="OrgID" type="cns:ID_Type" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="OrgID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Organization code or identifier.</xs:documentation>
         </xs:annotation>
@@ -1584,12 +1584,12 @@
       <xs:documentation>Other Contact Method information. E.g. web site URL, social media handle.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="ContactTypeText" type="cns:TextType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="ContactTypeText" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>PADIS code list: Contact Type (to identify the technical contact type information)</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="OtherAddressText" type="cns:TextType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="OtherAddressText" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>Other Contact Method Value. Example: www.marketingsite.com</xs:documentation>
         </xs:annotation>
@@ -1601,12 +1601,12 @@
       <xs:documentation>An organized structure set up for a particular purpose, such as a business, government body, department, charity, or financial institution.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="Name" type="cns:NameType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="Name" type="cns:NameType">
         <xs:annotation>
           <xs:documentation>Name of the organization</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="OrgID" type="cns:ID_Type" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="OrgID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Organization code or identifier.</xs:documentation>
         </xs:annotation>
@@ -1618,7 +1618,7 @@
       <xs:documentation>Reference to a PaxSegmentID . This will be a reference to a single passenger segment that will be defined in a data list or pax segment list in the contained message.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="PaxSegmentRefID" type="cns:ID_Type" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="PaxSegmentRefID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Reference to a PaxSegmentID</xs:documentation>
         </xs:annotation>
@@ -1642,72 +1642,72 @@
       <xs:documentation>Payment Processing Delivery Response Summary Information related to the settlement of a transaction through monetary or other compensations. For example, a payment may be applied to an entire Order or individual Order Items.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="Amount" type="cns:AmountType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="Amount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>The amount applied to the associated payment method. Example: 300 USD</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ContactInfoRefID" type="cns:ID_Type" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="ContactInfoRefID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Reference to the Payer's Contact ID within this message.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Desc" type="cns:DescType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="Desc" type="cns:DescType">
         <xs:annotation>
           <xs:documentation>An account or representation of the certain or major aspects, characteristics, or features of a person, object, or event.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="OrderItemRefID" type="cns:ID_Type" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="OrderItemRefID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Reference to an Order Item ID within this message.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PaymentCommitmentDateTime" type="cns:DateTimeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="PaymentCommitmentDateTime" type="cns:DateTimeType">
         <xs:annotation>
           <xs:documentation>The date when the Payment including information about amount and payment method is accepted by ORA to be enough to lead to successful payment.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PaymentID" type="cns:ID_Type" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="PaymentID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Uniquely identifies payment information within a message.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PaymentInfoID" type="cns:ID_Type" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="PaymentInfoID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Uniquely identifies payment information within a message.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PaymentInfoRefID" type="cns:ID_Type" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="PaymentInfoRefID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>If creating the order after payment authorization it is a way of linking an order to an existing payment reference. not triggering the whole process again.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PaymentRefID" type="cns:ID_Type" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="PaymentRefID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>If creating the order after payment authorization it is a way of linking an order to an existing payment reference. not triggering the whole process again.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PaymentStatusCode" type="cns:PaymentStatusCodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="PaymentStatusCode" type="cns:PaymentStatusCodeType">
         <xs:annotation>
           <xs:documentation>Indicates the current status of this payment information.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PaymentTypeCode" type="cns:PaymentTypeCodeType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="PaymentTypeCode" type="cns:PaymentTypeCodeType">
         <xs:annotation>
           <xs:documentation>The payment method type. Examples: Credit Card, Cash.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PriceVarianceAmount" type="cns:AmountType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="PriceVarianceAmount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Price variance amount applied during Payment processing.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="SurchargeAmount" type="cns:AmountType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="SurchargeAmount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Amount added to the final Offer/Order price, depending on which payment method is used by the client.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="VerificationInd" type="cns:IndType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="VerificationInd" type="cns:IndType">
         <xs:annotation>
           <xs:documentation>When true, this payment requires additional authentication.</xs:documentation>
         </xs:annotation>
@@ -1749,29 +1749,29 @@
       <xs:documentation>A telephone number is a sequence of digits assigned to a fixed-line telephone subscriber station connected to a telephone line or to a wireless electronic telephony device, such as a radio telephone or a mobile telephone, or to other devices for data transmission via the public switched telephone network (PSTN) or other private networks.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="AreaCodeNumber" type="cns:TextType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="AreaCodeNumber" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>Phone number area code. Example: 813
  Note: The phone number can be put unstructured into the phone element or can be put structured into country dialing code, area code, phone number and extension.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ContactTypeText" type="cns:TextType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="ContactTypeText" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>PADIS code list: Contact Type (to identify the technical contact type information)</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="CountryDialingCode" type="cns:CountryDialingCodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="CountryDialingCode" type="cns:CountryDialingCodeType">
         <xs:annotation>
           <xs:documentation>Numeric telephone dialing prefixes for the member countries of the International Telecommunication Union (ITU). Note: The phone number can be put unstructured into the phone element or can be put structured into country dialing code, area code, phone number and extension.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ExtensionNumber" type="cns:TextType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="ExtensionNumber" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>Phone extension number. Example: 1234
  Note: The phone number can be put unstructured into the phone element or can be put structured into country dialing code, area code, phone number and extension.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PhoneNumber" type="cns:TextType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="PhoneNumber" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>Phone number text.
  Examples:
@@ -1787,47 +1787,47 @@
       <xs:documentation>Natural or physical address used for postal service. May be a building address, airport address, etc.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="BuildingRoomText" type="cns:TextType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="BuildingRoomText" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>Additional address information including building name, room, apartment, or suite number.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="CityName" type="cns:NameType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="CityName" type="cns:NameType">
         <xs:annotation>
           <xs:documentation>The name, expressed as text, of the city, town or village.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ContactTypeText" type="cns:TextType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="ContactTypeText" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>PADIS code list: Contact Type (to identify the technical contact type information)</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="CountryCode" type="cns:CountryCodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="CountryCode" type="cns:CountryCodeType">
         <xs:annotation>
           <xs:documentation>ISO Country Code (can be extended by bilateral agreement in case of exceptions, e.g. Kosovo). Examples: US, FR.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="CountryName" type="cns:ProperNameType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="CountryName" type="cns:ProperNameType">
         <xs:annotation>
           <xs:documentation>The name, expressed as text, of the country.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="CountrySubDivisionName" type="cns:ProperNameType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="CountrySubDivisionName" type="cns:ProperNameType">
         <xs:annotation>
           <xs:documentation>The name, expressed as text, of the sub-division of a country.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PO_BoxCode" type="cns:CodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="PO_BoxCode" type="cns:CodeType">
         <xs:annotation>
           <xs:documentation>Post office box. Example: P.O. Box 21</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PostalCode" type="cns:CodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="PostalCode" type="cns:CodeType">
         <xs:annotation>
           <xs:documentation>Postal code. Examples: 11001, 11001-2345</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="StreetText" type="cns:TextType" minOccurs="0" maxOccurs="2">
+      <xs:element maxOccurs="2" minOccurs="0" name="StreetText" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>Street name and number. Examples: Main Street, 100 Main Street</xs:documentation>
         </xs:annotation>
@@ -1867,7 +1867,7 @@
       <xs:documentation>Information supporting a preference including preference level code (Examples: Preferred, Required or Exclude.).</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="PrefLevelCode" type="cns:PrefLevelCodeType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="PrefLevelCode" type="cns:PrefLevelCodeType">
         <xs:annotation>
           <xs:documentation>Level of preference requested. Examples: Preferred, Required or Exclude.</xs:documentation>
         </xs:annotation>
@@ -1879,70 +1879,70 @@
       <xs:documentation>The amount of money expected, required, or given in payment for something.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="BaseAmount" type="cns:AmountType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="BaseAmount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Total Base Fare Amount. Example: 200000</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="BaseAmountGuaranteeTimeLimitDateTime" type="cns:DateTimeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="BaseAmountGuaranteeTimeLimitDateTime" type="cns:DateTimeType">
         <xs:annotation>
           <xs:documentation>The length of time the Base Amount of an offer item is guaranteed. In the absence of the Base Amount guarantee time limit, the Base Amount is not guaranteed. Upon expiry, the Base Amount may no longer be guaranteed and either a new shopping process should begin, or the offer should be repriced resulting in a new Offer. 
  Should the Base Amount guarantee time limit extend beyond Order creation, the remaining length of time persists into the corresponding Order Item. The airline can increase the remaining length of time beyond the original time limit should they wish to.
  This field should only be used when the Airline indicates that a Price Guarantee is available.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="CurConversion" type="cns:CurConversionType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="CurConversion" type="cns:CurConversionType">
         <xs:annotation>
           <xs:documentation>The result of converting one currency into another currency. E.g. local currency to USD, air miles to monetary.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Discount" type="cns:DiscountType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="Discount" type="cns:DiscountType">
         <xs:annotation>
           <xs:documentation>Deduction from the price amount, made in advance of its payment.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="EquivAmount" type="cns:AmountType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="EquivAmount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>The entire amount of transaction stated in the local currency at the point of sale, or the currency as defined by the Currency Indicator Code.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Fee" type="cns:FeeType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="Fee" type="cns:FeeType">
         <xs:annotation>
           <xs:documentation>Amount added on to a charge for a specific product, purpose, or service.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="LoyaltyUnitAmount" type="cns:LoyaltyAmountType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="LoyaltyUnitAmount" type="cns:LoyaltyAmountType">
         <xs:annotation>
           <xs:documentation>Amount specified in loyalty units. Note: the 'Currency Code' sup for this BDT should not be populated.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="LoyaltyUnitName" type="cns:NameType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="LoyaltyUnitName" type="cns:NameType">
         <xs:annotation>
           <xs:documentation>The name of the loyalty unit used by the loyalty unit amount (e.g. miles or points).</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Markup" type="cns:MarkupType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="Markup" type="cns:MarkupType">
         <xs:annotation>
           <xs:documentation>Defines the reason for the markup added by an airline as part of the offer reported as calculation detail.
  The amount added to the cost price of goods to cover overhead and profit. [Oxford]</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="MaskedInd" type="cns:IndType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="MaskedInd" type="cns:IndType">
         <xs:annotation>
           <xs:documentation>Indicator to advise the Seller if the price will be masked to the Customer</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Surcharge" type="cns:SurchargeType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="Surcharge" type="cns:SurchargeType">
         <xs:annotation>
           <xs:documentation>Amount added on to a usual charge for a specific product, purpose, or service.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="TaxSummary" type="cns:TaxSummaryType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="TaxSummary" type="cns:TaxSummaryType">
         <xs:annotation>
           <xs:documentation>Tax summary information.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="TotalAmount" type="cns:AmountType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="TotalAmount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Total monetary price amount, including all tax, surcharge, and fee amounts.</xs:documentation>
         </xs:annotation>
@@ -2038,17 +2038,17 @@
       <xs:documentation>Contains refund type, payment type and amount attributes for a specific product, purpose, or service.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="DescText" type="cns:TextType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="DescText" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>Description. Example: 'Full refund within 30 days of departure'.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="FixedAmount" type="cns:AmountType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="FixedAmount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Stores an exact fixed fee amount relating to this condition.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="LevelTypeCode" type="cns:RefundLevelTypeCodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="LevelTypeCode" type="cns:RefundLevelTypeCodeType">
         <xs:annotation>
           <xs:documentation>This will identify the type of re fundability for the condition. This will be one of the following.
  Fully Refundable 
@@ -2056,22 +2056,22 @@
  Non Refundable</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="MaximumAmount" type="cns:AmountType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="MaximumAmount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Stores an Maximum refund amount which will be applied when a variable fee amount is effective.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="MinimumAmount" type="cns:AmountType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="MinimumAmount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Stores an Minimum refund amount which will be applied when a variable refund amount is effective.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PaymentTypeCode" type="cns:PaymentMethodCodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="PaymentTypeCode" type="cns:PaymentMethodCodeType">
         <xs:annotation>
           <xs:documentation>This stores a code to represent the form of payment to be used to reimburse the customer/passenger.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Percent" type="cns:PercentType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="Percent" type="cns:PercentType">
         <xs:annotation>
           <xs:documentation>Stores a percentage which will be used to determine the refund to be applied in conjunction or not with minimum and maximum amounts.</xs:documentation>
         </xs:annotation>
@@ -2083,7 +2083,7 @@
       <xs:documentation>An individual conducting sales activities on behalf of a sales branch or organization.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="SalesAgentID" type="cns:ID_Type" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="SalesAgentID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>The unique identifier of the sales agent. This value must be accompanied by the appropriate Sales Branch Identifier or Organization Identifier to ensure uniqueness.</xs:documentation>
         </xs:annotation>
@@ -2095,7 +2095,7 @@
       <xs:documentation>An organizational unit with responsibility over sales in a market, for a product or service and under any other specified criteria.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="SalesBranchID" type="cns:ID_Type" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="SalesBranchID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>The industry wide unique identifier of the sales branch. Commonly, a value from the Pseudo City Code may be used, or a bi-latterly agreed code. When the latter it must only be used between parties that hold an appropriate translation.</xs:documentation>
         </xs:annotation>
@@ -2107,12 +2107,12 @@
       <xs:documentation>Seat Assignment Associations</xs:documentation>
     </xs:annotation>
     <xs:choice>
-      <xs:element name="DatedOperatingLegRef" type="cns:DatedOperatingLegRefType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="DatedOperatingLegRef" type="cns:DatedOperatingLegRefType">
         <xs:annotation>
           <xs:documentation>Reference to a Dated Operating Leg within this message</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PaxSegmentRef" type="cns:PaxSegmentRefType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="PaxSegmentRef" type="cns:PaxSegmentRefType">
         <xs:annotation>
           <xs:documentation>Reference to a PaxSegmentID . This will be a reference to a single passenger segment that will be defined in a data list or pax segment list in the contained message.</xs:documentation>
         </xs:annotation>
@@ -2139,17 +2139,17 @@
  - [Seat] (all identifier fields)</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="OccupationStatusCode" type="cns:SeatStatusCodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="OccupationStatusCode" type="cns:SeatStatusCodeType">
         <xs:annotation>
           <xs:documentation>Information related to the availability of a particular Seat on Leg.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Seat" type="cns:SeatType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="Seat" type="cns:SeatType">
         <xs:annotation>
           <xs:documentation>A sitting place for a passenger or crew in a cabin compartment on a transport vehicle.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="SeatAssignmentAssociations" type="cns:SeatAssignmentAssociationsType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="SeatAssignmentAssociations" type="cns:SeatAssignmentAssociationsType">
         <xs:annotation>
           <xs:documentation>Seat Assignment Associations</xs:documentation>
         </xs:annotation>
@@ -2178,22 +2178,22 @@
       <xs:documentation>A sitting place for a passenger or crew in a cabin compartment on a transport vehicle.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="ColumnID" type="cns:ColumnID_Type" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="ColumnID" type="cns:ColumnID_Type">
         <xs:annotation>
           <xs:documentation>Alphabetic character identifying a seat within a row.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="RowNumber" type="cns:NaturalNumberType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="RowNumber" type="cns:NaturalNumberType">
         <xs:annotation>
           <xs:documentation>Ordinal number identifying a seat row in an aircraft.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="SeatCharacteristicCode" type="cns:SeatCharacteristicCodeType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="SeatCharacteristicCode" type="cns:SeatCharacteristicCodeType">
         <xs:annotation>
           <xs:documentation>Characteristic of an aircraft seat e.g. A (Aisle seat), E (Exit and emergency exit),..., according to PADIS code list 9825.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="SeatProfileRefID" type="cns:ID_Type" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="SeatProfileRefID" type="cns:ID_Type">
         <xs:annotation>
           <xs:documentation>Reference to a Seat Profile ID within this message.</xs:documentation>
         </xs:annotation>
@@ -2223,7 +2223,7 @@
       <xs:documentation>Request content for message</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="Order" type="cns:DeliveredOrderType" minOccurs="1" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="1" name="Order" type="cns:DeliveredOrderType">
         <xs:annotation>
           <xs:documentation>Delivered Order is a uniquely identified record of the agreement of one party with another to receive products and services under specified terms and conditions. Order supports the sale of a flexible range of airline products and services that are not necessarily Journey based (e.g. subscription services). 
  Comment:
@@ -2231,7 +2231,7 @@
  An Order may support non-homogeneity, i.e. each passenger in an Order may hold different sets of order items at different prices.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PaymentProcessingSummary" type="cns:PaymentProcessingDeliveryRequestSummaryType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="PaymentProcessingSummary" type="cns:PaymentProcessingDeliveryRequestSummaryType">
         <xs:annotation>
           <xs:documentation>Payment Processing Delivery Response Summary Information related to the settlement of a transaction through monetary or other compensations. For example, a payment may be applied to an entire Order or individual Order Items.</xs:documentation>
         </xs:annotation>
@@ -2243,17 +2243,17 @@
       <xs:documentation>Information related to the value of a product or service as it pertains to interline transactions.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="Commission" type="cns:CommissionType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="Commission" type="cns:CommissionType">
         <xs:annotation>
           <xs:documentation>An amount of money, typically a set percentage of the value involved, paid to an agent in a commercial transaction.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Fee" type="cns:FeeType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="Fee" type="cns:FeeType">
         <xs:annotation>
           <xs:documentation>Amount added on to a charge for a specific product, purpose, or service.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="MethodCode" type="cns:SettlementMethodCodeType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="MethodCode" type="cns:SettlementMethodCodeType">
         <xs:annotation>
           <xs:documentation>Settlement method. Examples:
  - AD (Internal Airline Document).
@@ -2261,23 +2261,23 @@
  - EA (EMD Associated or Internal Airline Document).</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="SettlementAmount" type="cns:AmountType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="SettlementAmount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Settlement (Price) Value. Example: 300 (USD)
  Note: This represents a Settlement value that is only used between the POA and ORA.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Surcharge" type="cns:SurchargeType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="Surcharge" type="cns:SurchargeType">
         <xs:annotation>
           <xs:documentation>Amount added on to a usual charge for a specific product, purpose, or service.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Tax" type="cns:TaxType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="Tax" type="cns:TaxType">
         <xs:annotation>
           <xs:documentation>A compulsory contribution to state revenue, levied by the government on workers' income and business profits or added to the cost of some goods, services, and transactions.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="TaxableInd" type="cns:IndType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="TaxableInd" type="cns:IndType">
         <xs:annotation>
           <xs:documentation>In some markets, commission is VAT-able (i.e. Taxable)</xs:documentation>
         </xs:annotation>
@@ -2307,12 +2307,12 @@
  - IATA Location Code</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="IATA_LocationCode" type="cns:IATA_LocationCodeType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="IATA_LocationCode" type="cns:IATA_LocationCodeType">
         <xs:annotation>
           <xs:documentation>IATA 3-letter code defining the city or airport code.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="StationName" type="cns:StationNameType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="StationName" type="cns:StationNameType">
         <xs:annotation>
           <xs:documentation>Name of the station. E.g. George Bush Intercontinental Airport.</xs:documentation>
         </xs:annotation>
@@ -2333,19 +2333,19 @@
       <xs:documentation>Amount added on to a usual charge for a specific product, purpose, or service.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="AllRefundableInd" type="cns:IndType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="AllRefundableInd" type="cns:IndType">
         <xs:annotation>
           <xs:documentation>DEPRECATED - This element is deprecated as of 24.1 and will be decommissioned in a future release. Please consult implementation guidance on alternatives to this element.
  When true, all tax breakdown amounts are refundable.
  </xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Breakdown" type="cns:FeeType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="Breakdown" type="cns:FeeType">
         <xs:annotation>
           <xs:documentation>Amount added on to a charge for a specific product, purpose, or service.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="TotalAmount" type="cns:AmountType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="TotalAmount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Summary of all fee amounts.
  </xs:documentation>
@@ -2382,45 +2382,45 @@
       <xs:documentation>Tax summary information.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="AllRefundableInd" type="cns:IndType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="AllRefundableInd" type="cns:IndType">
         <xs:annotation>
           <xs:documentation>DEPRECATED - This element is deprecated as of 24.1 and will be decommissioned in a future release. Please consult implementation guidance on alternatives to this element.
  When true, all tax breakdown amounts are refundable.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ApproximateInd" type="cns:IndType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="ApproximateInd" type="cns:IndType">
         <xs:annotation>
           <xs:documentation>When true, this tax is approximate.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="CollectionInd" type="cns:IndType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="CollectionInd" type="cns:IndType">
         <xs:annotation>
           <xs:documentation>When true, all specified tax breakdowns must be collected.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="GuaranteeTimeLimitDateTime" type="cns:DateTimeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="GuaranteeTimeLimitDateTime" type="cns:DateTimeType">
         <xs:annotation>
           <xs:documentation>The length of time the Tax of an offer item is guaranteed. In the absence of the Tax guarantee time limit, the Tax is not guaranteed. Upon expiry, the Tax may no longer be guaranteed and either a new shopping process should begin, or the offer should be repriced resulting in a new Offer. 
  Should the Tax guarantee time limit extend beyond Order creation, the remaining length of time persists into the corresponding Order Item. The airline can increase the remaining length of time beyond the original time limit should they wish to.
  This field should only be used when the Airline indicates that a Price Guarantee is available.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="RefundMethodText" type="cns:NameType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="RefundMethodText" type="cns:NameType">
         <xs:annotation>
           <xs:documentation>Information from the Airline detailing to the Customer how the tax refund will be processed and what the Customer has to do for the refund.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Tax" type="cns:TaxType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="Tax" type="cns:TaxType">
         <xs:annotation>
           <xs:documentation>A compulsory contribution to state revenue, levied by the government on workers' income and business profits or added to the cost of some goods, services, and transactions.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="TotalRefundableTaxAmount" type="cns:AmountType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="TotalRefundableTaxAmount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>The total amount of all refundable taxes as calculated by the Airline.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="TotalTaxAmount" type="cns:AmountType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="TotalTaxAmount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Total of all applicable tax amounts included in the price. If tax breakdowns are provided, this amount should match the sum of the tax breakdown amounts.
  </xs:documentation>
@@ -2433,93 +2433,93 @@
       <xs:documentation>A compulsory contribution to state revenue, levied by the government on workers' income and business profits or added to the cost of some goods, services, and transactions.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="AddlFiledTaxCode" type="cns:TaxCodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="AddlFiledTaxCode" type="cns:TaxCodeType">
         <xs:annotation>
           <xs:documentation>A qualifier to the Tax Code to distinguish taxes/fees/charges with the same tax code but with different business uses.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="AddlTaxCode" type="cns:TaxCodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="AddlTaxCode" type="cns:TaxCodeType">
         <xs:annotation>
           <xs:documentation>A qualifier to the Tax Code to distinguish taxes/fees/charges with the same tax code but with different business uses.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Amount" type="cns:AmountType" minOccurs="1" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="1" name="Amount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Tax amount. Example: 15000 USD</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ApproximateInd" type="cns:IndType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="ApproximateInd" type="cns:IndType">
         <xs:annotation>
           <xs:documentation>When true, this tax amount is approximate.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="AppTypeCode" type="cns:CodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="AppTypeCode" type="cns:CodeType">
         <xs:annotation>
           <xs:documentation>Indicates at which point the tax was applied (e.g. S - Sale, D - Departure, A - Arrival, X - Delivery).</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="CollectionInd" type="cns:IndType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="CollectionInd" type="cns:IndType">
         <xs:annotation>
           <xs:documentation>When true, this tax must be collected.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="CollectionPointTax" type="cns:CollectionPointTaxType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="CollectionPointTax" type="cns:CollectionPointTaxType">
         <xs:annotation>
           <xs:documentation>Tax data breakdown by collection point for XF(Passenger Facility Fee) and ZP(federal tax segment) taxes.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Country" type="cns:CountryType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="Country" type="cns:CountryType">
         <xs:annotation>
           <xs:documentation>A nation with its own government, occupying a particular territory.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="CountrySubDivision" type="cns:CountrySubDivisionType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="CountrySubDivision" type="cns:CountrySubDivisionType">
         <xs:annotation>
           <xs:documentation>An area of land which is a sub-division within a country, such as a state, a county, a canton, a province, etc.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="CurConversion" type="cns:CurConversionType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="CurConversion" type="cns:CurConversionType">
         <xs:annotation>
           <xs:documentation>The result of converting one currency into another currency. E.g. local currency to USD, air miles to monetary.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="DescText" type="cns:TextType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="DescText" type="cns:TextType">
         <xs:annotation>
           <xs:documentation>Tax short description.
  Example: $4 per flight segment, per passenger (U.S. domestic segment tax)</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="FiledAmount" type="cns:AmountType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="FiledAmount" type="cns:AmountType">
         <xs:annotation>
           <xs:documentation>Internal tax filed amount as determined by the airline.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="FiledTaxCode" type="cns:TaxCodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="FiledTaxCode" type="cns:TaxCodeType">
         <xs:annotation>
           <xs:documentation>Internal tax filed type code as determined by the airline.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="QualifierCode" type="cns:TaxQualifierCodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="QualifierCode" type="cns:TaxQualifierCodeType">
         <xs:annotation>
           <xs:documentation>Used to specify if current, paid, additional taxes Refer to IATA PADIS Code list data element 5305.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="RefundInd" type="cns:IndType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="RefundInd" type="cns:IndType">
         <xs:annotation>
           <xs:documentation>When true, this tax is refundable.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="TaxCode" type="cns:TaxCodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="TaxCode" type="cns:TaxCodeType">
         <xs:annotation>
           <xs:documentation>IATA TTBS Tax Code. Example: AY, GB</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="TaxName" type="cns:NameType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="TaxName" type="cns:NameType">
         <xs:annotation>
           <xs:documentation>The name given to describe the tax. For example, this name can be taken from the IATA TTBS</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="TaxTypeCode" type="cns:TaxTypeCodeType" minOccurs="0" maxOccurs="1">
+      <xs:element maxOccurs="1" minOccurs="0" name="TaxTypeCode" type="cns:TaxTypeCodeType">
         <xs:annotation>
           <xs:documentation>Tax type code (e.g. Applied or Exempt).</xs:documentation>
         </xs:annotation>
