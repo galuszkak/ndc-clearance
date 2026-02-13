@@ -1,33 +1,12 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { getVersions, getMessages } from "../utils/schemas";
-import { MCP_URL } from "../utils/config";
-import { MODAL_IDS } from "../utils/constants";
 
 const versions = getVersions();
 // Default to the first message of the latest version for the "Quick Start"
 const latestVersion = versions[0];
 const latestMessages = latestVersion ? getMessages(latestVersion) : [];
 const firstMessage = latestMessages[0] || "IATA_AirShoppingRQ";
-
-const vsCodeConfig = `{
-  "servers": {
-    "ndc-validator": {
-      "type": "sse",
-      "url": "${MCP_URL}"
-    }
-  }
-}`;
-
-const openCodeConfig = `{
-  "mcp": {
-    "ndc-validator": {
-      "type": "remote",
-      "url": "${MCP_URL}",
-      "enabled": true
-    }
-  }
-}`;
 ---
 
 <Layout title="IATA NDC Schema Browser - All Versions | NDC Clearance">
@@ -42,7 +21,7 @@ const openCodeConfig = `{
                 <div class="card-body">
                     <div class="flex items-center gap-3 mb-2">
                         <h2 class="card-title text-2xl">
-                            NDC Tools for Your AI Agent
+                            NDC for AI Agents
                         </h2>
                         <div
                             class="badge badge-secondary badge-outline font-mono text-xs"
@@ -52,38 +31,27 @@ const openCodeConfig = `{
                     </div>
 
                     <p class="text-base-content/70 mb-6">
-                        Connect your favorite AI agent directly to our live MCP
-                        validation backend. Verify messages against any schema
-                        version instantly.
+                        Connect your AI agent (Claude, Cursor, Copilot) directly to our live MCP
+                        validation backend.
                     </p>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <button
-                            class="btn btn-outline btn-sm"
-                            onclick={`document.getElementById('${MODAL_IDS.CLAUDE_CODE}').showModal()`}
-                            >Claude Code</button
+                    <a href="/mcp" class="btn btn-neutral w-full">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 mr-2"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
                         >
-                        <button
-                            class="btn btn-outline btn-sm"
-                            onclick={`document.getElementById('${MODAL_IDS.CLAUDE_DESKTOP}').showModal()`}
-                            >Claude.ai</button
-                        >
-                        <button
-                            class="btn btn-outline btn-sm"
-                            onclick={`document.getElementById('${MODAL_IDS.VSCODE}').showModal()`}
-                            >VS Code</button
-                        >
-                        <button
-                            class="btn btn-outline btn-sm"
-                            onclick={`document.getElementById('${MODAL_IDS.GEMINI}').showModal()`}
-                            >Gemini CLI</button
-                        >
-                        <button
-                            class="btn btn-outline btn-sm sm:col-span-2"
-                            onclick={`document.getElementById('${MODAL_IDS.OPENCODE}').showModal()`}
-                            >OpenCode</button
-                        >
-                    </div>
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M13 10V3L4 14h7v7l9-11h-7z"
+                            />
+                        </svg>
+                        Setup MCP Connection
+                    </a>
                 </div>
             </div>
 
@@ -119,129 +87,6 @@ const openCodeConfig = `{
     </div>
 
     <div id="versions"></div>
-
-    <!-- Modals -->
-    <dialog id={MODAL_IDS.CLAUDE_CODE} class="modal">
-        <div class="modal-box w-11/12 max-w-3xl">
-            <h3 class="font-bold text-lg mb-4">Setup for Claude Code</h3>
-            <p class="mb-4">
-                Run the following command in your terminal to add the NDC
-                Validator tool:
-            </p>
-            <div class="mockup-code mb-4">
-                <pre
-                    data-prefix="$"><code>claude mcp add --transport sse ndc-validator {MCP_URL}</code></pre>
-            </div>
-            <p class="text-sm opacity-70">
-                This will configure Claude Code to communicate with the live NDC
-                Clearance backend.
-            </p>
-            <div class="modal-action">
-                <form method="dialog">
-                    <button class="btn">Close</button>
-                </form>
-            </div>
-        </div>
-        <form method="dialog" class="modal-backdrop">
-            <button>close</button>
-        </form>
-    </dialog>
-
-    <dialog id={MODAL_IDS.CLAUDE_DESKTOP} class="modal">
-        <div class="modal-box w-11/12 max-w-3xl">
-            <h3 class="font-bold text-lg mb-4">Setup for Claude.ai</h3>
-            <p class="mb-4">To use this tool in Claude.ai:</p>
-            <ol class="list-decimal list-inside mb-4 space-y-2">
-                <li>
-                    Open <a
-                        href="https://claude.ai"
-                        target="_blank"
-                        class="link">Claude.ai</a
-                    >
-                </li>
-                <li>
-                    Go to <strong>Settings</strong> &gt; <strong
-                        >Connectors</strong
-                    >
-                </li>
-                <li>Click <strong>Add Custom Connector</strong></li>
-                <li>Enter the following URL:</li>
-            </ol>
-            <div class="mockup-code mb-4">
-                <pre><code>{MCP_URL}</code></pre>
-            </div>
-            <div class="modal-action">
-                <form method="dialog">
-                    <button class="btn">Close</button>
-                </form>
-            </div>
-        </div>
-        <form method="dialog" class="modal-backdrop">
-            <button>close</button>
-        </form>
-    </dialog>
-
-    <dialog id={MODAL_IDS.VSCODE} class="modal">
-        <div class="modal-box w-11/12 max-w-3xl">
-            <h3 class="font-bold text-lg mb-4">
-                Setup for VS Code (GitHub Copilot)
-            </h3>
-            <p class="mb-4">
-                Add the following to your VS Code MCP server configuration file
-                (typically found at <code
-                    >~/.config/Code/User/globalStorage/mcp-servers.json</code
-                > or configured via extension settings):
-            </p>
-            <div class="mockup-code mb-4">
-                <pre><code>{vsCodeConfig}</code></pre>
-            </div>
-            <div class="modal-action">
-                <form method="dialog">
-                    <button class="btn">Close</button>
-                </form>
-            </div>
-        </div>
-        <form method="dialog" class="modal-backdrop">
-            <button>close</button>
-        </form>
-    </dialog>
-
-    <dialog id={MODAL_IDS.GEMINI} class="modal">
-        <div class="modal-box w-11/12 max-w-3xl">
-            <h3 class="font-bold text-lg mb-4">Setup for Gemini CLI</h3>
-            <p class="mb-4">Run the following command in your terminal:</p>
-            <div class="mockup-code mb-4">
-                <pre
-                    data-prefix="$"><code>gemini mcp add --transport sse ndc-validator {MCP_URL}</code></pre>
-            </div>
-            <div class="modal-action">
-                <form method="dialog">
-                    <button class="btn">Close</button>
-                </form>
-            </div>
-        </div>
-        <form method="dialog" class="modal-backdrop">
-            <button>close</button>
-        </form>
-    </dialog>
-
-    <dialog id={MODAL_IDS.OPENCODE} class="modal">
-        <div class="modal-box w-11/12 max-w-3xl">
-            <h3 class="font-bold text-lg mb-4">Setup for OpenCode</h3>
-            <p class="mb-4">Add to your <code>opencode.json</code>:</p>
-            <div class="mockup-code mb-4">
-                <pre><code>{openCodeConfig}</code></pre>
-            </div>
-            <div class="modal-action">
-                <form method="dialog">
-                    <button class="btn">Close</button>
-                </form>
-            </div>
-        </div>
-        <form method="dialog" class="modal-backdrop">
-            <button>close</button>
-        </form>
-    </dialog>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
         {

@@ -169,26 +169,81 @@ import PostHog from "../components/posthog.astro";
                 <div
                     class="w-80 bg-base-100 border-r border-base-200 flex flex-col h-full overflow-hidden min-h-full"
                 >
-                    <div class="p-4 flex-none border-b border-base-200/50">
-                        <a
-                            href="/"
-                            class="flex items-center gap-2 font-bold text-xs uppercase tracking-wider opacity-60 hover:opacity-100 transition-opacity"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-4 w-4"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                ><path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                                ></path></svg
-                            >
-                            Dashboard
-                        </a>
+                    <div class="flex-none border-b border-base-200/50">
+                        <ul class="menu menu-md bg-base-100 w-full p-2 gap-1">
+                            <li>
+                                <a
+                                    href="/"
+                                    class={Astro.url.pathname === "/" ||
+                                    Astro.url.pathname.match(/^\/\d+\.\d+/)
+                                        ? "active"
+                                        : ""}
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="h-5 w-5"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                                        ></path>
+                                    </svg>
+                                    Schema Browser
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="/diff"
+                                    class={Astro.url.pathname.startsWith("/diff")
+                                        ? "active"
+                                        : ""}
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="h-5 w-5"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                                        ></path>
+                                    </svg>
+                                    Diff Tool
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="/mcp"
+                                    class={Astro.url.pathname.startsWith("/mcp")
+                                        ? "active"
+                                        : ""}
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="h-5 w-5"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                    </svg>
+                                    MCP Server
+                                </a>
+                            </li>
+                        </ul>
                     </div>
 
                     <div class="flex-1 overflow-hidden pointer-events-auto">

@@ -1,11 +1,12 @@
 <script lang="ts">
+    import { untrack } from "svelte";
     import { API_URL } from "../utils/config";
     import type { MessageDiff } from "../utils/types";
 
     let { allVersions }: { allVersions: string[] } = $props();
 
-    // allVersions is static from Astro SSR — initial-value capture is intentional
-    const versions = [...allVersions];
+    // allVersions is static from Astro SSR — untrack to avoid false positive warning
+    const versions = untrack(() => [...allVersions]);
     let fromVersion = $state(
         versions.length > 1 ? versions[1] : versions[0],
     );

@@ -1,0 +1,262 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { MCP_URL } from "../utils/config";
+
+const vsCodeConfig = `{
+  "mcpServers": {
+    "ndc-validator": {
+      "type": "sse",
+      "url": "${MCP_URL}"
+    }
+  }
+}`;
+
+const claudeConfig = `claude mcp add --transport sse ndc-validator ${MCP_URL}`;
+
+const geminiConfig = `gemini mcp add --transport sse ndc-validator ${MCP_URL}`;
+
+const openCodeConfig = `{
+  "mcp": {
+    "ndc-validator": {
+      "type": "remote",
+      "url": "${MCP_URL}",
+      "enabled": true
+    }
+  }
+}`;
+
+const cursorConfig = `{
+  "mcpServers": {
+    "ndc-validator": {
+      "type": "sse",
+      "url": "${MCP_URL}"
+    }
+  }
+}`;
+
+const tools = [
+    {
+        name: "validate_ndc_xml",
+        description:
+            "Validates an NDC XML message against a specific schema version.",
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>',
+    },
+    {
+        name: "list_versions",
+        description: "Lists all available NDC schema versions.",
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>',
+    },
+    {
+        name: "list_schemas",
+        description:
+            "Lists available messages (optionally by version).",
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" /></svg>',
+    },
+    {
+        name: "get_schema_files",
+        description: "Retrieves XSD file contents for a message.",
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>',
+    },
+];
+---
+
+<Layout
+    title="MCP Server for AI Agents | NDC Clearance"
+    description="Connect your AI Agent to NDC Clearance via the Model Context Protocol (MCP). Validate XML, browse schemas, and more directly from your agent."
+>
+    <!-- Left Sidebar Content: Table of Contents or Quick Links -->
+    <div slot="sidebar-content" class="h-full overflow-y-auto p-4">
+        <div class="prose prose-sm">
+            <h3>Quick Links</h3>
+            <ul class="not-prose menu menu-sm bg-base-100 rounded-box w-full" id = "toc-menu">
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#available-tools">Available Tools</a></li>
+                <li><a href="#integration-guide">Integration Guide</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto max-w-4xl px-4 py-8">
+        
+        <!-- Hero Section -->
+        <div class="hero bg-base-200 rounded-box mb-12 p-8">
+            <div class="hero-content text-center">
+                <div class="max-w-md">
+                    <h1 class="text-4xl font-bold mb-4">NDC Intelligence for AI Agents</h1>
+                    <p class="py-6 text-lg">
+                        Empower your AI assistant with real-time access to IATA NDC schemas. 
+                        Validate XML messages, explore versions, and retrieve schema definitions instantly.
+                    </p>
+                    <a href="#integration-guide" class="btn btn-primary">Connect Now</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overview Section -->
+        <section id="overview" class="mb-16">
+            <h2 class="text-3xl font-bold mb-6 flex items-center gap-2">
+                <span class="text-primary">#</span> What is MCP?
+            </h2>
+            <div class="prose max-w-none">
+                <p>
+                    The <strong>Model Context Protocol (MCP)</strong> is an open standard that enables AI models 
+                    to interact with external tools and data context. 
+                </p>
+                <p>
+                    NDC Clearance provides a live <strong>MCP Server</strong> that allows agents like 
+                    Claude, Cursor, and VS Code Copilot to perform specialized tasks:
+                </p>
+                <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 not-prose mt-4">
+                    <li class="card bg-base-100 border border-base-200 shadow-sm">
+                        <div class="card-body p-4 flex flex-row items-center gap-4">
+                             <div class="bg-primary/10 p-2 rounded-lg text-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                             </div>
+                             <div>
+                                <h3 class="font-bold">Xml Validation</h3>
+                                <p class="text-sm">Validate specific messages against exact versions.</p>
+                             </div>
+                        </div>
+                    </li>
+                    <li class="card bg-base-100 border border-base-200 shadow-sm">
+                        <div class="card-body p-4 flex flex-row items-center gap-4">
+                             <div class="bg-secondary/10 p-2 rounded-lg text-secondary">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                             </div>
+                             <div>
+                                <h3 class="font-bold">Schema Search</h3>
+                                <p class="text-sm">Find correct XSD structures without hallucinations.</p>
+                             </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Tools Section -->
+        <section id="available-tools" class="mb-16">
+            <h2 class="text-3xl font-bold mb-6 flex items-center gap-2">
+                <span class="text-primary">#</span> Available Tools
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {tools.map(tool => (
+                    <div class="card bg-base-100 shadow-md border border-base-200">
+                        <div class="card-body">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="p-2 bg-base-200 rounded-md text-base-content" set:html={tool.icon} />
+                                <h3 class="card-title font-mono text-lg">{tool.name}</h3>
+                            </div>
+                            <p class="text-base-content/80">{tool.description}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </section>
+
+        <!-- Integration Guide -->
+        <section id="integration-guide" class="mb-16">
+            <h2 class="text-3xl font-bold mb-6 flex items-center gap-2">
+                <span class="text-primary">#</span> Integration Guide
+            </h2>
+
+            <div role="tablist" class="tabs tabs-lifted tabs-lg mb-8">
+                <!-- Cursor -->
+                <input type="radio" name="integration_tabs" role="tab" class="tab" aria-label="Cursor" checked />
+                <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+                    <h3 class="font-bold text-lg mb-4">Cursor (Agent Mode)</h3>
+                     <p class="mb-4">
+                        Add the following to your Cursor MCP settings (Settings > General > MCP Servers > Add new MCP server).
+                    </p>
+                    <div class="mockup-code">
+                         <pre data-prefix="1"><code>Type: SSE</code></pre>
+                         <pre data-prefix="2"><code>URL: {MCP_URL}</code></pre>
+                    </div>
+                     <p class="mt-4 text-sm opacity-70">
+                         Alternatively, you can edit <code>config.json</code> manually (if accessible in your environment).
+                     </p>
+                </div>
+
+                <!-- VS Code -->
+                <input type="radio" name="integration_tabs" role="tab" class="tab" aria-label="VS Code" />
+                <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+                    <h3 class="font-bold text-lg mb-4">VS Code (GitHub Copilot)</h3>
+                    <p class="mb-4">
+                        Add this configuration to your MCP config file (typically <code>~/.config/Code/User/globalStorage/mcp-servers.json</code>):
+                    </p>
+                    <div class="mockup-code">
+                        <pre><code>{vsCodeConfig}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Claude Desktop -->
+                <input type="radio" name="integration_tabs" role="tab" class="tab" aria-label="Claude Desktop" />
+                 <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+                     <h3 class="font-bold text-lg mb-4">Claude for Desktop</h3>
+                    <p class="mb-4">
+                        Add to your <code>claude_desktop_config.json</code>:
+                    </p>
+                    <div class="mockup-code">
+                        <pre><code>{JSON.stringify({
+  "mcpServers": {
+    "ndc-validator": {
+      "type": "sse",
+      "url": MCP_URL
+    }
+  }
+}, null, 2)}</code></pre>
+                    </div>
+                </div>
+
+
+                <!-- Claude Code -->
+                <input type="radio" name="integration_tabs" role="tab" class="tab" aria-label="Claude Code" />
+                <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+                    <h3 class="font-bold text-lg mb-4">Claude Code (CLI)</h3>
+                    <p class="mb-4">Run the following command in your terminal:</p>
+                    <div class="mockup-code">
+                        <pre data-prefix="$"><code>{claudeConfig}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Gemini -->
+                <input type="radio" name="integration_tabs" role="tab" class="tab" aria-label="Gemini" />
+                <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+                    <h3 class="font-bold text-lg mb-4">Gemini CLI</h3>
+                     <p class="mb-4">Run the following command:</p>
+                    <div class="mockup-code">
+                        <pre data-prefix="$"><code>{geminiConfig}</code></pre>
+                    </div>
+                </div>
+
+                 <!-- OpenCode -->
+                <input type="radio" name="integration_tabs" role="tab" class="tab" aria-label="OpenCode" />
+                <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+                    <h3 class="font-bold text-lg mb-4">OpenCode Interpreter</h3>
+                     <p class="mb-4">Add to your <code>opencode.json</code>:</p>
+                    <div class="mockup-code">
+                        <pre><code>{openCodeConfig}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</Layout>
+
+<script>
+    // Simple script to highlight TOC items
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const id = entry.target.getAttribute('id');
+            const link = document.querySelector(`#toc-menu a[href="#${id}"]`);
+            if (entry.isIntersecting) {
+                document.querySelectorAll('#toc-menu a').forEach(a => a.classList.remove('active'));
+                if (link) link.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-100px 0px -60% 0px' });
+
+    document.querySelectorAll('section[id]').forEach((section) => {
+        observer.observe(section);
+    });
+</script>
