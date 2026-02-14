@@ -5,12 +5,12 @@ import StructureOverview from "../../components/StructureOverview.svelte";
 import MessageSidebar from "../../components/MessageSidebar.svelte";
 import { getVersions, getMessages } from "../../utils/schemas";
 import { getSchemaDescription } from "../../utils/schema-description";
+import { getExamplesForMessage, loadExampleCatalog } from "../../utils/examples";
 import ExamplesButton from "../../components/ExamplesButton.svelte";
 import ValidateModal from "../../components/ValidateModal.svelte";
 import { API_URL } from "../../utils/config";
 import { MODAL_IDS } from "../../utils/constants";
-import type { SchemaFileRef, WorkedExamplesMap } from "../../utils/types";
-import workedExamples from "../../data/worked_examples.json";
+import type { SchemaFileRef } from "../../utils/types";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -65,11 +65,8 @@ const mainSchemaFile =
 
 const cleanMessageName = message.replace("IATA_", "");
 const description = getSchemaDescription(version, message);
-
-const examples =
-    (workedExamples as WorkedExamplesMap)[message] ||
-    (workedExamples as WorkedExamplesMap)[`IATA_${message}`] ||
-    [];
+const catalog = loadExampleCatalog();
+const examples = getExamplesForMessage(message, catalog);
 ---
 
 <Layout

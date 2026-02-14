@@ -150,7 +150,7 @@ fun main(args: Array<String>) {
     }
 
     val projectRoot = NdcConstants.projectRoot()
-    val effectiveExamplesDir = examplesDir ?: projectRoot.resolve("worked_examples_downloads")
+    val effectiveExamplesDir = examplesDir ?: NdcConstants.examplesRoot(projectRoot).resolve("files/iata")
     val effectiveSchemasDir = schemasDir ?: when (schemaType) {
         SchemaType.RAW -> projectRoot.resolve("raw_ndc_schemas")
         SchemaType.FLATTENED -> projectRoot.resolve("ndc_schemas")
@@ -181,7 +181,7 @@ fun main(args: Array<String>) {
 
     // Check directories
     if (!effectiveExamplesDir.exists()) {
-        println("Error: $effectiveExamplesDir not found. Run download script first.")
+        println("Error: $effectiveExamplesDir not found. Run ./gradlew download first.")
         exitProcess(1)
     }
     if (!effectiveSchemasDir.exists()) {

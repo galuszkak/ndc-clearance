@@ -65,14 +65,49 @@ export interface MessageDiff {
     status: "ADDED" | "REMOVED" | "CHANGED" | "UNCHANGED";
 }
 
-/** Worked example from JSON data */
-export interface WorkedExample {
+/** Canonical example record from ndc_content/examples/catalog.json */
+export interface ExampleRecord {
+    id: string;
+    source: "iata" | "custom";
+    message: string;
+    version: string;
     title: string;
-    file: string;
-    url: string;
-    original_version: string;
-    path: string;
+    description: string | null;
+    tags: string[];
+    file_name: string;
+    xml_path: string;
+    public_path: string;
+    source_url: string | null;
+    source_page_id: string | null;
+    flow_id: string | null;
+    is_active: boolean;
 }
 
-/** Map of message names to their worked examples */
-export type WorkedExamplesMap = Record<string, WorkedExample[]>;
+/** Canonical examples catalog file */
+export interface ExampleCatalog {
+    version: number;
+    generated_at: string;
+    examples: ExampleRecord[];
+}
+
+/** Flow step reference shape */
+export interface FlowStep {
+    step_id: string;
+    order: number;
+    message: string;
+    example_id: string;
+    notes?: string;
+    optional?: boolean;
+}
+
+/** Flow definition shape */
+export interface FlowRecord {
+    id: string;
+    title: string;
+    description: string;
+    goal: string;
+    tags: string[];
+    actors: string[];
+    status: "draft" | "active" | "deprecated";
+    steps: FlowStep[];
+}

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { MODAL_IDS } from "../utils/constants";
-    import type { WorkedExample } from "../utils/types";
+    import type { ExampleRecord } from "../utils/types";
     import { hljs } from "../utils/highlight";
     import { tick } from "svelte";
 
@@ -9,24 +9,24 @@
         examples = [],
         message = "",
     }: {
-        examples: WorkedExample[];
+        examples: ExampleRecord[];
         message: string;
     } = $props();
 
-    let selectedExample: WorkedExample | null = $state(null);
+    let selectedExample: ExampleRecord | null = $state(null);
     let xmlContent = $state("");
     let loading = $state(false);
     let codeElement = $state<HTMLElement | null>(null);
 
-    async function previewExample(example: WorkedExample) {
+    async function previewExample(example: ExampleRecord) {
         selectedExample = example;
         loading = true;
         xmlContent = "";
         try {
             // Add a cache-busting param to avoid 404 if file was just created
-            const response = await fetch(`${example.path}?t=${Date.now()}`);
+            const response = await fetch(`${example.public_path}?t=${Date.now()}`);
             if (!response.ok) {
-                xmlContent = `Error ${response.status}: Failed to load ${example.path}`;
+                xmlContent = `Error ${response.status}: Failed to load ${example.public_path}`;
             } else {
                 xmlContent = await response.text();
                 // console.log("Loaded XML content length:", xmlContent.length);
@@ -130,7 +130,7 @@
                 {/if}
             {:else}
                 <div class="grid gap-4">
-                    {#each examples as example (example.path)}
+                    {#each examples as example (example.id)}
                         <div
                             class="group card bg-base-200 hover:bg-base-300 transition-all duration-300 border border-base-content/5 shadow-sm hover:shadow-md"
                         >
@@ -149,11 +149,11 @@
                                         >
                                             <span
                                                 class="badge badge-sm badge-secondary badge-outline font-mono"
-                                                >v{example.original_version}</span
+                                                >v{example.version}</span
                                             >
                                             <span
                                                 class="text-[10px] opacity-40 font-mono italic truncate max-w-xs"
-                                                >{example.file}</span
+                                                >{example.file_name}</span
                                             >
                                         </div>
                                     </div>
@@ -165,9 +165,9 @@
                                         >
                                             Preview
                                         </button>
-                                        {#if example.url}
+                                        {#if example.source_url}
                                             <a
-                                                href={example.url}
+                                                href={example.source_url}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 class="btn btn-ghost btn-xs opacity-60 hover:opacity-100 transition-opacity"

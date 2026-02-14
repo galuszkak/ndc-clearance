@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<IATA_OrderCreateRQ
+    xmlns="http://www.iata.org/IATA/2015/EASD/00/IATA_OffersAndOrdersMessage"
+    VersionNumber="24.1">
+    <DistributionChain>
+        <DistributionChainLink>
+            <Ordinal>1</Ordinal>
+            <OrgRole>Seller</OrgRole>
+            <ParticipatingOrg>
+                <OrgID>NDCCLEARANCE-DEMO-SELLER</OrgID>
+            </ParticipatingOrg>
+        </DistributionChainLink>
+    </DistributionChain>
+    <POS>
+        <OnlineTrxInd>true</OnlineTrxInd>
+    </POS>
+    <Request>
+        <CreateOrder>
+            <AcceptSelectedQuotedOfferList>
+                <SelectedPricedOffer>
+                    <OfferRefID>OFFER-RT-001</OfferRefID>
+                    <OwnerCode>XX</OwnerCode>
+                    <SelectedOfferItem>
+                        <OfferItemRefID>OFFER-RT-001-OUT</OfferItemRefID>
+                        <PaxRefID>PAX1</PaxRefID>
+                    </SelectedOfferItem>
+                    <SelectedOfferItem>
+                        <OfferItemRefID>OFFER-RT-001-RET</OfferItemRefID>
+                        <PaxRefID>PAX1</PaxRefID>
+                    </SelectedOfferItem>
+                </SelectedPricedOffer>
+            </AcceptSelectedQuotedOfferList>
+        </CreateOrder>
+    </Request>
+</IATA_OrderCreateRQ>

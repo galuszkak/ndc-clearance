@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'backend/**'
+      - 'ndc_content/**'
       - '.github/workflows/deploy-backend.yml'
 
 jobs:
@@ -30,6 +31,11 @@ jobs:
         run: |
           mkdir -p src/main/resources/schemas
           cp -r ../ndc_schemas/. src/main/resources/schemas/
+
+      - name: Sync Content
+        run: |
+          mkdir -p src/main/resources/content
+          cp -r ../ndc_content/. src/main/resources/content/
 
       - name: Run Tests
         run: ./gradlew test

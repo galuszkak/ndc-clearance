@@ -1,134 +1,138 @@
 # NDC Clearance
 
-**Live Version: [ndc-clearance.netlify.app](https://ndc-clearance.netlify.app)**
+**Live Site:** [ndc-clearance.netlify.app](https://ndc-clearance.netlify.app)  
+**Public MCP Endpoint:** `https://mcp-ndc.sunrisehikers.io/mcp/sse`
 
-NDC Clearance is the comprehensive reference for IATA NDC (New Distribution Capability) Schemas and a live MCP Server for AI Agents. Browse hierarchies, search definitions, and validate messages.
+NDC Clearance is an interactive browser, validator, and diff tool for IATA NDC schemas, with an MCP server for agent workflows.
 
 ![NDC Clearance Screenshot](screenshot.png)
 
-## Why this project?
+## Repository Layout
 
-This project was created to address several challenges with standard NDC distributions:
+- `site/`: Astro + Svelte static frontend
+- `backend/`: Ktor backend (validation, diff API, MCP)
+- `tools/`: Kotlin CLI tooling (flatten schemas, download examples, build content catalog)
+- `ndc_schemas/`: generated flattened schemas
+- `raw_ndc_schemas/`: original schema sources
+- `ndc_content/`: canonical shared content for examples and future flows
+- `iata_ndc_messages.json`: version/message map
 
-1.  **Live Validation for AI Agents**: Connect your favorite AI tools (Claude, Cursor, etc.) directly to our live [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) backend to verify NDC messages against any schema version instantly.
-2.  **LLM-Friendly Schemas**: Standard NDC messages are typically split into a small message file and a massive common file containing thousands of types, the majority of which are unused by any single message. This makes them difficult for Large Language Models (LLMs) to process effectively. Our tools flatten these schemas, including ONLY the types actually used by a specific message, making them compact and context-window friendly.
-3.  **Improved UI/UX**: Browsing and searching complex XSD structures in a standard text editor is cumbersome. NDC Clearance provides a modern, interactive interface to visualize the hierarchical structure and perform deep searches with XPath awareness.
-4.  **Open Source Accessibility**: Providing a community-driven tool to navigate the industry standards more efficiently.
+## Shared `ndc_content` Architecture
 
-## Project Structure
+Canonical content now lives at repo root and is shared by both `site` and `backend`.
 
-- `site/`: The web application built with [Astro](https://astro.build/) and [Svelte](https://svelte.dev/).
-- `flatten_ndc_schemas.py`: A Python script for merging and selectively including types from referenced NDC XSD schemas to create self-contained files.
-- `batch_flatten.py`: A helper script for batch processing multiple NDC messages through the flattener.
-- `iata_ndc_messages.json`: Metadata and configuration detailing the NDC messages and versions supported.
+```text
+ndc_content/
+  examples/
+    files/iata/*.xml
+    files/custom/*.xml
+    sources/iata.generated.json
+    sources/custom.json
+    catalog.json
+  flows/
+    flows.json
+```
 
-## Features
+- `sources/*.json`: editable/generated source records
+- `catalog.json`: generated merged read model used by frontend and backend
+- `flows.json`: flow definitions (structure and validation now in place; flow UX is out of scope)
+- Example IDs are deterministic: `ex_<12 hex>` from  
+  `source|message|version|source_page_id_or_url|file_name`
+- Each example has a single `flow_id` (not `flow_ids`)
+- For IATA records, flow is inferred automatically as one page = one flow (`flow_iata_page_<source_page_id>`)
 
-- **Interactive Schema Explorer**: Visualize the hierarchical structure of NDC messages.
-- **Deep Search**: Locate elements and attributes with XPath awareness.
-- **LLM-Friendly Schemas**: Tools to flatten complex schemas into smaller, self-contained files suitable for context windows.
-- **Multi-Version Support**: Support for various IATA NDC releases (e.g., 25.1, 25.3, 25.4).
+## Local Development
 
-## Getting Started
+### Prerequisites
 
-### Web Interface
+- Node.js `24`
+- Java `25`
 
-1. Navigate to the `site/` directory:
-   ```bash
-   cd site
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
-
-### Schema Flattening Tools
-
-The Python scripts in the root directory can be used to process raw NDC schemas.
+### Frontend
 
 ```bash
-python3 flatten_ndc_schemas.py --help
+cd site
+npm ci
+npm run dev
 ```
+
+`dev` and `build` run `npm run copy-assets`, which executes:
+- `npm run copy-schemas`
+- `npm run copy-content` (copies `ndc_content/examples/**` to `site/public/content/examples/**`)
+
+### Backend
+
+```bash
+cd backend
+./gradlew run
+```
+
+Environment:
+- `PORT` (default `8080`)
+- `SCHEMA_ROOT` (default `src/main/resources/schemas`)
+- `CONTENT_ROOT` (default `src/main/resources/content`)
+- `POSTHOG_API_KEY` (optional)
+
+### Tools
+
+```bash
+cd tools
+./gradlew flatten
+./gradlew download
+./gradlew buildContentCatalog
+./gradlew test
+```
+
+## Content Pipeline
+
+### Refresh IATA examples
+
+1. `cd tools && ./gradlew download`  
+   Downloads from IATA pages directly into canonical `ndc_content/examples/files/iata/` and writes `ndc_content/examples/sources/iata.generated.json`.
+2. `cd tools && ./gradlew buildContentCatalog`  
+   Merges `iata.generated.json` + `custom.json`, validates flows/references, and emits `ndc_content/examples/catalog.json`.
+
+### Add custom examples
+
+1. Place XML in `ndc_content/examples/files/custom/`
+2. Add record(s) in `ndc_content/examples/sources/custom.json`
+3. Run `cd tools && ./gradlew buildContentCatalog`
+
+### Add flow definitions (data only)
+
+1. Edit `ndc_content/flows/flows.json` with steps referencing `example_id`
+2. Run `cd tools && ./gradlew buildContentCatalog` to validate:
+   - referenced `example_id` exists
+   - step `message` matches referenced example message
+   - duplicate flow IDs are rejected
+
+## MCP Tools
+
+Available at `/mcp/sse`:
+
+- `validate_ndc_xml`
+- `list_versions`
+- `list_schemas`
+- `get_schema_files`
+- `list_examples` (optional: `message`, `version`; no filters returns all examples)
+- `get_example_content` (required: `example_id`; optional: `include_metadata`, default `true`)
+
+Examples/flows are exposed through MCP tools only. No REST endpoints were added for this content.
+
+## Docker Compose
+
+Run full stack locally:
+
+```bash
+docker-compose up --build
+```
+
+- Site: `http://localhost:4321`
+- Backend: `http://localhost:8080`
 
 ## Disclaimer
 
-This project is an independent open-source tool and is **not affiliated with, endorsed by, or sponsored by IATA** (International Air Transport Association).
-
-## Testing Locally
-
-You can run the full stack (Site + Backend) locally without Unikraft using Docker Compose.
-
-1. **Start the stack**:
-   ```bash
-   docker-compose up --build
-   ```
-2. **Access the application**:
-   - **Site**: [http://localhost:4321](http://localhost:4321)
-   - **Backend API**: [http://localhost:8080](http://localhost:8080)
-
-## Using the MCP Server
-
-The backend exposes a [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server that provides tools for validating NDC messages.
-
-### Supported Tools
-- **`validate_ndc_xml`**: Validates raw XML against a specific NDC schema version.
-
-### Public Server
-**URL**: `https://mcp-ndc.sunrisehikers.io/mcp/sse`
-
-#### 1. Claude Code
-Run the following command:
-```bash
-claude mcp add --transport sse ndc-validator https://mcp-ndc.sunrisehikers.io/mcp/sse
-```
-
-#### 2. Claude.ai
-1. Open [Claude.ai](https://claude.ai)
-2. Go to **Settings** > **Connectors**
-3. Click **Add Custom Connector**
-4. Enter URL: `https://mcp-ndc.sunrisehikers.io/mcp/sse`
-
-#### 3. VS Code (GitHub Copilot)
-Add to your MCP server configuration file (e.g., `~/.config/Code/User/globalStorage/mcp-servers.json`):
-```json
-{
-  "servers": {
-    "ndc-validator": {
-      "type": "sse",
-      "url": "https://mcp-ndc.sunrisehikers.io/mcp/sse"
-    }
-  }
-}
-```
-
-#### 4. Gemini CLI
-Run the following command:
-```bash
-gemini mcp add --transport sse ndc-validator https://mcp-ndc.sunrisehikers.io/mcp/sse
-```
-
-#### 5. OpenCode
-Add to your `opencode.json`:
-```json
-{
-  "mcp": {
-    "ndc-validator": {
-      "type": "remote",
-      "url": "https://mcp-ndc.sunrisehikers.io/mcp/sse",
-      "enabled": true
-    }
-  }
-}
-```
-
-### Local Development Server
-**Base URL**: `http://localhost:8080/mcp/sse`
-
-To use the local server, replace the `https://mcp-ndc.sunrisehikers.io/mcp/sse` URL in the instructions above with `http://localhost:8080/mcp/sse`.
+This project is independent and is not affiliated with, endorsed by, or sponsored by IATA.
 
 ## License
 

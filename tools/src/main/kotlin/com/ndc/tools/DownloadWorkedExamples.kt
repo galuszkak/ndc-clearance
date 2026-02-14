@@ -1,9 +1,12 @@
 package com.ndc.tools
 
+import com.ndc.tools.common.ExampleSourceRecord
+import com.ndc.tools.common.ExampleSourcesFile
 import com.ndc.tools.common.NdcConstants
+import com.ndc.tools.common.buildExampleId
+import com.ndc.tools.common.contentJson
+import com.ndc.tools.common.ensureCanonicalXmlPath
 import com.ndc.tools.common.extractMessageInfo
-import kotlinx.serialization.json.*
-import org.jsoup.Jsoup
 import java.io.File
 import java.net.URI
 import java.net.http.HttpClient
@@ -11,6 +14,9 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.time.Duration
 import java.util.zip.ZipFile
+import kotlinx.serialization.encodeToString
+import kotlin.io.path.createTempDirectory
+import org.jsoup.Jsoup
 
 private const val BASE_URL = "https://standards.atlassian.net"
 private const val WORKED_EXAMPLES_URL = "$BASE_URL/wiki/spaces/EASD/pages/574586985/Worked+Examples"
@@ -21,6 +27,8 @@ private val httpClient: HttpClient = HttpClient.newBuilder()
     .followRedirects(HttpClient.Redirect.NORMAL)
     .connectTimeout(Duration.ofSeconds(30))
     .build()
+
+data class ScenarioLink(val title: String, val url: String, val pageId: String)
 
 private fun fetchPage(url: String): String {
     for (attempt in 1..3) {
@@ -59,8 +67,6 @@ private fun fetchBytes(url: String): ByteArray? {
     return null
 }
 
-data class ScenarioLink(val title: String, val url: String, val pageId: String)
-
 fun getAllScenarioLinks(): List<ScenarioLink> {
     println("Fetching main Worked Examples page...")
     val content = fetchPage(WORKED_EXAMPLES_URL)
@@ -94,63 +100,95 @@ fun getAllScenarioLinks(): List<ScenarioLink> {
     return scenarios
 }
 
+private fun saveExample(
+    xmlFile: File,
+    scenario: ScenarioLink,
+    examplesDir: File,
+    records: MutableMap<String, ExampleSourceRecord>,
+): Boolean {
+    val (msgName, version) = extractMessageInfo(xmlFile)
+    if (msgName == null || version == null) return false
+
+    val id = buildExampleId(
+        source = "iata",
+        message = msgName,
+        version = version,
+        sourcePageId = scenario.pageId,
+        sourceUrl = scenario.url,
+        fileName = xmlFile.name,
+    )
+
+    val targetFile = examplesDir.resolve("$id.xml")
+    xmlFile.copyTo(targetFile, overwrite = true)
+
+    val record = ExampleSourceRecord(
+        id = id,
+        source = "iata",
+        message = msgName,
+        version = version,
+        title = scenario.title,
+        fileName = xmlFile.name,
+        xmlPath = ensureCanonicalXmlPath("ndc_content/examples/files/iata/${targetFile.name}"),
+        sourceUrl = scenario.url,
+        sourcePageId = scenario.pageId,
+        isActive = true,
+    )
+
+    records[id] = record
+    return true
+}
+
 private fun downloadAttachments(
     scenario: ScenarioLink,
-    downloadsDir: File,
-    sitePublicDir: File,
-    metadata: MutableMap<String, MutableList<JsonObject>>,
-    startCount: Int,
+    examplesDir: File,
+    records: MutableMap<String, ExampleSourceRecord>,
 ): Int {
-    val folderName = NdcConstants.sanitizeFolderName(scenario.title)
-    val folderPath = downloadsDir.resolve(folderName)
-    folderPath.mkdirs()
+    val tempDir = createTempDirectory("ndc-iata-${scenario.pageId}-").toFile()
+    try {
+        val zipUrl = "$BASE_URL/wiki/download/all_attachments?pageId=${scenario.pageId}"
+        val zipBytes = fetchBytes(zipUrl)
 
-    // Try bulk zip download first
-    val zipUrl = "$BASE_URL/wiki/download/all_attachments?pageId=${scenario.pageId}"
-    val zipBytes = fetchBytes(zipUrl)
+        if (zipBytes != null && zipBytes.size > 100) {
+            val zipPath = tempDir.resolve("attachments.zip")
+            zipPath.writeBytes(zipBytes)
 
-    if (zipBytes != null && zipBytes.size > 100) {
-        val zipPath = folderPath.resolve("attachments.zip")
-        zipPath.writeBytes(zipBytes)
-
-        try {
-            val zipFile = ZipFile(zipPath)
-            zipFile.use { zf ->
-                for (entry in zf.entries()) {
-                    if (entry.isDirectory) continue
-                    val outFile = folderPath.resolve(entry.name)
-                    outFile.parentFile.mkdirs()
-                    zf.getInputStream(entry).use { input ->
-                        outFile.outputStream().use { output -> input.copyTo(output) }
+            try {
+                ZipFile(zipPath).use { zf ->
+                    for (entry in zf.entries()) {
+                        if (entry.isDirectory) continue
+                        val outFile = tempDir.resolve(entry.name)
+                        outFile.parentFile.mkdirs()
+                        zf.getInputStream(entry).use { input ->
+                            outFile.outputStream().use { output -> input.copyTo(output) }
+                        }
                     }
                 }
+                zipPath.delete()
+                val fromZip = processDownloadedFiles(tempDir, scenario, examplesDir, records)
+                if (fromZip > 0) return fromZip
+            } catch (_: Exception) {
+                println("    Warning: Not a valid zip, trying individual downloads")
+                zipPath.delete()
             }
-            zipPath.delete()
-
-            return processDownloadedFiles(folderPath, scenario, sitePublicDir, metadata, startCount)
-        } catch (e: Exception) {
-            println("    Warning: Not a valid zip, trying individual downloads")
-            zipPath.delete()
         }
-    }
 
-    // Fallback: download attachments individually
-    return downloadAttachmentsIndividually(scenario, folderPath, sitePublicDir, metadata, startCount)
+        return downloadAttachmentsIndividually(scenario, tempDir, examplesDir, records)
+    } finally {
+        tempDir.deleteRecursively()
+    }
 }
 
 private fun downloadAttachmentsIndividually(
     scenario: ScenarioLink,
     folderPath: File,
-    sitePublicDir: File,
-    metadata: MutableMap<String, MutableList<JsonObject>>,
-    startCount: Int,
+    examplesDir: File,
+    records: MutableMap<String, ExampleSourceRecord>,
 ): Int {
     val content = fetchPage(scenario.url)
     if (content.isEmpty()) return 0
 
     val doc = Jsoup.parse(content, BASE_URL)
     var downloaded = 0
-    var currentCount = startCount
 
     for (link in doc.select("a[href]")) {
         val href = link.attr("abs:href").ifEmpty { link.attr("href") }
@@ -167,22 +205,7 @@ private fun downloadAttachmentsIndividually(
             val fileBytes = fetchBytes(fullUrl) ?: continue
             val filePath = folderPath.resolve(NdcConstants.sanitizeFolderName(filename))
             filePath.writeBytes(fileBytes)
-
-            val (msgName, version) = extractMessageInfo(filePath)
-            if (msgName != null && version != null) {
-                val targetFilename = "${msgName}_${version}_${currentCount}.xml"
-                filePath.copyTo(sitePublicDir.resolve(targetFilename), overwrite = true)
-
-                metadata.getOrPut(msgName) { mutableListOf() }.add(buildJsonObject {
-                    put("title", scenario.title)
-                    put("file", filePath.name)
-                    put("url", scenario.url)
-                    put("original_version", version)
-                    put("path", "/worked_examples/$targetFilename")
-                })
-                currentCount++
-                downloaded++
-            }
+            if (saveExample(filePath, scenario, examplesDir, records)) downloaded++
         }
     }
     return downloaded
@@ -191,29 +214,12 @@ private fun downloadAttachmentsIndividually(
 private fun processDownloadedFiles(
     folderPath: File,
     scenario: ScenarioLink,
-    sitePublicDir: File,
-    metadata: MutableMap<String, MutableList<JsonObject>>,
-    startCount: Int,
+    examplesDir: File,
+    records: MutableMap<String, ExampleSourceRecord>,
 ): Int {
     var count = 0
-    var currentCount = startCount
-
-    for (xmlFile in folderPath.listFiles()?.filter { it.extension == "xml" } ?: emptyList()) {
-        val (msgName, version) = extractMessageInfo(xmlFile)
-        if (msgName == null || version == null) continue
-
-        val targetFilename = "${msgName}_${version}_${currentCount}.xml"
-        xmlFile.copyTo(sitePublicDir.resolve(targetFilename), overwrite = true)
-
-        metadata.getOrPut(msgName) { mutableListOf() }.add(buildJsonObject {
-            put("title", scenario.title)
-            put("file", xmlFile.name)
-            put("url", scenario.url)
-            put("original_version", version)
-            put("path", "/worked_examples/$targetFilename")
-        })
-        currentCount++
-        count++
+    for (xmlFile in folderPath.walkTopDown().filter { it.isFile && it.extension.lowercase() == "xml" }) {
+        if (saveExample(xmlFile, scenario, examplesDir, records)) count++
     }
     return count
 }
@@ -221,20 +227,17 @@ private fun processDownloadedFiles(
 fun main(args: Array<String>) {
     val sep = "=".repeat(60)
     println(sep)
-    println("IATA NDC Worked Examples Sample Messages Downloader")
+    println("IATA NDC Worked Examples Downloader -> ndc_content")
     println(sep)
     println()
 
     val projectRoot = NdcConstants.projectRoot()
-    val downloadsDir = projectRoot.resolve("worked_examples_downloads")
-    val siteDataDir = projectRoot.resolve("site/src/data")
-    val sitePublicDir = projectRoot.resolve("site/public/worked_examples")
-    val mappingFile = siteDataDir.resolve("worked_examples.json")
+    val contentExamplesDir = NdcConstants.examplesRoot(projectRoot).resolve("files/iata")
+    val sourceFile = NdcConstants.examplesRoot(projectRoot).resolve("sources/iata.generated.json")
 
-    downloadsDir.mkdirs()
-    siteDataDir.mkdirs()
-    if (sitePublicDir.exists()) sitePublicDir.deleteRecursively()
-    sitePublicDir.mkdirs()
+    sourceFile.parentFile.mkdirs()
+    if (contentExamplesDir.exists()) contentExamplesDir.deleteRecursively()
+    contentExamplesDir.mkdirs()
 
     val scenarios = getAllScenarioLinks()
     if (scenarios.isEmpty()) {
@@ -246,34 +249,29 @@ fun main(args: Array<String>) {
     println("Starting downloads...")
     println("-".repeat(60))
 
-    var totalFiles = 0
     var successfulScenarios = 0
-    val metadata = mutableMapOf<String, MutableList<JsonObject>>()
+    var totalFiles = 0
+    val recordsById = linkedMapOf<String, ExampleSourceRecord>()
 
     for ((i, scenario) in scenarios.withIndex()) {
         println("\n[${i + 1}/${scenarios.size}] ${scenario.title}")
         println("  Page ID: ${scenario.pageId}")
 
-        val filesSaved = downloadAttachments(scenario, downloadsDir, sitePublicDir, metadata, totalFiles)
-
+        val filesSaved = downloadAttachments(scenario, contentExamplesDir, recordsById)
         if (filesSaved > 0) {
-            println("  \u2713 Processed $filesSaved file(s)")
+            println("  Processed $filesSaved file(s)")
             totalFiles += filesSaved
             successfulScenarios++
         } else {
-            println("  \u26A0 No new xml files processed")
+            println("  No xml files processed")
         }
 
         Thread.sleep(1000)
     }
 
-    // Save metadata
-    val jsonObj = buildJsonObject {
-        for ((key, value) in metadata) {
-            put(key, JsonArray(value))
-        }
-    }
-    mappingFile.writeText(Json { prettyPrint = true }.encodeToString(JsonObject.serializer(), jsonObj))
+    val examples = recordsById.values.sortedWith(compareBy<ExampleSourceRecord> { it.message }.thenBy { it.id ?: "" })
+    val output = ExampleSourcesFile(version = 1, examples = examples)
+    sourceFile.writeText(contentJson.encodeToString(output))
 
     println()
     println(sep)
@@ -282,8 +280,7 @@ fun main(args: Array<String>) {
     println("Total scenarios processed: ${scenarios.size}")
     println("Scenarios with downloads: $successfulScenarios")
     println("Total files processed: $totalFiles")
-    println("Output directory: ${downloadsDir.absolutePath}")
-    println("Public directory: ${sitePublicDir.absolutePath}")
-    println("Metadata file: ${mappingFile.absolutePath}")
+    println("IATA examples dir: ${contentExamplesDir.absolutePath}")
+    println("Metadata file: ${sourceFile.absolutePath}")
     println()
 }

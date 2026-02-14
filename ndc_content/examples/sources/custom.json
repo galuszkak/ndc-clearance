@@ -1,0 +1,23 @@
+{
+    "version": 1,
+    "examples": [
+        {
+            "id": "ex_34f869db28c6",
+            "source": "custom",
+            "message": "IATA_OrderCreateRQ",
+            "version": "24.1",
+            "title": "Custom Roundtrip OrderCreateRQ Demo",
+            "description": "Custom sample for a basic roundtrip order creation flow.",
+            "tags": [
+                "custom",
+                "roundtrip",
+                "booking",
+                "demo"
+            ],
+            "file_name": "custom_roundtrip_ordercreate_basic.xml",
+            "xml_path": "ndc_content/examples/files/custom/custom_roundtrip_ordercreate_basic.xml",
+            "source_url": "https://ndc-clearance.local/custom/roundtrip-ordercreate-basic",
+            "is_active": true
+        }
+    ]
+}

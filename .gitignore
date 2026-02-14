@@ -20,6 +20,7 @@ backend/.gradle/
 backend/.kotlin/
 site/dist/
 site/.astro/
+site/public/content/
 *.log
 
 # IDE & System
@@ -29,6 +30,9 @@ site/.astro/
 __pycache__/
 *.py[cod]
 *$py.class
+
+build
+
 
 local/*
 .claude

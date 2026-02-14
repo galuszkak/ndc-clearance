@@ -47,7 +47,11 @@ private fun getExistingExamplesFromXml(examplesDir: File): Pair<Set<String>, Int
 fun main(args: Array<String>) {
     val projectRoot = NdcConstants.projectRoot()
     val jsonPath = projectRoot.resolve("iata_ndc_messages.json")
-    val examplesDir = projectRoot.resolve("worked_examples_downloads")
+    val examplesDir = NdcConstants.examplesRoot(projectRoot).resolve("files/iata")
+
+    if (!examplesDir.exists()) {
+        error("Examples directory not found: ${examplesDir.absolutePath}. Run ./gradlew download first.")
+    }
 
     val allMsgs = getAllMessageTypes(jsonPath)
     val (foundMsgs, fileCount) = getExistingExamplesFromXml(examplesDir)

@@ -1,28 +1,82 @@
 package com.ndc.validator
 
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.sse.*
-import io.ktor.http.*
-import kotlinx.serialization.json.*
-import kotlinx.coroutines.awaitCancellation
-import java.util.concurrent.ConcurrentHashMap
 import io.modelcontextprotocol.kotlin.sdk.server.Server
 import io.modelcontextprotocol.kotlin.sdk.server.ServerOptions
 import io.modelcontextprotocol.kotlin.sdk.server.ServerSession
 import io.modelcontextprotocol.kotlin.sdk.server.SseServerTransport
+import io.modelcontextprotocol.kotlin.sdk.types.CallToolResult
 import io.modelcontextprotocol.kotlin.sdk.types.Implementation
 import io.modelcontextprotocol.kotlin.sdk.types.ServerCapabilities
-import io.modelcontextprotocol.kotlin.sdk.types.CallToolResult
 import io.modelcontextprotocol.kotlin.sdk.types.TextContent
 import io.modelcontextprotocol.kotlin.sdk.types.ToolSchema
+import java.util.concurrent.ConcurrentHashMap
+import kotlinx.coroutines.awaitCancellation
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
+
+private val mcpJson = Json { prettyPrint = true }
+
+@kotlinx.serialization.Serializable
+private data class McpExampleRecord(
+    val id: String,
+    val message: String,
+    val version: String,
+    val title: String,
+    val description: String? = null,
+    val tags: List<String> = emptyList(),
+    @kotlinx.serialization.SerialName("file_name")
+    val fileName: String,
+    @kotlinx.serialization.SerialName("public_path")
+    val publicPath: String,
+    @kotlinx.serialization.SerialName("source_url")
+    val sourceUrl: String? = null,
+    @kotlinx.serialization.SerialName("source_page_id")
+    val sourcePageId: String? = null,
+)
+
+private fun ExampleRecord.toMcpRecord(): McpExampleRecord = McpExampleRecord(
+    id = id,
+    message = message,
+    version = version,
+    title = title,
+    description = description,
+    tags = tags,
+    fileName = fileName,
+    publicPath = publicPath,
+    sourceUrl = sourceUrl,
+    sourcePageId = sourcePageId,
+)
+
+private fun jsonStringArg(args: JsonObject?, key: String): String? {
+    val primitive = args?.get(key) as? JsonPrimitive ?: return null
+    return primitive.content.trim().takeUnless { it.isEmpty() }
+}
+
+private fun jsonBooleanArg(args: JsonObject?, key: String, default: Boolean): Boolean {
+    val primitive = args?.get(key) as? JsonPrimitive ?: return default
+    return when (primitive.content.trim().lowercase()) {
+        "true", "1", "yes" -> true
+        "false", "0", "no" -> false
+        else -> default
+    }
+}
 
 fun Route.configureMcpRoutes(
-    schemaService: SchemaService, 
+    schemaService: SchemaService,
     validatorService: ValidatorService,
-    postHogService: PostHogService
+    exampleService: ExampleService,
+    postHogService: PostHogService,
 ) {
     val server = Server(
         Implementation(
@@ -45,15 +99,14 @@ fun Route.configureMcpRoutes(
                 put("message", buildJsonObject { put("type", "string"); put("description", "Message Name (e.g., AirShoppingRQ)") })
                 put("xml", buildJsonObject { put("type", "string"); put("description", "Raw XML content to validate") })
             },
-            required = listOf("version", "message", "xml")
-        )
+            required = listOf("version", "message", "xml"),
+        ),
     ) { request ->
         val args = request.arguments
-        val version = (args?.get("version") as? JsonPrimitive)?.content ?: ""
-        val message = (args?.get("message") as? JsonPrimitive)?.content ?: ""
-        val xml = (args?.get("xml") as? JsonPrimitive)?.content ?: ""
+        val version = jsonStringArg(args, "version") ?: ""
+        val message = jsonStringArg(args, "message") ?: ""
+        val xml = jsonStringArg(args, "xml") ?: ""
 
-        // Track validation request
         postHogService.capture("mcp_validate_ndc_xml", mapOf("version" to version, "message" to message))
 
         val result = validatorService.validate(version, message, xml)
@@ -61,10 +114,10 @@ fun Route.configureMcpRoutes(
         CallToolResult(
             content = listOf(
                 TextContent(
-                    text = if (result.valid) "Valid" else "Invalid: ${result.errors.joinToString(", ")}"
-                )
+                    text = if (result.valid) "Valid" else "Invalid: ${result.errors.joinToString(", ")}",
+                ),
             ),
-            isError = !result.valid
+            isError = !result.valid,
         )
     }
 
@@ -73,8 +126,8 @@ fun Route.configureMcpRoutes(
         description = "Lists all available NDC schema versions.",
         inputSchema = ToolSchema(
             properties = buildJsonObject {},
-            required = emptyList()
-        )
+            required = emptyList(),
+        ),
     ) { _ ->
         postHogService.capture("mcp_list_versions")
         val schemas = schemaService.listSchemas()
@@ -86,18 +139,18 @@ fun Route.configureMcpRoutes(
         description = "Lists available NDC messages. If version is provided, lists for that version. Otherwise lists all messages for all versions.",
         inputSchema = ToolSchema(
             properties = buildJsonObject {
-                put("version", buildJsonObject { put("type", "string"); put("description", "Optional: Specific version to list messages for (e.g., 21.3)") })
+                put("version", buildJsonObject { put("type", "string"); put("description", "Optional: specific version to list messages for (e.g., 21.3)") })
             },
-            required = emptyList()
-        )
+            required = emptyList(),
+        ),
     ) { request ->
         val args = request.arguments
-        val version = (args?.get("version") as? JsonPrimitive)?.content
+        val version = jsonStringArg(args, "version")
 
         postHogService.capture("mcp_list_schemas", mapOf("version" to (version ?: "all")))
 
         val schemas = schemaService.listSchemas()
-        
+
         val resultText = if (!version.isNullOrEmpty()) {
             val messages = schemas[version]
             if (messages != null) {
@@ -126,12 +179,12 @@ fun Route.configureMcpRoutes(
                 put("version", buildJsonObject { put("type", "string"); put("description", "NDC Schema Version (e.g., 21.3)") })
                 put("message", buildJsonObject { put("type", "string"); put("description", "Message Name (e.g., OfferPriceRS)") })
             },
-            required = listOf("version", "message")
-        )
+            required = listOf("version", "message"),
+        ),
     ) { request ->
         val args = request.arguments
-        val version = (args?.get("version") as? JsonPrimitive)?.content ?: ""
-        val message = (args?.get("message") as? JsonPrimitive)?.content ?: ""
+        val version = jsonStringArg(args, "version") ?: ""
+        val message = jsonStringArg(args, "message") ?: ""
 
         postHogService.capture("mcp_get_schema_files", mapOf("version" to version, "message" to message))
 
@@ -140,16 +193,102 @@ fun Route.configureMcpRoutes(
         if (files != null) {
             val contentList = files.map { file ->
                 TextContent(
-                    text = "// File: ${file.name}\n\n${file.readText()}"
+                    text = "// File: ${file.name}\n\n${file.readText()}",
                 )
             }
             CallToolResult(content = contentList)
         } else {
             CallToolResult(
                 content = listOf(TextContent(text = "Schema not found for version $version and message $message")),
-                isError = true
+                isError = true,
             )
         }
+    }
+
+    server.addTool(
+        name = "list_examples",
+        description = "Lists available example metadata, optionally filtered by NDC message and/or version.",
+        inputSchema = ToolSchema(
+            properties = buildJsonObject {
+                put("message", buildJsonObject { put("type", "string"); put("description", "Optional message name (e.g., IATA_OrderCreateRQ or OrderCreateRQ)") })
+                put("version", buildJsonObject { put("type", "string"); put("description", "Optional schema version filter") })
+            },
+            required = emptyList(),
+        ),
+    ) { request ->
+        val args = request.arguments
+        val message = jsonStringArg(args, "message")
+        val version = jsonStringArg(args, "version")
+
+        postHogService.capture(
+            "mcp_list_examples",
+            mapOf(
+                "message" to (message ?: ""),
+                "version" to (version ?: ""),
+            ),
+        )
+
+        val examples = exampleService.listExamples(
+            message = message,
+            version = version,
+        )
+
+        val mcpExamples = examples.map(ExampleRecord::toMcpRecord)
+        val payload = mcpJson.encodeToString(ListSerializer(McpExampleRecord.serializer()), mcpExamples)
+        CallToolResult(content = listOf(TextContent(text = payload)))
+    }
+
+    server.addTool(
+        name = "get_example_content",
+        description = "Returns XML content for a specific example id, optionally including metadata.",
+        inputSchema = ToolSchema(
+            properties = buildJsonObject {
+                put("example_id", buildJsonObject { put("type", "string"); put("description", "Example id (e.g., ex_123abc456def)") })
+                put("include_metadata", buildJsonObject { put("type", "boolean"); put("description", "Optional, defaults to true") })
+            },
+            required = listOf("example_id"),
+        ),
+    ) { request ->
+        val args = request.arguments
+        val exampleId = jsonStringArg(args, "example_id") ?: ""
+        val includeMetadata = jsonBooleanArg(args, "include_metadata", default = true)
+
+        postHogService.capture(
+            "mcp_get_example_content",
+            mapOf(
+                "example_id" to exampleId,
+                "include_metadata" to includeMetadata,
+            ),
+        )
+
+        val example = exampleService.getExampleById(exampleId)
+        if (example == null) {
+            return@addTool CallToolResult(
+                content = listOf(TextContent(text = "Example not found: $exampleId")),
+                isError = true,
+            )
+        }
+
+        val xml = exampleService.getExampleContent(exampleId)
+        if (xml == null) {
+            return@addTool CallToolResult(
+                content = listOf(TextContent(text = "Example XML not found for id: $exampleId")),
+                isError = true,
+            )
+        }
+
+        if (!includeMetadata) {
+            return@addTool CallToolResult(content = listOf(TextContent(text = xml)))
+        }
+
+        val payload = buildJsonObject {
+            put("example", mcpJson.encodeToJsonElement(McpExampleRecord.serializer(), example.toMcpRecord()))
+            put("xml", JsonPrimitive(xml))
+        }
+
+        CallToolResult(
+            content = listOf(TextContent(text = mcpJson.encodeToString(JsonObject.serializer(), payload))),
+        )
     }
 
     val serverSessions = ConcurrentHashMap<String, ServerSession>()

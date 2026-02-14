@@ -40,6 +40,10 @@ object NdcConstants {
         return File(System.getProperty("user.dir")).canonicalFile.parentFile
     }
 
+    fun contentRoot(projectRoot: File = projectRoot()): File = projectRoot.resolve("ndc_content")
+    fun examplesRoot(projectRoot: File = projectRoot()): File = contentRoot(projectRoot).resolve("examples")
+    fun flowsRoot(projectRoot: File = projectRoot()): File = contentRoot(projectRoot).resolve("flows")
+
     /** Sanitize a string for use as a folder name */
     fun sanitizeFolderName(name: String): String {
         return name

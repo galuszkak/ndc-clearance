@@ -34,14 +34,14 @@ tasks.register<JavaExec>("validate") {
 }
 
 tasks.register<JavaExec>("download") {
-    description = "Download worked examples from IATA Confluence"
+    description = "Download IATA examples into canonical ndc_content structure"
     mainClass.set("com.ndc.tools.DownloadWorkedExamplesKt")
     classpath = sourceSets["main"].runtimeClasspath
 }
 
-tasks.register<JavaExec>("generateMetadata") {
-    description = "Regenerate worked_examples.json from cached downloads"
-    mainClass.set("com.ndc.tools.GenerateExamplesMetadataKt")
+tasks.register<JavaExec>("buildContentCatalog") {
+    description = "Build canonical examples catalog from iata/custom sources and validate flows"
+    mainClass.set("com.ndc.tools.BuildContentCatalogKt")
     classpath = sourceSets["main"].runtimeClasspath
 }
 

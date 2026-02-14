@@ -35,7 +35,7 @@
             class="kbd kbd-xs bg-base-200 border-base-300 opacity-60 font-sans px-1"
         >
             {typeof window !== "undefined" &&
-            /mac/i.test(navigator.userAgentData?.platform ?? navigator.platform)
+            /mac/i.test((navigator as any).userAgentData?.platform ?? navigator.platform)
                 ? "⌘F"
                 : "Ctrl+F"}
         </kbd>

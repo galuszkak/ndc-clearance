@@ -38,10 +38,11 @@ fun Application.module() {
     val schemaService = SchemaService()
     val validatorService = ValidatorService(schemaService)
     val schemaDiffService = SchemaDiffService(schemaService)
+    val exampleService = ExampleService()
     val postHogService = PostHogService()
 
     routing {
         configureRoutes(schemaService, validatorService, schemaDiffService)
-        configureMcpRoutes(schemaService, validatorService, postHogService)
+        configureMcpRoutes(schemaService, validatorService, exampleService, postHogService)
     }
 }

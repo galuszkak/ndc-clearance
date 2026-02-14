@@ -7,6 +7,7 @@ on:
     paths:
       - 'site/**'
       - 'ndc_schemas/**'
+      - 'ndc_content/**'
       - '.github/workflows/deploy-site.yml'
 
 jobs:

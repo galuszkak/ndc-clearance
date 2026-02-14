@@ -1,0 +1,32 @@
+{
+    "version": 1,
+    "flows": [
+        {
+            "id": "flow_custom_roundtrip_booking_demo",
+            "title": "Custom Roundtrip Booking Demo",
+            "description": "Draft flow showing a custom order creation step for a roundtrip scenario.",
+            "goal": "Create a roundtrip order from a selected priced offer.",
+            "tags": [
+                "custom",
+                "booking",
+                "roundtrip",
+                "demo"
+            ],
+            "actors": [
+                "Seller",
+                "Airline"
+            ],
+            "status": "draft",
+            "steps": [
+                {
+                    "step_id": "create_order",
+                    "order": 1,
+                    "message": "IATA_OrderCreateRQ",
+                    "example_id": "ex_34f869db28c6",
+                    "notes": "Submit OrderCreateRQ using the selected outbound and return offer items.",
+                    "optional": false
+                }
+            ]
+        }
+    ]
+}
