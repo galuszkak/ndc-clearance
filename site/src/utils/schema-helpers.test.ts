@@ -359,6 +359,29 @@ describe("collectElementsForTree", () => {
         expect(result[1].getAttribute("name")).toBe("DerivedField");
     });
 
+    it("preserves duplicate-named sibling elements (regression: PGPKeyPacket)", () => {
+        const schema = parseXml(`
+            <schema xmlns="${XS}">
+                <complexType name="KeyInfoType">
+                    <sequence>
+                        <element name="KeyName" />
+                        <element name="PGPKeyPacket" />
+                        <element name="PGPKeyPacket" />
+                    </sequence>
+                </complexType>
+            </schema>
+        `);
+        const defs = buildDefs(schema);
+        const result = collectElementsForTree(
+            defs["complexType:KeyInfoType"],
+            defs,
+        );
+        expect(result).toHaveLength(3);
+        expect(result[0].getAttribute("name")).toBe("KeyName");
+        expect(result[1].getAttribute("name")).toBe("PGPKeyPacket");
+        expect(result[2].getAttribute("name")).toBe("PGPKeyPacket");
+    });
+
     it("flattens through all containers", () => {
         const schema = parseXml(`
             <schema xmlns="${XS}">

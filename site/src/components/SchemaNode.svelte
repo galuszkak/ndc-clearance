@@ -88,9 +88,7 @@
             ].includes(c.localName),
         );
         const basicExpandable = !!(typeAttr || refAttr || hasComplexChildren);
-        return basicExpandable
-            ? checkExpandability(node, definitions)
-            : false;
+        return basicExpandable ? checkExpandability(node, definitions) : false;
     });
 
     // Resolve Type / Ref
@@ -101,7 +99,9 @@
 
         if (node.getAttribute("ref")) {
             const refName = stripNamespacePrefix(node.getAttribute("ref"));
-            const distinct = refName ? definitions[`element:${refName}`] : undefined;
+            const distinct = refName
+                ? definitions[`element:${refName}`]
+                : undefined;
             if (distinct) {
                 const refType = distinct.getAttribute("type");
                 if (refType) {
@@ -167,7 +167,10 @@
                         });
                         onselect?.({ node, path, element: elementRef });
                         isFlashed = true;
-                        flashTimer = setTimeout(() => (isFlashed = false), 2000);
+                        flashTimer = setTimeout(
+                            () => (isFlashed = false),
+                            2000,
+                        );
                     }
                 }, 100);
                 return () => {
@@ -188,10 +191,7 @@
     $effect(() => {
         const version = treeActionVersion;
         const action = treeAction;
-        if (
-            version > untrack(() => appliedActionVersion) &&
-            action !== ""
-        ) {
+        if (version > untrack(() => appliedActionVersion) && action !== "") {
             if (action === "expand") {
                 if (untrack(() => isExpandable)) {
                     expanded = true;
@@ -252,7 +252,7 @@
                 <div
                     class="flex-1 flex flex-col gap-1 border-l-2 border-orange-100 pl-2 -ml-2 py-1"
                 >
-                    {#each children as child, i (child.getAttribute("name") || child.getAttribute("ref") || i)}
+                    {#each children as child, i (`${child.getAttribute("name") || child.getAttribute("ref") || "anon"}-${i}`)}
                         <SchemaNode
                             node={child}
                             {doc}
@@ -441,7 +441,7 @@
                     ? "hidden"
                     : "border-l border-base-200 ml-[0.35rem]"}
             >
-                {#each children as child, i (child.getAttribute("name") || child.getAttribute("ref") || i)}
+                {#each children as child, i (`${child.getAttribute("name") || child.getAttribute("ref") || "anon"}-${i}`)}
                     <SchemaNode
                         node={child}
                         {doc}
