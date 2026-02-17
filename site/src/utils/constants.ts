@@ -32,6 +32,7 @@ export const META_DESCRIPTION_MAX_LENGTH = 155;
 /** Modal DOM element IDs */
 export const MODAL_IDS = {
     EXAMPLES: "examples_modal",
+    FLOWS: "flows_modal",
     DOWNLOAD: "download_modal",
     CLAUDE_CODE: "modal_claude_code",
     CLAUDE_DESKTOP: "modal_claude_desktop",

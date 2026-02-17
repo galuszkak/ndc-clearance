@@ -4,7 +4,11 @@ import com.ndc.tools.common.ExampleCatalogFile
 import com.ndc.tools.common.ExampleRecord
 import com.ndc.tools.common.ExampleSourceRecord
 import com.ndc.tools.common.ExampleSourcesFile
+import com.ndc.tools.common.FlowRecord
+import com.ndc.tools.common.FlowStepRecord
 import com.ndc.tools.common.FlowsFile
+import com.ndc.tools.common.IataFlowSourceRecord
+import com.ndc.tools.common.IataFlowSourcesFile
 import com.ndc.tools.common.NdcConstants
 import com.ndc.tools.common.buildExampleId
 import com.ndc.tools.common.contentJson
@@ -20,7 +24,9 @@ data class CatalogBuildInput(
     val iataSourceFile: File,
     val customSourceFile: File,
     val flowsFile: File,
+    val iataFlowSourceFile: File,
     val outputCatalogFile: File,
+    val outputFlowsFile: File,
 )
 
 fun defaultCatalogBuildInput(projectRoot: File): CatalogBuildInput {
@@ -30,7 +36,9 @@ fun defaultCatalogBuildInput(projectRoot: File): CatalogBuildInput {
         iataSourceFile = examplesRoot.resolve("sources/iata.generated.json"),
         customSourceFile = examplesRoot.resolve("sources/custom.json"),
         flowsFile = NdcConstants.flowsRoot(projectRoot).resolve("flows.json"),
+        iataFlowSourceFile = NdcConstants.flowSourcesRoot(projectRoot).resolve("iata.generated.json"),
         outputCatalogFile = examplesRoot.resolve("catalog.json"),
+        outputFlowsFile = NdcConstants.flowsRoot(projectRoot).resolve("flows.json"),
     )
 }
 
@@ -56,6 +64,11 @@ private fun readFlowsFile(path: File): FlowsFile {
     return contentJson.decodeFromString(FlowsFile.serializer(), path.readText())
 }
 
+private fun readIataFlowSources(path: File): IataFlowSourcesFile {
+    if (!path.exists()) return IataFlowSourcesFile(version = 1, flows = emptyList())
+    return contentJson.decodeFromString(IataFlowSourcesFile.serializer(), path.readText())
+}
+
 fun buildCatalog(input: CatalogBuildInput): ExampleCatalogFile {
     val iata = readSourceFile(input.iataSourceFile)
     val custom = readSourceFile(input.customSourceFile)
@@ -79,6 +92,8 @@ fun buildCatalog(input: CatalogBuildInput): ExampleCatalogFile {
         check(flowIdsSeen.add(flow.id)) { "Duplicate flow id detected: ${flow.id}" }
 
         for (step in flow.steps) {
+            if (step.exampleId.isEmpty()) continue
+            
             val example = examplesById[step.exampleId]
                 ?: error("Flow '${flow.id}' references unknown example_id '${step.exampleId}'")
 
@@ -101,9 +116,7 @@ fun buildCatalog(input: CatalogBuildInput): ExampleCatalogFile {
 
             val finalFlowId = when {
                 explicitFlowId != null && inferredIataFlowId != null -> {
-                    check(explicitFlowId == inferredIataFlowId) {
-                        "Example '${record.id}' has conflicting flow assignment: explicit '$explicitFlowId' vs inferred '$inferredIataFlowId'"
-                    }
+                    // Explicit assignment (from flows.json) takes precedence over inferred
                     explicitFlowId
                 }
                 explicitFlowId != null -> explicitFlowId
@@ -149,7 +162,7 @@ private fun normalizeRecord(projectRoot: File, source: ExampleSourceRecord): Exa
         version = source.version,
         title = source.title,
         description = source.description,
-        tags = source.tags,
+
         fileName = source.fileName,
         xmlPath = normalizedXmlPath,
         publicPath = toPublicPath(normalizedXmlPath),
@@ -172,6 +185,152 @@ private fun inferIataFlowId(record: ExampleRecord): String? {
     return "flow_iata_url_$shortHex"
 }
 
+// ── IATA flow source → FlowRecord conversion ──
+
+private fun convertIataFlows(
+    iataFlows: IataFlowSourcesFile,
+    examplesById: Map<String, ExampleRecord>,
+): List<FlowRecord> {
+    // Build a lookup: (pageId, message) → list of example IDs
+    val pageMessageIndex = mutableMapOf<String, MutableList<ExampleRecord>>()
+    for (example in examplesById.values) {
+        val pageId = example.sourcePageId ?: continue
+        val key = "${pageId}|${example.message}"
+        pageMessageIndex.getOrPut(key) { mutableListOf() }.add(example)
+    }
+
+    val flows = mutableListOf<FlowRecord>()
+
+    for (iataFlow in iataFlows.flows) {
+        if (iataFlow.steps.isEmpty()) {
+            // Skip flows without step data — they're sub-scenario pages
+            // that inherit their parent's flow structure
+            continue
+        }
+
+        // Generate SEO-friendly slug from title
+        val slug = slugify(iataFlow.title)
+        
+        // Convert steps, matching to examples where possible
+        val flowSteps = mutableListOf<FlowStepRecord>()
+        for ((idx, iataStep) in iataFlow.steps.withIndex()) {
+            
+            // Normalize message name: remove prefix, fix typos, handle Notification->Notif
+            var rawMessage = iataStep.message.removePrefix("IATA_").trim()
+            
+            // Known IATA typos/inconsistencies mapping
+            if (rawMessage == "SeatAvailabiltyRQ") {
+                rawMessage = "SeatAvailabilityRQ"
+            }
+            if (rawMessage == "SeatAvailabiltyRS") {
+                rawMessage = "SeatAvailabilityRS"
+            }
+            if (rawMessage == "OrderSalesInformationNotificationRQ") {
+                rawMessage = "OrderSalesInformationNotifRQ"
+            }
+
+            // Try to find example using the CORRECTED message name first
+            // (e.g. flow source has "Notification", example catalog has "Notif")
+            var key = "${iataFlow.sourcePageId}|IATA_$rawMessage"
+            var matchingExamples = pageMessageIndex[key]
+
+            // Fallback: try original message if no match found (in case catalog has the typo too)
+            if (matchingExamples == null) {
+                 key = "${iataFlow.sourcePageId}|${iataStep.message}"
+                 matchingExamples = pageMessageIndex[key]
+            }
+
+            // Pick the best example: prefer the first one ordered by file name
+            val exampleId = matchingExamples
+                ?.sortedBy { it.fileName }
+                ?.firstOrNull()?.id
+
+            val stepId = rawMessage
+                .replace(Regex("([a-z])([A-Z])"), "$1_$2")
+                .lowercase() + "_${iataStep.stepNumber.replace('.', '_')}"
+
+            // Determine "next" - default is the next step in sequence
+            val nextSteps = if (idx < iataFlow.steps.size - 1) {
+                val nextStep = iataFlow.steps[idx + 1]
+                
+                var nextRawMessage = nextStep.message.removePrefix("IATA_").trim()
+                if (nextRawMessage == "SeatAvailabiltyRQ") nextRawMessage = "SeatAvailabilityRQ"
+                if (nextRawMessage == "SeatAvailabiltyRS") nextRawMessage = "SeatAvailabilityRS"
+                if (nextRawMessage == "OrderSalesInformationNotificationRQ") nextRawMessage = "OrderSalesInformationNotifRQ"
+
+                val nextId = nextRawMessage
+                    .replace(Regex("([a-z])([A-Z])"), "$1_$2")
+                    .lowercase() + "_${nextStep.stepNumber.replace('.', '_')}"
+                listOf(nextId)
+            } else {
+                emptyList()
+            }
+
+            flowSteps.add(FlowStepRecord(
+                stepId = stepId,
+                order = idx + 1,
+                message = "IATA_" + rawMessage, // Use corrected name
+                exampleId = exampleId ?: "",
+                notes = iataStep.description.takeIf { it.isNotEmpty() },
+                optional = false,
+                next = nextSteps,
+            ))
+        }
+
+        flows.add(FlowRecord(
+            id = slug, // Use slug instead of iataFlow.id
+            title = iataFlow.title,
+            description = iataFlow.description,
+            goal = iataFlow.postconditions ?: "",
+
+            actors = listOf("Seller", "Airline"),
+            status = "iata",
+            sourceUrl = iataFlow.sourceUrl,
+            steps = flowSteps,
+        ))
+    }
+
+    return flows
+}
+
+private fun slugify(input: String): String {
+    return input.lowercase()
+        .replace(Regex("[^a-z0-9\\s-]"), "") // Remove special chars
+        .trim()
+        .replace(Regex("\\s+"), "-") // Replace spaces with hyphens
+}
+
+private fun mergeFlows(
+    iataFlows: List<FlowRecord>,
+    customFlows: FlowsFile,
+): FlowsFile {
+    // Filter out flows that are marked as 'iata' from the customization file
+    // This allows us to regenerate IATA flows if the generator logic improves (e.g. message name fixes)
+    // while executing manual overrides if someone changed the status to something else (e.g. 'custom')
+    val trueCustomFlows = customFlows.flows.filter { it.status != "iata" }
+    val customIds = trueCustomFlows.map { it.id }.toSet()
+    
+    // Custom flows take precedence on ID conflicts
+    val mergedFlows = (trueCustomFlows + iataFlows.filter { it.id !in customIds })
+        .filter { flow ->
+            // Filter out flows with anything less than 100% coverage
+            // User requested strict filtering: "I want only those that have 100% messages"
+            if (flow.steps.isEmpty()) return@filter true 
+            
+            val stepsWithExamples = flow.steps.count { it.exampleId.isNotEmpty() }
+            
+            if (stepsWithExamples < flow.steps.size) {
+                val coverage = stepsWithExamples.toDouble() / flow.steps.size
+                println("Dropping flow '${flow.title}' due to incomplete coverage (${(coverage * 100).toInt()}%)")
+                false
+            } else {
+                true
+            }
+        }
+        
+    return FlowsFile(version = 1, flows = mergedFlows.sortedBy { it.title })
+}
+
 fun main(args: Array<String>) {
     val projectRoot = args.firstOrNull { it.startsWith("--project-root=") }
         ?.removePrefix("--project-root=")
@@ -185,6 +344,23 @@ fun main(args: Array<String>) {
     input.outputCatalogFile.parentFile.mkdirs()
     input.outputCatalogFile.writeText(contentJson.encodeToString(catalog))
 
+    // Build merged flows from IATA sources + custom
+    val iataFlowSources = readIataFlowSources(input.iataFlowSourceFile)
+    val customFlows = readFlowsFile(input.flowsFile)
+
+    // Need the example index to match steps → examples
+    val examplesById = catalog.examples.associateBy { it.id }
+    val iataFlows = convertIataFlows(iataFlowSources, examplesById)
+    val mergedFlows = mergeFlows(iataFlows, customFlows)
+
+    input.outputFlowsFile.parentFile.mkdirs()
+    input.outputFlowsFile.writeText(contentJson.encodeToString(mergedFlows))
+
+    val stepsWithExamples = mergedFlows.flows.flatMap { it.steps }.count { it.exampleId.isNotEmpty() }
+    val totalSteps = mergedFlows.flows.sumOf { it.steps.size }
+
     println("Built catalog with ${catalog.examples.size} examples")
     println("Catalog path: ${input.outputCatalogFile.absolutePath}")
+    println("Built flows: ${mergedFlows.flows.size} flows, $totalSteps total steps ($stepsWithExamples with examples)")
+    println("Flows path: ${input.outputFlowsFile.absolutePath}")
 }

@@ -43,6 +43,7 @@ object NdcConstants {
     fun contentRoot(projectRoot: File = projectRoot()): File = projectRoot.resolve("ndc_content")
     fun examplesRoot(projectRoot: File = projectRoot()): File = contentRoot(projectRoot).resolve("examples")
     fun flowsRoot(projectRoot: File = projectRoot()): File = contentRoot(projectRoot).resolve("flows")
+    fun flowSourcesRoot(projectRoot: File = projectRoot()): File = flowsRoot(projectRoot).resolve("sources")
 
     /** Sanitize a string for use as a folder name */
     fun sanitizeFolderName(name: String): String {

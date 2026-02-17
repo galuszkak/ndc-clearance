@@ -16,6 +16,7 @@ export default defineConfig({
           url: item.url.toLowerCase()
         };
       },
+      filenameBase: 'ndc'
     })
   ],
 

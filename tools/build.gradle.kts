@@ -56,3 +56,16 @@ tasks.register<JavaExec>("analyzeMissing") {
     mainClass.set("com.ndc.tools.AnalyzeMissingExamplesKt")
     classpath = sourceSets["main"].runtimeClasspath
 }
+
+
+tasks.register<JavaExec>("validateFlows") {
+    description = "Validate flows against schema definitions"
+    mainClass.set("com.ndc.tools.ValidateFlowsKt")
+    classpath = sourceSets["main"].runtimeClasspath
+}
+
+tasks.register<JavaExec>("verifyFlowCoverage") {
+    description = "Verify XML example coverage for all flows"
+    mainClass.set("com.ndc.tools.VerifyFlowCoverageKt")
+    classpath = sourceSets["main"].runtimeClasspath
+}

@@ -27,7 +27,7 @@ data class ExampleSourceRecord(
     val version: String,
     val title: String,
     val description: String? = null,
-    val tags: List<String> = emptyList(),
+
     @SerialName("file_name")
     val fileName: String,
     @SerialName("xml_path")
@@ -56,7 +56,7 @@ data class ExampleRecord(
     val version: String,
     val title: String,
     val description: String? = null,
-    val tags: List<String> = emptyList(),
+
     @SerialName("file_name")
     val fileName: String,
     @SerialName("xml_path")
@@ -85,9 +85,11 @@ data class FlowRecord(
     val title: String,
     val description: String,
     val goal: String,
-    val tags: List<String> = emptyList(),
+
     val actors: List<String> = emptyList(),
     val status: String = "draft",
+    @SerialName("source_url")
+    val sourceUrl: String? = null,
     val steps: List<FlowStepRecord> = emptyList(),
 )
 
@@ -101,6 +103,34 @@ data class FlowStepRecord(
     val exampleId: String,
     val notes: String? = null,
     val optional: Boolean = false,
+    val next: List<String> = emptyList(),
+)
+
+// ── Scraped IATA flow sources ──
+
+@Serializable
+data class IataFlowSourcesFile(
+    val version: Int = 1,
+    val flows: List<IataFlowSourceRecord> = emptyList(),
+)
+
+@Serializable
+data class IataFlowSourceRecord(
+    val id: String,
+    val title: String,
+    val description: String,
+    @SerialName("source_url") val sourceUrl: String,
+    @SerialName("source_page_id") val sourcePageId: String,
+    val preconditions: String? = null,
+    val postconditions: String? = null,
+    val steps: List<IataFlowStepSource> = emptyList(),
+)
+
+@Serializable
+data class IataFlowStepSource(
+    @SerialName("step_number") val stepNumber: String,
+    val message: String,
+    val description: String,
 )
 
 fun buildExampleId(

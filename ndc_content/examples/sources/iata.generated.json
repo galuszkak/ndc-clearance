@@ -660,34 +660,6 @@
             "is_active": true
         },
         {
-            "id": "ex_6da89e7a0d09",
-            "source": "iata",
-            "message": "IATA_OrderChangeRQ",
-            "version": "24.1",
-            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_003F - 07.b.3 - OrderChangeRQ_Payment.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_6da89e7a0d09.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
-            "source_page_id": "842268712",
-            "is_active": true
-        },
-        {
-            "id": "ex_7219e6f853bb",
-            "source": "iata",
-            "message": "IATA_OrderChangeRQ",
-            "version": "24.1",
-            "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_030D - 05 - OrderChangeRQ.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_7219e6f853bb.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594543/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred",
-            "source_page_id": "817594543",
-            "is_active": true
-        },
-        {
             "id": "ex_78dd6ec46971",
             "source": "iata",
             "message": "IATA_OrderChangeRQ",
@@ -727,20 +699,6 @@
             "xml_path": "ndc_content/examples/files/iata/ex_8e9a27d486b0.xml",
             "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
             "source_page_id": "817594795",
-            "is_active": true
-        },
-        {
-            "id": "ex_c5726db9896f",
-            "source": "iata",
-            "message": "IATA_OrderChangeRQ",
-            "version": "24.1",
-            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_003F - 07.b.1 - OrderChangeRQ.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_c5726db9896f.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
-            "source_page_id": "842268712",
             "is_active": true
         },
         {
@@ -839,34 +797,6 @@
             "xml_path": "ndc_content/examples/files/iata/ex_e4a9a6888db3.xml",
             "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594669/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Value+Store",
             "source_page_id": "817594669",
-            "is_active": true
-        },
-        {
-            "id": "ex_eef279efa748",
-            "source": "iata",
-            "message": "IATA_OrderChangeRQ",
-            "version": "24.1",
-            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_003G - 07.a.1 - OrderChangeRQ.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_eef279efa748.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
-            "source_page_id": "842301447",
-            "is_active": true
-        },
-        {
-            "id": "ex_fd0871e45d99",
-            "source": "iata",
-            "message": "IATA_OrderChangeRQ",
-            "version": "24.1",
-            "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred and requiring payment of a penalty",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_030B - 05 - OrderChangeRQ.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_fd0871e45d99.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
-            "source_page_id": "817594795",
             "is_active": true
         },
         {
@@ -1052,20 +982,6 @@
             "is_active": true
         },
         {
-            "id": "ex_7e878eaee67c",
-            "source": "iata",
-            "message": "IATA_OrderQuoteRQ",
-            "version": "24.1",
-            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_003F - 05 - OrderQuoteRQ.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_7e878eaee67c.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
-            "source_page_id": "842268712",
-            "is_active": true
-        },
-        {
             "id": "ex_88e094ea6585",
             "source": "iata",
             "message": "IATA_OrderQuoteRQ",
@@ -1108,20 +1024,6 @@
             "is_active": true
         },
         {
-            "id": "ex_e9d6b289fd55",
-            "source": "iata",
-            "message": "IATA_OrderQuoteRQ",
-            "version": "24.1",
-            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_003G - 05 - OrderQuoteRQ.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_e9d6b289fd55.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
-            "source_page_id": "842301447",
-            "is_active": true
-        },
-        {
             "id": "ex_efc583e82d36",
             "source": "iata",
             "message": "IATA_OrderQuoteRQ",
@@ -1145,20 +1047,6 @@
             "tags": [],
             "file_name": "EXM_ORD_003G - 03 - OrderReshopRQ.xml",
             "xml_path": "ndc_content/examples/files/iata/ex_0311719c02e4.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
-            "source_page_id": "842268712",
-            "is_active": true
-        },
-        {
-            "id": "ex_0cfa981b99d1",
-            "source": "iata",
-            "message": "IATA_OrderReshopRQ",
-            "version": "24.1",
-            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_003F - 03 - OrderReshopRQ.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_0cfa981b99d1.xml",
             "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
             "source_page_id": "842268712",
             "is_active": true
@@ -1229,48 +1117,6 @@
             "tags": [],
             "file_name": "EXM_ORD_003F - 03 - OrderReshopRQ.xml",
             "xml_path": "ndc_content/examples/files/iata/ex_3398d795ad58.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
-            "source_page_id": "842301447",
-            "is_active": true
-        },
-        {
-            "id": "ex_5840118e3273",
-            "source": "iata",
-            "message": "IATA_OrderReshopRQ",
-            "version": "24.1",
-            "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred and requiring payment of a penalty",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_030B - 03 - OrderReshopRQ.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_5840118e3273.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
-            "source_page_id": "817594795",
-            "is_active": true
-        },
-        {
-            "id": "ex_71879c93a36d",
-            "source": "iata",
-            "message": "IATA_OrderReshopRQ",
-            "version": "24.1",
-            "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_030D - 03 - OrderReshopRQ.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_71879c93a36d.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594543/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred",
-            "source_page_id": "817594543",
-            "is_active": true
-        },
-        {
-            "id": "ex_7ffff331b043",
-            "source": "iata",
-            "message": "IATA_OrderReshopRQ",
-            "version": "24.1",
-            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_003G - 03 - OrderReshopRQ.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_7ffff331b043.xml",
             "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
             "source_page_id": "842301447",
             "is_active": true
@@ -1430,20 +1276,6 @@
             "is_active": true
         },
         {
-            "id": "ex_356f8ee1a914",
-            "source": "iata",
-            "message": "IATA_OrderReshopRS",
-            "version": "24.1",
-            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_003F - 06 - OrderReshopRS_OrderQuote.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_356f8ee1a914.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
-            "source_page_id": "842268712",
-            "is_active": true
-        },
-        {
             "id": "ex_3e4206ce4d36",
             "source": "iata",
             "message": "IATA_OrderReshopRS",
@@ -1469,20 +1301,6 @@
             "xml_path": "ndc_content/examples/files/iata/ex_48e51658ef9a.xml",
             "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594417/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+full+refund",
             "source_page_id": "817594417",
-            "is_active": true
-        },
-        {
-            "id": "ex_4bbf0525f264",
-            "source": "iata",
-            "message": "IATA_OrderReshopRS",
-            "version": "24.1",
-            "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred and requiring payment of a penalty",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_030B - 04 - OrderReshopRS.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_4bbf0525f264.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
-            "source_page_id": "817594795",
             "is_active": true
         },
         {
@@ -1570,20 +1388,6 @@
             "is_active": true
         },
         {
-            "id": "ex_734d71daf562",
-            "source": "iata",
-            "message": "IATA_OrderReshopRS",
-            "version": "24.1",
-            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_003G - 06 - OrderReshopRS_OrderQuote.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_734d71daf562.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
-            "source_page_id": "842301447",
-            "is_active": true
-        },
-        {
             "id": "ex_7a33bfefc3f8",
             "source": "iata",
             "message": "IATA_OrderReshopRS",
@@ -1595,20 +1399,6 @@
             "xml_path": "ndc_content/examples/files/iata/ex_7a33bfefc3f8.xml",
             "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/841187358/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection",
             "source_page_id": "841187358",
-            "is_active": true
-        },
-        {
-            "id": "ex_7bb250809d0d",
-            "source": "iata",
-            "message": "IATA_OrderReshopRS",
-            "version": "24.1",
-            "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_030D - 04 - OrderReshopRS.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_7bb250809d0d.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594543/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred",
-            "source_page_id": "817594543",
             "is_active": true
         },
         {
@@ -1668,20 +1458,6 @@
             "is_active": true
         },
         {
-            "id": "ex_bfc11151acd8",
-            "source": "iata",
-            "message": "IATA_OrderReshopRS",
-            "version": "24.1",
-            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_003F - 04 - OrderReshopRS.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_bfc11151acd8.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
-            "source_page_id": "842268712",
-            "is_active": true
-        },
-        {
             "id": "ex_c7caa4888f48",
             "source": "iata",
             "message": "IATA_OrderReshopRS",
@@ -1738,20 +1514,6 @@
             "is_active": true
         },
         {
-            "id": "ex_e2c67ef170ca",
-            "source": "iata",
-            "message": "IATA_OrderReshopRS",
-            "version": "24.1",
-            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_003G - 04 - OrderReshopRS.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_e2c67ef170ca.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
-            "source_page_id": "842301447",
-            "is_active": true
-        },
-        {
             "id": "ex_e81bb5573fe6",
             "source": "iata",
             "message": "IATA_OrderReshopRS",
@@ -1805,20 +1567,6 @@
             "xml_path": "ndc_content/examples/files/iata/ex_0316d6eb7e2b.xml",
             "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/670203914/Payment+Via+Redirection+with+Airline+Notification+of+Payment+Success",
             "source_page_id": "670203914",
-            "is_active": true
-        },
-        {
-            "id": "ex_055c817499bd",
-            "source": "iata",
-            "message": "IATA_OrderRetrieveRQ",
-            "version": "24.1",
-            "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_030D - 07 - OrderRetrieveRQ.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_055c817499bd.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594543/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred",
-            "source_page_id": "817594543",
             "is_active": true
         },
         {
@@ -1920,20 +1668,6 @@
             "is_active": true
         },
         {
-            "id": "ex_41292fff3669",
-            "source": "iata",
-            "message": "IATA_OrderRetrieveRQ",
-            "version": "24.1",
-            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_003G - 09 - OrderRetrieveRQ.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_41292fff3669.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
-            "source_page_id": "842301447",
-            "is_active": true
-        },
-        {
             "id": "ex_41f3bc601662",
             "source": "iata",
             "message": "IATA_OrderRetrieveRQ",
@@ -1976,34 +1710,6 @@
             "is_active": true
         },
         {
-            "id": "ex_580051e14d94",
-            "source": "iata",
-            "message": "IATA_OrderRetrieveRQ",
-            "version": "24.1",
-            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_003F - 09 - OrderRetrieveRQ.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_580051e14d94.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
-            "source_page_id": "842268712",
-            "is_active": true
-        },
-        {
-            "id": "ex_5964abe1adb5",
-            "source": "iata",
-            "message": "IATA_OrderRetrieveRQ",
-            "version": "24.1",
-            "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred and requiring payment of a penalty",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_030B - 07 - OrderRetrieveRQ.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_5964abe1adb5.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
-            "source_page_id": "817594795",
-            "is_active": true
-        },
-        {
             "id": "ex_5a8aad4e1d8b",
             "source": "iata",
             "message": "IATA_OrderRetrieveRQ",
@@ -2043,20 +1749,6 @@
             "xml_path": "ndc_content/examples/files/iata/ex_61fecc51e34b.xml",
             "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594669/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Value+Store",
             "source_page_id": "817594669",
-            "is_active": true
-        },
-        {
-            "id": "ex_6e79a534b220",
-            "source": "iata",
-            "message": "IATA_OrderRetrieveRQ",
-            "version": "24.1",
-            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_003G - 01 - OrderRetrieveRQ.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_6e79a534b220.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
-            "source_page_id": "842301447",
             "is_active": true
         },
         {
@@ -2130,20 +1822,6 @@
             "is_active": true
         },
         {
-            "id": "ex_7f673c592543",
-            "source": "iata",
-            "message": "IATA_OrderRetrieveRQ",
-            "version": "24.1",
-            "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_030D - 01 - OrderRetrieveRQ.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_7f673c592543.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594543/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred",
-            "source_page_id": "817594543",
-            "is_active": true
-        },
-        {
             "id": "ex_89ed2fcb21e2",
             "source": "iata",
             "message": "IATA_OrderRetrieveRQ",
@@ -2200,20 +1878,6 @@
             "is_active": true
         },
         {
-            "id": "ex_beab92c58c36",
-            "source": "iata",
-            "message": "IATA_OrderRetrieveRQ",
-            "version": "24.1",
-            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_003F - 01 - OrderRetrieveRQ.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_beab92c58c36.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
-            "source_page_id": "842268712",
-            "is_active": true
-        },
-        {
             "id": "ex_c0a1e960ff07",
             "source": "iata",
             "message": "IATA_OrderRetrieveRQ",
@@ -2253,20 +1917,6 @@
             "xml_path": "ndc_content/examples/files/iata/ex_cf431a26bf9a.xml",
             "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/841187333/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+no+additional+payment",
             "source_page_id": "841187333",
-            "is_active": true
-        },
-        {
-            "id": "ex_d0841ce0be2d",
-            "source": "iata",
-            "message": "IATA_OrderRetrieveRQ",
-            "version": "24.1",
-            "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred and requiring payment of a penalty",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_030B - 01 - OrderRetrieveRQ.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_d0841ce0be2d.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
-            "source_page_id": "817594795",
             "is_active": true
         },
         {
@@ -2424,20 +2074,6 @@
             "is_active": true
         },
         {
-            "id": "ex_07532d256cc6",
-            "source": "iata",
-            "message": "IATA_OrderViewRS",
-            "version": "24.1",
-            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_003F - 07.b.2 - OrderViewRS_OrderChange.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_07532d256cc6.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
-            "source_page_id": "842268712",
-            "is_active": true
-        },
-        {
             "id": "ex_07960b134feb",
             "source": "iata",
             "message": "IATA_OrderViewRS",
@@ -2505,20 +2141,6 @@
             "xml_path": "ndc_content/examples/files/iata/ex_1323f5ac23a5.xml",
             "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/672464903/Free+name+changes",
             "source_page_id": "672464903",
-            "is_active": true
-        },
-        {
-            "id": "ex_151e7389018d",
-            "source": "iata",
-            "message": "IATA_OrderViewRS",
-            "version": "24.1",
-            "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_030D - 06 - OrderViewRS_OrderChange.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_151e7389018d.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594543/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred",
-            "source_page_id": "817594543",
             "is_active": true
         },
         {
@@ -2690,20 +2312,6 @@
             "is_active": true
         },
         {
-            "id": "ex_3dfdc5ae5512",
-            "source": "iata",
-            "message": "IATA_OrderViewRS",
-            "version": "24.1",
-            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_003F - 08 - OrderViewRS_OrderChange_Payment.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_3dfdc5ae5512.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
-            "source_page_id": "842268712",
-            "is_active": true
-        },
-        {
             "id": "ex_401eec9e6b44",
             "source": "iata",
             "message": "IATA_OrderViewRS",
@@ -2771,20 +2379,6 @@
             "xml_path": "ndc_content/examples/files/iata/ex_4aac2ec7ca68.xml",
             "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/672792581/Paid+name+changes",
             "source_page_id": "672792581",
-            "is_active": true
-        },
-        {
-            "id": "ex_4bd44c03ef97",
-            "source": "iata",
-            "message": "IATA_OrderViewRS",
-            "version": "24.1",
-            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_003F - 10 - OrderViewRS_OrderRetrieve.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_4bd44c03ef97.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
-            "source_page_id": "842268712",
             "is_active": true
         },
         {
@@ -2886,20 +2480,6 @@
             "is_active": true
         },
         {
-            "id": "ex_672b6cac10d0",
-            "source": "iata",
-            "message": "IATA_OrderViewRS",
-            "version": "24.1",
-            "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred and requiring payment of a penalty",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_030B - 06 - OrderViewRS_OrderChange.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_672b6cac10d0.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
-            "source_page_id": "817594795",
-            "is_active": true
-        },
-        {
             "id": "ex_676bc1b82ce7",
             "source": "iata",
             "message": "IATA_OrderViewRS",
@@ -2942,20 +2522,6 @@
             "is_active": true
         },
         {
-            "id": "ex_6b932406a5a0",
-            "source": "iata",
-            "message": "IATA_OrderViewRS",
-            "version": "24.1",
-            "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred and requiring payment of a penalty",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_030B - 02 - OrderViewRS_OrderRetrieve.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_6b932406a5a0.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
-            "source_page_id": "817594795",
-            "is_active": true
-        },
-        {
             "id": "ex_70a191b6189c",
             "source": "iata",
             "message": "IATA_OrderViewRS",
@@ -2967,20 +2533,6 @@
             "xml_path": "ndc_content/examples/files/iata/ex_70a191b6189c.xml",
             "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594921/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+a+Reusable+amount",
             "source_page_id": "817594921",
-            "is_active": true
-        },
-        {
-            "id": "ex_763ddf4abd82",
-            "source": "iata",
-            "message": "IATA_OrderViewRS",
-            "version": "24.1",
-            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_003F - 02 - OrderViewRS_OrderRetrieve.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_763ddf4abd82.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
-            "source_page_id": "842268712",
             "is_active": true
         },
         {
@@ -3110,20 +2662,6 @@
             "is_active": true
         },
         {
-            "id": "ex_b47ca9314923",
-            "source": "iata",
-            "message": "IATA_OrderViewRS",
-            "version": "24.1",
-            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_003G - 10 - OrderViewRS_OrderRetrieve.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_b47ca9314923.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
-            "source_page_id": "842301447",
-            "is_active": true
-        },
-        {
             "id": "ex_b89de0866994",
             "source": "iata",
             "message": "IATA_OrderViewRS",
@@ -3163,20 +2701,6 @@
             "xml_path": "ndc_content/examples/files/iata/ex_bc6653096bf2.xml",
             "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268791/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+a+value+store",
             "source_page_id": "842268791",
-            "is_active": true
-        },
-        {
-            "id": "ex_bed41f9432cc",
-            "source": "iata",
-            "message": "IATA_OrderViewRS",
-            "version": "24.1",
-            "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_030D - 02 - OrderViewRS_OrderRetrieve.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_bed41f9432cc.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594543/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred",
-            "source_page_id": "817594543",
             "is_active": true
         },
         {
@@ -3250,20 +2774,6 @@
             "is_active": true
         },
         {
-            "id": "ex_cb1fe6119a8a",
-            "source": "iata",
-            "message": "IATA_OrderViewRS",
-            "version": "24.1",
-            "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_030D - 08 - OrderViewRS_OrderRetrieve.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_cb1fe6119a8a.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594543/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred",
-            "source_page_id": "817594543",
-            "is_active": true
-        },
-        {
             "id": "ex_cef71e4b28fa",
             "source": "iata",
             "message": "IATA_OrderViewRS",
@@ -3275,20 +2785,6 @@
             "xml_path": "ndc_content/examples/files/iata/ex_cef71e4b28fa.xml",
             "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/841187358/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection",
             "source_page_id": "841187358",
-            "is_active": true
-        },
-        {
-            "id": "ex_d3d0b00d3cc4",
-            "source": "iata",
-            "message": "IATA_OrderViewRS",
-            "version": "24.1",
-            "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred and requiring payment of a penalty",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_030B - 08 - OrderViewRS_OrderRetrieve.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_d3d0b00d3cc4.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
-            "source_page_id": "817594795",
             "is_active": true
         },
         {
@@ -3334,20 +2830,6 @@
             "is_active": true
         },
         {
-            "id": "ex_e8a28ca03c93",
-            "source": "iata",
-            "message": "IATA_OrderViewRS",
-            "version": "24.1",
-            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_003G - 08 - OrderViewRS_OrderChange.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_e8a28ca03c93.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
-            "source_page_id": "842301447",
-            "is_active": true
-        },
-        {
             "id": "ex_e946dccc0cf0",
             "source": "iata",
             "message": "IATA_OrderViewRS",
@@ -3373,20 +2855,6 @@
             "xml_path": "ndc_content/examples/files/iata/ex_ecf96b6df6ff.xml",
             "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268768/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+a+refund",
             "source_page_id": "842268768",
-            "is_active": true
-        },
-        {
-            "id": "ex_f3d2fdcdf1ae",
-            "source": "iata",
-            "message": "IATA_OrderViewRS",
-            "version": "24.1",
-            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
-            "description": null,
-            "tags": [],
-            "file_name": "EXM_ORD_003G - 02 - OrderViewRS_OrderRetrieve.xml",
-            "xml_path": "ndc_content/examples/files/iata/ex_f3d2fdcdf1ae.xml",
-            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
-            "source_page_id": "842301447",
             "is_active": true
         },
         {

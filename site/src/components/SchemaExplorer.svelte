@@ -291,7 +291,11 @@
 
             const nodeDoc = getDocumentation(searchNode);
             const nodeTypeName = resolveTypeName(searchNode, definitions);
-            const { nameMatch, docMatch } = matchesSearch(nodeName, nodeDoc, query);
+            const { nameMatch, docMatch } = matchesSearch(
+                nodeName,
+                nodeDoc,
+                query,
+            );
             const iconType = getIconType(nodeName, nodeTypeName);
 
             if (nameMatch || docMatch) {
@@ -310,7 +314,11 @@
 
             if (results.length > SEARCH.MAX_RESULTS) break;
 
-            const nodeChildren = resolveChildren(searchNode, definitions, elementCache);
+            const nodeChildren = resolveChildren(
+                searchNode,
+                definitions,
+                elementCache,
+            );
             for (const child of nodeChildren) {
                 const childName =
                     child.getAttribute("name") ||
@@ -400,6 +408,11 @@
         treeActionVersion++;
         query = "";
     }
+
+    function getRelatedFlows(messageName: string | null) {
+        if (!messageName) return [];
+        return [];
+    }
 </script>
 
 <svelte:window onkeydown={handleKeyDown} />
@@ -479,7 +492,10 @@
                         {:else if error}
                             <div class="alert alert-error text-sm">
                                 <span>{error}</span>
-                                <button class="btn btn-sm btn-ghost" onclick={() => loadSchema()}>Retry</button>
+                                <button
+                                    class="btn btn-sm btn-ghost"
+                                    onclick={() => loadSchema()}>Retry</button
+                                >
                             </div>
                         {:else if rootElement && doc}
                             <div
@@ -491,7 +507,8 @@
                                     {doc}
                                     {definitions}
                                     path={`/${rootElement.getAttribute("name")}`}
-                                    searchQuery={query.length >= SEARCH.MIN_QUERY_LENGTH
+                                    searchQuery={query.length >=
+                                    SEARCH.MIN_QUERY_LENGTH
                                         ? query.toLowerCase()
                                         : ""}
                                     {targetPath}
@@ -525,7 +542,11 @@
                         >
                     </div>
                 {:else}
-                    <div id="xml-panel" role="tabpanel" class="flex-1 overflow-hidden">
+                    <div
+                        id="xml-panel"
+                        role="tabpanel"
+                        class="flex-1 overflow-hidden"
+                    >
                         <XmlSourceView
                             {loadedFiles}
                             {selectedFileIndex}

@@ -75,6 +75,9 @@ class ExampleServiceTest {
         assertEquals(1, service.listExamples("OrderCreateRQ", source = "custom").size)
         assertEquals(1, service.listExamples("OrderCreateRQ", flowId = "flow_booking").size)
         assertEquals(0, service.listExamples("OrderCreateRQ", version = "25.4").size)
+        assertEquals(2, service.listExamples().size)
+        assertEquals(2, service.listExamples(version = "24.1").size)
+        assertEquals(0, service.listExamples(version = "25.4").size)
     }
 
     @Test

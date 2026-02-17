@@ -7,6 +7,7 @@ import { getVersions, getMessages } from "../../utils/schemas";
 import { getSchemaDescription } from "../../utils/schema-description";
 import { getExamplesForMessage, loadExampleCatalog } from "../../utils/examples";
 import ExamplesButton from "../../components/ExamplesButton.svelte";
+import FlowsButton from "../../components/FlowsButton.svelte";
 import ValidateModal from "../../components/ValidateModal.svelte";
 import { API_URL } from "../../utils/config";
 import { MODAL_IDS } from "../../utils/constants";
@@ -67,6 +68,10 @@ const cleanMessageName = message.replace("IATA_", "");
 const description = getSchemaDescription(version, message);
 const catalog = loadExampleCatalog();
 const examples = getExamplesForMessage(message, catalog);
+
+import { getFlows, getFlowsForMessage } from "../../utils/flows";
+const allFlows = getFlows();
+const relatedFlows = getFlowsForMessage(message, allFlows);
 ---
 
 <Layout
@@ -104,6 +109,15 @@ const examples = getExamplesForMessage(message, catalog);
                         <ExamplesButton
                             client:load
                             examples={examples}
+                            message={message}
+                        />
+                    )
+                }
+                {
+                    relatedFlows.length > 0 && (
+                        <FlowsButton
+                            client:load
+                            flows={relatedFlows}
                             message={message}
                         />
                     )

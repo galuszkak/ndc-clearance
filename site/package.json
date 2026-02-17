@@ -22,11 +22,13 @@
     "@astrojs/check": "^0.9.6",
     "@astrojs/sitemap": "^3.7.0",
     "@astrojs/svelte": "^7.2.5",
+    "@dagrejs/dagre": "^2.0.4",
     "@tailwindcss/vite": "^4.1.18",
+    "@xyflow/svelte": "^1.5.0",
     "astro": "^5.17.2",
     "daisyui": "^5.5.18",
     "highlight.js": "^11.11.1",
-    "svelte": "^5.50.3",
+    "svelte": "^5.51.2",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3"
   },
@@ -38,14 +40,14 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/node": "^25.2.0",
     "eslint": "^9.39.2",
-    "eslint-plugin-astro": "^1.5.0",
+    "eslint-plugin-astro": "^1.6.0",
     "eslint-plugin-svelte": "^3.15.0",
     "globals": "^17.3.0",
-    "jsdom": "^28.0.0",
+    "jsdom": "^28.1.0",
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-svelte": "^3.4.1",
-    "typescript-eslint": "^8.55.0",
+    "typescript-eslint": "^8.56.0",
     "vitest": "^4.0.18"
   }
 }

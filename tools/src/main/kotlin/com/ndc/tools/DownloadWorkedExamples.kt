@@ -2,6 +2,9 @@ package com.ndc.tools
 
 import com.ndc.tools.common.ExampleSourceRecord
 import com.ndc.tools.common.ExampleSourcesFile
+import com.ndc.tools.common.IataFlowSourceRecord
+import com.ndc.tools.common.IataFlowSourcesFile
+import com.ndc.tools.common.IataFlowStepSource
 import com.ndc.tools.common.NdcConstants
 import com.ndc.tools.common.buildExampleId
 import com.ndc.tools.common.contentJson
@@ -17,6 +20,8 @@ import java.util.zip.ZipFile
 import kotlinx.serialization.encodeToString
 import kotlin.io.path.createTempDirectory
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import org.jsoup.nodes.Element
 
 private const val BASE_URL = "https://standards.atlassian.net"
 private const val WORKED_EXAMPLES_URL = "$BASE_URL/wiki/spaces/EASD/pages/574586985/Worked+Examples"
@@ -100,6 +105,113 @@ fun getAllScenarioLinks(): List<ScenarioLink> {
     return scenarios
 }
 
+// ── Flow metadata scraping ──
+
+private fun extractSectionText(doc: Document, sectionName: String): String? {
+    // Find h2 elements matching the section name
+    val header = doc.select("h1, h2, h3").firstOrNull { el ->
+        el.text().trim().equals(sectionName, ignoreCase = true)
+    } ?: return null
+
+    val parts = mutableListOf<String>()
+    var sibling = header.nextElementSibling()
+    while (sibling != null && sibling.tagName() !in listOf("h1", "h2")) {
+        val text = sibling.text().trim()
+        if (text.isNotEmpty()) parts.add(text)
+        sibling = sibling.nextElementSibling()
+    }
+    return parts.joinToString("\n").trim().takeIf { it.isNotEmpty() }
+}
+
+private fun extractMainFlowSteps(doc: Document): List<IataFlowStepSource> {
+    // Find the Main Flow section header
+    val header = doc.select("h1, h2, h3").firstOrNull { el ->
+        el.text().trim().equals("Main Flow", ignoreCase = true)
+    } ?: return emptyList()
+
+    // Look for a table after the header
+    var sibling = header.nextElementSibling()
+    var table: Element? = null
+    while (sibling != null && sibling.tagName() !in listOf("h1", "h2")) {
+        if (sibling.tagName() == "table") {
+            table = sibling
+            break
+        }
+        // Also check for tables nested inside divs
+        val nested = sibling.selectFirst("table")
+        if (nested != null) {
+            table = nested
+            break
+        }
+        sibling = sibling.nextElementSibling()
+    }
+
+    if (table == null) {
+        // Fallback: look for any table on the page with Step/Message/Description columns
+        table = doc.select("table").firstOrNull { t ->
+            val headers = t.select("th, thead td").map { it.text().trim().lowercase() }
+            headers.containsAll(listOf("step", "message"))
+        }
+    }
+
+    if (table == null) return emptyList()
+
+    val steps = mutableListOf<IataFlowStepSource>()
+    val rows = table.select("tr")
+
+    for (row in rows) {
+        val cells = row.select("td")
+        if (cells.size < 2) continue
+
+        val stepNum = cells[0].text().trim()
+        val message = cells[1].text().trim()
+        val description = if (cells.size >= 3) cells[2].text().trim() else ""
+
+        // Skip header rows or condition-only rows
+        if (stepNum.isEmpty() || message.isEmpty()) continue
+        if (stepNum.equals("step", ignoreCase = true)) continue
+        if (message.equals("condition", ignoreCase = true)) continue
+
+        // Normalize the message name: add IATA_ prefix if not present
+        val normalizedMessage = if (message.startsWith("IATA_")) message
+            else "IATA_$message"
+
+        steps.add(IataFlowStepSource(
+            stepNumber = stepNum,
+            message = normalizedMessage,
+            description = description,
+        ))
+    }
+    return steps
+}
+
+fun scrapeFlowMetadata(scenario: ScenarioLink, html: String): IataFlowSourceRecord? {
+    if (html.isEmpty()) return null
+
+    val doc = Jsoup.parse(html, BASE_URL)
+
+    val description = extractSectionText(doc, "Description")
+    if (description.isNullOrBlank()) {
+        println("    No Description section found, skipping flow")
+        return null
+    }
+
+    val steps = extractMainFlowSteps(doc)
+    val preconditions = extractSectionText(doc, "Preconditions")
+    val postconditions = extractSectionText(doc, "Postconditions")
+
+    return IataFlowSourceRecord(
+        id = "flow_iata_page_${scenario.pageId}",
+        title = scenario.title,
+        description = description,
+        sourceUrl = scenario.url,
+        sourcePageId = scenario.pageId,
+        preconditions = preconditions,
+        postconditions = postconditions,
+        steps = steps,
+    )
+}
+
 private fun saveExample(
     xmlFile: File,
     scenario: ScenarioLink,
@@ -138,12 +250,22 @@ private fun saveExample(
     return true
 }
 
+/**
+ * Result of processing a single scenario: examples downloaded + optional flow metadata.
+ * We cache the fetched page HTML so we don't need to re-fetch for flow scraping.
+ */
+data class ScenarioResult(
+    val filesSaved: Int,
+    val pageHtml: String?,
+)
+
 private fun downloadAttachments(
     scenario: ScenarioLink,
     examplesDir: File,
     records: MutableMap<String, ExampleSourceRecord>,
-): Int {
+): ScenarioResult {
     val tempDir = createTempDirectory("ndc-iata-${scenario.pageId}-").toFile()
+    var cachedHtml: String? = null
     try {
         val zipUrl = "$BASE_URL/wiki/download/all_attachments?pageId=${scenario.pageId}"
         val zipBytes = fetchBytes(zipUrl)
@@ -165,27 +287,32 @@ private fun downloadAttachments(
                 }
                 zipPath.delete()
                 val fromZip = processDownloadedFiles(tempDir, scenario, examplesDir, records)
-                if (fromZip > 0) return fromZip
+                if (fromZip > 0) {
+                    // Fetch page for flow scraping (zip didn't require page fetch)
+                    cachedHtml = fetchPage(scenario.url)
+                    return ScenarioResult(fromZip, cachedHtml)
+                }
             } catch (_: Exception) {
                 println("    Warning: Not a valid zip, trying individual downloads")
                 zipPath.delete()
             }
         }
 
-        return downloadAttachmentsIndividually(scenario, tempDir, examplesDir, records)
+        val result = downloadAttachmentsIndividuallyWithHtml(scenario, tempDir, examplesDir, records)
+        return result
     } finally {
         tempDir.deleteRecursively()
     }
 }
 
-private fun downloadAttachmentsIndividually(
+private fun downloadAttachmentsIndividuallyWithHtml(
     scenario: ScenarioLink,
     folderPath: File,
     examplesDir: File,
     records: MutableMap<String, ExampleSourceRecord>,
-): Int {
+): ScenarioResult {
     val content = fetchPage(scenario.url)
-    if (content.isEmpty()) return 0
+    if (content.isEmpty()) return ScenarioResult(0, null)
 
     val doc = Jsoup.parse(content, BASE_URL)
     var downloaded = 0
@@ -208,7 +335,7 @@ private fun downloadAttachmentsIndividually(
             if (saveExample(filePath, scenario, examplesDir, records)) downloaded++
         }
     }
-    return downloaded
+    return ScenarioResult(downloaded, content)
 }
 
 private fun processDownloadedFiles(
@@ -227,15 +354,18 @@ private fun processDownloadedFiles(
 fun main(args: Array<String>) {
     val sep = "=".repeat(60)
     println(sep)
-    println("IATA NDC Worked Examples Downloader -> ndc_content")
+    println("IATA NDC Worked Examples & Flows Downloader -> ndc_content")
     println(sep)
     println()
 
     val projectRoot = NdcConstants.projectRoot()
     val contentExamplesDir = NdcConstants.examplesRoot(projectRoot).resolve("files/iata")
     val sourceFile = NdcConstants.examplesRoot(projectRoot).resolve("sources/iata.generated.json")
+    val flowSourcesDir = NdcConstants.flowSourcesRoot(projectRoot)
+    val flowSourceFile = flowSourcesDir.resolve("iata.generated.json")
 
     sourceFile.parentFile.mkdirs()
+    flowSourcesDir.mkdirs()
     if (contentExamplesDir.exists()) contentExamplesDir.deleteRecursively()
     contentExamplesDir.mkdirs()
 
@@ -252,26 +382,42 @@ fun main(args: Array<String>) {
     var successfulScenarios = 0
     var totalFiles = 0
     val recordsById = linkedMapOf<String, ExampleSourceRecord>()
+    val flowRecords = mutableListOf<IataFlowSourceRecord>()
 
     for ((i, scenario) in scenarios.withIndex()) {
         println("\n[${i + 1}/${scenarios.size}] ${scenario.title}")
         println("  Page ID: ${scenario.pageId}")
 
-        val filesSaved = downloadAttachments(scenario, contentExamplesDir, recordsById)
-        if (filesSaved > 0) {
-            println("  Processed $filesSaved file(s)")
-            totalFiles += filesSaved
+        val result = downloadAttachments(scenario, contentExamplesDir, recordsById)
+        if (result.filesSaved > 0) {
+            println("  Processed ${result.filesSaved} file(s)")
+            totalFiles += result.filesSaved
             successfulScenarios++
         } else {
             println("  No xml files processed")
         }
 
+        // Scrape flow metadata from the page
+        val html = result.pageHtml ?: fetchPage(scenario.url)
+        val flowRecord = scrapeFlowMetadata(scenario, html)
+        if (flowRecord != null) {
+            println("  Flow: ${flowRecord.steps.size} steps scraped")
+            flowRecords.add(flowRecord)
+        } else {
+            println("  Flow: no flow metadata found")
+        }
+
         Thread.sleep(1000)
     }
 
+    // Write example sources
     val examples = recordsById.values.sortedWith(compareBy<ExampleSourceRecord> { it.message }.thenBy { it.id ?: "" })
     val output = ExampleSourcesFile(version = 1, examples = examples)
     sourceFile.writeText(contentJson.encodeToString(output))
+
+    // Write flow sources
+    val flowOutput = IataFlowSourcesFile(version = 1, flows = flowRecords.sortedBy { it.title })
+    flowSourceFile.writeText(contentJson.encodeToString(flowOutput))
 
     println()
     println(sep)
@@ -280,7 +426,9 @@ fun main(args: Array<String>) {
     println("Total scenarios processed: ${scenarios.size}")
     println("Scenarios with downloads: $successfulScenarios")
     println("Total files processed: $totalFiles")
+    println("Flows scraped: ${flowRecords.size}")
     println("IATA examples dir: ${contentExamplesDir.absolutePath}")
     println("Metadata file: ${sourceFile.absolutePath}")
+    println("Flow sources file: ${flowSourceFile.absolutePath}")
     println()
 }

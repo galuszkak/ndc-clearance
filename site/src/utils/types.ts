@@ -73,7 +73,7 @@ export interface ExampleRecord {
     version: string;
     title: string;
     description: string | null;
-    tags: string[];
+
     file_name: string;
     xml_path: string;
     public_path: string;
@@ -98,6 +98,7 @@ export interface FlowStep {
     example_id: string;
     notes?: string;
     optional?: boolean;
+    next?: string[];
 }
 
 /** Flow definition shape */
@@ -106,8 +107,9 @@ export interface FlowRecord {
     title: string;
     description: string;
     goal: string;
-    tags: string[];
+
     actors: string[];
     status: "draft" | "active" | "deprecated";
+    source_url?: string; // Optional source link
     steps: FlowStep[];
 }

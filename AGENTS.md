@@ -9,6 +9,7 @@
 - Side-by-side version diffing to identify schema changes
 - XML validation against specific schema versions
 - Worked examples from canonical shared content (`ndc_content/`) with IATA + custom sources
+- Interactive Flow viewer with 100% coverage requirement for quality assurance
 - An MCP (Model Context Protocol) server enabling AI agent integration
 
 **Live deployment:** https://ndc-clearance.netlify.app
@@ -90,8 +91,9 @@ npm run copy-assets      # Runs copy-schemas + copy-content
 - `VersionSelector.svelte` - Version dropdown with cross-version navigation and existence checking
 
 **Content viewers:**
-- `XmlSourceView.svelte` - Raw XML display with syntax highlighting, multi-file tabs, copy button
+- `XmlSourceView.svelte` - Raw XML display with syntax highlighting, code folding, multi-file tabs, copy button
 - `ExamplesButton.svelte` / `ExamplesModal.svelte` - Worked example browser
+- `FlowHeader.svelte` - Flow title, description, and source attribution link
 - `ValidateModal.svelte` - XML validation interface (calls backend API)
 - `StructureOverview.svelte` - Schema statistics widget (elements, types counts)
 
@@ -337,7 +339,8 @@ ndc_content/*            →  ./gradlew buildContentCatalog
 - Canonical examples/flows live in `ndc_content/` and are shared by both site and backend
 - Site consumes examples from `public/content/examples/catalog.json` (copied from `ndc_content/examples/catalog.json`)
 - Backend consumes examples from `src/main/resources/content/examples/catalog.json` via `CONTENT_ROOT`
-- `flow_id` is singular per example (not `flow_ids`); for IATA records flow is inferred as one page = one flow (`flow_iata_page_<source_page_id>`)
+- `flow_id` is a permanent slug derived from the title (e.g., `shop-and-order-flight`) for SEO-friendly URLs
+- Flows must have 100% step coverage (each step has an example) to be included in the catalog
 - Version-to-message mapping is defined in `iata_ndc_messages.json` at the repo root
 - Worked examples have a version mapping (e.g., schema ID "2134" → version "21.3.5") defined in `tools/src/main/kotlin/com/ndc/tools/common/NdcConstants.kt`
 - CORS is open on the backend (any host allowed) - by design for broad access

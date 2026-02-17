@@ -2,29 +2,714 @@
     "version": 1,
     "flows": [
         {
-            "id": "flow_custom_roundtrip_booking_demo",
-            "title": "Custom Roundtrip Booking Demo",
-            "description": "Draft flow showing a custom order creation step for a roundtrip scenario.",
-            "goal": "Create a roundtrip order from a selected priced offer.",
-            "tags": [
-                "custom",
-                "booking",
-                "roundtrip",
-                "demo"
-            ],
+            "id": "customer-requests-open-jaw-with-wheelchair",
+            "title": "Customer Requests Open Jaw with Wheelchair",
+            "description": "This use case illustrates a customer requesting for a wheelchair on an open jaw itinerary with more than one passenger. The customer would like a wheelchair just for their flight segments on the multi passenger Itinerary.",
+            "goal": "A Priced Offer for a multi passenger itinerary with an a la carte service (wheelchair- 0898) for only one of the passengers’ flight segments.",
             "actors": [
                 "Seller",
                 "Airline"
             ],
-            "status": "draft",
+            "status": "iata",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/676790273/Customer+Requests+Open+Jaw+with+Wheelchair",
             "steps": [
                 {
-                    "step_id": "create_order",
+                    "step_id": "air_shopping_rq_01_1",
                     "order": 1,
+                    "message": "IATA_AirShoppingRQ",
+                    "example_id": "ex_52a5ebf43b7b",
+                    "notes": "Seller requests flight offers to airline, providing origins, destinations, and dates.",
+                    "optional": false,
+                    "next": [
+                        "air_shopping_rs_01_2"
+                    ]
+                },
+                {
+                    "step_id": "air_shopping_rs_01_2",
+                    "order": 2,
+                    "message": "IATA_AirShoppingRS",
+                    "example_id": "ex_ff3f8598b6b3",
+                    "notes": "Airline returns Offers according to the O&D with dates provided",
+                    "optional": false,
+                    "next": [
+                        "service_list_rq_02_1"
+                    ]
+                },
+                {
+                    "step_id": "service_list_rq_02_1",
+                    "order": 3,
+                    "message": "IATA_ServiceListRQ",
+                    "example_id": "ex_f39a9131de7f",
+                    "notes": "Seller request for a la carte service (wheelchair) for 1 of the pax on the itinerary",
+                    "optional": false,
+                    "next": [
+                        "service_list_rs_02_2"
+                    ]
+                },
+                {
+                    "step_id": "service_list_rs_02_2",
+                    "order": 4,
+                    "message": "IATA_ServiceListRS",
+                    "example_id": "ex_57cea72f46cb",
+                    "notes": "Airline responds with the pax OfferItem service for a wheelchair",
+                    "optional": false,
+                    "next": [
+                        "offer_price_rq_03_1"
+                    ]
+                },
+                {
+                    "step_id": "offer_price_rq_03_1",
+                    "order": 5,
+                    "message": "IATA_OfferPriceRQ",
+                    "example_id": "ex_b58573a22cd0",
+                    "notes": "Seller requests the selection of Flight Offer and a la carte service (wheelchair- for 1 PAX)",
+                    "optional": false,
+                    "next": [
+                        "offer_price_rs_03_2"
+                    ]
+                },
+                {
+                    "step_id": "offer_price_rs_03_2",
+                    "order": 6,
+                    "message": "IATA_OfferPriceRS",
+                    "example_id": "ex_110aff7d2cea",
+                    "notes": "Airline responds with a unified priced offer with selected flight service and a la carte service (wheelchair-for 1 PAX)",
+                    "optional": false,
+                    "next": []
+                }
+            ]
+        },
+        {
+            "id": "customer-updates-existing-contact-details",
+            "title": "Customer Updates Existing Contact Details",
+            "description": "This use case illustrates a servicing flow where the customer changes their contact details, specifically updates existing email and phone number details, adds the residence country code and deletes the identity document.",
+            "goal": "Seller is able to view an updated version of the Order with the recently provided passenger details.",
+            "actors": [
+                "Seller",
+                "Airline"
+            ],
+            "status": "iata",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/673021953/Customer+Updates+Existing+Contact+Details",
+            "steps": [
+                {
+                    "step_id": "order_retrieve_rq_01_1",
+                    "order": 1,
+                    "message": "IATA_OrderRetrieveRQ",
+                    "example_id": "ex_c0a1e960ff07",
+                    "notes": "Seller retrieves the latest version of the Order",
+                    "optional": false,
+                    "next": [
+                        "order_view_rs_01_2"
+                    ]
+                },
+                {
+                    "step_id": "order_view_rs_01_2",
+                    "order": 2,
+                    "message": "IATA_OrderViewRS",
+                    "example_id": "ex_b89de0866994",
+                    "notes": "Airline provides the most recent version of the Order",
+                    "optional": false,
+                    "next": [
+                        "order_change_rq_02_1"
+                    ]
+                },
+                {
+                    "step_id": "order_change_rq_02_1",
+                    "order": 3,
+                    "message": "IATA_OrderChangeRQ",
+                    "example_id": "ex_cacfcdbc1284",
+                    "notes": "Seller requests that the customer’s email and phone information in the order are replaced by new, specified email and phone information, as well as adding a residence country code and deleting an identity document.",
+                    "optional": false,
+                    "next": [
+                        "order_view_rs_02_2"
+                    ]
+                },
+                {
+                    "step_id": "order_view_rs_02_2",
+                    "order": 4,
+                    "message": "IATA_OrderViewRS",
+                    "example_id": "ex_b89de0866994",
+                    "notes": "Airline updates the customer’s email and phone information, adds the residence country code, deletes the identity document, and provides the most recent version of the Order",
+                    "optional": false,
+                    "next": []
+                }
+            ]
+        },
+        {
+            "id": "customer-views-their-order",
+            "title": "Customer Views Their Order",
+            "description": "This use case illustrates the flow where the customer wants to view an existing Order through a seller.",
+            "goal": "The customer can view the most recent version of the Order.",
+            "actors": [
+                "Seller",
+                "Airline"
+            ],
+            "status": "iata",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/600670225/Customer+Views+Their+Order",
+            "steps": [
+                {
+                    "step_id": "order_retrieve_rq_1",
+                    "order": 1,
+                    "message": "IATA_OrderRetrieveRQ",
+                    "example_id": "ex_54af809fbf10",
+                    "notes": "Seller requests retrieval of selected OrderID",
+                    "optional": false,
+                    "next": [
+                        "order_view_rs_2"
+                    ]
+                },
+                {
+                    "step_id": "order_view_rs_2",
+                    "order": 2,
+                    "message": "IATA_OrderViewRS",
+                    "example_id": "ex_0b9d6bbb1c01",
+                    "notes": "Airline provides the most recent version of the Order",
+                    "optional": false,
+                    "next": []
+                }
+            ]
+        },
+        {
+            "id": "end-to-end-payment-via-pre-authenticated-card-transaction",
+            "title": "End to End Payment Via Pre Authenticated Card Transaction",
+            "description": "This use case illustrates an end-to-end flow whereby a customer shops at a travel seller’s website. During the shopping and pricing phases, the airline provides the seller with a series of payment options and the seller determines that they will pass through the customer's payment card. The seller proceeds to create and pay for an order using customer card, having authenticated the card holder and provides authentication data in the payment payload. The payment is accepted, and the order is confirmed.",
+            "goal": "",
+            "actors": [
+                "Seller",
+                "Airline"
+            ],
+            "status": "iata",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/574849139/End+to+End+Payment+Via+Pre+Authenticated+Card+Transaction",
+            "steps": [
+                {
+                    "step_id": "air_shopping_rq_01",
+                    "order": 1,
+                    "message": "IATA_AirShoppingRQ",
+                    "example_id": "ex_497bcfb89d40",
+                    "notes": "Seller submits travel plan(s) on behalf of a customer.",
+                    "optional": false,
+                    "next": [
+                        "air_shopping_rs_02"
+                    ]
+                },
+                {
+                    "step_id": "air_shopping_rs_02",
+                    "order": 2,
+                    "message": "IATA_AirShoppingRS",
+                    "example_id": "ex_f9c948d39a09",
+                    "notes": "Airline responds with Offers and includes a catalogue of supported methods of payment and related payment fees.",
+                    "optional": false,
+                    "next": [
+                        "offer_price_rq_03"
+                    ]
+                },
+                {
+                    "step_id": "offer_price_rq_03",
+                    "order": 3,
+                    "message": "IATA_OfferPriceRQ",
+                    "example_id": "ex_b8728ae4a77c",
+                    "notes": "Seller requests price for the selected Offer/OfferItem(s)",
+                    "optional": false,
+                    "next": [
+                        "offer_price_rs_04"
+                    ]
+                },
+                {
+                    "step_id": "offer_price_rs_04",
+                    "order": 4,
+                    "message": "IATA_OfferPriceRS",
+                    "example_id": "ex_53cf01457dc4",
+                    "notes": "Airline responds with a priced offer with a specific price and may provide additional information for card payment such as precise surcharge calculation and other payment catalogue options.",
+                    "optional": false,
+                    "next": [
+                        "order_create_rq_05"
+                    ]
+                },
+                {
+                    "step_id": "order_create_rq_05",
+                    "order": 5,
                     "message": "IATA_OrderCreateRQ",
-                    "example_id": "ex_34f869db28c6",
-                    "notes": "Submit OrderCreateRQ using the selected outbound and return offer items.",
-                    "optional": false
+                    "example_id": "ex_f2ca71ec6e44",
+                    "notes": "Seller requests to create the order with a preference to pay using a customer card.",
+                    "optional": false,
+                    "next": [
+                        "order_view_rs_06"
+                    ]
+                },
+                {
+                    "step_id": "order_view_rs_06",
+                    "order": 6,
+                    "message": "IATA_OrderViewRS",
+                    "example_id": "ex_676bc1b82ce7",
+                    "notes": "Airline notifies seller that the order is created, and that payment is expected using customer card with associated card fees, if any.",
+                    "optional": false,
+                    "next": [
+                        "order_change_rq_07"
+                    ]
+                },
+                {
+                    "step_id": "order_change_rq_07",
+                    "order": 7,
+                    "message": "IATA_OrderChangeRQ",
+                    "example_id": "ex_597c18ba0dd2",
+                    "notes": "Seller updates the order with card processing details, including authentication data.",
+                    "optional": false,
+                    "next": [
+                        "order_view_rs_08"
+                    ]
+                },
+                {
+                    "step_id": "order_view_rs_08",
+                    "order": 8,
+                    "message": "IATA_OrderViewRS",
+                    "example_id": "ex_676bc1b82ce7",
+                    "notes": "Airline notifies seller that the payment is “SUCCESSFUL“ and the order is now paid.",
+                    "optional": false,
+                    "next": []
+                }
+            ]
+        },
+        {
+            "id": "end-to-end-payment-via-settlement-plan",
+            "title": "End to End Payment via Settlement Plan",
+            "description": "This use case illustrates the flow whereby a customer shops with a Seller. During the shopping and pricing phases, the airline provides the seller with a series of payment options and the seller determines that payment for the specific order will be by way of a pre-existing settlement plan. The seller proceeds to create and pay for an order using the settlement plan. The payment is accepted and the order is confirmed.",
+            "goal": "",
+            "actors": [
+                "Seller",
+                "Airline"
+            ],
+            "status": "iata",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/676724743/End+to+End+Payment+via+Settlement+Plan",
+            "steps": [
+                {
+                    "step_id": "air_shopping_rq_01_1",
+                    "order": 1,
+                    "message": "IATA_AirShoppingRQ",
+                    "example_id": "ex_004db7a21f72",
+                    "notes": "Seller submits travel plan(s) on behalf of a customer.",
+                    "optional": false,
+                    "next": [
+                        "air_shopping_rs_01_2"
+                    ]
+                },
+                {
+                    "step_id": "air_shopping_rs_01_2",
+                    "order": 2,
+                    "message": "IATA_AirShoppingRS",
+                    "example_id": "ex_f5c739771c13",
+                    "notes": "Airline responds with Offers and includes a catalogue of supported methods of payment and related payment fees.",
+                    "optional": false,
+                    "next": [
+                        "offer_price_rq_02_1"
+                    ]
+                },
+                {
+                    "step_id": "offer_price_rq_02_1",
+                    "order": 3,
+                    "message": "IATA_OfferPriceRQ",
+                    "example_id": "ex_fcb8ff3cc0d8",
+                    "notes": "Seller requests price for the selected Offer/OfferItem(s) and expresses an intent to use a Settlement Plan.",
+                    "optional": false,
+                    "next": [
+                        "offer_price_rs_02_2"
+                    ]
+                },
+                {
+                    "step_id": "offer_price_rs_02_2",
+                    "order": 4,
+                    "message": "IATA_OfferPriceRS",
+                    "example_id": "ex_adeb29f007d1",
+                    "notes": "Airline responds with a priced offer with a specific price for settlement plan.",
+                    "optional": false,
+                    "next": [
+                        "order_create_rq_03_1"
+                    ]
+                },
+                {
+                    "step_id": "order_create_rq_03_1",
+                    "order": 5,
+                    "message": "IATA_OrderCreateRQ",
+                    "example_id": "ex_5bf81bbdcb02",
+                    "notes": "Seller requests to create the order, stating their preference to pay using a settlement plan.",
+                    "optional": false,
+                    "next": [
+                        "order_view_rs_03_2"
+                    ]
+                },
+                {
+                    "step_id": "order_view_rs_03_2",
+                    "order": 6,
+                    "message": "IATA_OrderViewRS",
+                    "example_id": "ex_05aac6cc10ad",
+                    "notes": "Airline notifies Seller that the order is created and that payment via settlement plan is still a supported payment option, among others.",
+                    "optional": false,
+                    "next": [
+                        "order_change_rq_04_1"
+                    ]
+                },
+                {
+                    "step_id": "order_change_rq_04_1",
+                    "order": 7,
+                    "message": "IATA_OrderChangeRQ",
+                    "example_id": "ex_2c7bc21dc0f9",
+                    "notes": "Seller commits to pay for the order, passing settlement plan details.",
+                    "optional": false,
+                    "next": [
+                        "order_view_rs_04_2"
+                    ]
+                },
+                {
+                    "step_id": "order_view_rs_04_2",
+                    "order": 8,
+                    "message": "IATA_OrderViewRS",
+                    "example_id": "ex_05aac6cc10ad",
+                    "notes": "Airline notifies seller that the payment is “SUCCESSFUL” and the order is considered as paid.",
+                    "optional": false,
+                    "next": []
+                }
+            ]
+        },
+        {
+            "id": "indian-rbi-mandate-application",
+            "title": "Indian RBI Mandate Application",
+            "description": "This use case illustrates the flow whereby a customer pays an order which falls under the scope of Reserve Bank of India mandate for a transaction for which both the merchant and card issuer are located in India.\nThe mandate requires that no entity in the card transaction chain, other than the card issuers (banks) and/or networks (Visa, Mastercard, etc.), shall store the actual card data. Solution is to use an alternative token called AlternateCardNumberText which has same format as the Credit Card Primary Account Number (CC PAN) and which is issued by a third-party system authorized by the Reserve Bank of India.\nNote that for the time being it is not clear if the Seller can authenticate autonomously. This is under discussion with Payment Council of India.",
+            "goal": "",
+            "actors": [
+                "Seller",
+                "Airline"
+            ],
+            "status": "iata",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/1164345346/Indian+RBI+Mandate+Application",
+            "steps": [
+                {
+                    "step_id": "air_shopping_rq_01",
+                    "order": 1,
+                    "message": "IATA_AirShoppingRQ",
+                    "example_id": "ex_1307a713f35f",
+                    "notes": "Seller submits travel plan(s) on behalf of a customer.",
+                    "optional": false,
+                    "next": [
+                        "air_shopping_rs_02"
+                    ]
+                },
+                {
+                    "step_id": "air_shopping_rs_02",
+                    "order": 2,
+                    "message": "IATA_AirShoppingRS",
+                    "example_id": "ex_545a368702e2",
+                    "notes": "Airline responds with Offers and includes a catalogue of supported methods of payment and related payment fees.",
+                    "optional": false,
+                    "next": [
+                        "offer_price_rq_03"
+                    ]
+                },
+                {
+                    "step_id": "offer_price_rq_03",
+                    "order": 3,
+                    "message": "IATA_OfferPriceRQ",
+                    "example_id": "ex_03cd6f925d3f",
+                    "notes": "Seller requests price for the selected Offer/OfferItem(s).",
+                    "optional": false,
+                    "next": [
+                        "offer_price_rs_04"
+                    ]
+                },
+                {
+                    "step_id": "offer_price_rs_04",
+                    "order": 4,
+                    "message": "IATA_OfferPriceRS",
+                    "example_id": "ex_093a05e2db77",
+                    "notes": "Airline responds with a priced offer.",
+                    "optional": false,
+                    "next": [
+                        "order_create_rq_05"
+                    ]
+                },
+                {
+                    "step_id": "order_create_rq_05",
+                    "order": 5,
+                    "message": "IATA_OrderCreateRQ",
+                    "example_id": "ex_04e9307e071a",
+                    "notes": "Seller requests to create the order with a preference to pay using a customer card.",
+                    "optional": false,
+                    "next": [
+                        "order_view_rs_06"
+                    ]
+                },
+                {
+                    "step_id": "order_view_rs_06",
+                    "order": 6,
+                    "message": "IATA_OrderViewRS",
+                    "example_id": "ex_c4e8e1bd2f0f",
+                    "notes": "Airline notifies seller that the order is created, and that payment is expected using customer card with associated card fees, if any.",
+                    "optional": false,
+                    "next": [
+                        "order_change_rq_07"
+                    ]
+                },
+                {
+                    "step_id": "order_change_rq_07",
+                    "order": 7,
+                    "message": "IATA_OrderChangeRQ",
+                    "example_id": "ex_0cc6ff6ec317",
+                    "notes": "Seller updates the order with card processing details.",
+                    "optional": false,
+                    "next": [
+                        "order_view_rs_08"
+                    ]
+                },
+                {
+                    "step_id": "order_view_rs_08",
+                    "order": 8,
+                    "message": "IATA_OrderViewRS",
+                    "example_id": "ex_c4e8e1bd2f0f",
+                    "notes": "Airline notifies seller that the payment is “SUCCESSFUL” and the order is considered as paid. Airline returnes the AlternateCardNumberText and optionally the concealed original CC in MaskedCardID.",
+                    "optional": false,
+                    "next": [
+                        "order_sales_information_notif_rq_09"
+                    ]
+                },
+                {
+                    "step_id": "order_sales_information_notif_rq_09",
+                    "order": 9,
+                    "message": "IATA_OrderSalesInformationNotifRQ",
+                    "example_id": "ex_808f33f620e7",
+                    "notes": "Airline transmits order information to accounting system. AlternateCardNumberText and optionally the concealed original CC are transfered.",
+                    "optional": false,
+                    "next": [
+                        "acknowledgement_10"
+                    ]
+                },
+                {
+                    "step_id": "acknowledgement_10",
+                    "order": 10,
+                    "message": "IATA_Acknowledgement",
+                    "example_id": "ex_918fbcecc493",
+                    "notes": "Airline Accounting system confirms that OSIN is received.",
+                    "optional": false,
+                    "next": []
+                }
+            ]
+        },
+        {
+            "id": "payment-via-redirection-with-airline-notification-of-payment-success",
+            "title": "Payment Via Redirection with Airline Notification of Payment Success",
+            "description": "This use case illustrates the flow whereby a customer shops with a Seller. During the shopping and pricing phases, the Airline provides the Seller with a series of payment options and the Seller determines that the customer will pay using redirection. The Seller accepts to create the Order with a commitment to pay using the payment method subject to redirection. The payment confirmation is marked as pending and the redirection URL is returned by the Airline. The customer is redirected to this URL and the customer makes the payment. The Airline later notifies the Seller about the final payment status.",
+            "goal": "Airline has successfully processed a payment using redirection. Seller is in receipt of an Order. Payment is confirmed as successful.",
+            "actors": [
+                "Seller",
+                "Airline"
+            ],
+            "status": "iata",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/670203914/Payment+Via+Redirection+with+Airline+Notification+of+Payment+Success",
+            "steps": [
+                {
+                    "step_id": "air_shopping_rq_01_1",
+                    "order": 1,
+                    "message": "IATA_AirShoppingRQ",
+                    "example_id": "ex_ab0c8366b0d8",
+                    "notes": "Seller submits travel plan(s) on behalf of a customer.",
+                    "optional": false,
+                    "next": [
+                        "air_shopping_rs_01_2"
+                    ]
+                },
+                {
+                    "step_id": "air_shopping_rs_01_2",
+                    "order": 2,
+                    "message": "IATA_AirShoppingRS",
+                    "example_id": "ex_245b9db9fd86",
+                    "notes": "Airline responds with Offers and includes a catalogue of supported payment methods.",
+                    "optional": false,
+                    "next": [
+                        "offer_price_rq_02_1"
+                    ]
+                },
+                {
+                    "step_id": "offer_price_rq_02_1",
+                    "order": 3,
+                    "message": "IATA_OfferPriceRQ",
+                    "example_id": "ex_21ecfdb1c5a1",
+                    "notes": "Seller requests price for Offer/OfferItem(s) and expresses an intent to use a form of payment method subject to redirection.",
+                    "optional": false,
+                    "next": [
+                        "offer_price_rs_02_2"
+                    ]
+                },
+                {
+                    "step_id": "offer_price_rs_02_2",
+                    "order": 4,
+                    "message": "IATA_OfferPriceRS",
+                    "example_id": "ex_7ed93c37b3ab",
+                    "notes": "Airline responds with a priced Offer with a specific price and additional instructions for the payment method subject to redirection.",
+                    "optional": false,
+                    "next": [
+                        "order_create_rq_03_1"
+                    ]
+                },
+                {
+                    "step_id": "order_create_rq_03_1",
+                    "order": 5,
+                    "message": "IATA_OrderCreateRQ",
+                    "example_id": "ex_9adbaebb8c3b",
+                    "notes": "Seller requests to create the order with the preference to pay using the payment method subject to redirection by using the payment criteria.",
+                    "optional": false,
+                    "next": [
+                        "order_view_rs_03_2"
+                    ]
+                },
+                {
+                    "step_id": "order_view_rs_03_2",
+                    "order": 6,
+                    "message": "IATA_OrderViewRS",
+                    "example_id": "ex_3a30ceb154f1",
+                    "notes": "Airline responds to the seller that the order is created, and the payment is expected using the payment method subject to redirection. Payment time limit is applied at this point. Any applicable surcharge amounts are also precisely calculated and returned.",
+                    "optional": false,
+                    "next": [
+                        "order_change_rq_04_1"
+                    ]
+                },
+                {
+                    "step_id": "order_change_rq_04_1",
+                    "order": 7,
+                    "message": "IATA_OrderChangeRQ",
+                    "example_id": "ex_78dd6ec46971",
+                    "notes": "Seller accepts to pay for the order with the selected payment method subject to redirection.",
+                    "optional": false,
+                    "next": [
+                        "order_view_rs_04_2"
+                    ]
+                },
+                {
+                    "step_id": "order_view_rs_04_2",
+                    "order": 8,
+                    "message": "IATA_OrderViewRS",
+                    "example_id": "ex_3a30ceb154f1",
+                    "notes": "Airline responds to the seller that the payment is in a “PENDING” state and returns the redirection URL for the Payer to proceed to the payment transaction.",
+                    "optional": false,
+                    "next": [
+                        "order_change_notif_rq_05_1"
+                    ]
+                },
+                {
+                    "step_id": "order_change_notif_rq_05_1",
+                    "order": 9,
+                    "message": "IATA_OrderChangeNotifRQ",
+                    "example_id": "ex_021cf48c852f",
+                    "notes": "Airline notifies the seller that the payment is approved (with a status of “SUCCESSFUL“), time limits are removed, and all OrderItems are considered as paid.",
+                    "optional": false,
+                    "next": [
+                        "acknowledgement_05_2"
+                    ]
+                },
+                {
+                    "step_id": "acknowledgement_05_2",
+                    "order": 10,
+                    "message": "IATA_Acknowledgement",
+                    "example_id": "ex_f5392d695b06",
+                    "notes": "Seller acknowledges reception of notification.",
+                    "optional": false,
+                    "next": [
+                        "order_retrieve_rq_06_1"
+                    ]
+                },
+                {
+                    "step_id": "order_retrieve_rq_06_1",
+                    "order": 11,
+                    "message": "IATA_OrderRetrieveRQ",
+                    "example_id": "ex_0316d6eb7e2b",
+                    "notes": "Seller optionally retrieves the Order to confirm changes are reflected, as provided by the previous OrderChangeNotifRQ.",
+                    "optional": false,
+                    "next": [
+                        "order_view_rs_06_2"
+                    ]
+                },
+                {
+                    "step_id": "order_view_rs_06_2",
+                    "order": 12,
+                    "message": "IATA_OrderViewRS",
+                    "example_id": "ex_3a30ceb154f1",
+                    "notes": "Airline returns the latest version of the Order.",
+                    "optional": false,
+                    "next": []
+                }
+            ]
+        },
+        {
+            "id": "shop-and-order-a-flight-for-a-single-passenger",
+            "title": "Shop and Order a Flight For a Single Passenger",
+            "description": "This use case illustrates a prime booking flow for one single adult passenger, including the steps between flight shopping by origin/destination and order creation without payment.",
+            "goal": "Order is created, unpaid.",
+            "actors": [
+                "Seller",
+                "Airline"
+            ],
+            "status": "iata",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/600375364/Shop+and+Order+a+Flight+For+a+Single+Passenger",
+            "steps": [
+                {
+                    "step_id": "air_shopping_rq_1",
+                    "order": 1,
+                    "message": "IATA_AirShoppingRQ",
+                    "example_id": "ex_d9068f6b5dcf",
+                    "notes": "Seller requests flight offers to airline, providing origins, destinations and dates.",
+                    "optional": false,
+                    "next": [
+                        "air_shopping_rs_2"
+                    ]
+                },
+                {
+                    "step_id": "air_shopping_rs_2",
+                    "order": 2,
+                    "message": "IATA_AirShoppingRS",
+                    "example_id": "ex_7575783ce94d",
+                    "notes": "Airline responds with one or more offers.",
+                    "optional": false,
+                    "next": [
+                        "offer_price_rq_3"
+                    ]
+                },
+                {
+                    "step_id": "offer_price_rq_3",
+                    "order": 3,
+                    "message": "IATA_OfferPriceRQ",
+                    "example_id": "ex_a0b6f3ae2e62",
+                    "notes": "Seller selects one offer and asks for a corresponding priced offer.",
+                    "optional": false,
+                    "next": [
+                        "offer_price_rs_4"
+                    ]
+                },
+                {
+                    "step_id": "offer_price_rs_4",
+                    "order": 4,
+                    "message": "IATA_OfferPriceRS",
+                    "example_id": "ex_72b752b28e86",
+                    "notes": "Airline responds with a priced offer corresponding to the request (and, optionally, with additional offers).",
+                    "optional": false,
+                    "next": [
+                        "order_create_rq_5"
+                    ]
+                },
+                {
+                    "step_id": "order_create_rq_5",
+                    "order": 5,
+                    "message": "IATA_OrderCreateRQ",
+                    "example_id": "ex_dd62f187b039",
+                    "notes": "Seller requests creation of the order with the selected priced offer.",
+                    "optional": false,
+                    "next": [
+                        "order_view_rs_6"
+                    ]
+                },
+                {
+                    "step_id": "order_view_rs_6",
+                    "order": 6,
+                    "message": "IATA_OrderViewRS",
+                    "example_id": "ex_e946dccc0cf0",
+                    "notes": "Airline responds with the created order.",
+                    "optional": false,
+                    "next": []
                 }
             ]
         }

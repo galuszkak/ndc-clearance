@@ -1,0 +1,885 @@
+{
+    "version": 1,
+    "flows": [
+        {
+            "id": "flow_iata_page_815202352",
+            "title": "Airline notifies Seller of changes to an Order",
+            "description": "This worked example is a collection of different scenarios requiring the Airline to synchronize some changes in an Order back to the Seller. The following scenarios are included:\nChanges in the PaymentStatusCode of a payment transaction which was “PENDING“, following an Offline payment (through redirection) Changes to a passenger’s name and contact details made directly with the Airline Changes to the departure time of a flight segment (minor delay). Changes to a flight number for the same date/time of departure Planned changes to a flight itinerary, including Seller follow-up actions Cancellation of a flight (service disruption) with no re-accomodation Changes to aircraft type and operating carrier\nWith any use of the OrderChangeNotifRQ message, the technical consideration to observe at all times is the minimalist use of data elements, including only elements whose values have changed, and the necessary IDs that define the location of the elements. Any element whose data has not changed between two versions of an Order should be excluded from the message.\nFile Modified Labels No labels Preview View XML File EXM_ORD_025A - Payment Status.xml 15 Apr 2024 by Mladenka Vukmirovic Labels No labels Preview View XML File EXM_ORD_025B - Name & Contact Details.xml 15 Apr 2024 by Mladenka Vukmirovic Labels No labels Preview View XML File EXM_ORD_025C - Segment Time Change.xml 15 Apr 2024 by Mladenka Vukmirovic Labels No labels Preview View XML File EXM_ORD_025D - Flight Number Change.xml 15 Apr 2024 by Mladenka Vukmirovic Labels No labels Preview View XML File EXM_ORD_025E - Itinerary Change.xml 15 Apr 2024 by Mladenka Vukmirovic Labels No labels Preview View XML File EXM_ORD_025F - Flight Cancellation (No Reaccomodation).xml 15 Apr 2024 by Mladenka Vukmirovic Labels No labels Preview View XML File EXM_ORD_025G - Aircraft Type and Operating Carrier Change.xml 15 Apr 2024 by Mladenka Vukmirovic Download All",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/815202352/Airline+notifies+Seller+of+changes+to+an+Order",
+            "source_page_id": "815202352",
+            "preconditions": null,
+            "postconditions": null,
+            "steps": []
+        },
+        {
+            "id": "flow_iata_page_842268814",
+            "title": "Customer Adds an Ancillary to Existing Order - Seat Availability",
+            "description": "This use case illustrates the scenario of adding a seat ancillary to an existing Order. The following scenario is a party of two with a free and paid seat with payment method included for both.",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268814/Customer+Adds+an+Ancillary+to+Existing+Order+-+Seat+Availability",
+            "source_page_id": "842268814",
+            "preconditions": "Existing paid or non-paid Order",
+            "postconditions": "Airline responds with Offer Items for each seats regardless if free or paid. Airline appropriately associates the correct taxonomy to each seat Services Airline responds with the creation of new OrderItems and add the Seat details under the Service (payment is processed if seat is paid or committed if free).",
+            "steps": [
+                {
+                    "step_number": "01",
+                    "message": "IATA_OrderRetrieveRQ",
+                    "description": "Seller requests the latest version of the Order"
+                },
+                {
+                    "step_number": "02",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline returns the latest version of the Order"
+                },
+                {
+                    "step_number": "03.b.1",
+                    "message": "IATA_SeatAvailabiltyRQ",
+                    "description": "Request to display Seatmap"
+                },
+                {
+                    "step_number": "03.b.2",
+                    "message": "IATA_SeatAvailabiltyRS",
+                    "description": "Display Seatmap with or without pricing"
+                },
+                {
+                    "step_number": "03.b.3",
+                    "message": "IATA_OrderQuoteRQ",
+                    "description": "Seller requests a quoted offer on the select ancillary"
+                },
+                {
+                    "step_number": "03.b.4",
+                    "message": "IATA_OfferPriceRS",
+                    "description": "Airline returns a quoted offer with the requested ancillary"
+                },
+                {
+                    "step_number": "03.b.5",
+                    "message": "IATA_OrderChangeRQ",
+                    "description": "Seller selects the Offer for the Seats and include payment if applicable"
+                },
+                {
+                    "step_number": "03.b.6",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline responds with the creation of new OrderItems and Add Seat service item(s)"
+                }
+            ]
+        },
+        {
+            "id": "flow_iata_page_842301531",
+            "title": "Customer Adds an Ancillary to Existing Order - Service list",
+            "description": "This use case illustrates the addition of an ancillary (except a seat) into an existing Order.",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301531/Customer+Adds+an+Ancillary+to+Existing+Order+-+Service+list",
+            "source_page_id": "842301531",
+            "preconditions": "An Order exists and contains already paid or unpaid OrderItem(s). Flights within Order have been confirmed and paid.",
+            "postconditions": "The Order is updated with an OrderItem containing the selected ancillary.",
+            "steps": []
+        },
+        {
+            "id": "flow_iata_page_672825346",
+            "title": "Customer Changes Their Name",
+            "description": "This use case illustrates the scenario of Passenger/ Agent initiated name change functionality, specifically from the individual’s data elements. Two scenarios are considered:\nFree name changes Paid name changes\nTo update the name elements of a passenger, all name elements that are passed in the request will completely overwrite all the existing name elements. The new name in the Order will exactly match the values passed in the request for name change.\nOrderViewRS (prior to change) Name Change Operation (OrderReshopRQ) OrderViewRS (after change) OrderViewRS (prior to change) Name Change Operation (OrderReshopRQ) OrderViewRS (after change) <Individual> <Birthdate>1971-01-01</Birthdate> <GenderCode>F</GenderCode> <GivenName>Jane</GivenName> <GivenName>Jenny</GivenName> <MiddleName>Jill</MiddleName> <Surname>Doe</Surname> </Individual> <UpdatePaxName> <GivenName>Jane</GivenName> <PaxRefID>PAX01</PaxRefID> <Surname>Smith</Surname> <TitleName>Ms</TitleName> </UpdatePaxName> <Individual> <Birthdate>1971-01-01</Birthdate> <GenderCode>F</GenderCode> <GivenName>Jane</GivenName> <Surname>Smith</Surname> <TitleName>Ms</TitleName> </Individual>\nThe following elements cannot be updated through this function: AddlName Birthdate BirthplaceText GenderCode",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/672825346/Customer+Changes+Their+Name",
+            "source_page_id": "672825346",
+            "preconditions": "Existing Paid or non-paid Order",
+            "postconditions": "Successful completion of Name change with payment processed (if paid name change) A new “Name Change” OrderItem is created in the Order Additional changes may also be conducted by the Seller, such as name change in the Identity Document if applicable (see Customer Updates Existing Contact Details).",
+            "steps": [
+                {
+                    "step_number": "01.1",
+                    "message": "IATA_OrderRetrieveRQ",
+                    "description": "Seller requests the latest version of the Order"
+                },
+                {
+                    "step_number": "01.2",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline returns the latest version of the Order"
+                },
+                {
+                    "step_number": "02.1",
+                    "message": "IATA_OrderReshopRQ",
+                    "description": "Seller requests name change offers to an airline, providing Order ID and the Passenger Info"
+                },
+                {
+                    "step_number": "02.2",
+                    "message": "IATA_OrderReshopRS",
+                    "description": "Airline responds with “Name Change” ReShop Offers"
+                },
+                {
+                    "step_number": "03.1",
+                    "message": "IATA_OrderChangeRQ",
+                    "description": "Seller selects the desired “Name Change” ReShop Offer"
+                },
+                {
+                    "step_number": "03.2",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline shows the latest version of the Order, which includes a new OrderItem and the updated passenger name"
+                }
+            ]
+        },
+        {
+            "id": "flow_iata_page_676790273",
+            "title": "Customer Requests Open Jaw with Wheelchair",
+            "description": "This use case illustrates a customer requesting for a wheelchair on an open jaw itinerary with more than one passenger. The customer would like a wheelchair just for their flight segments on the multi passenger Itinerary.",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/676790273/Customer+Requests+Open+Jaw+with+Wheelchair",
+            "source_page_id": "676790273",
+            "preconditions": "N/A",
+            "postconditions": "A Priced Offer for a multi passenger itinerary with an a la carte service (wheelchair- 0898) for only one of the passengers’ flight segments.",
+            "steps": [
+                {
+                    "step_number": "01.1",
+                    "message": "IATA_AirShoppingRQ",
+                    "description": "Seller requests flight offers to airline, providing origins, destinations, and dates."
+                },
+                {
+                    "step_number": "01.2",
+                    "message": "IATA_AirShoppingRS",
+                    "description": "Airline returns Offers according to the O&D with dates provided"
+                },
+                {
+                    "step_number": "02.1",
+                    "message": "IATA_ServiceListRQ",
+                    "description": "Seller request for a la carte service (wheelchair) for 1 of the pax on the itinerary"
+                },
+                {
+                    "step_number": "02.2",
+                    "message": "IATA_ServiceListRS",
+                    "description": "Airline responds with the pax OfferItem service for a wheelchair"
+                },
+                {
+                    "step_number": "03.1",
+                    "message": "IATA_OfferPriceRQ",
+                    "description": "Seller requests the selection of Flight Offer and a la carte service (wheelchair- for 1 PAX)"
+                },
+                {
+                    "step_number": "03.2",
+                    "message": "IATA_OfferPriceRS",
+                    "description": "Airline responds with a unified priced offer with selected flight service and a la carte service (wheelchair-for 1 PAX)"
+                }
+            ]
+        },
+        {
+            "id": "flow_iata_page_673021953",
+            "title": "Customer Updates Existing Contact Details",
+            "description": "This use case illustrates a servicing flow where the customer changes their contact details, specifically updates existing email and phone number details, adds the residence country code and deletes the identity document.",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/673021953/Customer+Updates+Existing+Contact+Details",
+            "source_page_id": "673021953",
+            "preconditions": "Order has been created Passenger and contact details are already present in the Order",
+            "postconditions": "Seller is able to view an updated version of the Order with the recently provided passenger details.",
+            "steps": [
+                {
+                    "step_number": "01.1",
+                    "message": "IATA_OrderRetrieveRQ",
+                    "description": "Seller retrieves the latest version of the Order"
+                },
+                {
+                    "step_number": "01.2",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline provides the most recent version of the Order"
+                },
+                {
+                    "step_number": "02.1",
+                    "message": "IATA_OrderChangeRQ",
+                    "description": "Seller requests that the customer’s email and phone information in the order are replaced by new, specified email and phone information, as well as adding a residence country code and deleting an identity document."
+                },
+                {
+                    "step_number": "02.2",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline updates the customer’s email and phone information, adds the residence country code, deletes the identity document, and provides the most recent version of the Order"
+                }
+            ]
+        },
+        {
+            "id": "flow_iata_page_600670225",
+            "title": "Customer Views Their Order",
+            "description": "This use case illustrates the flow where the customer wants to view an existing Order through a seller.",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/600670225/Customer+Views+Their+Order",
+            "source_page_id": "600670225",
+            "preconditions": "Existing Order",
+            "postconditions": "The customer can view the most recent version of the Order.",
+            "steps": [
+                {
+                    "step_number": "1",
+                    "message": "IATA_OrderRetrieveRQ",
+                    "description": "Seller requests retrieval of selected OrderID"
+                },
+                {
+                    "step_number": "2",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline provides the most recent version of the Order"
+                }
+            ]
+        },
+        {
+            "id": "flow_iata_page_817594369",
+            "title": "Customer requests a cancellation to paid Order or OrderItems",
+            "description": "This use case illustrates various types of cancellations requested by the Seller, with the following variations of outcomes:\nA refund to the original form of payment (full or partial). Application of penalties, both netted and non-netted. Disclosure of forfeited amounts due to non-refundable pricing components (e.g. taxes). Creation of value store and/or reusable OrderItems in cases where refunds are not triggered. Scenarios where refunds are triggered only once penalties have been paid.\nThe use cases listed above constitute the different variations of the main flow.\nThere are currently known issues regarding the reshopping mechanism specific to Value Store scenarios, whereby it is not clear to the Seller, within the reshopping response, that the Value Store OrderItem does not need to be paid, as this would already be covered by the residual value in the cancelled OrderItem. Value Store scenarios are expected to make use of Taxonomy Code “33F4“ in the Service Definition.\nFull Refund Partial Refund and Forfeited Full Value Store Additional Collection, Forfeited and Refund Reusable Full Refund Partial Refund and Forfeited Full Value Store Additional Collection, Forfeited and Refund Reusable Penalty ✅ ✅ Penalty netting ✅ Forfeited amounts ✅ ✅ Payment allocation ✅ ✅ ✅ ✅ ✅ Hold value status ✅ Full refund ✅ Partial refund ✅ ✅",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594369/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems",
+            "source_page_id": "817594369",
+            "preconditions": null,
+            "postconditions": null,
+            "steps": [
+                {
+                    "step_number": "01",
+                    "message": "IATA_OrderRetrieveRQ",
+                    "description": "Seller optionally requests retrieval of an existing OrderID."
+                },
+                {
+                    "step_number": "02",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline provides the most recent version of the requested Order."
+                },
+                {
+                    "step_number": "03",
+                    "message": "IATA_OrderReshopRQ",
+                    "description": "Seller requests the cancellation a full Order or specific OrderItem(s). In some cases, the Seller specifies if a refund is required or if they intend to later reshop with any potential residual values."
+                },
+                {
+                    "step_number": "04",
+                    "message": "IATA_OrderReshopRS",
+                    "description": "The airline returns one or more cancellation Offersthat may present the same value or lower, driving different outcomes in terms of refund or representation of residual amounts."
+                },
+                {
+                    "step_number": "05",
+                    "message": "IATA_OrderChangeRQ",
+                    "description": "Seller confirms cancellation operation by selecting the OfferID of the cancellation Offer."
+                },
+                {
+                    "step_number": "06",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline returns confirmation of cancellation, displaying all cancelled OrderItems and Services, as well as any potential refunds associated with the cancellation."
+                }
+            ]
+        },
+        {
+            "id": "flow_iata_page_817594543",
+            "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred",
+            "description": "This scenario illustrates the full cancellation of an Order with a partial refund due to a penalty fee applied and a forfeited amount incurred (due to a non-refundable tax amount).",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594543/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred",
+            "source_page_id": "817594543",
+            "preconditions": null,
+            "postconditions": null,
+            "steps": []
+        },
+        {
+            "id": "flow_iata_page_817594795",
+            "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Partial Refund with a Forfeited amount incurred and requiring payment of a penalty",
+            "description": "This scenario illustrates the full cancellation of an Order resulting in a partial refund due to a forfeited amount incurred (due to a non-refundable tax amount) and requiring the payment of a penalty fee.",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594795/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Partial+Refund+with+a+Forfeited+amount+incurred+and+requiring+payment+of+a+penalty",
+            "source_page_id": "817594795",
+            "preconditions": null,
+            "postconditions": null,
+            "steps": []
+        },
+        {
+            "id": "flow_iata_page_817594669",
+            "title": "Customer requests a cancellation to paid Order or OrderItems resulting in Value Store",
+            "description": "This scenario illustrates the full cancellation of an Order resulting in a value store.",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594669/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+Value+Store",
+            "source_page_id": "817594669",
+            "preconditions": null,
+            "postconditions": null,
+            "steps": []
+        },
+        {
+            "id": "flow_iata_page_817594921",
+            "title": "Customer requests a cancellation to paid Order or OrderItems resulting in a Reusable amount",
+            "description": "This scenario illustrates the full cancellation of an Order resulting in a Reusable amount.",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594921/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+a+Reusable+amount",
+            "source_page_id": "817594921",
+            "preconditions": null,
+            "postconditions": null,
+            "steps": []
+        },
+        {
+            "id": "flow_iata_page_817594417",
+            "title": "Customer requests a cancellation to paid Order or OrderItems resulting in full refund",
+            "description": "This scenario illustrates the full cancellation of an Order resulting in full refund to the original form of payment.",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/817594417/Customer+requests+a+cancellation+to+paid+Order+or+OrderItems+resulting+in+full+refund",
+            "source_page_id": "817594417",
+            "preconditions": null,
+            "postconditions": null,
+            "steps": []
+        },
+        {
+            "id": "flow_iata_page_842268768",
+            "title": "Customer requests a change of a paid order prior to travel resulting in a refund",
+            "description": "This use case illustrates the change of the whole itinerary prior to travel resulting in a refund. The change restrictions of the existing order impose a penalty for a change and Airline has chosen to do netting of the penalty amount as well as taxes against the difference in price.",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268768/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+a+refund",
+            "source_page_id": "842268768",
+            "preconditions": null,
+            "postconditions": null,
+            "steps": []
+        },
+        {
+            "id": "flow_iata_page_842268791",
+            "title": "Customer requests a change of a paid order prior to travel resulting in a value store",
+            "description": "This use case illustrates the change of the whole itinerary prior to travel resulting in a value store. The change restrictions of the existing order impose a penalty for a change and Airline has chosen to do netting of the penalty amount as well as taxes against the difference in price.",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268791/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+a+value+store",
+            "source_page_id": "842268791",
+            "preconditions": null,
+            "postconditions": null,
+            "steps": []
+        },
+        {
+            "id": "flow_iata_page_841187358",
+            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection",
+            "description": "This use case illustrates the change of one out of three passenger segment from the itinerary prior to travel resulting in change of a paid OrderItem with additional collection. Other two segments are transferred to the new OrderItemand original payment is allocated to it. The change restrictions of the existing Order do not impose a penalty for a change.",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/841187358/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection",
+            "source_page_id": "841187358",
+            "preconditions": null,
+            "postconditions": null,
+            "steps": []
+        },
+        {
+            "id": "flow_iata_page_842301447",
+            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a refund",
+            "description": "This use case illustrates the change of the whole itinerary prior to travel resulting in a refund after the penalty has been paid. The change restrictions of the existing order impose a penalty for a change and Airline has chosen not to do netting of the penalty amount e.g. for a customer to receive a refund a payment commitment for a penalty needs to be obtained. In this case, commitment to pay is done later then confirmation of the change.",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842301447/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+refund",
+            "source_page_id": "842301447",
+            "preconditions": null,
+            "postconditions": null,
+            "steps": []
+        },
+        {
+            "id": "flow_iata_page_842268712",
+            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection and a value store",
+            "description": "This use case illustrates the change of part of the itinerary prior to travel resulting in residual values transferred into a value store OrderItem which is usable only once a penalty is paid by the customer. The penalty is therefore not netted into the amount due by airline, requiring its payment prior to receiving a value store which is ready to proceed.",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268712/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+and+a+value+store",
+            "source_page_id": "842268712",
+            "preconditions": null,
+            "postconditions": null,
+            "steps": []
+        },
+        {
+            "id": "flow_iata_page_842268745",
+            "title": "Customer requests a change of a paid order prior to travel resulting in additional collection due to penalty and forfeited amount",
+            "description": "This use case illustrates the change of the whole itinerary prior to travel resulting in a additional collection. The change restrictions of the existing Order impose a penalty for a change. In addition, a forfeited amount is included due to an un-refundable tax which cannot be recovered and this also affects the total amount due to the airline. In this use case, the change is first accepted and then paid in a subsequent step.",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268745/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+additional+collection+due+to+penalty+and+forfeited+amount",
+            "source_page_id": "842268745",
+            "preconditions": null,
+            "postconditions": null,
+            "steps": []
+        },
+        {
+            "id": "flow_iata_page_841187333",
+            "title": "Customer requests a change of a paid order prior to travel resulting in no additional payment",
+            "description": "This use case illustrates the change of one out of three passenger segment from the itinerary prior to travel resulting in change of a paid OrderItem. Other two segments are transferred to the new OrderItem. The change restrictions of the existing order do not impose a penalty for a change.",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/841187333/Customer+requests+a+change+of+a+paid+order+prior+to+travel+resulting+in+no+additional+payment",
+            "source_page_id": "841187333",
+            "preconditions": null,
+            "postconditions": null,
+            "steps": []
+        },
+        {
+            "id": "flow_iata_page_842268673",
+            "title": "Customer requests a change to an Order containing a paid OrderItem",
+            "description": "When the customer requests a change to a paid OrderItem, it results in the offering of a new OrderItem:\nwithout new payment or that may be completed with: an additional payment a refund a value store an additional payment and a refund an additional payment and a value store\nThose constitute the different variations of the main flow.\nThe new OrderItem may present variations of the DiffPrice structure when penalty and/or forfeited amount apply and if the airline applies a netting process or not.\nThere are currently known issues regarding the reshopping mechanism specific to Value Store scenarios, whereby it is not clear to the Seller, within the reshopping response, that the Value Store OrderItem does not need to be paid, as this would already be covered by the residual value in the changed OrderItem. Value Store scenarios are expected to make use of Taxonomy Code “33F4“ in the Service Definition.\nEven Exchange Additional collection Additional collection and forfeited Refund Value store Additional collection and refund Additional collection and value store Even Exchange Additional collection Additional collection and forfeited Refund Value store Additional collection and refund Additional collection and value store Penalty Penalty netting Tax netting Forfeited amounts Payment allocation Transferred Service / unchanged indicator Hold value status / Deferred payment",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/842268673/Customer+requests+a+change+to+an+Order+containing+a+paid+OrderItem",
+            "source_page_id": "842268673",
+            "preconditions": null,
+            "postconditions": null,
+            "steps": [
+                {
+                    "step_number": "01",
+                    "message": "IATA_OrderRetrieveRQ",
+                    "description": "Seller requests retrieval of selected OrderID"
+                },
+                {
+                    "step_number": "02",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline provides the most recent version of the Order"
+                },
+                {
+                    "step_number": "03",
+                    "message": "IATA_OrderReshopRQ",
+                    "description": "Seller requests to Delete the paid OrderItem (optionally retaining some Services) and passes new criteria to replace what is being removed."
+                },
+                {
+                    "step_number": "04",
+                    "message": "IATA_OrderReshopRS",
+                    "description": "The airline returns different ReshopOffersthat may present the same value, be more expensive or be cheaper, i.e.: without any additional payment with additional collection with additional collection due to penalty and forfeited amount resulting in a refund resulting in a value store with additional collection and a refund with additional collection and a value store"
+                },
+                {
+                    "step_number": "05",
+                    "message": "IATA_OrderQuoteRQ",
+                    "description": "Seller requests Quote for the selected ReshopOffer"
+                },
+                {
+                    "step_number": "06",
+                    "message": "IATA_OrderReshopRS",
+                    "description": "Airline responds with Quoted Offer. Selected offer is returned with additional information, e.g new conditions and showing financial information. The end result in terms of financial transaction depends on the price of the new Quoted Offer and on whether the airline applies netting to balance fare, taxes and/or penalties."
+                },
+                {
+                    "step_number": "07.a.1",
+                    "message": "IATA_OrderChangeRQ",
+                    "description": "Seller accepts the Quoted Offer and provides payment commitment"
+                },
+                {
+                    "step_number": "07.b.1",
+                    "message": "IATA_OrderChangeRQ",
+                    "description": "Seller accepts the Quoted Offer without payment commitment."
+                },
+                {
+                    "step_number": "07.b.2",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline responds with the creation of new OrderItem and cancellation of older Services. If applicable the unchanged service will be transferred to the newly created OrderItem."
+                },
+                {
+                    "step_number": "07.b.3",
+                    "message": "IATA_OrderChangeRQ",
+                    "description": "Seller provides payment commitment"
+                },
+                {
+                    "step_number": "08",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline responds with the creation of new OrderItem and cancellation of older Services. If applicable the unchanged service will be transferred to the newly created OrderItem. Any payment transaction resulting from a due to/due by or from payment commitment in case where there is no amount due would be returned in the response."
+                },
+                {
+                    "step_number": "09",
+                    "message": "IATA_OrderRetrieveRQ",
+                    "description": "Seller retrieves the Order."
+                },
+                {
+                    "step_number": "10",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Latest version of the Order is returned by the Airline. This representation of the Order no longer includes any OrderItems cancelled from the previous servicing operation."
+                }
+            ]
+        },
+        {
+            "id": "flow_iata_page_574849139",
+            "title": "End to End Payment Via Pre Authenticated Card Transaction",
+            "description": "This use case illustrates an end-to-end flow whereby a customer shops at a travel seller’s website. During the shopping and pricing phases, the airline provides the seller with a series of payment options and the seller determines that they will pass through the customer's payment card. The seller proceeds to create and pay for an order using customer card, having authenticated the card holder and provides authentication data in the payment payload. The payment is accepted, and the order is confirmed.",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/574849139/End+to+End+Payment+Via+Pre+Authenticated+Card+Transaction",
+            "source_page_id": "574849139",
+            "preconditions": "Airline supports \"online\" payment Payment ConceptsPreview Payment is carried out in an e-commerce context Seller will authenticate payer Must involve a card that supports authentication",
+            "postconditions": null,
+            "steps": [
+                {
+                    "step_number": "01",
+                    "message": "IATA_AirShoppingRQ",
+                    "description": "Seller submits travel plan(s) on behalf of a customer."
+                },
+                {
+                    "step_number": "02",
+                    "message": "IATA_AirShoppingRS",
+                    "description": "Airline responds with Offers and includes a catalogue of supported methods of payment and related payment fees."
+                },
+                {
+                    "step_number": "03",
+                    "message": "IATA_OfferPriceRQ",
+                    "description": "Seller requests price for the selected Offer/OfferItem(s)"
+                },
+                {
+                    "step_number": "04",
+                    "message": "IATA_OfferPriceRS",
+                    "description": "Airline responds with a priced offer with a specific price and may provide additional information for card payment such as precise surcharge calculation and other payment catalogue options."
+                },
+                {
+                    "step_number": "05",
+                    "message": "IATA_OrderCreateRQ",
+                    "description": "Seller requests to create the order with a preference to pay using a customer card."
+                },
+                {
+                    "step_number": "06",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline notifies seller that the order is created, and that payment is expected using customer card with associated card fees, if any."
+                },
+                {
+                    "step_number": "07",
+                    "message": "IATA_OrderChangeRQ",
+                    "description": "Seller updates the order with card processing details, including authentication data."
+                },
+                {
+                    "step_number": "08",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline notifies seller that the payment is “SUCCESSFUL“ and the order is now paid."
+                }
+            ]
+        },
+        {
+            "id": "flow_iata_page_676724743",
+            "title": "End to End Payment via Settlement Plan",
+            "description": "This use case illustrates the flow whereby a customer shops with a Seller. During the shopping and pricing phases, the airline provides the seller with a series of payment options and the seller determines that payment for the specific order will be by way of a pre-existing settlement plan. The seller proceeds to create and pay for an order using the settlement plan. The payment is accepted and the order is confirmed.",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/676724743/End+to+End+Payment+via+Settlement+Plan",
+            "source_page_id": "676724743",
+            "preconditions": "Airline supports settlement via a Settlement Plan (e.g. BSP or ARC) Seller is accredited with the Settlement Plan Seller has sufficient credit with the Settlement Plan",
+            "postconditions": null,
+            "steps": [
+                {
+                    "step_number": "01.1",
+                    "message": "IATA_AirShoppingRQ",
+                    "description": "Seller submits travel plan(s) on behalf of a customer."
+                },
+                {
+                    "step_number": "01.2",
+                    "message": "IATA_AirShoppingRS",
+                    "description": "Airline responds with Offers and includes a catalogue of supported methods of payment and related payment fees."
+                },
+                {
+                    "step_number": "02.1",
+                    "message": "IATA_OfferPriceRQ",
+                    "description": "Seller requests price for the selected Offer/OfferItem(s) and expresses an intent to use a Settlement Plan."
+                },
+                {
+                    "step_number": "02.2",
+                    "message": "IATA_OfferPriceRS",
+                    "description": "Airline responds with a priced offer with a specific price for settlement plan."
+                },
+                {
+                    "step_number": "03.1",
+                    "message": "IATA_OrderCreateRQ",
+                    "description": "Seller requests to create the order, stating their preference to pay using a settlement plan."
+                },
+                {
+                    "step_number": "03.2",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline notifies Seller that the order is created and that payment via settlement plan is still a supported payment option, among others."
+                },
+                {
+                    "step_number": "04.1",
+                    "message": "IATA_OrderChangeRQ",
+                    "description": "Seller commits to pay for the order, passing settlement plan details."
+                },
+                {
+                    "step_number": "04.2",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline notifies seller that the payment is “SUCCESSFUL” and the order is considered as paid."
+                }
+            ]
+        },
+        {
+            "id": "flow_iata_page_1605730305",
+            "title": "End to end payment including a Tax Identifier for Business (DeferredPayment)",
+            "description": "This use case illustrates an end-to-end flow whereby a customer is able to input its fiscal id for business to accomplish govermental regulations where required.",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/1605730305/End+to+end+payment+including+a+Tax+Identifier+for+Business+DeferredPayment",
+            "source_page_id": "1605730305",
+            "preconditions": "Customer has a Fiscal ID. The country where the sale is made is mandated to report the Fiscal ID.",
+            "postconditions": null,
+            "steps": [
+                {
+                    "step_number": "01",
+                    "message": "IATA_AirShoppingRQ",
+                    "description": "Seller submits travel plan(s) on behalf of a customer."
+                },
+                {
+                    "step_number": "02",
+                    "message": "IATA_AirShoppingRS",
+                    "description": "Airline responds with Offers"
+                },
+                {
+                    "step_number": "03",
+                    "message": "IATA_OfferPriceRQ",
+                    "description": "Seller requests price for the selected Offer/OfferItem(s)"
+                },
+                {
+                    "step_number": "04",
+                    "message": "IATA_OfferPriceRS",
+                    "description": "Airline responds with a priced offer with a specific price and may provide additional information"
+                },
+                {
+                    "step_number": "05",
+                    "message": "IATA_OrderCreateRQ",
+                    "description": "Seller requests to create the order with any preference to pay and includes the fiscal id notified by the customer."
+                },
+                {
+                    "step_number": "06",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline notifies seller that the order is created with the fiscal id included."
+                },
+                {
+                    "step_number": "07",
+                    "message": "IATA_OrderChangeRQ",
+                    "description": "Seller updates the order with the payment collected."
+                },
+                {
+                    "step_number": "08",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline notifies seller that the payment is “SUCCESSFUL“ and the order is now paid."
+                }
+            ]
+        },
+        {
+            "id": "flow_iata_page_1605599243",
+            "title": "End to end payment including a Tax Identifier for individuals (Instant Payment)",
+            "description": "This use case illustrates an end-to-end flow whereby a customer is able to input its fiscal id for individuals to accomplish govermental regulations where required.",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/1605599243/End+to+end+payment+including+a+Tax+Identifier+for+individuals+Instant+Payment",
+            "source_page_id": "1605599243",
+            "preconditions": "Customer has a Fiscal ID. The country where the sale is made is mandated to report the Fiscal ID.",
+            "postconditions": null,
+            "steps": [
+                {
+                    "step_number": "01",
+                    "message": "IATA_AirShoppingRQ",
+                    "description": "Seller submits travel plan(s) on behalf of a customer."
+                },
+                {
+                    "step_number": "02",
+                    "message": "IATA_AirShoppingRS",
+                    "description": "Airline responds with Offers"
+                },
+                {
+                    "step_number": "03",
+                    "message": "IATA_OfferPriceRQ",
+                    "description": "Seller requests price for the selected Offer/OfferItem(s)"
+                },
+                {
+                    "step_number": "04",
+                    "message": "IATA_OfferPriceRS",
+                    "description": "Airline responds with a priced offer with a specific price and may provide additional information"
+                },
+                {
+                    "step_number": "05",
+                    "message": "IATA_OrderCreateRQ",
+                    "description": "Seller requests to create the order with any preference to pay and includes the fiscal id notified by the customer."
+                },
+                {
+                    "step_number": "06",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline notifies seller that the order is created with the fiscal id included."
+                },
+                {
+                    "step_number": "07",
+                    "message": "IATA_OrderChangeRQ",
+                    "description": "Seller updates the order with the payment collected."
+                },
+                {
+                    "step_number": "08",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline notifies seller that the payment is “SUCCESSFUL“ and the order is now paid."
+                }
+            ]
+        },
+        {
+            "id": "flow_iata_page_1605632001",
+            "title": "End to end payment including a Tax Identifier for individuals and Business",
+            "description": "This use case illustrates an end-to-end flow whereby a customer is able to input its fiscal id for individuals or business to accomplish gubernamental regulations where required.",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/1605632001/End+to+end+payment+including+a+Tax+Identifier+for+individuals+and+Business",
+            "source_page_id": "1605632001",
+            "preconditions": "Customer has a Fiscal ID. The country where the sale is made is mandated to report the Fiscal ID.",
+            "postconditions": null,
+            "steps": [
+                {
+                    "step_number": "01",
+                    "message": "IATA_AirShoppingRQ",
+                    "description": "Seller submits travel plan(s) on behalf of a customer."
+                },
+                {
+                    "step_number": "02",
+                    "message": "IATA_AirShoppingRS",
+                    "description": "Airline responds with Offers"
+                },
+                {
+                    "step_number": "03",
+                    "message": "IATA_OfferPriceRQ",
+                    "description": "Seller requests price for the selected Offer/OfferItem(s)"
+                },
+                {
+                    "step_number": "04",
+                    "message": "IATA_OfferPriceRS",
+                    "description": "Airline responds with a priced offer with a specific price and may provide additional information"
+                },
+                {
+                    "step_number": "05",
+                    "message": "IATA_OrderCreateRQ",
+                    "description": "Seller requests to create the order with any preference to pay and includes the fiscal id notified by the customer."
+                },
+                {
+                    "step_number": "06",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline notifies seller that the order is created with the fiscal id included."
+                },
+                {
+                    "step_number": "07",
+                    "message": "IATA_OrderChangeRQ",
+                    "description": "Seller updates the order with the payment collected."
+                },
+                {
+                    "step_number": "08",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline notifies seller that the payment is “SUCCESSFUL“ and the order is now paid."
+                }
+            ]
+        },
+        {
+            "id": "flow_iata_page_1164345346",
+            "title": "Indian RBI Mandate Application",
+            "description": "This use case illustrates the flow whereby a customer pays an order which falls under the scope of Reserve Bank of India mandate for a transaction for which both the merchant and card issuer are located in India.\nThe mandate requires that no entity in the card transaction chain, other than the card issuers (banks) and/or networks (Visa, Mastercard, etc.), shall store the actual card data. Solution is to use an alternative token called AlternateCardNumberText which has same format as the Credit Card Primary Account Number (CC PAN) and which is issued by a third-party system authorized by the Reserve Bank of India.\nNote that for the time being it is not clear if the Seller can authenticate autonomously. This is under discussion with Payment Council of India.",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/1164345346/Indian+RBI+Mandate+Application",
+            "source_page_id": "1164345346",
+            "preconditions": "Airline supports \"online\" card payment Airline can connect to the third-party provider to replace the actual CC PAN by an AltID",
+            "postconditions": null,
+            "steps": [
+                {
+                    "step_number": "01",
+                    "message": "IATA_AirShoppingRQ",
+                    "description": "Seller submits travel plan(s) on behalf of a customer."
+                },
+                {
+                    "step_number": "02",
+                    "message": "IATA_AirShoppingRS",
+                    "description": "Airline responds with Offers and includes a catalogue of supported methods of payment and related payment fees."
+                },
+                {
+                    "step_number": "03",
+                    "message": "IATA_OfferPriceRQ",
+                    "description": "Seller requests price for the selected Offer/OfferItem(s)."
+                },
+                {
+                    "step_number": "04",
+                    "message": "IATA_OfferPriceRS",
+                    "description": "Airline responds with a priced offer."
+                },
+                {
+                    "step_number": "05",
+                    "message": "IATA_OrderCreateRQ",
+                    "description": "Seller requests to create the order with a preference to pay using a customer card."
+                },
+                {
+                    "step_number": "06",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline notifies seller that the order is created, and that payment is expected using customer card with associated card fees, if any."
+                },
+                {
+                    "step_number": "07",
+                    "message": "IATA_OrderChangeRQ",
+                    "description": "Seller updates the order with card processing details."
+                },
+                {
+                    "step_number": "08",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline notifies seller that the payment is “SUCCESSFUL” and the order is considered as paid. Airline returnes the AlternateCardNumberText and optionally the concealed original CC in MaskedCardID."
+                },
+                {
+                    "step_number": "09",
+                    "message": "IATA_OrderSalesInformationNotificationRQ",
+                    "description": "Airline transmits order information to accounting system. AlternateCardNumberText and optionally the concealed original CC are transfered."
+                },
+                {
+                    "step_number": "10",
+                    "message": "IATA_Acknowledgement",
+                    "description": "Airline Accounting system confirms that OSIN is received."
+                }
+            ]
+        },
+        {
+            "id": "flow_iata_page_670203914",
+            "title": "Payment Via Redirection with Airline Notification of Payment Success",
+            "description": "This use case illustrates the flow whereby a customer shops with a Seller. During the shopping and pricing phases, the Airline provides the Seller with a series of payment options and the Seller determines that the customer will pay using redirection. The Seller accepts to create the Order with a commitment to pay using the payment method subject to redirection. The payment confirmation is marked as pending and the redirection URL is returned by the Airline. The customer is redirected to this URL and the customer makes the payment. The Airline later notifies the Seller about the final payment status.",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/670203914/Payment+Via+Redirection+with+Airline+Notification+of+Payment+Success",
+            "source_page_id": "670203914",
+            "preconditions": "Airline supports payment using redirection.",
+            "postconditions": "Airline has successfully processed a payment using redirection. Seller is in receipt of an Order. Payment is confirmed as successful.",
+            "steps": [
+                {
+                    "step_number": "01.1",
+                    "message": "IATA_AirShoppingRQ",
+                    "description": "Seller submits travel plan(s) on behalf of a customer."
+                },
+                {
+                    "step_number": "01.2",
+                    "message": "IATA_AirShoppingRS",
+                    "description": "Airline responds with Offers and includes a catalogue of supported payment methods."
+                },
+                {
+                    "step_number": "02.1",
+                    "message": "IATA_OfferPriceRQ",
+                    "description": "Seller requests price for Offer/OfferItem(s) and expresses an intent to use a form of payment method subject to redirection."
+                },
+                {
+                    "step_number": "02.2",
+                    "message": "IATA_OfferPriceRS",
+                    "description": "Airline responds with a priced Offer with a specific price and additional instructions for the payment method subject to redirection."
+                },
+                {
+                    "step_number": "03.1",
+                    "message": "IATA_OrderCreateRQ",
+                    "description": "Seller requests to create the order with the preference to pay using the payment method subject to redirection by using the payment criteria."
+                },
+                {
+                    "step_number": "03.2",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline responds to the seller that the order is created, and the payment is expected using the payment method subject to redirection. Payment time limit is applied at this point. Any applicable surcharge amounts are also precisely calculated and returned."
+                },
+                {
+                    "step_number": "04.1",
+                    "message": "IATA_OrderChangeRQ",
+                    "description": "Seller accepts to pay for the order with the selected payment method subject to redirection."
+                },
+                {
+                    "step_number": "04.2",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline responds to the seller that the payment is in a “PENDING” state and returns the redirection URL for the Payer to proceed to the payment transaction."
+                },
+                {
+                    "step_number": "05.1",
+                    "message": "IATA_OrderChangeNotifRQ",
+                    "description": "Airline notifies the seller that the payment is approved (with a status of “SUCCESSFUL“), time limits are removed, and all OrderItems are considered as paid."
+                },
+                {
+                    "step_number": "05.2",
+                    "message": "IATA_Acknowledgement",
+                    "description": "Seller acknowledges reception of notification."
+                },
+                {
+                    "step_number": "06.1",
+                    "message": "IATA_OrderRetrieveRQ",
+                    "description": "Seller optionally retrieves the Order to confirm changes are reflected, as provided by the previous OrderChangeNotifRQ."
+                },
+                {
+                    "step_number": "06.2",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline returns the latest version of the Order."
+                }
+            ]
+        },
+        {
+            "id": "flow_iata_page_815595521",
+            "title": "Seller needs to Review the Order History",
+            "description": "This use case illustrates the flow where the seller needs to review the order history. The order considered for this use case is created without payment and has later undergone the following set of changes\nPayment has been committed by the seller on the order. Customer updated the contact details. Seller added Excess Baggage ancillary to both onward and return flights in the order.",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/815595521/Seller+needs+to+Review+the+Order+History",
+            "source_page_id": "815595521",
+            "preconditions": "Existing Order",
+            "postconditions": "The seller receives the history details of the requested Order.",
+            "steps": []
+        },
+        {
+            "id": "flow_iata_page_600375364",
+            "title": "Shop and Order a Flight For a Single Passenger",
+            "description": "This use case illustrates a prime booking flow for one single adult passenger, including the steps between flight shopping by origin/destination and order creation without payment.",
+            "source_url": "https://standards.atlassian.net/wiki/spaces/EASD/pages/600375364/Shop+and+Order+a+Flight+For+a+Single+Passenger",
+            "source_page_id": "600375364",
+            "preconditions": "None.",
+            "postconditions": "Order is created, unpaid.",
+            "steps": [
+                {
+                    "step_number": "1",
+                    "message": "IATA_AirShoppingRQ",
+                    "description": "Seller requests flight offers to airline, providing origins, destinations and dates."
+                },
+                {
+                    "step_number": "2",
+                    "message": "IATA_AirShoppingRS",
+                    "description": "Airline responds with one or more offers."
+                },
+                {
+                    "step_number": "3",
+                    "message": "IATA_OfferPriceRQ",
+                    "description": "Seller selects one offer and asks for a corresponding priced offer."
+                },
+                {
+                    "step_number": "4",
+                    "message": "IATA_OfferPriceRS",
+                    "description": "Airline responds with a priced offer corresponding to the request (and, optionally, with additional offers)."
+                },
+                {
+                    "step_number": "5",
+                    "message": "IATA_OrderCreateRQ",
+                    "description": "Seller requests creation of the order with the selected priced offer."
+                },
+                {
+                    "step_number": "6",
+                    "message": "IATA_OrderViewRS",
+                    "description": "Airline responds with the created order."
+                }
+            ]
+        }
+    ]
+}

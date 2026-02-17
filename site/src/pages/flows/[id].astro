@@ -1,0 +1,60 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getFlowById, getFlows } from "../../utils/flows";
+import FlowHeader from "../../components/FlowHeader.svelte";
+import FlowWorkspace from "../../components/FlowWorkspace.svelte";
+import fs from "fs";
+import path from "path";
+
+// SSG: generating static paths for all flows
+export async function getStaticPaths() {
+    // In Astro SSG, this runs at build time. We use our utility to get all flows.
+    const flows = getFlows();
+    return flows.map((f) => ({
+        params: { id: f.id },
+    }));
+}
+
+const { id } = Astro.params;
+const flow = getFlowById(id);
+
+if (!flow) {
+    return Astro.redirect("/404");
+}
+
+const catalogPath = path.resolve("public/content/examples/catalog.json");
+let catalog = { examples: [], version: 1, generated_at: "" };
+try {
+    if (fs.existsSync(catalogPath)) {
+        const raw = fs.readFileSync(catalogPath, "utf-8");
+        catalog = JSON.parse(raw);
+    }
+} catch (e) {
+    console.error("Failed to load catalog in [id].astro", e);
+}
+---
+
+<Layout title={`${flow.title} | NDC Flows`} description={flow.description}>
+    <div class="flex flex-col h-[calc(100vh-64px)] bg-base-200/50 -m-6 p-6 gap-4">
+        <div class="text-sm breadcrumbs px-1 flex-shrink-0">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/flows">Flows</a></li>
+                <li class="font-bold">{flow.title}</li>
+            </ul>
+        </div>
+
+        <div class="rounded-lg overflow-hidden shadow-sm border border-base-200 flex-shrink-0">
+            <FlowHeader
+                client:load
+                title={flow.title}
+                description={flow.description}
+                sourceUrl={flow.source_url}
+            />
+        </div>
+
+        <div class="flex-1 min-h-0">
+            <FlowWorkspace client:only="svelte" flow={flow} catalog={catalog} />
+        </div>
+    </div>
+</Layout>

@@ -9,6 +9,10 @@ const projectRoot = path.resolve(__dirname, '../../');
 const sourceDir = path.join(projectRoot, 'ndc_content', 'examples');
 const destDir = path.join(projectRoot, 'site', 'public', 'content', 'examples');
 
+const sourceFlowsDir = path.join(projectRoot, 'ndc_content', 'flows');
+const destFlowsDir = path.join(projectRoot, 'site', 'public', 'content', 'flows');
+
+
 console.log(`Copying content from ${sourceDir} to ${destDir}...`);
 
 if (!fs.existsSync(sourceDir)) {
@@ -37,4 +41,13 @@ if (fs.existsSync(destDir)) {
     fs.rmSync(destDir, { recursive: true, force: true });
 }
 copyRecursive(sourceDir, destDir);
+
+if (fs.existsSync(destFlowsDir)) {
+    fs.rmSync(destFlowsDir, { recursive: true, force: true });
+}
+if (fs.existsSync(sourceFlowsDir)) {
+    console.log(`Copying flows from ${sourceFlowsDir} to ${destFlowsDir}...`);
+    copyRecursive(sourceFlowsDir, destFlowsDir);
+}
+
 console.log('Content copied successfully.');
