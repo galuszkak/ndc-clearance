@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { tick } from "svelte";
     import SchemaNode from "./SchemaNode.svelte";
     import NodePropertiesPanel from "./NodePropertiesPanel.svelte";
     import SearchPanel from "./SearchPanel.svelte";
@@ -51,6 +52,9 @@
     let treeAction: "expand" | "collapse" | "" = $state("");
     let treeActionVersion = $state(0);
     let zoom = $state(ZOOM.DEFAULT);
+
+    // Deep linking
+    let linkCopied = $state(false);
 
     // Tabs & XML View
     let activeTab: "tree" | "xml" = $state("tree");
@@ -190,6 +194,13 @@
         } finally {
             loading = false;
         }
+
+        // Deep linking: after the tree renders, navigate to hash target
+        const hash = window.location.hash?.slice(1);
+        if (hash && hash.startsWith("/") && rootElement) {
+            await tick(); // Wait for Svelte to flush DOM (tree mounts when loading=false)
+            targetPath = hash;
+        }
     }
 
     function handleSelect(detail: NodeSelectDetail) {
@@ -245,6 +256,10 @@
 
     function onNodeSelect(detail: NodeSelectDetail) {
         handleSelect(detail);
+        // Update URL hash for deep linking (replaceState to avoid history pollution)
+        if (detail.path) {
+            history.replaceState(null, "", `#${detail.path}`);
+        }
     }
 
     // Search Logic
@@ -413,9 +428,34 @@
         if (!messageName) return [];
         return [];
     }
+
+    function handleHashChange() {
+        const hash = window.location.hash?.slice(1);
+        if (hash && hash.startsWith("/")) {
+            targetPath = hash;
+        }
+    }
+
+    async function copyLink() {
+        try {
+            await navigator.clipboard.writeText(window.location.href);
+            linkCopied = true;
+            setTimeout(() => (linkCopied = false), 2000);
+        } catch {
+            // Fallback: select the URL for manual copy
+            const input = document.createElement("input");
+            input.value = window.location.href;
+            document.body.appendChild(input);
+            input.select();
+            document.execCommand("copy");
+            document.body.removeChild(input);
+            linkCopied = true;
+            setTimeout(() => (linkCopied = false), 2000);
+        }
+    }
 </script>
 
-<svelte:window onkeydown={handleKeyDown} />
+<svelte:window onkeydown={handleKeyDown} onhashchange={handleHashChange} />
 
 <div class="flex flex-col h-full gap-4">
     <!-- XPath Bar -->
@@ -424,9 +464,45 @@
             class="bg-base-100 rounded-lg shadow-sm border border-base-200 p-2 px-4 flex items-center text-xs font-mono text-primary/80 overflow-hidden"
         >
             <span class="opacity-50 mr-2 select-none flex-none">XPATH:</span>
-            <span class="select-all truncate min-w-0" title={selectedPath}
-                >{selectedPath}</span
+            <span
+                class="select-all truncate min-w-0 flex-1"
+                title={selectedPath}>{selectedPath}</span
             >
+            <button
+                class="btn btn-xs btn-ghost flex-none ml-2 gap-1 {linkCopied
+                    ? 'text-success'
+                    : 'opacity-60 hover:opacity-100'}"
+                onclick={copyLink}
+                title="Copy link to this element"
+            >
+                {#if linkCopied}
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-3.5 w-3.5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clip-rule="evenodd"
+                        />
+                    </svg>
+                    Copied!
+                {:else}
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-3.5 w-3.5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                    >
+                        <path
+                            d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 001.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 005.656 5.656l1.5-1.5a1 1 0 00-1.414-1.414l-1.5 1.5a2 2 0 01-2.828-2.828l3-3z"
+                        />
+                    </svg>
+                    Share
+                {/if}
+            </button>
         </div>
     {/if}
 
