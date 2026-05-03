@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { render, waitFor } from "@testing-library/svelte";
+import { render, waitFor } from "../test/render";
 import userEvent from "@testing-library/user-event";
 import ExamplesModal from "./ExamplesModal.svelte";
 import type { ExampleRecord } from "../utils/types";
@@ -26,7 +26,6 @@ describe("ExamplesModal", () => {
                 version: "24.1",
                 title: "Sample",
                 description: null,
-                tags: [],
                 file_name: "sample.xml",
                 xml_path: "ndc_content/examples/files/iata/ex_123456789abc.xml",
                 public_path: "/content/examples/files/iata/ex_123456789abc.xml",

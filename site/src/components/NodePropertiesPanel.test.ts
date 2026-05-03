@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/svelte";
+import { render, screen } from "../test/render";
 import NodePropertiesPanel from "./NodePropertiesPanel.svelte";
 
 /** Parse a minimal XML element for use as selectedNode prop. */

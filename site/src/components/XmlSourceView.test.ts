@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { render, screen } from "@testing-library/svelte";
+import { render, screen } from "../test/render";
 import XmlSourceView from "./XmlSourceView.svelte";
 import type { LoadedSchemaFile } from "../utils/types";
 

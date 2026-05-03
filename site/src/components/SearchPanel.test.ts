@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { render, screen } from "@testing-library/svelte";
+import { render, screen } from "../test/render";
 import userEvent from "@testing-library/user-event";
 import SearchPanel from "./SearchPanel.svelte";
 import type { SearchResult } from "../utils/types";
