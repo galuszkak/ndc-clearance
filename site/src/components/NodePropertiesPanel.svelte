@@ -25,8 +25,7 @@
                 <div>
                     <div class="flex gap-2 mb-1">
                         {#if selectedNode.localName === "choice"}
-                            <span
-                                class="badge badge-accent badge-sm uppercase"
+                            <span class="badge badge-accent badge-sm uppercase"
                                 >CHOICE</span
                             >
                         {:else if (selectedNode.getAttribute("name") || "").endsWith("RS") || (selectedNode.getAttribute("name") || "").endsWith("RQ")}
@@ -60,9 +59,7 @@
                             selectedNode.getAttribute("ref") ||
                             "Anonymous"}
                     </h2>
-                    <div
-                        class="text-xs text-base-content/60 font-mono mt-1"
-                    >
+                    <div class="text-xs text-base-content/60 font-mono mt-1">
                         Type: <span class="text-primary"
                             >{selectedHelper.typeName}</span
                         >
@@ -76,9 +73,7 @@
                     >
                         Description
                     </h3>
-                    <p
-                        class="text-sm leading-relaxed text-base-content/80"
-                    >
+                    <p class="text-sm leading-relaxed text-base-content/80">
                         {selectedHelper.doc}
                     </p>
                 </div>
@@ -112,9 +107,7 @@
                     </h3>
                     <div class="grid grid-cols-2 gap-4 text-xs">
                         <div>
-                            <div class="opacity-50 mb-1">
-                                OCCURRENCES
-                            </div>
+                            <div class="opacity-50 mb-1">OCCURRENCES</div>
                             <div class="font-mono font-bold">
                                 {selectedHelper.min} .. {selectedHelper.max ===
                                 "unbounded"
@@ -133,9 +126,7 @@
             </div>
         {:else}
             <div class="text-center mt-10 text-base-content/40">
-                <p class="text-sm">
-                    Select an element to view details.
-                </p>
+                <p class="text-sm">Select an element to view details.</p>
             </div>
         {/if}
     </div>

@@ -44,14 +44,20 @@ describe("ExamplesModal", () => {
             },
         });
 
-        await user.click(container.querySelector("button.btn-primary") as HTMLButtonElement);
+        await user.click(
+            container.querySelector("button.btn-primary") as HTMLButtonElement,
+        );
 
         await waitFor(() => {
             expect(fetchMock).toHaveBeenCalledTimes(1);
         });
 
         const requestedUrl = String(fetchMock.mock.calls[0][0]);
-        expect(requestedUrl.startsWith("/content/examples/files/iata/ex_123456789abc.xml?t=")).toBe(true);
+        expect(
+            requestedUrl.startsWith(
+                "/content/examples/files/iata/ex_123456789abc.xml?t=",
+            ),
+        ).toBe(true);
         expect(container.textContent).toContain("<IATA_OrderCreateRQ/>");
 
         vi.restoreAllMocks();

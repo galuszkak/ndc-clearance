@@ -75,60 +75,59 @@
                 <textarea
                     class="textarea textarea-bordered w-full h-full font-mono text-xs"
                     placeholder="Paste your XML message here..."
-                    bind:value={xmlInput}
-                ></textarea>
+                    bind:value={xmlInput}></textarea>
             </div>
 
             <div aria-live="polite" role="status">
-            {#if validating}
-                <div
-                    class="p-4 rounded-lg overflow-y-auto max-h-48 border bg-base-200 animate-pulse"
-                >
-                    Validating...
-                </div>
-            {:else if result}
-                {#if result.valid}
+                {#if validating}
                     <div
-                        class="p-4 rounded-lg overflow-y-auto max-h-48 border bg-success/10 border-success text-success-content"
+                        class="p-4 rounded-lg overflow-y-auto max-h-48 border bg-base-200 animate-pulse"
                     >
-                        <div class="flex items-center gap-2 font-bold">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-6 w-6"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M5 13l4 4L19 7"
-                                />
-                            </svg>
-                            Valid Message
-                        </div>
+                        Validating...
                     </div>
-                {:else}
+                {:else if result}
+                    {#if result.valid}
+                        <div
+                            class="p-4 rounded-lg overflow-y-auto max-h-48 border bg-success/10 border-success text-success-content"
+                        >
+                            <div class="flex items-center gap-2 font-bold">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="h-6 w-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M5 13l4 4L19 7"
+                                    />
+                                </svg>
+                                Valid Message
+                            </div>
+                        </div>
+                    {:else}
+                        <div
+                            class="p-4 rounded-lg overflow-y-auto max-h-48 border bg-error/10 border-error text-error-content font-mono text-xs"
+                        >
+                            <div class="font-bold mb-2">Validation Errors:</div>
+                            <ul class="list-disc pl-4">
+                                {#each result.errors as err, i (i)}
+                                    <li>{err}</li>
+                                {/each}
+                            </ul>
+                        </div>
+                    {/if}
+                {:else if errorMessage}
                     <div
-                        class="p-4 rounded-lg overflow-y-auto max-h-48 border bg-error/10 border-error text-error-content font-mono text-xs"
+                        class="p-4 rounded-lg overflow-y-auto max-h-48 border bg-error/10 border-error text-error-content"
                     >
-                        <div class="font-bold mb-2">Validation Errors:</div>
-                        <ul class="list-disc pl-4">
-                            {#each result.errors as err, i (i)}
-                                <li>{err}</li>
-                            {/each}
-                        </ul>
+                        Error: {errorMessage}. Ensure the backend API is
+                        reachable at {apiBaseUrl}.
                     </div>
                 {/if}
-            {:else if errorMessage}
-                <div
-                    class="p-4 rounded-lg overflow-y-auto max-h-48 border bg-error/10 border-error text-error-content"
-                >
-                    Error: {errorMessage}. Ensure the backend API is reachable
-                    at {apiBaseUrl}.
-                </div>
-            {/if}
             </div>
         </div>
         <div class="modal-action flex justify-between items-center">

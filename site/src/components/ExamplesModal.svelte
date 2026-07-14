@@ -24,7 +24,9 @@
         xmlContent = "";
         try {
             // Add a cache-busting param to avoid 404 if file was just created
-            const response = await fetch(`${example.public_path}?t=${Date.now()}`);
+            const response = await fetch(
+                `${example.public_path}?t=${Date.now()}`,
+            );
             if (!response.ok) {
                 xmlContent = `Error ${response.status}: Failed to load ${example.public_path}`;
             } else {
@@ -32,7 +34,9 @@
                 // console.log("Loaded XML content length:", xmlContent.length);
             }
         } catch (e: unknown) {
-            xmlContent = "Error loading XML content: " + (e instanceof Error ? e.message : String(e));
+            xmlContent =
+                "Error loading XML content: " +
+                (e instanceof Error ? e.message : String(e));
         } finally {
             loading = false;
             // Wait for DOM update then highlight

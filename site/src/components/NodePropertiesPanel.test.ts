@@ -8,7 +8,9 @@ function makeElement(
     attrs: Record<string, string> = {},
 ): Element {
     const doc = new DOMParser().parseFromString(
-        `<${localName} xmlns="http://www.w3.org/2001/XMLSchema" ${Object.entries(attrs)
+        `<${localName} xmlns="http://www.w3.org/2001/XMLSchema" ${Object.entries(
+            attrs,
+        )
             .map(([k, v]) => `${k}="${v}"`)
             .join(" ")} />`,
         "application/xml",
