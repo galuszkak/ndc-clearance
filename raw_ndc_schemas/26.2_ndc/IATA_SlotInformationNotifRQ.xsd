@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="2.005" id="IATA2022.1">
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_SlotCommonTypes.xsd"/>
+	<xs:element name="IATA_SlotInformationNotifRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">This message is sent from a coordinator to an airline to confirm flight schedules held by the coordinator.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="Success" type="SuccessType">
+						<xs:annotation>
+							<xs:documentation>Standard way to indicate successful processing of an IATA message. Returning an empty element of this type indicates success.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Warnings" type="WarningsType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Used in conjunction with the Success element to define one or more business errors.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Season" type="SeasonType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The coordination season for this clearance request.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AirportSlotInformation" type="AirportSlotInformationType" minOccurs="0" maxOccurs="9">
+						<xs:annotation>
+							<xs:documentation>A collection of clearance responses for a specific airport.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:element name="Errors" type="ErrorsType">
+					<xs:annotation>
+						<xs:documentation>Errors are returned if the request was unable to be processed.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="TimeType" type="TimeType" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Specifies that times are either in local or UTC.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="DataSource" type="DataSourceType">
+				<xs:annotation>
+					<xs:documentation>Used to specify if response relates to the operational database or the hsitoric baseline.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="GABAReqInd" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">When true, the request is from a GABA operator</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
+
+

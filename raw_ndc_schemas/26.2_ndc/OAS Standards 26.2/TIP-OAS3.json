@@ -1,0 +1,306 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "TIP (Transparancy in Paymnet) API end point on IFG",
+    "description" : "TIP API can be used to validate the consent of Airline with particular ATMs - Alternative Transfer Methods - used by agents as part of the IATA Transparence in Payment initiative.<br/><br/>Current specification is describing the mandatory and optional parameters for the above mentioned API. Any errors with the data identified by IFG validations will be reported back to the customer as part of the API responses.<br/><br/>",
+    "contact" : {
+      "name" : "Customer Service Support",
+      "url" : "https://portal.iata.org/"
+    },
+    "license" : {
+      "name" : "Confidential"
+    },
+    "version" : "4.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://snb.tip.iata.org/main",
+    "description" : "Sandbox Server"
+  }, {
+    "url" : "//https://tip.iata.org/main",
+    "description" : "Production Server"
+  } ],
+  "tags" : [ {
+    "name" : "order-management",
+    "description" : "order Management"
+  }, {
+    "name" : "payment",
+    "description" : "payment"
+  } ],
+  "paths" : {
+    "/v4/payment/atm-consents/" : {
+      "post" : {
+        "tags" : [ "Payment", "order-management" ],
+        "summary" : "TIP API: atm-consents",
+        "operationId" : "TIP API_atm-consents",
+        "requestBody" : {
+          "description" : "body",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/tipValidationRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/tipValidationResponse200"
+                }
+              }
+            }
+          },
+          "201" : {
+            "description" : "Created"
+          },
+          "400" : {
+            "description" : "Bad request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/errorResponse"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/errorResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/errorResponse"
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false,
+        "security" : [ {
+          "basicAuth" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "iataNumber" : {
+        "pattern" : "^[0-9]{8}$|^[0-9]{7}$",
+        "type" : "string"
+      },
+      "airlineDesigCode" : {
+        "pattern" : "^([A-Z]{3}|[A-Z]{2})|([0-9][A-Z])|([A-Z][0-9])$",
+        "type" : "string",
+        "description" : "The airline 2 letter code of the ticketing airline on whose behalf the transaction was issued and validated by an agent, or (if applicable) the assigned alphanumeric code of the non-airline participant for the transaction."
+      },
+      "airlineAccountingCode" : {
+        "type" : "string"
+      },
+      "tipValidationRequest" : {
+        "required" : [ "airlineAccountingCode", "airlineDesigCode", "iataNumber", "tipFormOfPaymentEntry" ],
+        "type" : "object",
+        "properties" : {
+          "iataNumber" : {
+            "$ref" : "#/components/schemas/iataNumber"
+          },
+          "airlineDesigCode" : {
+            "$ref" : "#/components/schemas/airlineDesigCode"
+          },
+          "airlineAccountingCode" : {
+            "$ref" : "#/components/schemas/airlineAccountingCode"
+          },
+          "countryCode" : {
+            "pattern" : "^[A-Z]{2}$",
+            "type" : "string",
+            "description" : "The ISO country code of the agent associated with the transaction."
+          },
+          "tipFormOfPaymentEntry" : {
+            "minItems" : 1,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/tipFormOfPaymentEntry"
+            }
+          }
+        },
+        "example" : {
+          "iataNumber" : "1234567",
+          "airlineDesigCode" : "CA",
+          "airlineAccountingCode" : "999",
+          "countryCode" : "CN",
+          "tipFormOfPaymentEntry" : [ {
+            "accountNumber" : 123447365427999,
+            "amount" : 200000,
+            "currencyCode" : "USD",
+            "expirationDate" : "1222",
+            "typeCode" : "CCAX"
+          } ]
+        }
+      },
+      "tipFormOfPaymentEntry" : {
+        "required" : [ "accountNumber", "expiryDate", "typeCode" ],
+        "type" : "object",
+        "properties" : {
+          "accountNumber" : {
+            "maxLength" : 19,
+            "minLength" : 14,
+            "type" : "number",
+            "description" : "For credit card transactions this corresponds to the credit card number."
+          },
+          "amount" : {
+            "maximum" : 99999999999,
+            "exclusiveMaximum" : false,
+            "minimum" : 0,
+            "exclusiveMinimum" : false,
+            "type" : "number",
+            "description" : "The Form of Payment amount associated with the type of payment. Decimal places are defined by the integer in the currency field."
+          },
+          "currencyCode" : {
+            "maxLength" : 4,
+            "minLength" : 4,
+            "type" : "string",
+            "description" : "Required if formOfPayment.amount is provided. The currency code followed by a digit to represent the number of decimal places associated with each amount, as defined in ISO 4217."
+          },
+          "expirationDate" : {
+            "pattern" : "^(0[1-9]|1[0-2])[0-9][0-9]$",
+            "type" : "string"
+          },
+          "typeCode" : {
+            "$ref" : "#/components/schemas/paymentMethodCode"
+          }
+        }
+      },
+      "paymentMethodCode" : {
+        "type" : "string",
+        "description" : "The Form of Payment type consisting of a minimum of two-letter code. Credit Card - American Express: CCAX, Credit Card - Discover Card: CCDS, Credit Card - Discover Club: CCDC, Credit Card - China UnionPay: CCUP, Credit Card - Master Card: CCCA, Credit Card - UATP: CCTP, Credit Card - VISA: CCVI, Credit Card: CC",
+        "enum" : [ "CCCA", "CCVI", "CCAX", "CCDS", "CCDC", "CCUP", "CCTP", "CC" ]
+      },
+      "tipValidationResponse200" : {
+        "type" : "object",
+        "properties" : {
+          "iataNumber" : {
+            "$ref" : "#/components/schemas/iataNumber"
+          },
+          "airlineAccountingCode" : {
+            "$ref" : "#/components/schemas/airlineAccountingCode"
+          },
+          "airlineDesigCode" : {
+            "$ref" : "#/components/schemas/airlineDesigCode"
+          },
+          "costRecoveryAmount" : {
+            "type" : "number",
+            "description" : "In the case of cost recovery amount is configured in the consent database, this will show the corresponding amount."
+          },
+          "costRecoveryCurCode" : {
+            "type" : "string",
+            "description" : "In the case of cost recovery amount is configured in the consent database, this will show the corresponding currency."
+          },
+          "costRecoveryPercentage" : {
+            "type" : "number",
+            "description" : "In the case of cost recovery percentage is configured in the consent database, this will show the corresponding percentage.",
+            "format" : "double"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "The field displays the response message from API query"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "The HTTP status code applicable to the error."
+          },
+          "code" : {
+            "type" : "string",
+            "description" : "TIP-UV001: Enrolled Product found, and Airline has given consent without cost recovery.<br/>TIP-UV002: Enrolled Product found, and Airline has given consent with cost recovery.<br/>TIP-UV004: Potential ATM.<br/>TIP-UV005: Enrolled Product found, and Airline has not given consent.",
+            "enum" : [ "TIP-UV001", "TIP-UV002", "TIP-UV004", "TIP-UV005" ]
+          },
+          "trxDate" : {
+            "type" : "string",
+            "description" : "Displays the date of the transaction",
+            "format" : "date-time"
+          },
+          "trxIdentifier" : {
+            "type" : "string",
+            "description" : "Displays the id of the transaction"
+          }
+        },
+        "example" : {
+          "iataNumber" : "1234567",
+          "airlineAccountingCode" : "999",
+          "airlineDesigCode" : "CA",
+          "code" : "TIP-UV001",
+          "trxDate" : "2020-02-28T09:27:02.996Z"
+        }
+      },
+      "errorResponse" : {
+        "type" : "object",
+        "properties" : {
+          "errors" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/error"
+            }
+          }
+        }
+      },
+      "error" : {
+        "required" : [ "status" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "A unique identifier for this specific instance of the error."
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "The HTTP status code applicable to the error."
+          },
+          "code" : {
+            "type" : "string",
+            "description" : "TIP-UV003: Product not Found (Unknown not Enrolled). TIP-UV006: TIP system not available. TIP-UV007: Parameter <Required Parameter>  is missing.<br/>TIP-UV008: The format of <Fieldname> is not correct.<br/>TIP-UV009: The clientID must match the company of the user.<br/>TIP-UV010: The IFG customer does not participate in the Billing & Settlement Plan of agent’s country.<br/>TIP-UV011: The agent must be an active IATA Accredited with TA in provided country. Agent (<agentCode>): <AV code> <AV response description><br/>TIP-UV012: Provided ticketing airline code does not match the one of the provided clientID.<br/>TIP-UV013: The customer did not subscribe to TIP Upfront Validation service.<br/>TIP-UV014: Provided clientID does not have an active representation for the provided airline.<br/>TIP-UV015: Cannot find matching between county code of agent and BSP country.",
+            "enum" : [ "TIP-UV003", "TIP-UV006", "TIP-UV007", "TIP-UV008", "TIP-UV009", "TIP-UV010", "TIP-UV011", "TIP-UV012", "TIP-UV013", "TIP-UV014", "TIP-UV015" ]
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "A short, human-readable summary of the problem."
+          },
+          "language" : {
+            "type" : "string",
+            "description" : "The code of the language used in the error message."
+          },
+          "detail" : {
+            "type" : "string",
+            "description" : "A human-readable explanation specific to this occurrence of the issue."
+          },
+          "url" : {
+            "type" : "string",
+            "description" : "A link to an on-line description of the error"
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "basicAuth" : {
+        "type" : "http",
+        "scheme" : "basic"
+      }
+    }
+  }
+}

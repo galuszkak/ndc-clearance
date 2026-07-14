@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="1.003" id="IATA2022.1">
+	<xs:include schemaLocation="IATA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_ET_CommonTypes.xsd"/>
+	<xs:element name="IATA_TicketGroundHandlingRedirectAirportControlRQ">
+		<xs:annotation>
+			<xs:documentation>This message enables a ground handler to send a request to the validating carrier to redirect airport control to the carrier specified in the message.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POS" type="POS_Type">
+					<xs:annotation>
+						<xs:documentation>The transaction agent id.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="RedirectedInfo">
+					<xs:annotation>
+						<xs:documentation>The redirected information.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DepartureAirport" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>The redirected origin airport/city code.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:attributeGroup ref="LocationGroup"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ArrivalAirport" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>The redirected destination airport/city code.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:attributeGroup ref="LocationGroup"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="FromAirline" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>The redirected from airline designator.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:attributeGroup ref="CompanyID_AttributesGroup"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ToAirline">
+								<xs:annotation>
+									<xs:documentation>The redirected to airline designator.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:attributeGroup ref="CompanyID_AttributesGroup"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="DepartureDateTime" type="xs:dateTime" use="optional">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">The redirected date and time of departure.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="Status" type="AlphaNumericStringLength1to3" use="optional">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">The redirected reservation status code.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="ResBookDesigCode" type="UpperCaseAlphaLength1to2" use="optional">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">The redirected reservation booking designator.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="FlightNumber" type="FlightNumberType" use="optional">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">The redirected flight number.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="OperationalSuffix" type="OperationalSuffixType" use="optional">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">The operational suffix or prefix for the flight.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="TicketDocument" maxOccurs="999">
+					<xs:annotation>
+						<xs:documentation>The ticket/document number.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CouponInfo" maxOccurs="4">
+								<xs:annotation>
+									<xs:documentation>Coupon number and involuntary indicator.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:attribute name="Number" type="Numeric1to4" use="required">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">The coupon number.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="InvoluntaryIndCode" use="optional">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">A code to indicate when a transaction occurred due to aninvoluntary change.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:NMTOKEN">
+												<xs:enumeration value="I"/>
+												<xs:enumeration value="L"/>
+												<xs:enumeration value="S"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+									<xs:attribute name="NoShowInd" type="xs:boolean">
+										<xs:annotation>
+											<xs:documentation>When true, the passenger failed to use reserved accommodation for reasons other than misconnections.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Waiver" minOccurs="0" maxOccurs="5">
+								<xs:annotation>
+									<xs:documentation>A code assigned by the validating carrier that allows fare rule modification or override.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:attribute name="Code" type="AlphaNumericStringLength1to19" use="optional">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">A code assigned by the validating carrier that allows fare rule modification or override.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="TicketDocumentNbr" type="StringLength1to16" use="required">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Document number comprised of the airline code, form code, and serial number.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="DateOfIssue" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>The date of issue.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

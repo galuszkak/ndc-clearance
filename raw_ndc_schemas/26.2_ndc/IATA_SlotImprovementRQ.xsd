@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="2.002" id="IATA2022.1">
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_SlotCommonTypes.xsd"/>
+	<xs:element name="IATA_SlotImprovementRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">This message allows an airline to propose to another airline a swap of slot(s) that would be mutually beneficial to both airlines or can be sent from an airline to the coordinator to propose a slot improvement for an airport.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Season" type="SeasonType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">The coordination season for this slot improvement request.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="SlotImprovementItems" maxOccurs="9">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">A collection of slot improvments for a specific airport.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SlotImprovementItem" maxOccurs="99">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">A slot improvement proposal/submission.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ProposalItem" maxOccurs="99">
+											<xs:annotation>
+												<xs:documentation>A proposal to delete and/or add slot movements.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="MovementDeletion" type="RequestMovementDeletionType" minOccurs="0" maxOccurs="99">
+														<xs:annotation>
+															<xs:documentation xml:lang="en">A proposed movement deletion.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="MovementAddition" type="RequestMovementType" minOccurs="0" maxOccurs="99">
+														<xs:annotation>
+															<xs:documentation xml:lang="en">A proposed movement addition.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="ChangeReason" type="ChangeReasonType" use="required">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">The reason for the slot improvement request.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="TransactionComments" type="StringLength0to50" use="optional">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">Freetext comments.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="Airport" type="StationType" use="required">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">The airport code for this slot information.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="optional">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Used to specify if an IATA or ICAO code</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="TimeType" type="TimeType" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Specifies that times are either in local or UTC.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Purpose">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Proposal">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Specifies that the purpose of the message is to propose to another airline a swap of slot(s) beneficial to both airlines.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="Submission">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">Specifies that the purpose of the message is to propose to a coordinator a slot improvement for an airport.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

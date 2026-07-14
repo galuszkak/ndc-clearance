@@ -1,0 +1,291 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "NDC EasyPay Direct Authorisation API",
+    "description" : "Prior to accepting IATA EasyPay or BOP form of payment details provided by a seller through the NDC messages, airlines need to obtain an authorisation in order to make sure the required funds of the seller will be the blocked for later settlement. This API can be used by airlines to obtain such authorisation and, if the transaction will never be settled, revert the authorisation to unblock the seller’s funds.",
+    "termsOfService" : "https://www.iata.org/Pages/terms.aspx",
+    "contact" : {
+      "name" : "Customer Service Support",
+      "url" : "https://portal.iata.org/"
+    },
+    "version" : "1.0.2"
+  },
+  "servers" : [ {
+    "url" : "https://apisbx.iata.org/easypay-direct-authorisation",
+    "description" : "Sandbox server (Basic Auth - Uses test data)"
+  }, {
+    "url" : "https://secure-api-nonprod.iata.org/easypay-direct-authorisation",
+    "description" : "Sandbox server (Mutual SSL - Uses test data)"
+  }, {
+    "url" : "https://api.iata.org/easypay-direct-authorisation",
+    "description" : "Production server (Basic Auth and IP Whitelist - Uses Production data)"
+  }, {
+    "url" : "https://secure-api-prod.iata.org/easypay-direct-authorisation",
+    "description" : "Production (Mutual/SSL)"
+  } ],
+  "tags" : [ {
+    "name" : "NDC",
+    "description" : "New Distribution Capability"
+  }, {
+    "name" : "BSP",
+    "description" : "IATA Billing and Settlement Plan"
+  }, {
+    "name" : "EasyPay",
+    "description" : " IATA Easy Pay"
+  }, {
+    "name" : "sales-management",
+    "description" : "Sales Management Capability"
+  }, {
+    "name" : "order-management",
+    "description" : "Order Management Capability"
+  } ],
+  "paths" : {
+    "/v1/agencies/{iataNumber}/transaction-authorisations" : {
+      "post" : {
+        "tags" : [ "order-management", "sales-management" ],
+        "description" : "airline submits an EP/BOP transaction authorisation request to IATA",
+        "operationId" : "post-transaction-authorisation",
+        "parameters" : [ {
+          "name" : "iataNumber",
+          "in" : "path",
+          "description" : "IATA-assigned agency number.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "pattern" : "^[0-9]{8}$",
+            "type" : "string"
+          },
+          "example" : "98417900"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/transactionAuthorisation"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/transactionAuthorisationResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/errors"
+                },
+                "example" : {
+                  "errors" : [ {
+                    "id" : "36f1169c-9f89-4c3c-916f-1efde37b70b1",
+                    "status" : "400",
+                    "code" : "NDA01",
+                    "title" : "Account closed/no wallet found",
+                    "detail" : "Payment authorization failed with Status F for orderId XB000ABCDEFG and paymentId 2019042913550400001 "
+                  } ]
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/errors"
+                },
+                "example" : {
+                  "errors" : [ {
+                    "id" : "36f1169c-9f89-4c3c-916f-1efde37b70b1",
+                    "status" : "403",
+                    "code" : "Forbidden",
+                    "title" : "Forbidden"
+                  } ]
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/errors"
+                },
+                "example" : {
+                  "errors" : [ {
+                    "id" : "36f1169c-9f89-4c3c-916f-1efde37b70b1",
+                    "status" : "500",
+                    "code" : "InternalServerError",
+                    "title" : "Internal Server Erreur",
+                    "detail" : "Failed to process payment. Error: unknown exception "
+                  } ]
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "basicAuth" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "transactionAuthorisation" : {
+        "required" : [ "amount", "currencyCode", "epNumber", "iataNumber", "orderId", "paymentId", "requestTimestamp", "transactionAuthorisationType" ],
+        "type" : "object",
+        "properties" : {
+          "transactionAuthorisationType" : {
+            "type" : "string",
+            "description" : "Defines a type of authorisation. Examples are: 'REFUND' or 'PAYMENT'",
+            "enum" : [ "REFUND", "PAYMENT" ]
+          },
+          "paymentId" : {
+            "type" : "string",
+            "description" : "Uniquely identifies payment information within a message"
+          },
+          "orderId" : {
+            "type" : "string",
+            "description" : "Carrier assigned ID which uniquely identifies a specific Order across several messages"
+          },
+          "epNumber" : {
+            "type" : "string",
+            "description" : "IATA Easy Pay Account Number"
+          },
+          "iataNumber" : {
+            "pattern" : "^[0-9]{8}$",
+            "type" : "string",
+            "description" : "IATA-assigned agency number."
+          },
+          "amount" : {
+            "minimum" : 0,
+            "type" : "number",
+            "description" : "The Transaction Amount Schema. It should be always a positive amount."
+          },
+          "currencyCode" : {
+            "maxLength" : 3,
+            "minLength" : 3,
+            "type" : "string",
+            "description" : "Currency codes (ISO 4217)",
+            "example" : "USD"
+          },
+          "requestTimestamp" : {
+            "type" : "string",
+            "description" : "The request timestamp Schema - Format rfc3339",
+            "format" : "date-time"
+          }
+        },
+        "description" : "The EP/BOP authorisation request submitted from the airline to IATA",
+        "example" : {
+          "transactionAuthorisationType" : "PAYMENT",
+          "paymentId" : "2019042913550400001",
+          "orderId" : "XB000ABCDEFG",
+          "epNumber" : "1234567890123456",
+          "iataNumber" : "98417900",
+          "amount" : 2900,
+          "currencyCode" : "USD",
+          "requestTimestamp" : "2019-04-29T13:55:31.378Z"
+        }
+      },
+      "transactionAuthorisationResponse" : {
+        "required" : [ "approvalCode", "orderId", "paymentId", "paymentStatus", "responseTimestamp" ],
+        "type" : "object",
+        "properties" : {
+          "paymentId" : {
+            "type" : "string",
+            "description" : "Uniquely identifies payment information within a message"
+          },
+          "orderId" : {
+            "type" : "string",
+            "description" : "Carrier assigned ID which uniquely identifies a specific Order across several messages"
+          },
+          "paymentStatus" : {
+            "type" : "string",
+            "description" : "Indicates the current status of this payment information",
+            "enum" : [ "ACCEPTED", "ALLOCATED", "CLOSED", "COMMITTED", "RECEIVED", "REFUNDED", "SENT" ]
+          },
+          "approvalCode" : {
+            "type" : "string",
+            "description" : "Authorisation result Approval code"
+          },
+          "responseTimestamp" : {
+            "type" : "string",
+            "description" : "The response timestamp Schema - Format rfc3339",
+            "format" : "date-time"
+          }
+        },
+        "description" : "The reponse of transaction authorisation request sent by the airlines",
+        "example" : {
+          "orderId" : "XB000ABCDEFG",
+          "paymentId" : "P1",
+          "paymentStatus" : "ACCEPTED",
+          "approvalCode" : "654321",
+          "responseTimestamp" : "2019-04-29T13:55:31.378Z"
+        }
+      },
+      "errors" : {
+        "type" : "object",
+        "properties" : {
+          "errors" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/error"
+            }
+          }
+        }
+      },
+      "error" : {
+        "required" : [ "status" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "A unique identifier for this specific instance of the error"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "The HTTP status code applicable to the error"
+          },
+          "code" : {
+            "type" : "string",
+            "description" : "an application-specific error code"
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "A short, human-readable summary of the problem that **SHOULD NOT** change from occurrence to occurrence of the error, except for purposes of localization"
+          },
+          "language" : {
+            "type" : "string",
+            "description" : "The code of the language used in the error message. Not required when the language is a variant of English"
+          },
+          "detail" : {
+            "type" : "string",
+            "description" : "a human-readable explanation specific to this occurrence of the issue"
+          },
+          "url" : {
+            "type" : "string",
+            "description" : "A link to an on-line description of the error where one COULD find statements pertaining to the consequences of the error and indications as to actions that might be taken and actions that should or must not be taken"
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "basicAuth" : {
+        "type" : "http",
+        "scheme" : "basic"
+      }
+    }
+  }
+}

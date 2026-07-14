@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="1.000" id="IATA2022.1">
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_SlotCommonTypes.xsd"/>
+	<xs:element name="IATA_SlotInformationCollectRS">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">This message is sent from a coordinator to an airline to return details of flight schedules held by the coordinator.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:annotation>
+					<xs:documentation>A collection of clearance responses for a specific airport.</xs:documentation>
+				</xs:annotation>
+				<xs:element name="Success" type="SuccessType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Standard way to indicate successful processing of an IATA message. Returning an empty element of this type indicates success.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Warnings" type="WarningsType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Used in conjunction with the Success element to define one or more business errors.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Errors" type="ErrorsType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Used in conjunction with the Success element to define one or more business errors.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AirportSlotInformation" type="AirportSlotInformationType" minOccurs="0" maxOccurs="1"/>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="CollectionReference" type="StringLength1to32">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The collection reference indicated by the coordinator in the original "deferred" response</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="RangeStart" type="xs:integer" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The number of the first schedule movement record to be returned</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="RangeEnd" type="xs:integer" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The number of the last schedule movement record to be returned</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="TotalItems" type="xs:integer" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The total number schedule movement records available</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

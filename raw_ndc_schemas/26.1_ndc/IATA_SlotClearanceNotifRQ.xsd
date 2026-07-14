@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="2.001" id="IATA2022.1">
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_SlotCommonTypes.xsd"/>
+	<xs:element name="IATA_SlotClearanceNofifRQ">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">This message is sent from a coordinator to an airline to confirm database changes made by the coordinator.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Season" type="SeasonType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">The coordination season for this clearance request.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="SlotImprovementOffer" maxOccurs="9">
+					<xs:annotation>
+						<xs:documentation>A collection of slot improvement offers which have been cleared, withdrawn, denied, or deleted for a specific airport.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SlotClearanceTransaction" maxOccurs="99">
+								<xs:annotation>
+									<xs:documentation>A slot clearance transaction for which a coordinator has made database changes.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="SlotClearanceItem" maxOccurs="99">
+											<xs:annotation>
+												<xs:documentation>A slot clearance item.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="MovementDeletion" type="AllocatedMovementType" minOccurs="0" maxOccurs="99">
+														<xs:annotation>
+															<xs:documentation>A slot item to be deleted.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="MovementAddition" type="AllocatedMovementType" minOccurs="0" maxOccurs="99">
+														<xs:annotation>
+															<xs:documentation>A slot item to be added.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="ChangeReason" type="ChangeReasonType" use="required">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">The reason for the slot improvement request.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="TransactionComments" type="StringLength0to50" use="optional">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">Freetext comments.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="Airport" type="StationType" use="required">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">The airport code for this slot information.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="CodeContext" type="IATA_OrICAO_Type" use="optional">
+							<xs:annotation>
+								<xs:documentation>Used to specify if an IATA or an ICAO code.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+			<xs:attribute name="TimeType" type="TimeType" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Specifies that times are either in local or UTC.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
