@@ -18,6 +18,11 @@ backend/jdk*/
 backend/build/
 backend/.gradle/
 backend/.kotlin/
+backend/bin/
+tools/build/
+tools/.gradle/
+tools/.kotlin/
+tools/bin/
 site/dist/
 site/.astro/
 site/public/content/
