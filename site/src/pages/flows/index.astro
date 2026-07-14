@@ -5,12 +5,17 @@ import { getFlows } from "../../utils/flows";
 const flows = getFlows();
 ---
 
-<Layout title="NDC Flows | NDC Clearance" description="Browse interactive NDC message flows and use cases.">
+<Layout
+    title="NDC Flows | NDC Clearance"
+    description="Browse interactive NDC message flows and use cases."
+>
     <div class="py-12 px-4 max-w-6xl mx-auto">
         <div class="mb-12 text-center">
             <h1 class="text-4xl font-bold mb-4">NDC Flows</h1>
             <p class="text-lg text-base-content/70 max-w-2xl mx-auto">
-                Explore common NDC use cases and message sequences. Visualize the relationships between messages and inspect the underlying XML examples.
+                Explore common NDC use cases and message sequences. Visualize
+                the relationships between messages and inspect the underlying
+                XML examples.
             </p>
         </div>
 
@@ -27,10 +32,12 @@ const flows = getFlows();
                                     {flow.title}
                                 </h2>
                                 {flow.status === "draft" && (
-                                    <span class="badge badge-ghost badge-sm uppercase ml-2 flex-none">Draft</span>
+                                    <span class="badge badge-ghost badge-sm uppercase ml-2 flex-none">
+                                        Draft
+                                    </span>
                                 )}
                             </div>
-                            
+
                             <p class="text-base-content/70 text-sm mb-4 line-clamp-3 leading-relaxed">
                                 {flow.description}
                             </p>
@@ -46,10 +53,12 @@ const flows = getFlows();
             }
         </div>
 
-        {flows.length === 0 && (
-            <div class="text-center py-20 opacity-50 bg-base-100 rounded-lg border border-base-200 border-dashed">
-                <p>No flows available yet.</p>
-            </div>
-        )}
+        {
+            flows.length === 0 && (
+                <div class="text-center py-20 opacity-50 bg-base-100 rounded-lg border border-base-200 border-dashed">
+                    <p>No flows available yet.</p>
+                </div>
+            )
+        }
     </div>
 </Layout>

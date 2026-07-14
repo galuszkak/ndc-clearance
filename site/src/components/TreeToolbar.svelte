@@ -23,8 +23,7 @@
         >
             <button
                 class="btn btn-xs btn-ghost join-item px-2"
-                onclick={() =>
-                    (zoom = Math.max(ZOOM.MIN, zoom - ZOOM.STEP))}
+                onclick={() => (zoom = Math.max(ZOOM.MIN, zoom - ZOOM.STEP))}
                 title="Zoom Out"
                 aria-label="Zoom out"
             >
@@ -50,8 +49,7 @@
             </div>
             <button
                 class="btn btn-xs btn-ghost join-item px-2"
-                onclick={() =>
-                    (zoom = Math.min(ZOOM.MAX, zoom + ZOOM.STEP))}
+                onclick={() => (zoom = Math.min(ZOOM.MAX, zoom + ZOOM.STEP))}
                 title="Zoom In"
                 aria-label="Zoom in"
             >

@@ -4,10 +4,7 @@ import XmlSourceView from "./XmlSourceView.svelte";
 import type { LoadedSchemaFile } from "../utils/types";
 
 function makeFile(name: string): LoadedSchemaFile {
-    const doc = new DOMParser().parseFromString(
-        "<schema/>",
-        "application/xml",
-    );
+    const doc = new DOMParser().parseFromString("<schema/>", "application/xml");
     return { name, url: `/${name}`, content: `<schema/>`, doc };
 }
 
@@ -24,9 +21,7 @@ describe("XmlSourceView", () => {
             },
         });
 
-        expect(
-            container.querySelector(".loading-spinner"),
-        ).toBeInTheDocument();
+        expect(container.querySelector(".loading-spinner")).toBeInTheDocument();
     });
 
     it("renders highlighted XML when provided", () => {
@@ -41,9 +36,7 @@ describe("XmlSourceView", () => {
             },
         });
 
-        expect(
-            container.querySelector("span.hljs-tag"),
-        ).toBeInTheDocument();
+        expect(container.querySelector("span.hljs-tag")).toBeInTheDocument();
     });
 
     it("shows Highlighting message when no highlighted XML yet", () => {

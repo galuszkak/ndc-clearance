@@ -35,7 +35,10 @@
             class="kbd kbd-xs bg-base-200 border-base-300 opacity-60 font-sans px-1"
         >
             {typeof window !== "undefined" &&
-            /mac/i.test((navigator as any).userAgentData?.platform ?? navigator.platform)
+            /mac/i.test(
+                (navigator as any).userAgentData?.platform ??
+                    navigator.platform,
+            )
                 ? "⌘F"
                 : "Ctrl+F"}
         </kbd>
@@ -126,8 +129,7 @@
                                     class="font-medium text-sm text-base-content/90 truncate {result.matchType ===
                                     'name'
                                         ? 'bg-yellow-200 text-yellow-900 rounded px-1 -mx-1 ring-1 ring-yellow-400/50'
-                                        : ''} {result.matchType ===
-                                    'doc'
+                                        : ''} {result.matchType === 'doc'
                                         ? 'bg-info/20 text-info-content rounded px-1 -mx-1 ring-1 ring-info/30'
                                         : ''}"
                                 >
@@ -145,8 +147,7 @@
 
                             <span
                                 class="text-[10px] opacity-40 font-mono truncate w-full text-left pl-6"
-                                title={result.path}
-                                >{result.path}</span
+                                title={result.path}>{result.path}</span
                             >
 
                             {#if result.doc}

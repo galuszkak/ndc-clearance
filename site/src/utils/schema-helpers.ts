@@ -90,9 +90,7 @@ export function collectElementsFlat(
     for (const child of Array.from(root.children)) {
         if (child.localName === "element") {
             els.push(child);
-        } else if (
-            ["sequence", "choice", "all"].includes(child.localName)
-        ) {
+        } else if (["sequence", "choice", "all"].includes(child.localName)) {
             els.push(...collectElementsFlat(child, defs, cache));
         } else if (child.localName === "complexContent") {
             for (const cc of Array.from(child.children)) {
@@ -281,7 +279,9 @@ export function hasElementChildren(
                         cc.localName === "extension" ||
                         cc.localName === "restriction"
                     ) {
-                        const base = stripNamespacePrefix(cc.getAttribute("base"));
+                        const base = stripNamespacePrefix(
+                            cc.getAttribute("base"),
+                        );
                         if (base && !visited.has(base)) {
                             visited.add(base);
                             if (
@@ -326,10 +326,7 @@ export function matchesSearch(
 /**
  * Determine the icon type for a schema element based on its name and type.
  */
-export function getIconType(
-    name: string,
-    typeName: string | null,
-): IconType {
+export function getIconType(name: string, typeName: string | null): IconType {
     if (name.endsWith("RQ") || name.endsWith("RS")) return "message";
     if (typeName) return "typed";
     return "element";

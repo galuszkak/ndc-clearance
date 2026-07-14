@@ -5,7 +5,10 @@ import StructureOverview from "../../components/StructureOverview.svelte";
 import MessageSidebar from "../../components/MessageSidebar.svelte";
 import { getVersions, getMessages } from "../../utils/schemas";
 import { getSchemaDescription } from "../../utils/schema-description";
-import { getExamplesForMessage, loadExampleCatalog } from "../../utils/examples";
+import {
+    getExamplesForMessage,
+    loadExampleCatalog,
+} from "../../utils/examples";
 import ExamplesButton from "../../components/ExamplesButton.svelte";
 import FlowsButton from "../../components/FlowsButton.svelte";
 import ValidateModal from "../../components/ValidateModal.svelte";
@@ -17,7 +20,14 @@ import path from "node:path";
 
 export function getStaticPaths() {
     const versions = getVersions();
-    const paths: { params: { version: string; message: string }; props: { versions: string[]; messages: string[]; allVersions: string[] } }[] = [];
+    const paths: {
+        params: { version: string; message: string };
+        props: {
+            versions: string[];
+            messages: string[];
+            allVersions: string[];
+        };
+    }[] = [];
 
     versions.forEach((version) => {
         const messages = getMessages(version);

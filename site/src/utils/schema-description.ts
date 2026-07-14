@@ -32,7 +32,11 @@ export function getSchemaDescription(version: string, message: string): string {
 
             // Truncate to ~155 chars for meta description (with ellipsis if needed)
             if (description.length > META_DESCRIPTION_MAX_LENGTH) {
-                return description.substring(0, META_DESCRIPTION_MAX_LENGTH - 3).trim() + "...";
+                return (
+                    description
+                        .substring(0, META_DESCRIPTION_MAX_LENGTH - 3)
+                        .trim() + "..."
+                );
             }
             return description;
         }

@@ -14,7 +14,13 @@ function mkTempSiteRoot(): string {
 }
 
 function writeCatalog(siteRoot: string, catalog: ExampleCatalog): void {
-    const filePath = path.join(siteRoot, "public", "content", "examples", "catalog.json");
+    const filePath = path.join(
+        siteRoot,
+        "public",
+        "content",
+        "examples",
+        "catalog.json",
+    );
     fs.mkdirSync(path.dirname(filePath), { recursive: true });
     fs.writeFileSync(filePath, JSON.stringify(catalog), "utf-8");
 }
@@ -118,7 +124,11 @@ describe("examples utils", () => {
         const all = getExamplesForMessage("OrderCreateRQ", catalog);
         expect(all.map((x) => x.id)).toEqual(["ex_a", "ex_b"]);
 
-        const versioned = getExamplesForMessage("IATA_OrderCreateRQ", catalog, "24.1");
+        const versioned = getExamplesForMessage(
+            "IATA_OrderCreateRQ",
+            catalog,
+            "24.1",
+        );
         expect(versioned.map((x) => x.id)).toEqual(["ex_a"]);
     });
 });

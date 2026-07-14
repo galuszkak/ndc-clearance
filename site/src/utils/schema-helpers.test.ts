@@ -267,10 +267,7 @@ describe("collectElementsFlat", () => {
             </schema>
         `);
         const defs = buildDefs(schema);
-        const result = collectElementsFlat(
-            defs["complexType:FooType"],
-            defs,
-        );
+        const result = collectElementsFlat(defs["complexType:FooType"], defs);
         expect(result).toHaveLength(2);
     });
 
@@ -281,10 +278,7 @@ describe("collectElementsFlat", () => {
             </schema>
         `);
         const defs = buildDefs(schema);
-        const result = collectElementsFlat(
-            defs["complexType:EmptyType"],
-            defs,
-        );
+        const result = collectElementsFlat(defs["complexType:EmptyType"], defs);
         expect(result).toHaveLength(0);
     });
 });

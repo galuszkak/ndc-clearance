@@ -8,8 +8,16 @@ const EMPTY_CATALOG: ExampleCatalog = {
     examples: [],
 };
 
-export function loadExampleCatalog(cwd: string = process.cwd()): ExampleCatalog {
-    const catalogPath = path.join(cwd, "public", "content", "examples", "catalog.json");
+export function loadExampleCatalog(
+    cwd: string = process.cwd(),
+): ExampleCatalog {
+    const catalogPath = path.join(
+        cwd,
+        "public",
+        "content",
+        "examples",
+        "catalog.json",
+    );
     try {
         if (!fs.existsSync(catalogPath)) {
             return EMPTY_CATALOG;
@@ -51,7 +59,8 @@ export function getExamplesForMessage(
     return catalog.examples.filter((example) => {
         if (!example.is_active) return false;
         if (!candidates.has(example.message)) return false;
-        if (normalizedVersion && example.version !== normalizedVersion) return false;
+        if (normalizedVersion && example.version !== normalizedVersion)
+            return false;
         return true;
     });
 }

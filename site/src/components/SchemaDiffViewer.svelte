@@ -7,9 +7,7 @@
 
     // allVersions is static from Astro SSR — untrack to avoid false positive warning
     const versions = untrack(() => [...allVersions]);
-    let fromVersion = $state(
-        versions.length > 1 ? versions[1] : versions[0],
-    );
+    let fromVersion = $state(versions.length > 1 ? versions[1] : versions[0]);
     let toVersion = $state(versions[0]);
 
     let diffResults: MessageDiff[] | null = $state(null);
@@ -205,7 +203,9 @@
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            class="h-4 w-4 transition-transform flex-none {expandedMessages[msg.messageName]
+                            class="h-4 w-4 transition-transform flex-none {expandedMessages[
+                                msg.messageName
+                            ]
                                 ? 'rotate-90'
                                 : ''}"
                             viewBox="0 0 20 20"

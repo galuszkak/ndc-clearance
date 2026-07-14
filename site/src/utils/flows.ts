@@ -22,10 +22,7 @@ function getProjectRoot() {
     return process.cwd();
 }
 
-const FLOWS_PATH = path.join(
-    getProjectRoot(),
-    "ndc_content/flows/flows.json",
-);
+const FLOWS_PATH = path.join(getProjectRoot(), "ndc_content/flows/flows.json");
 
 export function getFlows(): FlowRecord[] {
     if (!fs.existsSync(FLOWS_PATH)) {
@@ -68,11 +65,7 @@ export function getFlowsForMessage(
         ? normalized
         : `IATA_${normalized}`;
 
-    const candidates = new Set<string>([
-        normalized,
-        withoutPrefix,
-        withPrefix,
-    ]);
+    const candidates = new Set<string>([normalized, withoutPrefix, withPrefix]);
 
     return flows.filter((flow) =>
         flow.steps.some((step) => candidates.has(step.message)),

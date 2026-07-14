@@ -35,7 +35,9 @@ try {
 ---
 
 <Layout title={`${flow.title} | NDC Flows`} description={flow.description}>
-    <div class="flex flex-col h-[calc(100vh-64px)] bg-base-200/50 -m-6 p-6 gap-4">
+    <div
+        class="flex flex-col h-[calc(100vh-64px)] bg-base-200/50 -m-6 p-6 gap-4"
+    >
         <div class="text-sm breadcrumbs px-1 flex-shrink-0">
             <ul>
                 <li><a href="/">Home</a></li>
@@ -44,7 +46,9 @@ try {
             </ul>
         </div>
 
-        <div class="rounded-lg overflow-hidden shadow-sm border border-base-200 flex-shrink-0">
+        <div
+            class="rounded-lg overflow-hidden shadow-sm border border-base-200 flex-shrink-0"
+        >
             <FlowHeader
                 client:load
                 title={flow.title}

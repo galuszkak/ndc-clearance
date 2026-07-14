@@ -10,7 +10,11 @@ describe("matchesSearch", () => {
     });
 
     it("matches name case-insensitively", () => {
-        const result = matchesSearch("AirShopping", "Request message", "airshopping");
+        const result = matchesSearch(
+            "AirShopping",
+            "Request message",
+            "airshopping",
+        );
         expect(result.nameMatch).toBe(true);
         expect(result.docMatch).toBe(false);
     });
@@ -26,7 +30,11 @@ describe("matchesSearch", () => {
     });
 
     it("matches documentation when name does not match", () => {
-        const result = matchesSearch("Foo", "This element contains airline data", "airline");
+        const result = matchesSearch(
+            "Foo",
+            "This element contains airline data",
+            "airline",
+        );
         expect(result.nameMatch).toBe(false);
         expect(result.docMatch).toBe(true);
     });
@@ -68,6 +76,8 @@ describe("getIconType", () => {
     });
 
     it("prioritises 'message' over 'typed' for RQ with type", () => {
-        expect(getIconType("OrderCreateRQ", "OrderCreateRQType")).toBe("message");
+        expect(getIconType("OrderCreateRQ", "OrderCreateRQType")).toBe(
+            "message",
+        );
     });
 });
