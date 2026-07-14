@@ -1,0 +1,1420 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "version": "1.0.0",
+    "title": "Common Use Web Services (CUWS) Touchpoints to IDMS API",
+    "description": "<h3>Common Use Web Services (CUWS) API</h3>\r\n<p>The IATA Customer Journey Delivery Working Group (CJDWG) together with the participation of subject matter experts (SMEs) from the Customer Experience Working Group (CEWG) identified the need to develop a Common Use Web Services (CUWS) standard to support the interaction between airport touchpoints and the Identity Management System (IDMS). </p>\r\n<p>This API defines the messaging standard for the biometric handling processes as covered in the RP1701q Biometric Handling in Contactless Travel for touchpoints at an airport, for instance, at kiosk, bag drop, security access, security screening, boarding, and transit as applicable. </p>",
+    "contact": {
+      "name": "Stefano Frassanito",
+      "email": "frassanits@iata.org",
+      "url": "https://www.iata.org/"
+    },
+    "license": {
+      "url": "https://www.iata.org/contentassets/a1afc4f216394ed2b3a060c5c7a6db86/iata-psc-data-exchange-specifications-license.pdf",
+      "name": "IATA PSC License"
+    }
+  },
+  "paths": {
+    "/v1/identity-management/passenger/document-retrieval-by-biometric-identification": {
+      "post": {
+        "tags": [
+          "identity-management",
+          "departure-management",
+          "passenger-operations"
+        ],
+        "summary": "Passenger Identification (1:n)",
+        "description": "<p><b>Preconditions</b>: The passenger has disclosed their biometric data and other relevant information, such as boarding pass and identity document, prior to biometric handling at a touchpoint.</p>\r\n<p><b>Normal Flow</b></p>\r\n1. Passenger presents themselves at a touchpoint where a real-time facial image is captured.<br>\r\n2. The real-time facial image is transmitted to the IDMS where it is processed. <br>\r\n3. The IDMS will perform the identification process and if successful return information on the passenger, such as BCBP, or appropriate errors to the application running at the touchpoint.<br>\r\n<p><b>Postconditions</b>: Passenger proceeds to execute business activity for the touchpoint.\r\n",
+        "operationId": "identify-passenger-1:n",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IdentificationRequest"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/IdentificationBinaryRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Match",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdentificationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "101": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "101",
+                          "title": "Gallery not found",
+                          "language": "en",
+                          "detail": "A Gallery with the supplied gallery name cannot be found",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "102": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "102",
+                          "title": "Face detection failed",
+                          "language": "en",
+                          "detail": "A face meeting the required criteria cannot be detected in the supplied image",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "103": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "103",
+                          "title": "Invalid message",
+                          "language": "en",
+                          "detail": "The message has failed validation",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "104": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "104",
+                          "title": "Invalid image",
+                          "language": "en",
+                          "detail": "The image cannot be converted from a base64 string to an image",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "105": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "105",
+                          "title": "Image quality too low",
+                          "language": "en",
+                          "detail": "The image does not meet the minimum image quality standards",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "102.1": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "102.1",
+                          "title": "No face detected",
+                          "language": "en",
+                          "detail": "A face cannot be detected in the image",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "102.2": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "102.2",
+                          "title": "Multiple faces detected",
+                          "language": "en",
+                          "detail": "Multiple faces are detected in the image",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "102.3": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "102.3",
+                          "title": "Face exceeds maximum yaw",
+                          "language": "en",
+                          "detail": "The face detected in the image exceeds the maximum yaw threshold",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "102.4": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "102.4",
+                          "title": "Face exceeds maximum pitch",
+                          "language": "en",
+                          "detail": "The face detected in the image exceeds the maximum pitch threshold",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "102.5": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "102.5",
+                          "title": "Face exceeds maximum roll",
+                          "language": "en",
+                          "detail": "The face detected in the image exceed the maximum roll threshold",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "102.6": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "102.6",
+                          "title": "Face above minimum size",
+                          "language": "en",
+                          "detail": "The face detected in the image is below the minimum size threshold",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "102.7": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "102.6",
+                          "title": "Face above maximum size",
+                          "language": "en",
+                          "detail": "The face detected in the image is above the maximum size threshold",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No match"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/v1/identity-management/passenger/biometric-verification": {
+      "post": {
+        "tags": [
+          "identity-management",
+          "departure-management",
+          "passenger-operations"
+        ],
+        "summary": "Passenger verification (1:1) by face image matching",
+        "description": "<p><b>Normal Flow</b></p>\r\n1. Passenger presents themselves at a touchpoint where a real-time facial image is captured.<br>\r\n2. The reference image is extracted from a captured identity document or retrieved from a trusted source.<br>\r\n3. The real-time facial image and reference image are transmitted to the IDMS or face-matching service where they are processed. <br>\r\n4. The IDMS or face matching service, will return the result, match or no match.<br>\r\n\r\n<p><b>Postconditions</b>: Passenger proceeds to execute business activity for the touchpoint</p>\r\n\r\n",
+        "operationId": "verify-passenger-identity-1:1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerificationRequest"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/VerificationBinaryRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchIndicator"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "103": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "103",
+                          "title": "Invalid message",
+                          "language": "en",
+                          "detail": "The message has failed validation",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "105.1": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "105.1",
+                          "title": "Captured image quality too low",
+                          "language": "en",
+                          "detail": "The captured image does not meet the minimum image quality standards",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "105.2": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "105.2",
+                          "title": "reference image quality too low",
+                          "language": "en",
+                          "detail": "The reference image does not meet the minimum image quality standards",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "104.1": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "104.1",
+                          "title": "Invalid captured image",
+                          "language": "en",
+                          "detail": "The captured image cannot be converted from a base64 string to an image",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "104.2": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "104.2",
+                          "title": "Invalid reference image",
+                          "language": "en",
+                          "detail": "The reference image cannot be converted from a base64 string to an image",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "102.1.1": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "102.1",
+                          "title": "No face detected",
+                          "language": "en",
+                          "detail": "A face cannot be detected in the captured image",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "102.1.2": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "102.1",
+                          "title": "No face detected",
+                          "language": "en",
+                          "detail": "A face cannot be detected in the reference image",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "102.2.1": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "102.2",
+                          "title": "Multiple faces detected",
+                          "language": "en",
+                          "detail": "Multiple faces are detected in the captured image",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "102.2.2": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "102.2",
+                          "title": "Multiple faces detected",
+                          "language": "en",
+                          "detail": "Multiple faces are detected in the reference image",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "102.3.1": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "102.3",
+                          "title": "Face exceeds maximum yaw",
+                          "language": "en",
+                          "detail": "The face detected in the captured image exceeds the maximum yaw threshold",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "102.3.2": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "102.3",
+                          "title": "Face exceeds maximum yaw",
+                          "language": "en",
+                          "detail": "The face detected in the reference image exceeds the maximum yaw threshold",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "102.4.1": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "102.4",
+                          "title": "Face exceeds maximum pitch",
+                          "language": "en",
+                          "detail": "The face detected in the captured image exceeds the maximum pitch threshold",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "102.4.2": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "102.4",
+                          "title": "Face exceeds maximum pitch",
+                          "language": "en",
+                          "detail": "The face detected in the reference image exceeds the maximum pitch threshold",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "102.5.1": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "102.5",
+                          "title": "Face exceeds maximum roll",
+                          "language": "en",
+                          "detail": "The face detected in the captured image exceed the maximum roll threshold",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "102.5.2": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "102.5",
+                          "title": "Face exceeds maximum roll",
+                          "language": "en",
+                          "detail": "The face detected in the reference image exceed the maximum roll threshold",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "102.6.1": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "102.6",
+                          "title": "Face above minimum size",
+                          "language": "en",
+                          "detail": "The face detected in the captured image is below the minimum size threshold",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "102.6.2": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "102.6",
+                          "title": "Face above minimum size",
+                          "language": "en",
+                          "detail": "The face detected in the reference image is below the minimum size threshold",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "102.7.1": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "102.7",
+                          "title": "Face above maximum size",
+                          "language": "en",
+                          "detail": "The face detected in the captured image is above the maximum size threshold",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  },
+                  "102.7.2": {
+                    "value": {
+                      "errors": [
+                        {
+                          "id": "123456",
+                          "status": "400",
+                          "code": "102.7",
+                          "title": "Face above maximum size",
+                          "language": "en",
+                          "detail": "The face detected in the reference image is above the maximum size threshold",
+                          "url": ""
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "departure-management"
+    },
+    {
+      "name": "passenger-operations"
+    },
+    {
+      "name": "identity-management"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "oauth_2": {
+        "type": "oauth2",
+        "description": "Recommendation follows the OAuth2 security mechnism as per [RFC6749(https://www.rfc-editor.org/rfc/rfc6749)], and define separate scopes for functionalities of Passenger Identification and Passenger verification for permission control.",
+        "flows": {}
+      }
+    },
+    "schemas": {
+      "IdentificationRequest": {
+        "type": "object",
+        "title": "IdentificationRequest",
+        "description": "The request sent from the touchpoint to the IDMS, for the Identification (1:n)",
+        "properties": {
+          "biometricType": {
+            "type": "string",
+            "enum": [
+              "face"
+            ],
+            "description": "The type of biometric data that is sent as an image to IDMS for matching purposes. Currently the API only supports the facial biometric data. Overall, 3 types of biometric data (face, iris, fingerprint) are supported by the ICAO eMRTD specification."
+          },
+          "capturedImage": {
+            "type": "string",
+            "description": "Base64 encoded passenger biometric face image of the passenger as captured in real-time at the touchpoint"
+          },
+          "expectedResponse": {
+            "type": "array",
+            "description": "<p>The indicator requesting data to be returned (at least one of the following):<br>- IDMS UID<br>- Complete Bar Coded Boarding Pass (BCBP) as per Reso 792 <br>- Simplified Reso 792 to optimize the IDMS process: From City Airport Code, Operating Carrier Designator, Flight Number, Date of Flight (Julian Date)<br>- Identity Document (Passenger Passport) <br>- All available data",
+            "items": {
+              "type": "string",
+              "enum": [
+                "boardingPass",
+                "simplifiedBoardingPass",
+                "identityDocument",
+                "uid"
+              ]
+            },
+            "example": [
+              "boardingPass",
+              "simplifiedBoardingPass",
+              "identityDocument",
+              "uid"
+            ]
+          },
+          "galleryName": {
+            "type": "string",
+            "description": "The name of the gallery used to identify the passenger. Gallery is a collection of biometric data (e.g., image(s) or template(s)) of passenger(s) along with an identifier that can be linked with passenger’s journey details"
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "the Date/time (UTC) when the request is sent to the IDMS, for request tracing and transaction performance management purposes",
+            "format": "date-time"
+          },
+          "deviceIdentifier": {
+            "type": "string",
+            "description": "Identifier of the touchpoint device"
+          }
+        },
+        "required": [
+          "biometricType",
+          "capturedImage",
+          "expectedResponse",
+          "galleryName",
+          "deviceIdentifier"
+        ],
+        "example": {
+          "biometricType": "face",
+          "capturedImage": "",
+          "expectedResponse": [
+            "boardingPass"
+          ],
+          "galleryName": "BA123",
+          "timestamp": "2019-08-24T14:15:22Z",
+          "deviceIdentifier": "NRTT1SABDD01"
+        }
+      },
+      "IdentificationBinaryRequest": {
+        "type": "object",
+        "title": "IdentificationBinaryRequest",
+        "description": "The request sent from the touchpoint to the IDMS, for the Identification (1:n)",
+        "properties": {
+          "biometricType": {
+            "type": "string",
+            "enum": [
+              "face"
+            ],
+            "description": "The type of biometric data that is sent as an image to IDMS for matching purposes. Currently the API only supports the facial biometric data. Overall, 3 types of biometric data (face, iris, fingerprint) are supported by the ICAO eMRTD specification."
+          },
+          "capturedImage": {
+            "type": "string",
+            "description": "Binary passenger biometric face image of the passenger as captured in real-time at the touchpoint",
+            "format": "binary"
+          },
+          "expectedResponse": {
+            "type": "array",
+            "description": "<p>The indicator requesting data to be returned (at least one of the following):<br>- IDMS UID<br>- Complete Bar Coded Boarding Pass (BCBP) as per Reso 792 <br>- Simplified Reso 792 to optimize the IDMS process: From City Airport Code, Operating Carrier Designator, Flight Number, Date of Flight (Julian Date)<br>- Identity Document (Passenger Passport) <br>- All available data",
+            "items": {
+              "type": "string",
+              "enum": [
+                "boardingPass",
+                "simplifiedBoardingPass",
+                "identityDocument",
+                "uid"
+              ]
+            },
+            "example": [
+              "boardingPass",
+              "simplifiedBoardingPass",
+              "identityDocument",
+              "uid"
+            ]
+          },
+          "galleryName": {
+            "type": "string",
+            "description": "The name of the gallery used to identify the passenger. Gallery is a collection of biometric data (e.g., image(s) or template(s)) of passenger(s) along with an identifier that can be linked with passenger’s journey details"
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "the Date/time (UTC) when the request is sent to the IDMS, for request tracing and transaction performance management purposes",
+            "format": "date-time"
+          },
+          "deviceIdentifier": {
+            "type": "string",
+            "description": "Identifier of the touchpoint device"
+          }
+        },
+        "required": [
+          "biometricType",
+          "capturedImage",
+          "expectedResponse",
+          "galleryName",
+          "deviceIdentifier"
+        ],
+        "example": {
+          "biometricType": "face",
+          "capturedImage": "",
+          "expectedResponse": [
+            "boardingPass"
+          ],
+          "galleryName": "BA123",
+          "timestamp": "2019-08-24T14:15:22Z",
+          "deviceIdentifier": "NRTT1SABDD01"
+        }
+      },
+      "IdentificationResponse": {
+        "type": "object",
+        "title": "IdentificationResponse",
+        "description": "Match: unique match found, and return at least one of the following or all of them, as per the responseIndicator specified in the identification request\n- IDMS UID\n- Bar Coded Boarding Pass (BCBP) as per Reso 792\n- Subset of BCBP data elments to optimize the IDMS process: From City Airport Code, Operating Carrier Designator, Flight Number, Date of Flight (Julian Date)\n- Identity Document\n",
+        "properties": {
+          "boardingPass": {
+            "$ref": "#/components/schemas/BoardingPass"
+          },
+          "identityDocument": {
+            "$ref": "#/components/schemas/ElectronicPassport"
+          },
+          "uid": {
+            "$ref": "#/components/schemas/UniqueIdentifier"
+          },
+          "simplifiedBoardingPass": {
+            "$ref": "#/components/schemas/SimplifiedBoardingPass"
+          }
+        },
+        "example": {
+          "boardingPass": [
+            {
+              "paxSegment": [
+                {
+                  "checkInSeqNumber": 2,
+                  "compartmentTypeCode": "Y",
+                  "datedMarketingSegment": {
+                    "carrier": {
+                      "airlineDesigCode": "AC",
+                      "datedOperatingSegment": [
+                        {
+                          "contributoryLeg": [
+                            {
+                              "transportDep": {
+                                "aircraftScheduledDateTime": "2021-08-11T12:25:00.000Z"
+                              }
+                            }
+                          ],
+                          "destStation": {
+                            "iataLocationCode": "GVA"
+                          },
+                          "operatingCarrierFlightNumber": "885",
+                          "originStation": {
+                            "iataLocationCode": "YUL"
+                          }
+                        }
+                      ]
+                    },
+                    "datedOperatingSegment": {
+                      "contributoryLeg": [
+                        {
+                          "transportDep": {
+                            "aircraftScheduledDateTime": "2021-08-11T14:15:00.000Z"
+                          }
+                        }
+                      ],
+                      "destStation": {
+                        "iataLocationCode": "GVA"
+                      },
+                      "operatingCarrierFlightNumber": "885",
+                      "originStation": {
+                        "iataLocationCode": "YUL"
+                      }
+                    }
+                  },
+                  "pax": {
+                    "booking": {
+                      "bookingRefIdentifier": "ABC123"
+                    }
+                  },
+                  "paxStatusCode": "1",
+                  "seatAllocationExceptionCode": "GATE"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "BoardingPass": {
+        "type": "object",
+        "title": "Boarding Pass",
+        "description": "Boarding pass is a type of accountable document which is used electronically or physically as proof of authorisation/authentication of right to board a flight.",
+        "properties": {
+          "paxSegment": {
+            "type": "array",
+            "title": "Each Boarding Pass may have one or more Passenger Segments",
+            "description": "Transportation of a passenger on a Dated Operating Segment.",
+            "items": {
+              "$ref": "#/components/schemas/PaxSegment"
+            }
+          }
+        },
+        "example": {
+          "paxSegment": [
+            {
+              "checkInSeqNumber": 2,
+              "compartmentTypeCode": "Y",
+              "datedMarketingSegment": {
+                "carrier": {
+                  "airlineDesigCode": "AC",
+                  "datedOperatingSegment": [
+                    {
+                      "contributoryLeg": [
+                        {
+                          "transportDep": {
+                            "aircraftScheduledDateTime": "2021-08-11T12:25:00.000Z"
+                          }
+                        }
+                      ],
+                      "destStation": {
+                        "iataLocationCode": "GVA"
+                      },
+                      "operatingCarrierFlightNumber": "885",
+                      "originStation": {
+                        "iataLocationCode": "YUL"
+                      }
+                    }
+                  ]
+                },
+                "datedOperatingSegment": {
+                  "contributoryLeg": [
+                    {
+                      "transportDep": {
+                        "aircraftScheduledDateTime": "2021-08-11T14:15:00.000Z"
+                      }
+                    }
+                  ],
+                  "destStation": {
+                    "iataLocationCode": "GVA"
+                  },
+                  "operatingCarrierFlightNumber": "885",
+                  "originStation": {
+                    "iataLocationCode": "YUL"
+                  }
+                }
+              },
+              "pax": {
+                "booking": {
+                  "bookingRefIdentifier": "ABC123"
+                }
+              },
+              "paxStatusCode": "1",
+              "seatAllocationExceptionCode": "GATE"
+            }
+          ]
+        }
+      },
+      "PaxSegment": {
+        "type": "object",
+        "title": "Passenger Segment",
+        "description": "Transportation of a passenger on a Dated Operating Segment.",
+        "properties": {
+          "checkInSeqNumber": {
+            "$ref": "#/components/schemas/NaturalNumber",
+            "title": "Passenger Segment.Check In Sequence Number",
+            "description": "This is the check in sequence number for a passenger on a passenger segment"
+          },
+          "compartmentTypeCode": {
+            "$ref": "#/components/schemas/ClassOfServceTypeCode",
+            "title": "Passenger Segment.Compartment Type Code",
+            "description": "A Compartment Type code is a single character to represent the Class of service in an operational context. It will be linked to Resolution 728 Code Designators for passenger ticket."
+          },
+          "datedMarketingSegment": {
+            "$ref": "#/components/schemas/DatedMarketingSegment",
+            "title": "Each Passenger Segment must is sold from one and only one Dated Marketing Segment"
+          },
+          "pax": {
+            "$ref": "#/components/schemas/Pax",
+            "title": "Each Passenger Segment must Can be associated with many one and only one Passenger"
+          },
+          "paxStatusCode": {
+            "$ref": "#/components/schemas/PaxStatusCode",
+            "title": "Passenger Segment.Passenger Status Code",
+            "description": "The status of a passenger pre board and board. Including status of baggage as well as security and check in statuses."
+          },
+          "seatAllocationExceptionCode": {
+            "$ref": "#/components/schemas/SeatAllocationExceptionCode",
+            "title": "Passenger Segment.Seat Allocation Exception Code",
+            "description": "A code which identifies an exception to being able to allocate a seat to the passenger pre gate. Used in the boarding pass to optionally specify 'GATE' or 'STBY' if a seat has not been allocated. If a seat row and column have been specified then this attributes content would not be populated on the boarding pass."
+          }
+        }
+      },
+      "NaturalNumber": {
+        "type": "integer",
+        "title": "Natural_ Number",
+        "description": "A mathematical number used for counting (positive whole number or integer)."
+      },
+      "ClassOfServceTypeCode": {
+        "$ref": "#/components/schemas/ClassOfServiceTypeCodeEnum"
+      },
+      "ClassOfServiceTypeCodeEnum": {
+        "type": "string",
+        "title": "Class Of Service Type Code",
+        "description": "This is a single character token as defined in Resolution 728 CODE DESIGNATORS FOR PASSENGER TICKET"
+      },
+      "DatedMarketingSegment": {
+        "type": "object",
+        "title": "Dated Marketing Segment",
+        "description": "The commercial designation under which a Dated Operating Segment can be booked, either under the operating carrier's designator or that of another carrier (codeshare).",
+        "properties": {
+          "carrier": {
+            "$ref": "#/components/schemas/Carrier",
+            "title": "Each Dated Marketing Segment must is marketed by one and only one Carrier"
+          },
+          "datedOperatingSegment": {
+            "$ref": "#/components/schemas/DatedOperatingSegment",
+            "title": "Each Dated Marketing Segment must marketed as one and only one Dated Operating Segment"
+          }
+        }
+      },
+      "Carrier": {
+        "type": "object",
+        "title": "Carrier",
+        "description": "The organization which carries the passenger, baggage, or goods, and/or commits to delivering the carriage as well as any related services such as issuance of ticket, creation of Order, etc.",
+        "properties": {
+          "airlineDesigCode": {
+            "$ref": "#/components/schemas/AirlineDesigCode",
+            "title": "Carrier.Airline Designator Code",
+            "description": "Airline code assigned to a carrier. Either ICAO-defined 3-character code or IATA-defined 2-character code."
+          },
+          "datedOperatingSegment": {
+            "type": "array",
+            "title": "Each Carrier may is operated by one or more Carriers",
+            "description": "An operation between board point and any subsequent off point within the same flight designator. Could be one or more legs. Could also be used for other transport vehicles such as train or bus etc.",
+            "items": {
+              "$ref": "#/components/schemas/DatedOperatingSegment"
+            }
+          }
+        }
+      },
+      "AirlineDesigCode": {
+        "$ref": "#/components/schemas/AirlineDesigCodeEnum"
+      },
+      "AirlineDesigCodeEnum": {
+        "type": "string",
+        "title": "Airline Designator Code",
+        "description": "The codelist contents of IATA Resolution 762 airline codes, or of ICAO airline codes.",
+        "pattern": "^([A-Z]{3}|[A-Z]{2})|([0-9][A-Z])|([A-Z][0-9])$"
+      },
+      "DatedOperatingSegment": {
+        "type": "object",
+        "title": "Dated Operating Segment",
+        "description": "An operation between board point and any subsequent off point within the same flight designator. Could be one or more legs. Could also be used for other transport vehicles such as train or bus etc.",
+        "properties": {
+          "contributoryLeg": {
+            "type": "array",
+            "title": "Each Dated Operating Segment may be implemented by one or more Dated Operating Legs",
+            "description": "The nonstop operation of a transport vehicle between the departure station and the arrival station. Can be used for aircrafts as well as other transport vehicles such as train or bus etc.",
+            "items": {
+              "$ref": "#/components/schemas/DatedOperatingLeg"
+            }
+          },
+          "destStation": {
+            "$ref": "#/components/schemas/Station",
+            "title": "Each Dated Operating Segment must has one and only one Station"
+          },
+          "operatingCarrierFlightNumber": {
+            "$ref": "#/components/schemas/FlightNumberText",
+            "title": "Dated Operating Segment.Operating Carrier Flight Number",
+            "description": "The numerical designation of a flight as it is operated by a carrier."
+          },
+          "originStation": {
+            "$ref": "#/components/schemas/Station",
+            "title": "Each Dated Operating Segment must has one and only one Station"
+          }
+        }
+      },
+      "DatedOperatingLeg": {
+        "type": "object",
+        "title": "Dated Operating Leg",
+        "description": "The nonstop operation of a transport vehicle between the departure station and the arrival station. Can be used for aircrafts as well as other transport vehicles such as train or bus etc.",
+        "properties": {
+          "transportDep": {
+            "$ref": "#/components/schemas/TransportDep",
+            "title": "Each Dated Operating Leg must starts with one and only one Transport Departure"
+          }
+        }
+      },
+      "TransportDep": {
+        "type": "object",
+        "title": "Transport Departure",
+        "description": "The action or process of leaving of a transport vehicle from any place or location.",
+        "properties": {
+          "aircraftScheduledDateTime": {
+            "$ref": "#/components/schemas/DateTime",
+            "title": "Transport Departure.Aircraft Scheduled Date Time",
+            "description": "The Scheduled Date and Time of Departure of the aircraft at the terminal or departure gate at an airport."
+          }
+        }
+      },
+      "DateTime": {
+        "type": "string",
+        "title": "Date Time",
+        "description": "A date time identifies a date and time of day to various common resolutions: year, month, week, day, hour, minute, second, and fraction of second.",
+        "format": "date-time"
+      },
+      "Station": {
+        "type": "object",
+        "title": "Station",
+        "description": "Location or facility where air or surface transportation originates, stops and/or terminates, and where passengers and/or cargo can be taken on or off.",
+        "properties": {
+          "iataLocationCode": {
+            "$ref": "#/components/schemas/IataLocationCode",
+            "title": "Station.IATA Location Code",
+            "description": "IATA defined code identifying a city or station."
+          }
+        }
+      },
+      "IataLocationCode": {
+        "$ref": "#/components/schemas/IataLocationCodeEnum"
+      },
+      "IataLocationCodeEnum": {
+        "type": "string",
+        "title": "IATA Location Code",
+        "description": "Enumeration set for the Location Code BDT."
+      },
+      "FlightNumberText": {
+        "type": "string",
+        "title": "Flight Number_ Text",
+        "description": "Identifies a flight number. 1 to 4 digits. May or may not have leading zeros when less than 4 digits. The use of leading zeros does not create a different Flight Number. For example, Flight Numbers 123 and 0123 are the same."
+      },
+      "Pax": {
+        "type": "object",
+        "title": "Passenger",
+        "description": "A person except members of the crew carried or to be carried with the consent of the carrier, on board of any transport vehicle such as aircraft, train, bus, ship. Holds the attributes specific to a one booking, from shopping to fulfillment.",
+        "properties": {
+          "booking": {
+            "$ref": "#/components/schemas/Booking",
+            "title": "Each Passenger may has one and only one Booking"
+          }
+        }
+      },
+      "Booking": {
+        "type": "object",
+        "title": "Booking",
+        "description": "A booking or reservation.",
+        "properties": {
+          "bookingRefIdentifier": {
+            "$ref": "#/components/schemas/BookingRefIdentifier",
+            "title": "Booking.Booking Reference Identifier"
+          }
+        }
+      },
+      "BookingRefIdentifier": {
+        "type": "string",
+        "title": "Booking Reference_ Identifier",
+        "description": "Booking reference Identifier, also called Record Locator (6 characters)."
+      },
+      "PaxStatusCode": {
+        "$ref": "#/components/schemas/PaxStatusCodeEnum"
+      },
+      "PaxStatusCodeEnum": {
+        "type": "string",
+        "title": "Passenger Status Code",
+        "description": "This is defined by PSIB Passenger Status Information For Boarding code list. This specifies the different passenger statuses pre boarding."
+      },
+      "SeatAllocationExceptionCode": {
+        "$ref": "#/components/schemas/SeatAllocationExceptionCodeEnum"
+      },
+      "SeatAllocationExceptionCodeEnum": {
+        "type": "string",
+        "enum": [
+          "GATE",
+          "STBY"
+        ],
+        "title": "Seat Allocation Exception Code",
+        "description": "Lists the codes for exemption from seat allocation at issuance of boarding pass.Valid Values: GATE - Seat will be allocated at the gate only.; STBY - A seat will be allocated at the gate if there is a spare seat for this standby boarding pass."
+      },
+      "ElectronicPassport": {
+        "type": "object",
+        "title": "Electronic Passport Base Data",
+        "description": "Contains mandatory unpacked DG1 data.",
+        "properties": {
+          "dataGroup1": {
+            "$ref": "#/components/schemas/UnpackedDG1"
+          },
+          "portrait": {
+            "type": "string",
+            "title": "Holder Portrait",
+            "description": "Base64 encoded facial image extracted from DG2. The actual contentMediaType will be 'image/jpeg' or 'image/jp2' depending on the source image format.",
+            "format": "uri",
+            "pattern": "^data:image/(jpeg|jp2);base64,[A-Za-z0-9+/=]+$"
+          }
+        },
+        "required": [
+          "dataGroup1",
+          "portrait"
+        ],
+        "example": {
+          "dataGroup1": {
+            "birthDate": "790830",
+            "docTypeCode": "P",
+            "expiryDate": "290401",
+            "sexCode": "M",
+            "familyName": "HURLEY",
+            "givenName": "CHRISTOPHER",
+            "issuerCode": "GBR",
+            "natlCode": "IND",
+            "passportNumberIdentifier": "A1234567",
+            "personalNumber": "",
+            "mrzString": ""
+          },
+          "portrait": ""
+        }
+      },
+      "UnpackedDG1": {
+        "type": "object",
+        "title": "Data Group 1 (Unpacked MRZ Data)",
+        "description": "Unpacked data corresponding to the ePassport's Machine Readable Zone (MRZ) / Data Group 1 (DG1).",
+        "properties": {
+          "birthDate": {
+            "type": "string",
+            "title": "Birth Date (YYMMDD or YYMM<< or YY<<<< etc.)",
+            "description": "Date of birth as represented in the MRZ (6 characters: YYMMDD format, allowing '<' for unknown parts).",
+            "pattern": "^[0-9<]{6}$"
+          },
+          "docTypeCode": {
+            "type": "string",
+            "title": "Document Type Code",
+            "description": "Document code from MRZ (e.g., 'P<' for ePassport).",
+            "pattern": "^P[<A-Z]?$"
+          },
+          "expiryDate": {
+            "type": "string",
+            "title": "Expiry Date (YYMMDD)",
+            "description": "Expiry date of the passport (YYMMDD format).",
+            "pattern": "^[0-9]{6}$"
+          },
+          "sexCode": {
+            "type": "string",
+            "enum": [
+              "F",
+              "M",
+              "<"
+            ],
+            "title": "Sex Code",
+            "description": "Sex of the holder (F, M, or <)."
+          },
+          "familyName": {
+            "type": "string",
+            "title": "Family Name String",
+            "description": "Primary Identifier string (e.g., surname(s)) as extracted from the MRZ (the part before '<<'). May contain '<' characters if multiple components exist in the MRZ primary identifier."
+          },
+          "givenName": {
+            "type": "string",
+            "title": "Given Names String",
+            "description": "Secondary Identifier string (e.g., given/middle names) as extracted from the MRZ (the part after '<<'). May contain '<' characters if multiple components exist in the MRZ secondary identifier. Can be empty if no secondary identifier exists."
+          },
+          "issuerCode": {
+            "type": "string",
+            "title": "Issuing State/Organization Code",
+            "description": "3-letter code (ISO 3166-1 alpha-3) of the issuer.",
+            "pattern": "^[A-Z<]{1,3}$",
+            "minLength": 1,
+            "maxLength": 3
+          },
+          "natlCode": {
+            "type": "string",
+            "title": "Nationality Code",
+            "description": "3-letter code (ISO 3166-1 alpha-3) for nationality.",
+            "pattern": "^[A-Z<]{1,3}$",
+            "minLength": 1,
+            "maxLength": 3
+          },
+          "passportNumber": {
+            "type": "string",
+            "title": "Passport Number",
+            "description": "Passport number from MRZ.",
+            "maxLength": 9
+          },
+          "personalNumber": {
+            "type": "string",
+            "title": "Personal Number",
+            "description": "Content of the Personal Number / Optional Data field from MRZ line 2 (positions 29-42). May contain an issuer-specific number or filler characters.",
+            "minLength": 14,
+            "maxLength": 14
+          },
+          "mrzString": {
+            "type": "string",
+            "title": "Verbatim MRZ String - TD3 (ePassport)",
+            "description": "The full, verbatim Machine Readable Zone string.",
+            "pattern": "^[0-9A-Z<]{72,90}$",
+            "minLength": 72,
+            "maxLength": 90
+          }
+        },
+        "required": [
+          "birthDate",
+          "docTypeCode",
+          "expiryDate",
+          "sexCode",
+          "familyName",
+          "givenName",
+          "issuerCode",
+          "natlCode",
+          "mrzString"
+        ]
+      },
+      "UniqueIdentifier": {
+        "type": "string",
+        "title": "UniqueIdentifier",
+        "description": "An identifier internal to the IDMS in use, comprising, for example, a set of random numbers, hash functions, codes, or names, which is guaranteed to be unique within that IDMS that uniquely identifies the subject within the IDMS.",
+        "example": "TP019040100000001"
+      },
+      "SimplifiedBoardingPass": {
+        "type": "object",
+        "title": "Simplified Boarding Pass",
+        "description": "Data elements as per Reso 792 Boarding pass to optimize the IDMS process.",
+        "properties": {
+          "airlineDesigCode": {
+            "type": "string",
+            "title": "Operating Carrier Designator",
+            "description": "Airline code assigned to a carrier. Either ICAO-defined 3-character code or IATA-defined 2-character code.",
+            "pattern": "^([A-Z]{3}|[A-Z]{2})|([0-9][A-Z])|([A-Z][0-9])$"
+          },
+          "originStation": {
+            "type": "string",
+            "title": "Each Dated Operating Segment must has one and only one Station",
+            "description": "Location or facility where air or surface transportation originates, stops and/or terminates, and where passengers and/or cargo can be taken on or off."
+          },
+          "operatingCarrierFlightNumber": {
+            "type": "string",
+            "title": "Operating Carrier Flight Number",
+            "description": "The numerical designation of a flight as it is operated by a carrier."
+          },
+          "aircraftScheduledDateTime": {
+            "type": "string",
+            "title": "Transport Departure.Aircraft Scheduled Date Time",
+            "description": "The Scheduled Date and Time of Departure of the aircraft at the terminal or departure gate at an airport.",
+            "format": "date-time"
+          }
+        },
+        "example": {
+          "airlineDesigCode": "AC",
+          "originStation": "YUL",
+          "operatingCarrierFlightNumber": "885",
+          "aircraftScheduledDateTime": "2021-08-11T12:25:00.000Z"
+        }
+      },
+      "Errors": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "A unique identifier for this specific instance of the error"
+          },
+          "status": {
+            "type": "string",
+            "description": "The HTTP status code applicable to the error"
+          },
+          "code": {
+            "type": "string",
+            "description": "an application-specific error code"
+          },
+          "title": {
+            "type": "string",
+            "description": "A short, human-readable summary of the problem that **SHOULD NOT** change from occurrence to occurrence of the error, except for purposes of localization"
+          },
+          "language": {
+            "type": "string",
+            "description": "The code of the language used in the error message. Not required when the language is a variant of English"
+          },
+          "detail": {
+            "type": "string",
+            "description": "a human-readable explanation specific to this occurrence of the issue"
+          },
+          "url": {
+            "type": "string",
+            "description": "A link to an on-line description of the error where one COULD find statements pertaining to the consequences of the error and indications as to actions that might be taken and actions that should or must not be taken"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "VerificationRequest": {
+        "type": "object",
+        "title": "VerificationRequest",
+        "description": "The request sent from the touchpoint to the IDMS, for the Identity Verification (1:1)",
+        "properties": {
+          "capturedImage": {
+            "type": "string",
+            "description": "Base64 encoded passenger facial image captured real-time by the touchpoint device",
+            "format": "uri",
+            "pattern": "^data:image/(jpeg|jp2);base64,[A-Za-z0-9+/=]+$"
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "the Date/time (UTC) when the request is sent to the IDMS, for request tracing and transaction performance management purposes",
+            "format": "date-time"
+          },
+          "deviceIdentifier": {
+            "type": "string",
+            "description": "Identifier of the touchpoint device"
+          },
+          "referenceImage": {
+            "type": "string",
+            "title": "Holder Portrait",
+            "description": "Base64 encoded facial image extracted from electronical passport. The actual contentMediaType will be 'image/jpeg' or 'image/jp2' depending on the source image format.",
+            "format": "uri",
+            "pattern": "^data:image/(jpeg|jp2);base64,[A-Za-z0-9+/=]+$"
+          }
+        },
+        "required": [
+          "capturedImage",
+          "deviceIdentifier",
+          "referenceImage"
+        ],
+        "example": {
+          "capturedImage": "",
+          "timestamp": "2019-08-24T14:15:22Z",
+          "deviceIdentifier": "NRTT1SABDD01",
+          "referenceImage": ""
+        }
+      },
+      "VerificationBinaryRequest": {
+        "type": "object",
+        "title": "VerificationBinaryRequest",
+        "description": "The request sent from the touchpoint to the IDMS, for the Identity Verification (1:1)",
+        "properties": {
+          "capturedImage": {
+            "type": "string",
+            "title": "Captured image",
+            "description": "Binary encoded passenger facial image captured real-time by the touchpoint device",
+            "format": "binary"
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "the Date/time (UTC) when the request is sent to the IDMS, for request tracing and transaction performance management purposes",
+            "format": "date-time"
+          },
+          "deviceIdentifier": {
+            "type": "string",
+            "description": "Identifier of the touchpoint device"
+          },
+          "referenceImage": {
+            "type": "string",
+            "title": "Holder Portrait",
+            "description": "Binary encoded facial image extracted from electronical passport",
+            "format": "binary"
+          }
+        },
+        "required": [
+          "capturedImage",
+          "deviceIdentifier",
+          "referenceImage"
+        ],
+        "example": {
+          "capturedImage": "",
+          "timestamp": "2019-08-24T14:15:22Z",
+          "deviceIdentifier": "NRTT1SABDD01",
+          "referenceImage": ""
+        }
+      },
+      "MatchIndicator": {
+        "type": "boolean",
+        "title": "Match Indicator",
+        "description": "The indicator whether the captured image matches with the reference image in the passport, or the identity document",
+        "example": true
+      }
+    }
+  }
+}

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="1.000" id="IATA2022.1">
+	<xs:include schemaLocation="IATA_SimpleTypes.xsd"/>
+	<xs:include schemaLocation="IATA_CommonTypes.xsd"/>
+	<xs:include schemaLocation="IATA_AIDX_CommonTypes.xsd"/>
+	<xs:complexType name="FlightLegLinkGroundMovementType">
+		<xs:annotation>
+			<xs:documentation> Used to specify all the information for a flight leg relevant to fuelling. Version 0.3</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="GroundMovementIdentifier" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Uniquely identify a ground movement</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SpecialAction" nillable="true" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A special action which should be taken on the record.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:token">
+						<xs:enumeration value="Delete"/>
+						<xs:enumeration value="LockDown"/>
+						<xs:enumeration value="DoNotDisplay"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="GroundMovementData">
+				<xs:annotation>
+					<xs:documentation>Ground movement information.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PreviousGroundMovementIdentifier" type="GroundMovementIdentifierType" minOccurs="0" maxOccurs="1"/>
+						<xs:element name="AirportOperationLocation" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The airport at which an operation takes place.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="StationType">
+										<xs:attribute name="CodeContext" type="IATA_CodeType" use="optional">
+											<xs:annotation>
+												<xs:documentation>Specifies the context of the airport code, such as IATA or ICAO.  Refer to IATA PADIS Code List for data element 3055.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Cancelled" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+						<xs:element name="OperationTime" type="OperationTimeType" nillable="true" minOccurs="0" maxOccurs="99"/>
+						<xs:element name="GroundMovementAction" type="GroundMovementActionType" minOccurs="0" maxOccurs="1"/>
+						<xs:element name="AirportResources" type="GroundMovementAirportResourcesType" minOccurs="0" maxOccurs="2"/>
+						<xs:element name="AircraftInfo" type="AircraftInfoType" minOccurs="0"/>
+						<xs:choice>
+							<xs:annotation>
+								<xs:documentation>landing flight</xs:documentation>
+							</xs:annotation>
+							<xs:element name="PreviousFlightLegAircraft" type="AssociatedFlightLegAircraftType" nillable="true" minOccurs="0"/>
+							<xs:element name="PreviousGeneralAviationFlightLegAircraft" type="AssociatedGeneralAviationFlightLegAircraftType" nillable="true" minOccurs="0"/>
+						</xs:choice>
+						<xs:choice>
+							<xs:annotation>
+								<xs:documentation>departing flight</xs:documentation>
+							</xs:annotation>
+							<xs:element name="NextFlightLegAircraft" type="AssociatedFlightLegAircraftType" nillable="true" minOccurs="0"/>
+							<xs:element name="NextGeneralAviationFlightLegAircraft" type="AssociatedGeneralAviationFlightLegAircraftType" nillable="true" minOccurs="0"/>
+						</xs:choice>
+						<xs:element name="RemarkTextCode" type="RemarkTextCodeType" nillable="true" minOccurs="0" maxOccurs="50"/>
+						<xs:element name="RemarkFreeText" type="xs:string" nillable="true" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>'To be used for ad-hoc non-fixed remarks or information where a code set value is not defined, e.g. cargo load information which will constantly differ.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="TPA_Extension" type="TPA_ExtensionsType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Allows extensions to be added to the IATA specification per trading partner agreement.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- GroundMovement type based on AIDX type -->
+	<xs:simpleType name="GroundMovementActionType">
+		<xs:annotation>
+			<xs:documentation>Action to move the aircraft.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Engine"/>
+			<xs:enumeration value="Tow"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="GroundMovementIdentifierType">
+		<xs:annotation>
+			<xs:documentation>Uniquely identify a tow</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:complexType name="AircraftInfoType">
+		<xs:annotation>
+			<xs:documentation>Aircraft information for the the flight leg based on AIDX type.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AircraftType" nillable="true" minOccurs="0" maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>The IATA or ICAO aircraft type.  Use SSIM Appendix A.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="AlphaNumericStringLength1to4">
+							<xs:attribute name="CodeContext" type="IATA_CodeType">
+								<xs:annotation>
+									<xs:documentation>Specifies the context of the aircraft type code, i.e., IATA, ICAO or other.  Refer to IATA PADIS Code List for data element 3055.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AircraftSubType" type="StringLength3" nillable="true" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The IATA aircraft subtype.  Use SSIM Appendix A.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Registration" nillable="true" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The aircraft registration number as assigned by the aircraft manufacturer.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="10"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TailNumber" nillable="true" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The tail number as painted on the tail.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="5"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AgentInfo" nillable="true" minOccurs="0" maxOccurs="5">
+				<xs:annotation>
+					<xs:documentation>Identification of the handling agent for the ground movement.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="IATA_CodeType">
+							<xs:attribute name="Qualifier" type="IATA_CodeType" use="required">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">The handling agent type.  Refer to IATA PADIS Code List 3035.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="DepartureOrArrival" type="DepartureArrivalType" use="optional">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">Specifies if information is for the departure or arrival operation.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="RepeatIndex" type="Numeric1to99" use="optional">
+								<xs:annotation>
+									<xs:documentation>Identifies an order for a repeating item.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GroundMovementAirportResourcesType">
+		<xs:sequence>
+			<xs:element name="Resource" minOccurs="0" maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>The airport resources for a departure or arrival.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AircraftParkingPosition" type="AircraftParkingPositionType" nillable="true" minOccurs="0"/>
+					</xs:sequence>
+					<xs:attribute name="DepartureOrArrival" type="DepartureArrivalType" use="required">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Specifies if the resources are for a departure or arrival.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="Usage" type="UsageType" use="required">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">Specifies whether the resource usage is planned or actual.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<!-- -->
+	<!-- copied AIDX definitions now set up here as types -->
+	<!-- -->
+	<!-- -->
+</xs:schema>

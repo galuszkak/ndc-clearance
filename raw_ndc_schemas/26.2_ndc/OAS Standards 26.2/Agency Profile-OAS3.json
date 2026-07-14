@@ -1,0 +1,198 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "BSP Risk Monitoring – Agency Profile",
+    "description" : "At the time of offer and order management, the NDC Airline needs to know the up-to-date status of the Agency requesting transaction issuance. The Airline sends a request to IATA about an agency risk profile using the Agency code. In return, IATA provides the Airline with the status of Agency and Agency risk information, including Airline ticketing authority granted or not by the Airline to that Agency.",
+    "termsOfService" : "https://www.iata.org/Pages/terms.aspx",
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://apisbx.iata.org/bsp-risk-monitoring",
+    "description" : "Sandbox server (Basic Auth - Uses test data)"
+  }, {
+    "url" : "https://secure-api-nonprod.iata.org/bsp-risk-monitoring",
+    "description" : "Sandbox server (Mutual SSL - Uses test data)"
+  }, {
+    "url" : "https://secure-api-prod.iata.org/bsp-risk-monitoring",
+    "description" : "Production (Mutual/SSL)"
+  } ],
+  "tags" : [ {
+    "name" : "offer-management"
+  }, {
+    "name" : "order-management"
+  } ],
+  "paths" : {
+    "/v1/agencies/{iataNumber}/profile" : {
+      "get" : {
+        "tags" : [ "offer-management", "order-management" ],
+        "description" : "Query agency profile information for the given IATA agency number",
+        "operationId" : "GetBspRiskProfile",
+        "parameters" : [ {
+          "name" : "iataNumber",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "$ref" : "#/components/schemas/iataNumber"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/iataAgencyProfile"
+                }
+              }
+            },
+            "x-amf-mediaType" : "application/json"
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/errorResponse"
+                }
+              }
+            },
+            "x-amf-mediaType" : "application/json"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Not Found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/errorResponse"
+                }
+              }
+            },
+            "x-amf-mediaType" : "application/json"
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/errorResponse"
+                }
+              }
+            }
+          },
+          "503" : {
+            "description" : "Service Unavailable"
+          },
+          "504" : {
+            "description" : "Gateway Time-out"
+          }
+        },
+        "security" : [ {
+          "basicAuth" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "iataAgencyProfile" : {
+        "required" : [ "bspActiveStatusInd", "iataNumber" ],
+        "type" : "object",
+        "properties" : {
+          "iataNumber" : {
+            "$ref" : "#/components/schemas/iataNumber"
+          },
+          "bspActiveStatusInd" : {
+            "type" : "boolean"
+          },
+          "airlineTicketingAuthorityInd" : {
+            "type" : "boolean"
+          },
+          "pciDssComplianceInd" : {
+            "type" : "boolean"
+          },
+          "cashFopAllowedInd" : {
+            "type" : "boolean"
+          },
+          "cardFopAllowedInd" : {
+            "type" : "boolean"
+          },
+          "easyPayFopAllowedInd" : {
+            "type" : "boolean"
+          }
+        },
+        "example" : {
+          "iataNumber" : "9820019",
+          "bspActiveStatusInd" : true,
+          "cashFopAllowedInd" : true,
+          "cardFopAllowedInd" : true,
+          "easyPayFopAllowedInd" : false,
+          "pciDssComplianceInd" : true,
+          "airlineTicketingAuthorityInd" : true
+        }
+      },
+      "iataNumber" : {
+        "pattern" : "^[0-9]{8}$|^[0-9]{7}$",
+        "type" : "string"
+      },
+      "errorResponse" : {
+        "type" : "object",
+        "properties" : {
+          "errors" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/error"
+            }
+          }
+        }
+      },
+      "error" : {
+        "required" : [ "status" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "A unique identifier for this specific instance of the error."
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "The HTTP status code applicable to the error."
+          },
+          "code" : {
+            "type" : "string",
+            "description" : "An application-specific error code."
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "A short, human-readable summary of the problem."
+          },
+          "language" : {
+            "type" : "string",
+            "description" : "The code of the language used in the error message."
+          },
+          "detail" : {
+            "type" : "string",
+            "description" : "A human-readable explanation specific to this occurrence of the issue."
+          },
+          "url" : {
+            "type" : "string",
+            "description" : "A link to an on-line description of the error"
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "basicAuth" : {
+        "type" : "http",
+        "scheme" : "basic"
+      }
+    }
+  }
+}

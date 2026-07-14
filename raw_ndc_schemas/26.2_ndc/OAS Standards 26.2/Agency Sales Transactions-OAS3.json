@@ -1,0 +1,242 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "BSP Risk Monitoring – Agency Sales Transactions",
+    "description" : "In order for IATA to perform risk monitoring activities on an Agency in the context of BSP, the NDC Airline needs to send to IATA a set of sales data corresponding to the transaction just issued feeding the IATA internal risk monitoring engine. ",
+    "termsOfService" : "https://www.iata.org/Pages/terms.aspx",
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://apisbx.iata.org/bsp-risk-monitoring",
+    "description" : "Sandbox server (Basic Auth - Uses test data)"
+  }, {
+    "url" : "https://secure-api-nonprod.iata.org/bsp-risk-monitoring",
+    "description" : "Sandbox server (Mutual SSL - Uses test data)"
+  }, {
+    "url" : "https://secure-api-prod.iata.org/bsp-risk-monitoring",
+    "description" : "Production (Mutual/SSL)"
+  } ],
+  "tags" : [ {
+    "name" : "order-management"
+  } ],
+  "paths" : {
+    "/v1/agencies/sales-transactions" : {
+      "post" : {
+        "tags" : [ "order-management" ],
+        "description" : "Submit sales transaction to IATA real-time sales monitoring",
+        "operationId" : "PostBspSalesRiskTransaction",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/salesTrx"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "204" : {
+            "description" : "The request was processed but there is nothing to return."
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/errorResponse"
+                }
+              }
+            },
+            "x-amf-mediaType" : "application/json"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/errorResponse"
+                }
+              }
+            }
+          },
+          "503" : {
+            "description" : "Service Unavailable"
+          },
+          "504" : {
+            "description" : "Gateway Time-out"
+          }
+        },
+        "security" : [ {
+          "basicAuth" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "salesTrx" : {
+        "required" : [ "airlineAccountingCode", "countryCode", "curCode", "iataNumber", "issueDate", "ticketDocTypeCode", "ticketNumber", "trxStatusCode" ],
+        "type" : "object",
+        "properties" : {
+          "airlineAccountingCode" : {
+            "maxLength" : 3,
+            "type" : "string",
+            "example" : "999"
+          },
+          "countryCode" : {
+            "$ref" : "#/components/schemas/countryCode"
+          },
+          "curCode" : {
+            "$ref" : "#/components/schemas/curCode"
+          },
+          "iataNumber" : {
+            "$ref" : "#/components/schemas/iataNumber"
+          },
+          "issueDate" : {
+            "type" : "string",
+            "format" : "date-time",
+            "example" : "2018-11-01T14:59:00Z"
+          },
+          "ticketDocTypeCode" : {
+            "maxLength" : 3,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "PADIS 1001",
+            "example" : "702"
+          },
+          "ticketNumber" : {
+            "maxLength" : 14,
+            "minLength" : 13,
+            "type" : "string"
+          },
+          "totalAmount" : {
+            "multipleOf" : 0.01,
+            "type" : "number"
+          },
+          "trxStatusCode" : {
+            "type" : "string",
+            "enum" : [ "ISSUE", "VOID", "EXCHANGE", "ADCOL", "PARTIALREFUND", "FULLREFUND" ]
+          },
+          "trxPayments" : {
+            "maxItems" : 4,
+            "minItems" : 0,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/trxPayments"
+            }
+          }
+        },
+        "example" : {
+          "airlineAccountingCode" : "111",
+          "countryCode" : "FR",
+          "curCode" : "EUR",
+          "iataNumber" : "12345678",
+          "issueDate" : "2018-11-01T14:59:00Z",
+          "ticketDocTypeCode" : "702",
+          "ticketNumber" : "1259999999999",
+          "totalAmount" : 3600,
+          "trxStatusCode" : "ISSUE",
+          "trxPayments" : [ {
+            "amount" : 3600,
+            "typeCode" : "CA"
+          } ]
+        }
+      },
+      "countryCode" : {
+        "maxLength" : 2,
+        "pattern" : "^[A-Z]{2}$",
+        "type" : "string",
+        "description" : "ISO 3166 two-alpha Country Codes",
+        "example" : "GB"
+      },
+      "curCode" : {
+        "maxLength" : 3,
+        "pattern" : "^[0-9]{3}$|^[a-zA-Z]{3}",
+        "type" : "string",
+        "description" : "ISO 4217 https://www.iso.org/iso-4217-currency-codes.html ",
+        "example" : "840"
+      },
+      "paymentMethodCode" : {
+        "maxLength" : 35,
+        "type" : "string",
+        "description" : "PADIS 9888 Form of payment identification",
+        "example" : "CA"
+      },
+      "trxPayments" : {
+        "required" : [ "amount", "typeCode" ],
+        "type" : "object",
+        "properties" : {
+          "amount" : {
+            "multipleOf" : 0.01,
+            "type" : "number"
+          },
+          "typeCode" : {
+            "$ref" : "#/components/schemas/paymentMethodCode"
+          }
+        }
+      },
+      "iataNumber" : {
+        "pattern" : "^[0-9]{8}$|^[0-9]{7}$",
+        "type" : "string"
+      },
+      "errorResponse" : {
+        "type" : "object",
+        "properties" : {
+          "errors" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/error"
+            }
+          }
+        }
+      },
+      "error" : {
+        "required" : [ "status" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "A unique identifier for this specific instance of the error."
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "The HTTP status code applicable to the error."
+          },
+          "code" : {
+            "type" : "string",
+            "description" : "An application-specific error code."
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "A short, human-readable summary of the problem."
+          },
+          "language" : {
+            "type" : "string",
+            "description" : "The code of the language used in the error message."
+          },
+          "detail" : {
+            "type" : "string",
+            "description" : "A human-readable explanation specific to this occurrence of the issue."
+          },
+          "url" : {
+            "type" : "string",
+            "description" : "A link to an on-line description of the error"
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "basicAuth" : {
+        "type" : "http",
+        "scheme" : "basic"
+      }
+    }
+  }
+}

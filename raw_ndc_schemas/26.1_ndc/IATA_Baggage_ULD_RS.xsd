@@ -1,0 +1,1439 @@
+<?xml  version="1.0" encoding="UTF-8" ?>
+<xs:schema targetNamespace="http://www.iata.org/IATA/2015/00/2026.1/IATA_Baggage_ULD_RS" elementFormDefault="qualified" version="1.005" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2015/00/2026.1/IATA_Baggage_ULD_RS" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#"><xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema.xsd"/>
+<xs:element name="IATA_Baggage_ULD_RS">
+<xs:annotation>
+<xs:documentation>Result of baggage ULD handling from handler to airline</xs:documentation>
+</xs:annotation>
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Signature" type="dsig:SignatureType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Payload information for this notification message.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ULD_Allocation" type="ResultForULD_AllocationType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Active baggage ULD allocation (part of ULD journey) including relevant details</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:simpleType name="AgencyCodeContentType">
+<xs:annotation>
+<xs:documentation>The codelist contents of IATA handling agency organizations. {codeListAgencyIdentifier}3{/codeListAgencyIdentifier} {codeListAgencyName}IATA{/codeListAgencyName} {codeListName}Handling Agency Coded{/codeListName} {codeListIdentifier}BCL00AGT{/codeListIdentifier} </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token">
+<xs:pattern value="[0-9A-Z]{2,20}"></xs:pattern>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="AgencyCodeType">
+<xs:annotation>
+<xs:documentation>The agency operator code.</xs:documentation>
+</xs:annotation>
+<xs:restriction base="AgencyCodeContentType"></xs:restriction>
+</xs:simpleType>
+<xs:complexType name="AgencyType">
+<xs:annotation>
+<xs:documentation>An organization which acts on behalf of another.</xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="AgencyCode" type="AgencyCodeType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Code of the agency organization.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AgentType">
+<xs:annotation>
+<xs:documentation>A role of an individual person to be a staff of an agency</xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="Agency" type="AgencyType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>An organization which acts on behalf of another.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="AgentID" type="ID_Type" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Identifier of an agent as assigned by his/her agency.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="GivenName" type="ProperNameType" minOccurs="0" maxOccurs="5">
+<xs:annotation>
+<xs:documentation>A personal name given to the individual at birth and used before a family name. Also called first name. E.g. JOHN.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="Surname" type="ProperNameType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Individual's hereditary name(s) common to all members of a family. Also known as family name or last name. E.g. SMITH. Excludes any potential suffix.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="AirlineDesigCodeContentType">
+<xs:annotation>
+<xs:documentation>The codelist contents of IATA Resolution 762 airline codes, or of ICAO airline codes. {codeListAgencyName}IATA or ICAO{/codeListAgencyName} {codeListName}Resolution 762 Airline Codes or ICAO Airline Codes{/codeListName} </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token">
+<xs:pattern value="([A-Z]{3}|[A-Z]{2})|([0-9][A-Z])|([A-Z][0-9])"></xs:pattern>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="AirlineDesigCodeType">
+<xs:annotation>
+<xs:documentation>Either the IATA-defined 2-character code or the ICAO-defined 3-character code of an airline, as per the length of the value.</xs:documentation>
+</xs:annotation>
+<xs:restriction base="AirlineDesigCodeContentType"></xs:restriction>
+</xs:simpleType>
+<xs:complexType name="BaggageEventType">
+<xs:annotation>
+<xs:documentation>A thing that happens in context of baggage logistics. That is a completion and / or commencement of a change, or the outcome of a change, or the arrival of a pre-determined point in time. Specifically, not a thing that takes place.
+ </xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="ActualDateTime" type="DateTimeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Actual date and time of the activity.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="EventTriggerCode" type="EventTriggerCodeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Event Trigger Qualifier as per RP1745 section 2 .R Augmented Internal Airline Data</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="Facility" type="FacilityType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>An infrastructure (such as an airfield) that is built, installed, or established to serve a particular purpose
+ Examples: an aircraft stand, a baggage cart, a gate, a high loader
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="Scanner" type="ScannerType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>A device that scans objects and converts them into or extracts digital data. E.g. document scanner, barcode reader, biometric scanner.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="BaggageFacilityTypeCodeContentType">
+<xs:annotation>
+<xs:documentation>PSCRM edition 44 
+ RP1745-Annex 3.1 Additional Recommended Codes for Check in Location Identifier
+ RP1745-Annex 5.1 Location Categories {codeListAgencyName}IATA{/codeListAgencyName} {codeListName}Baggage Location Identifier or Category{/codeListName} {codeListIdentifier}RP1745 Attachment A section 3.1 plus 5.1{/codeListIdentifier} </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token">
+<xs:pattern value="[A-Z]{2,4}"></xs:pattern>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="BaggageFacilityTypeCodeType">
+<xs:annotation>
+<xs:documentation>A code is a character string of letters, numbers, special characters (except escape sequences), and symbols.
+ This code classifies bag handling locations (subset of all locations)</xs:documentation>
+</xs:annotation>
+<xs:restriction base="BaggageFacilityTypeCodeContentType"></xs:restriction>
+</xs:simpleType>
+<xs:complexType name="BaggageFacilityTypeType">
+<xs:annotation>
+<xs:documentation>A classification of Facility according to Facility Type</xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="BaggageFacilityTypeCode" type="BaggageFacilityTypeCodeType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Codification of type</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="BaggageIncidentType">
+<xs:annotation>
+<xs:documentation>An Event that occurs spontaneously about a bag, and to which the organization is required to respond.
+ </xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="BagIncidentID" type="ID_Type" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Identifier of the incident.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ScreeningAlarmCode" type="ScreeningAlarmCodeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Code of the screening alarm.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="BaggageProcessCodeContentType">
+<xs:annotation>
+<xs:documentation>The codelist contents of IATA Recommendation 1745 Attachment A Process Source Indicator Codes {codeListAgencyIdentifier}3{/codeListAgencyIdentifier} {codeListAgencyName}IATA{/codeListAgencyName} {codeListName}Recommendation 1745 Attach A Process Source Indicator Codes{/codeListName} {codeListIdentifier}BCL10019{/codeListIdentifier} </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token">
+<xs:enumeration value="F">
+<xs:annotation>
+<xs:documentation>Arrivals (transfering) Process</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="L">
+<xs:annotation>
+<xs:documentation>Departing Process</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="T">
+<xs:annotation>
+<xs:documentation>Transfering Process (Departure)</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="X">
+<xs:annotation>
+<xs:documentation>Arrivals (Terminating) Process</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="BaggageProcessCodeType">
+<xs:annotation>
+<xs:documentation>The baggage process code of the process interaction</xs:documentation>
+</xs:annotation>
+<xs:restriction base="BaggageProcessCodeContentType"></xs:restriction>
+</xs:simpleType>
+<xs:complexType name="BaggageProcessType">
+<xs:annotation>
+<xs:documentation>A series of tasks or steps taken in order to achieve a particular end in the context of baggage logistics.
+ </xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="Agent" type="AgentType" minOccurs="0" maxOccurs="unbounded">
+<xs:annotation>
+<xs:documentation>A role of an individual person to be a staff of an agency</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="BaggageEvent" type="BaggageEventType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>A thing that happens in context of baggage logistics. That is a completion and / or commencement of a change, or the outcome of a change, or the arrival of a pre-determined point in time. Specifically, not a thing that takes place.
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="BaggageProcessCode" type="BaggageProcessCodeType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Top level baggage process name. 
+ Distinguishes between Local departing baggage (L), Transfer arriving baggage (F), Transfer departing baggage (T), and Terminating arriving baggage (X)</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="BaggageSubProcessCode" type="BaggageSubProcessCodeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Secondary level baggage process naming
+ Follows baggage journey (bag, cart, ULD)</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="BaggageSubSubProcessCode" type="BaggageSubSubProcessCodeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Tertiary level of baggage process identification
+ Reports the task level</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="DescText" type="TextType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Description of the process</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="BaggageStatusesType">
+<xs:annotation>
+<xs:documentation>A set of statuses of baggage at a particular time in a process.
+ </xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="ConformanceStateCode" type="ConformanceStateCodeType" minOccurs="0" maxOccurs="10">
+<xs:annotation>
+<xs:documentation>Expresses conformance enforcements over the baggage item
+ 
+ closed, sealed, screened, inspected, verified, reconciled</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ControlStateCode" type="ControlStateCodeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Expresses control over the baggage item
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="IncidentStateCode" type="IncidentStateCodeType" minOccurs="0" maxOccurs="10">
+<xs:annotation>
+<xs:documentation>Tracks various incidents 
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="BaggageSubProcessCodeContentType">
+<xs:annotation>
+<xs:documentation>To be named {codeListAgencyIdentifier}3{/codeListAgencyIdentifier} {codeListAgencyName}IATA{/codeListAgencyName} {codeListName}To be named{/codeListName} {codeListIdentifier}BCL10019{/codeListIdentifier} </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token">
+<xs:enumeration value="Acquire">
+<xs:annotation>
+<xs:documentation>Acquire from bagdrop or transfer</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="Deliver">
+<xs:annotation>
+<xs:documentation>Deliver step to passenger, or to transfer airline</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="Inspect">
+<xs:annotation>
+<xs:documentation>Inspection by customs step</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="Load">
+<xs:annotation>
+<xs:documentation>Loading step</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="Package">
+<xs:annotation>
+<xs:documentation>Packaging Step</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="Screen">
+<xs:annotation>
+<xs:documentation>Screening step</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="Unload">
+<xs:annotation>
+<xs:documentation>Unloading step</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="BaggageSubProcessCodeType">
+<xs:annotation>
+<xs:documentation>The baggage sub processcode of the process interaction</xs:documentation>
+</xs:annotation>
+<xs:restriction base="BaggageSubProcessCodeContentType"></xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="BaggageSubSubProcessCodeContentType">
+<xs:annotation>
+<xs:documentation>The codelist contents of IATA Baggage XML Baggage Sub Sub Process Codes {codeListAgencyIdentifier}3{/codeListAgencyIdentifier} {codeListAgencyName}IATA{/codeListAgencyName} {codeListName}Refer to Implementation Guide{/codeListName} </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token"></xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="BaggageSubSubProcessCodeType">
+<xs:annotation>
+<xs:documentation>The baggage sub sub process code of the process interaction</xs:documentation>
+</xs:annotation>
+<xs:restriction base="BaggageSubSubProcessCodeContentType"></xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="CarriageMediumCodeContentType">
+<xs:annotation>
+<xs:documentation>The codelist contents of IATA Recommendation 1745 Attachment a carriage medium codes {codeListAgencyIdentifier}3{/codeListAgencyIdentifier} {codeListAgencyName}IATA{/codeListAgencyName} {codeListName}Recommendation 1745 Attach A Carriage Medium Codes{/codeListName} {codeListIdentifier}BCL10056{/codeListIdentifier} </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token">
+<xs:enumeration value="AV">
+<xs:annotation>
+<xs:documentation>Airline VAN</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CO">
+<xs:annotation>
+<xs:documentation>Courier Van</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CR">
+<xs:annotation>
+<xs:documentation>Car Rental VAN</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="CS">
+<xs:annotation>
+<xs:documentation>Cruise Ship</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="HV">
+<xs:annotation>
+<xs:documentation>Hotel VAN</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="RA">
+<xs:annotation>
+<xs:documentation>Rail</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="CarriageMediumCodeType">
+<xs:annotation>
+<xs:documentation>The usage category code of the transport</xs:documentation>
+</xs:annotation>
+<xs:restriction base="CarriageMediumCodeContentType"></xs:restriction>
+</xs:simpleType>
+<xs:complexType name="CityType">
+<xs:annotation>
+<xs:documentation>A City (e.g., Dublin), town, or postal station (i.e., a postal service territory, often used in a military address, or metropolitan area)</xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="CityName" type="ProperNameType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>The name, expressed as text, of the city, town or village.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="CodeType">
+<xs:annotation>
+<xs:documentation>A code is a character string of letters, numbers, special characters (except escape sequences), and symbols.</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token"></xs:restriction>
+</xs:simpleType>
+<xs:complexType name="CollectionType">
+<xs:annotation>
+<xs:documentation>A collection reports when an item is (planned to be) collected at a facility potentially using a vehicle</xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="EarliestDateTime" type="DateTimeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Earliest or targetted time for collection</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="Facility" type="FacilityType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>An infrastructure (such as an airfield) that is built, installed, or established to serve a particular purpose
+ Examples: an aircraft stand, a baggage cart, a gate, a high loader
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="LatestDateTime" type="DateTimeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Latest time for collection</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="SurfaceTransportVehicle" type="SurfaceTransportVehicleType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>A means used for transporting people or goods, on land or water. E.g. train, bus, van, ship.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="CommodityCodeContentType">
+<xs:annotation>
+<xs:documentation>Codeset IATA Load Control - AHM 510, 1.1. {codeListAgencyName}IATA{/codeListAgencyName} {codeListName}AHM510 section 1.1 Load Information Codes{/codeListName} </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token">
+<xs:pattern value="[A-Z0-9]{1,2}"></xs:pattern>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="CommodityCodeType">
+<xs:annotation>
+<xs:documentation>Code set used with ULDs for segregation of bags and/or cargo for efficient load and unload from the aircraft and subsequent ground operations. Load information codes, known also as commodity codes, are defined by but not limited to IATA Load Control - AHM 510, 1.1.</xs:documentation>
+</xs:annotation>
+<xs:restriction base="CommodityCodeContentType"></xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="ConformanceStateCodeType">
+<xs:annotation>
+<xs:documentation>Codifies state of conformance enforcements</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token"></xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="ContainerHandlingTypeTextType">
+<xs:annotation>
+<xs:documentation>Free text field up to 8 characters</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:pattern value="[A-Z 0-9]{1,8}"></xs:pattern>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="ControlStateCodeType">
+<xs:annotation>
+<xs:documentation>Codifies Control</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token"></xs:restriction>
+</xs:simpleType>
+<xs:complexType name="DatedOperatingSegmentType">
+<xs:annotation>
+<xs:documentation>A collapsed view on an operation between board point and any subsequent off point within the same flight designator. Could be one or more legs. Could also be used for other transport vehicles such as train or bus etc.</xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="AircraftScheduledDepDateTime" type="DateTimeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Scheduled date and time of departure of the aircraft at the terminal or departure gate at an airport.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ArrivalIATA_LocationCode" type="IATA_LocationCodeType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>IATA defined code identifying a city or station.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ArrivalTerminalCode" type="IATA_TerminalCodeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Code of the terminal infrastructure facility, as defined by IATA SSIM Appendix D. For example: '2W'.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="CarrierDesigCode" type="AirlineDesigCodeType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>ICAO-defined 3-character code or IATA-defined 2-character code assigned to the carrier. For example: BA is British Airways PLC, 2C is SNCF and is also CMA CGM Air Cargo.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="DepIATA_LocationCode" type="IATA_LocationCodeType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>IATA defined code identifying a city or station.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="DepTerminalCode" type="IATA_TerminalCodeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Code of the terminal infrastructure facility, as defined by IATA SSIM Appendix D. For example: '2W'.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="FlightID_Date" type="DateType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>(UTC) date of the scheduled aircraft departure from the station of origin.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="FlightNumberText" type="FlightNumberTextType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Numerical designation of a flight as it is operated by a carrier.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="OperationalSuffixText" type="OperationalSuffixTextType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>from SIX XSD: Alphabetical character following a flight number assigned for operational purposes. SSIM: A code assigned by the administrating carrier for operational purposes.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="DateTimeType">
+<xs:annotation>
+<xs:documentation>A date time identifies a date and time of day to various common resolutions: year, month, week, day, hour, minute, second, and fraction of second.</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:dateTime"></xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="DateType">
+<xs:annotation>
+<xs:documentation>A date is a Gregorian calendar representation in various common resolutions: year, month, week, day.</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:date"></xs:restriction>
+</xs:simpleType>
+<xs:complexType name="DeliveringULD_AllocationType">
+<xs:annotation>
+<xs:documentation>A completed allocation of a ULD to a specific set of legs and a load position in vehicle performing the legs
+ </xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="AircraftScheduledDepDateTime" type="DateTimeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Scheduled date and time of departure of the aircraft at the terminal or departure gate at an airport.
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ArrivalIATA_LocationCode" type="IATA_LocationCodeType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>IATA defined code identifying a city or station.
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ArrivalTerminalCode" type="IATA_TerminalCodeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Code of the terminal infrastructure facility, as defined by IATA SSIM Appendix D. For example: '2W'.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="CarrierDesigCode" type="AirlineDesigCodeType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>ICAO-defined 3-character code or IATA-defined 2-character code assigned to the carrier. For example: BA is British Airways PLC, 2C is SNCF and is also CMA CGM Air Cargo
+ 
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ClassOfServiceCode" type="RBD_CodeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Code used to identify a particular Reservations Booking Designator. For example: P, J, W, M.
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="DeliveringJourneyOrdinal" type="OrdinalType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Indicates position in sequence of delivering ULD Allocations following the journey</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="DepIATA_LocationCode" type="IATA_LocationCodeType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>IATA defined code identifying a city or station.
+ 
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="DepTerminalCode" type="IATA_TerminalCodeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Code of the terminal infrastructure facility, as defined by IATA SSIM Appendix D. For example: '2W'.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="FlightID_Date" type="DateType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>(UTC) date of the scheduled aircraft departure from the station of origin.
+ 
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="FlightNumberText" type="FlightNumberTextType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Numerical designation of a flight as it is operated by a carrier.
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="OperationalSuffixText" type="OperationalSuffixTextType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>from SIX XSD: Alphabetical character following a flight number assigned for operational purposes. SSIM: A code assigned by the administrating carrier for operational purposes.
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DeliveryType">
+<xs:annotation>
+<xs:documentation>A delivery reports when an item is (planned to be) delivered at a facility potentially using a vehicle</xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="EarliestDateTime" type="DateTimeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Earliest or target time for delivery</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="Facility" type="FacilityType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>An infrastructure (such as an airfield) that is built, installed, or established to serve a particular purpose
+ Examples: an aircraft stand, a baggage cart, a gate, a high loader
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="LatestDateTime" type="DateTimeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Latest time for delivery</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="SurfaceTransportVehicle" type="SurfaceTransportVehicleType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>A means used for transporting people or goods, on land or water. E.g. train, bus, van, ship.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="EventTriggerCodeContentType">
+<xs:annotation>
+<xs:documentation>The codelist contents of IATA RP1745 ch 2.3.21 Event Trigger Qualifier {codeListAgencyIdentifier}3{/codeListAgencyIdentifier} {codeListAgencyName}IATA{/codeListAgencyName} {codeListName}IATA PSCRM - RP1745 ch 2.3.21 Event Trigger Qualifier{/codeListName} </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token">
+<xs:pattern value="[0-9]"></xs:pattern>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="EventTriggerCodeType">
+<xs:annotation>
+<xs:documentation>IATA RP1745 ch 2.3.21 Event Trigger Qualifier</xs:documentation>
+</xs:annotation>
+<xs:restriction base="EventTriggerCodeContentType"></xs:restriction>
+</xs:simpleType>
+<xs:complexType name="FacilityType">
+<xs:annotation>
+<xs:documentation>An infrastructure (such as an airfield) that is built, installed, or established to serve a particular purpose
+ Examples: an aircraft stand, a baggage cart, a gate, a high loader
+ </xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="BaggageFacilityType" type="BaggageFacilityTypeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>A classification of Facility according to Facility Type</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="FacilityID" type="ID_Type" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Identifies facility according to local conventions</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="GeospatialLocation" type="GeospatialLocationType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>A location with a spatial attribute, probably on the surface of the earth. For example: Longitude and Latitude</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="Name" type="ProperNameType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Names
+ e.g. A12</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="PostalAddress" type="PostalAddressType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>A natural or physical address used for postal service. May be a building address, airport address, etc.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="Station" type="StationType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>A Location or facility where air or surface transportation originates, stops and/or terminates, and where passengers and/or cargo can be taken on or off.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="FlightNumberTextType">
+<xs:annotation>
+<xs:documentation>Identifies a flight number. 
+ 1 to 4 digits. May or may not have leading zeros when less than 4 digits. The use of leading zeros does not create a different Flight Number. For example, Flight Numbers 123 and 0123 are the same.</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:pattern value="[0-9]{1,4}"></xs:pattern>
+</xs:restriction>
+</xs:simpleType>
+<xs:complexType name="GeospatialLocationType">
+<xs:annotation>
+<xs:documentation>A location with a spatial attribute, probably on the surface of the earth. For example: Longitude and Latitude</xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="PointElevationNumber" type="NumberType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>The number of the spatial location point elevation.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="PointLatitudeNumber" type="NumberType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>The number of the spatial location point latitude.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="PointLongitudeNumber" type="NumberType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>The number of the spatial location point longitude.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="HoldCompartmentID_Type">
+<xs:annotation>
+<xs:documentation>Identifies a Compartment. As per AHM505, compartments are numbered from the rear of the aircraft in descending order from 6 to 1. A second figure can indicate a section in a compartment starting from the front to the back and from right to left.</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token">
+<xs:pattern value="[0-6][0-9]"></xs:pattern>
+</xs:restriction>
+</xs:simpleType>
+<xs:complexType name="HoldCompartmentType">
+<xs:annotation>
+<xs:documentation>A space designated within a hold that can be containerized/palletized or not.
+ </xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="HoldCompartmentID" type="HoldCompartmentID_Type" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Identifies a compartment within a hold (compartment no). As per AHM505, compartments are numbered from 1 to 6. A second figure can indicate a section in a compartment starting from the front to the back and from right to left.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="HoldID" type="HoldID_Type" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Identifies a hold within a deck. Typical values include FWD (forward), AFT, BULK, MAIN (deck).
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="HoldID_Type">
+<xs:annotation>
+<xs:documentation>Specifies a Hold identifier (AFT, FWD, BULK)</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token">
+<xs:minLength value="1"></xs:minLength>
+<xs:maxLength value="10"></xs:maxLength>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="IATA_LocationCodeContentType">
+<xs:annotation>
+<xs:documentation>Enumeration set for the Location Code BDT. {codeListAgencyName}IATA{/codeListAgencyName} {codeListName}Location code{/codeListName} {enumerationURI}http://www.iata.org/publications/Pages/code-search.aspx{/enumerationURI}</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token">
+<xs:length value="3"></xs:length>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="IATA_LocationCodeType">
+<xs:annotation>
+<xs:documentation>Additional BDT to specify the codeset which defines the IATA airport or city codes.</xs:documentation>
+</xs:annotation>
+<xs:restriction base="IATA_LocationCodeContentType"></xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="IATA_TerminalCodeContentType">
+<xs:annotation>
+<xs:documentation>The code of the terminal infrastructure facility. {codeListAgencyName}IATA{/codeListAgencyName} {codeListName}SSIM Terminal Code (SSIM Appendix D){/codeListName} </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token">
+<xs:minLength value="1"></xs:minLength>
+<xs:maxLength value="4"></xs:maxLength>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="IATA_TerminalCodeType">
+<xs:annotation>
+<xs:documentation>The code of the terminal infrastructure facility, as defined by IATA SSIM Appendix D. Example: '2W'.</xs:documentation>
+</xs:annotation>
+<xs:restriction base="IATA_TerminalCodeContentType"></xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="ID_Type">
+<xs:annotation>
+<xs:documentation>An identifier is a character string used to uniquely identify one instance of an object within an identification scheme that is managed by an agency.</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token"></xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="IncidentStateCodeType">
+<xs:annotation>
+<xs:documentation>Codifies Incident State</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token"></xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="IndType">
+<xs:annotation>
+<xs:documentation>An indicator is a list of two mutually exclusive Boolean values that express the only possible states of a property.</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:boolean"></xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="InternalAirlineDataTextType">
+<xs:annotation>
+<xs:documentation>Free text field up to 59 characters</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:pattern value="[ -~]{1,59}"></xs:pattern>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="NumberType">
+<xs:annotation>
+<xs:documentation>A mathematical number that is assigned or is determined by calculation.</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:decimal"></xs:restriction>
+</xs:simpleType>
+<xs:complexType name="OnwardULD_AllocationType">
+<xs:annotation>
+<xs:documentation>An anticipated allocation of a ULD to a specific set of legs and a load position in vehicle performing the legs
+ </xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="AircraftScheduledDepDateTime" type="DateTimeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Scheduled date and time of departure of the aircraft at the terminal or departure gate at an airport.
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ArrivalIATA_LocationCode" type="IATA_LocationCodeType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>IATA defined code identifying a city or station.
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ArrivalTerminalCode" type="IATA_TerminalCodeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Code of the terminal infrastructure facility, as defined by IATA SSIM Appendix D. For example: '2W'.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="CarrierDesigCode" type="AirlineDesigCodeType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>ICAO-defined 3-character code or IATA-defined 2-character code assigned to the carrier. For example: BA is British Airways PLC, 2C is SNCF and is also CMA CGM Air Cargo
+ 
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ClassOfServiceCode" type="RBD_CodeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Code used to identify a particular Reservations Booking Designator. For example: P, J, W, M.
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="DepIATA_LocationCode" type="IATA_LocationCodeType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>IATA defined code identifying a city or station.
+ 
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="DepTerminalCode" type="IATA_TerminalCodeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Code of the terminal infrastructure facility, as defined by IATA SSIM Appendix D. For example: '2W'.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="FlightID_Date" type="DateType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>(UTC) date of the scheduled aircraft departure from the station of origin.
+ 
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="FlightNumberText" type="FlightNumberTextType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Numerical designation of a flight as it is operated by a carrier.
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="OnwardJourneyOrdinal" type="OrdinalType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Indicates position in sequence of onward ULD Allocations following the journey</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="OperationalSuffixText" type="OperationalSuffixTextType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>from SIX XSD: Alphabetical character following a flight number assigned for operational purposes. SSIM: A code assigned by the administrating carrier for operational purposes.
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="OperationalSuffixTextType">
+<xs:annotation>
+<xs:documentation>Defines the Operational Suffix which is appended to a flight number.</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:length value="1"></xs:length>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="OrdinalType">
+<xs:annotation>
+<xs:documentation>An ordinal number is an assigned mathematical number that represents order or sequence.</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:integer"></xs:restriction>
+</xs:simpleType>
+<xs:complexType name="PostalAddressType">
+<xs:annotation>
+<xs:documentation>A natural or physical address used for postal service. May be a building address, airport address, etc.</xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="BuildingRoomText" type="TextType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Additional address information including building name, room, apartment, or suite number.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="City" type="CityType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>A City (e.g., Dublin), town, or postal station (i.e., a postal service territory, often used in a military address, or metropolitan area)</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="LabelText" type="TextType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Used to differentiate multiple Postal Addresses of one contact. For example: AddressAtOrigin or AddressAtDestination.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="PO_BoxCode" type="CodeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Post office box. For example: P.O. Box 21.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="PostalCode" type="CodeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Postal code. For example: 11001, 11001-2345.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="StreetText" type="TextType" minOccurs="0" maxOccurs="2">
+<xs:annotation>
+<xs:documentation>Street name and number. For example: Main Street, 100 Main Street.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="ProperNameType">
+<xs:annotation>
+<xs:documentation>BDT with value constraints for proper, regular names (e.g. Individual Surname, Individual First Name, Company Name, etc.).</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token">
+<xs:minLength value="1"></xs:minLength>
+<xs:maxLength value="64"></xs:maxLength>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="RBD_CodeContentType">
+<xs:annotation>
+<xs:documentation>Enumeration values of RBD Codes as per PADIS codeset 9800. {codeListAgencyName}IATA{/codeListAgencyName} {codeListIdentifier}PADIS 9800{/codeListIdentifier} </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token"></xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="RBD_CodeType">
+<xs:annotation>
+<xs:documentation>Additional BDT to specify the RBD as defined in AIRIMP and SSIM.</xs:documentation>
+</xs:annotation>
+<xs:restriction base="RBD_CodeContentType"></xs:restriction>
+</xs:simpleType>
+<xs:complexType name="RecapInstructionULD_AllocationType">
+<xs:annotation>
+<xs:documentation>Recap of an instruction to allocate an ULD to a specific set of legs and a load position in vehicle performing the legs
+ </xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="ClassOfServiceCode" type="RBD_CodeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Code used to identify a particular RBD. For example: P, J, W, M.
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="Collection" type="CollectionType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>A collection reports when an item is (planned to be) collected at a facility potentially using a vehicle</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="Delivery" type="DeliveryType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>A delivery reports when an item is (planned to be) delivered at a facility potentially using a vehicle</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="InternalAirlineData" type="InternalAirlineDataTextType" minOccurs="0" maxOccurs="10">
+<xs:annotation>
+<xs:documentation>Internal Airline Data</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="SecurityControls" type="ULD_SegmentSecurityControlsType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>A set of principles or procedures according to which something is done on a particular segment of travel of an ULD</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ResultForULD_AllocationType">
+<xs:annotation>
+<xs:documentation>Resulting allocation of a ULD to a specific set of legs and a load position in vehicle performing the legs
+ </xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="BaggageProcess" type="BaggageProcessType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>A series of tasks or steps taken in order to achieve a particular end in the context of baggage logistics.
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="BaggageState" type="BaggageStatusesType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>A set of statuses of baggage at a particular time in a process.
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="CarryingSegment" type="DatedOperatingSegmentType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>A collapsed view on an operation between board point and any subsequent off point within the same flight designator. Could be one or more legs. Could also be used for other transport vehicles such as train or bus etc.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ClassOfServiceCode" type="RBD_CodeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Code used to identify a particular RBD. For example: P, J, W, M.
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="Collection" type="CollectionType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>A collection reports when an item is (planned to be) collected at a facility potentially using a vehicle</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="CommodityCode" type="CommodityCodeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Code set used with ULDs for segregation of bags and/or cargo for efficient load and unload from the aircraft and subsequent ground operations. Load information codes, known also as commodity codes, are defined by but not limited to IATA Load Control - AHM 510, 1.1.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ContainerHandlingType" type="ContainerHandlingTypeTextType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Container Handling Type expressed in free format 8 characters</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="DeliveringULD_Allocation" type="DeliveringULD_AllocationType" minOccurs="0" maxOccurs="unbounded">
+<xs:annotation>
+<xs:documentation>A completed allocation of a ULD to a specific set of legs and a load position in vehicle performing the legs
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="Delivery" type="DeliveryType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>A delivery reports when an item is (planned to be) delivered at a facility potentially using a vehicle</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="InternalAirlineData" type="InternalAirlineDataTextType" minOccurs="0" maxOccurs="10">
+<xs:annotation>
+<xs:documentation>Internal Airline Data</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="OnwardULD_Allocation" type="OnwardULD_AllocationType" minOccurs="0" maxOccurs="unbounded">
+<xs:annotation>
+<xs:documentation>An anticipated allocation of a ULD to a specific set of legs and a load position in vehicle performing the legs
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="RecapInstructions" type="RecapInstructionULD_AllocationType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Recap of an instruction to allocate an ULD to a specific set of legs and a load position in vehicle performing the legs
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="SegmentSecurityOutcomes" type="SegmentSecurityOutcomesType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>A set of outcomes of applying Segment Security Controls to Baggage Process</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ULD" type="ULD_Type" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>A Unit Load Device is a load carrying device which interfaces directly with aircraft loading and restraint systems and meets all restraint requirements without the use of supplementary equipment. Examples include containers, pallets and pallet nets.
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ULD_LoadPosition" type="ULD_LoadPositionType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>A subdivision of a containerized/palletized compartment.
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ScannerType">
+<xs:annotation>
+<xs:documentation>A device that scans objects and converts them into or extracts digital data. E.g. document scanner, barcode reader, biometric scanner.</xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="ScannerID" type="ID_Type" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Identifier of the technology device.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="ScreeningAlarmCodeContentType">
+<xs:annotation>
+<xs:documentation>The codelist contents of IATA Recommendation 1745 Attachment A Screening Alarm Reason Codes {codeListAgencyIdentifier}3{/codeListAgencyIdentifier} {codeListAgencyName}IATA{/codeListAgencyName} {codeListName}Recommendation 1745 Attach A Screening Alarm Reason Codes{/codeListName} {codeListIdentifier}BCL10014{/codeListIdentifier} </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token">
+<xs:enumeration value="C">
+<xs:annotation>
+<xs:documentation>combination of dark alarm and explosives</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="D">
+<xs:annotation>
+<xs:documentation>Dark alarm</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="E">
+<xs:annotation>
+<xs:documentation>Explosives</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="N">
+<xs:annotation>
+<xs:documentation>no decision</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="T">
+<xs:annotation>
+<xs:documentation>time out</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="ScreeningAlarmCodeType">
+<xs:annotation>
+<xs:documentation>The screening alarm code of the bag incident</xs:documentation>
+</xs:annotation>
+<xs:restriction base="ScreeningAlarmCodeContentType"></xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="ScreeningCommentTextType">
+<xs:annotation>
+<xs:documentation>Free text field up to 38 characters</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:pattern value="[A-Z 0-9]{1,38}"></xs:pattern>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="ScreeningInstructionCodeType">
+<xs:annotation>
+<xs:documentation>The screening instruction code of the security control</xs:documentation>
+</xs:annotation>
+<xs:restriction base="SecurityScreeningInstructionCodeContentType"></xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="ScreeningMethodCodeContentType">
+<xs:annotation>
+<xs:documentation>The codelist contents of IATA Recommendation 1745 Attachment A Screening Method Codes {codeListAgencyIdentifier}3{/codeListAgencyIdentifier} {codeListAgencyName}IATA{/codeListAgencyName} {codeListName}Recommendation 1745 Attach A Screening Method Codes{/codeListName} {codeListIdentifier}BCL10018{/codeListIdentifier} </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token">
+<xs:enumeration value="AT">
+<xs:annotation>
+<xs:documentation>Advanced Technology screening method</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="EBD">
+<xs:annotation>
+<xs:documentation>Explosive bulk detection screening method</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="ETD">
+<xs:annotation>
+<xs:documentation>Explosive trace detection screening method</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="HAND">
+<xs:annotation>
+<xs:documentation>Hand Search screening method</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="XRAY">
+<xs:annotation>
+<xs:documentation>X-ray screening method</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="ScreeningMethodCodeType">
+<xs:annotation>
+<xs:documentation>The screening method code of the method interaction</xs:documentation>
+</xs:annotation>
+<xs:restriction base="ScreeningMethodCodeContentType"></xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="SecurityScreeningEntityID_Type">
+<xs:annotation>
+<xs:documentation>The result qualifier, identifying the entity that generated the Security Screening Result
+ 
+ </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token">
+<xs:pattern value="[A-Z0-9]{1,8}"></xs:pattern>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="SecurityScreeningInstructionCodeContentType">
+<xs:annotation>
+<xs:documentation>The codelist contents of IATA recommended practice RP 1745 Attachment a screening instruction codes {codeListAgencyIdentifier}3{/codeListAgencyIdentifier} {codeListAgencyName}IATA{/codeListAgencyName} {codeListName}Recommendation 1745 Attach A Screening Instruction Codes{/codeListName} {codeListIdentifier}BCL10004{/codeListIdentifier} </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token">
+<xs:enumeration value="DEF">
+<xs:annotation>
+<xs:documentation>Default level of screening applies.</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="NON">
+<xs:annotation>
+<xs:documentation>No screening required conditional to applicable regulations.</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="PRE">
+<xs:annotation>
+<xs:documentation>Selected for increased level of screening</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="SEL">
+<xs:annotation>
+<xs:documentation>Selected for increased level of screening.</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="SecurityScreeningStatusCodeContentType">
+<xs:annotation>
+<xs:documentation>The codelist contents of IATA recommended practice RP 1745 Attachment a baggage security screening result codes {codeListAgencyIdentifier}3{/codeListAgencyIdentifier} {codeListAgencyName}IATA{/codeListAgencyName} {codeListName}Recommendation 1745 Attach A Baggage Security Screening Result Codes{/codeListName} {codeListIdentifier}BCL10049{/codeListIdentifier} </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token">
+<xs:enumeration value="CLR">
+<xs:annotation>
+<xs:documentation>Cleared, bag is cleared according to applicable regulations</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="REJ">
+<xs:annotation>
+<xs:documentation>Rejected, bag is rejected due to detected weapons, explosives or other dangerous devices</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+<xs:enumeration value="UCL">
+<xs:annotation>
+<xs:documentation>Unclear, bag is unclear due to indeterminate screening result</xs:documentation>
+</xs:annotation>
+</xs:enumeration>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="SecurityScreeningStatusCodeType">
+<xs:annotation>
+<xs:documentation>The security screening status code of the bag status</xs:documentation>
+</xs:annotation>
+<xs:restriction base="SecurityScreeningStatusCodeContentType"></xs:restriction>
+</xs:simpleType>
+<xs:complexType name="SegmentSecurityOutcomesType">
+<xs:annotation>
+<xs:documentation>A set of outcomes of applying Segment Security Controls to Baggage Process</xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="ContainerSealedInd" type="IndType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>The indicator of whether a container is sealed.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ScreeningComment" type="ScreeningCommentTextType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Free text (1 to 38 a/n Characters)</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ScreeningDeviceID" type="ID_Type" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Identifier, as defined by the manufacturer or airport, of the machine that has undertaken the screening activity and determined the screening result.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ScreeningEntityID" type="SecurityScreeningEntityID_Type" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>The result qualifier, identifying the entity that generated the Security Screening Result
+ 
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ScreeningMethodCode" type="ScreeningMethodCodeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Code of the function interaction screening method.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ScreeningResultReason" type="BaggageIncidentType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>An Event that occurs spontaneously about a bag, and to which the organization is required to respond.
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ScreeningResultStatusCode" type="SecurityScreeningStatusCodeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Code of the bag screening result status.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="StationType">
+<xs:annotation>
+<xs:documentation>A Location or facility where air or surface transportation originates, stops and/or terminates, and where passengers and/or cargo can be taken on or off.</xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="IATA_LocationCode" type="IATA_LocationCodeType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>IATA defined code identifying a city or station.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="SurfaceTransportID_Type">
+<xs:annotation>
+<xs:documentation>The identifier of a surface transport vehicle.</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token">
+<xs:minLength value="1"></xs:minLength>
+<xs:maxLength value="12"></xs:maxLength>
+</xs:restriction>
+</xs:simpleType>
+<xs:complexType name="SurfaceTransportVehicleType">
+<xs:annotation>
+<xs:documentation>A means used for transporting people or goods, on land or water. E.g. train, bus, van, ship.</xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="CarriageMediumCode" type="CarriageMediumCodeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>The code of the carriage medium, i.e. type of transport vehicle.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="SurfaceTransportID" type="SurfaceTransportID_Type" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>The identifier of the surface transport vehicle.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="TextType">
+<xs:annotation>
+<xs:documentation>Text is a character string such as a finite set of characters generally in the form of words of a language.</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string"></xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="ULD_LoadPositionID_Type">
+<xs:annotation>
+<xs:documentation>Specifies a ULD Load Position identifier.</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token">
+<xs:pattern value="[A-Z]{1,3}|[0-9]{1,4}[A-Z]"></xs:pattern>
+</xs:restriction>
+</xs:simpleType>
+<xs:complexType name="ULD_LoadPositionType">
+<xs:annotation>
+<xs:documentation>A subdivision of a containerized/palletized compartment.
+ </xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="HoldCompartment" type="HoldCompartmentType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>A space designated within a hold that can be containerized/palletized or not.
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ULD_LoadPositionID" type="ULD_LoadPositionID_Type" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Identifies a possible ULD position within the aircraft, using one of the patterns described in AHM505. E.g. A, BR, CDL, E3, 13,22L, 32P, 413, 1112O. May contain compartment number, row position, left-to-right position in a row.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="ULD_OwnerCodeContentType">
+<xs:annotation>
+<xs:documentation>Code set used with ULDs for segregation of bags for efficient load and unload from the aircraft and subsequent ground operations. 
+ The owner code consist of two alpha-numeric see attachment 'B' for list of currently assigned Owner Codes {codeListAgencyName}IATA{/codeListAgencyName} {codeListName}IATA ULD Codes for Identification{/codeListName} {codeListIdentifier}IATA ULD Regulation (ULDR){/codeListIdentifier} {enumerationURI}IATA ULD Regulations section 4{/enumerationURI}</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token">
+<xs:pattern value="[A-Z0-9]{2}"></xs:pattern>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="ULD_OwnerCodeType">
+<xs:annotation>
+<xs:documentation>Specifies ULD Owner code.</xs:documentation>
+</xs:annotation>
+<xs:restriction base="ULD_OwnerCodeContentType"></xs:restriction>
+</xs:simpleType>
+<xs:complexType name="ULD_SegmentSecurityControlsType">
+<xs:annotation>
+<xs:documentation>A set of principles or procedures according to which something is done on a particular segment of travel of an ULD</xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="AuthorityToLoadInd" type="IndType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>The authority to load indicator of the security control. An authority security control is an official permission; sanction from a security context.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="AuthorityToTransportInd" type="IndType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>The authority to transport indicator of the security control. An authority security control is an official permission; sanction from a security context.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="ScreeningInstructionCode" type="ScreeningInstructionCodeType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>The Screening Instruction of the security control. Security instruction control is a security control or a direction or order in a security context.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="ULD_SerialNumberID_Type">
+<xs:annotation>
+<xs:documentation>Specifies ULD Serial Number as per IATA ULD Regulations section 4</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token">
+<xs:pattern value="[0-9A-Z][0-9]{3,4}"></xs:pattern>
+</xs:restriction>
+</xs:simpleType>
+<xs:complexType name="ULD_Type">
+<xs:annotation>
+<xs:documentation>A Unit Load Device is a load carrying device which interfaces directly with aircraft loading and restraint systems and meets all restraint requirements without the use of supplementary equipment. Examples include containers, pallets and pallet nets.
+ </xs:documentation>
+</xs:annotation>
+<xs:sequence>
+<xs:element name="OwnerCode" type="ULD_OwnerCodeType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Specifies ULD Owner Code as per IATA ULD Regulations section 4
+ </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="SerialNumberID" type="ULD_SerialNumberID_Type" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Specifies ULD Serial Number as per IATA ULD Regulations section 4</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="TypeCode" type="ULD_TypeCodeType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Specifies ULD Type Code as per IATA ULD Regulations section 4</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="ULD_TypeCodeContentType">
+<xs:annotation>
+<xs:documentation>Code set used with ULDs for segregation of bags for efficient load and unload from the aircraft and subsequent ground operations. 
+ The type code consist of three characters, with the first character in alpha-numeric and the rest numeric {codeListAgencyName}IATA{/codeListAgencyName} {codeListName}IATA ULD Codes for Identification{/codeListName} {codeListIdentifier}IATA ULD Regulation (ULDR) {/codeListIdentifier} {enumerationURI}IATA ULD Regulations section 4{/enumerationURI}</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:token">
+<xs:pattern value="[A-Z][A-Z0-9]{2}"></xs:pattern>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="ULD_TypeCodeType">
+<xs:annotation>
+<xs:documentation>Specifies ULD Type codes.</xs:documentation>
+</xs:annotation>
+<xs:restriction base="ULD_TypeCodeContentType"></xs:restriction>
+</xs:simpleType>
+</xs:schema>

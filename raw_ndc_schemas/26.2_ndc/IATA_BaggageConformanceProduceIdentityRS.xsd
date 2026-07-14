@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- IATA Baggage Conformance Produce Identity Response v1.1 - Implementation Guide can be found here: https://extranet2.iata.org/sites/pemg/common-use-wg/tsg-webservices/Implementation%20Guide/Forms/AllItems.aspx -->
+<xs:schema xmlns="http://www.iata.org/IATA/2007/00" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iata.org/IATA/2007/00" elementFormDefault="qualified" version="1.002" id="IATA2022.1">
+	<xs:include schemaLocation="IATA_PBCS_CommonTypes.xsd"/>
+	<xs:element name="IATA_BaggageConformanceProduceIdentityRS">
+		<xs:annotation>
+			<xs:documentation>The response message for the Produce Identity operation in the BaggageConformance Services</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice>
+					<xs:sequence>
+						<xs:element name="Success">
+							<xs:annotation>
+								<xs:documentation>Standard way to indicate successful processing of an message.  Returning an empty element of this type indicates success.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="SuccessType"/>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Warnings" type="WarningsType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Used in conjunction with the Success element to define one or more business warnings.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Bag" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Container for Baggage Item information</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="GUID" type="GUID_Type" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>A Global Unique Identifier to identify the bag</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="BagTagNumber">
+										<xs:annotation>
+											<xs:documentation>The number issued to an item which may be reused by the system. This is also known as Licence Plate where the item is a bag.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="BaggageTagNumberType">
+													<xs:attribute name="IssuingAirlineCode" type="AirlineType" use="required">
+														<xs:annotation>
+															<xs:documentation>The issuing airline code of the bag tag number.</xs:documentation>
+														</xs:annotation>
+													</xs:attribute>
+													<xs:attribute name="TagStatus" type="StringLength1">
+														<xs:annotation>
+															<xs:documentation>Information about the status of an Items tag. A=active/I=inactive/N=not set</xs:documentation>
+														</xs:annotation>
+													</xs:attribute>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="NativeID" type="StringLength1to255" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>A unique Identifier native to the primary DCS to identify the bag. This Native ID is only to be used in the confines of this service. The intended use is to faciliate faster lookups for certain DCSs.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="TagPrinterIdentifier" type="StringLength1to255">
+										<xs:annotation>
+											<xs:documentation>The identification number for the printer</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="ExceptionType" type="StringLength1to255" minOccurs="0" maxOccurs="99">
+										<xs:annotation>
+											<xs:documentation>Baggage Exception type </xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="Remark" type="StringLength1to255" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Baggage Remark</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="Passenger">
+										<xs:annotation>
+											<xs:documentation>Passenger Party information  related to the bag</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="GUID" type="GUID_Type" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>A Global Unique Identifier to locate the passenger.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="NativeID" type="StringLength1to255" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>A unique Identifier native to the primary DCS to identify the passenger. This Native ID is only to be used in the confines of this service. The intended use is to faciliate faster lookups for certain DCSs.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="Name" type="PersonNameType">
+													<xs:annotation>
+														<xs:documentation>Set of name elements of passenger.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="CustomerLoyalty" minOccurs="0" maxOccurs="unbounded">
+													<xs:annotation>
+														<xs:documentation>Frequent flyer reference.  ProgramID=airline code, MembershipID=FF number.</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:attributeGroup ref="CustomerLoyaltyGroup"/>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Checkin" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Information that identifies the location where the check-in business event occurred.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="LocationIdentifier" type="StringLength1to255">
+													<xs:annotation>
+														<xs:documentation>Information that identifies the location where the check-in business event occurred. 	IATA RP1745 ".D" </xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="LocationDescription" type="StringLength1to255">
+													<xs:annotation>
+														<xs:documentation>Information that identifies the location where the check-in business event occurred.	IATA RP1745 ".D" </xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="DateTime" type="xs:dateTime">
+													<xs:annotation>
+														<xs:documentation>The date and time value for the Check In of the Bag	IATA RP1745 ".D" </xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Segment" maxOccurs="99">
+										<xs:annotation>
+											<xs:documentation>The set of segment contains the bag's travel plan. A segment contains the movement between two airport facilities using a flight movement.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="NativeID" type="StringLength1to255" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>A unique Identifier native to the primary DCS to identify the segment. This Native ID is only to be used in the confines of this service. The intended use is to faciliate faster lookups for certain DCSs.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="Flight">
+													<xs:annotation>
+														<xs:documentation>Container for flight  movement information</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="NativeID" type="StringLength1to255" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>A unique Identifier native to the primary DCS to identify the flight. This Native ID is only to be used in the confines of this service. The intended use is to faciliate faster lookups for certain DCSs.</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="OperatingCarrier" type="AirlineType">
+																<xs:annotation>
+																	<xs:documentation>The operating carrier code.</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="FlightNumber" type="FlightNumberType">
+																<xs:annotation>
+																	<xs:documentation>The actual flight number.</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="OperationalSuffix" type="OperationalSuffixType" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>The operational suffix of the flight</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="MarketingCarrier" type="AirlineType" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>The marketing airline code. </xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="ScheduledDateOfDeparture" type="xs:date">
+																<xs:annotation>
+																	<xs:documentation>The scheduled date of departure of the flight</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="ScheduledTimeOfDeparture" type="xs:time" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>The scheduled time of departure of the flight</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="ScheduledDateOfArrival" type="xs:date" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>The date the flight is scheduled to arrive at the airport</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="ScheduledTimeOfArrival" type="xs:time" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>The time the flight is scheduled to arrive at the airport</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="DepartureAirport">
+													<xs:annotation>
+														<xs:documentation>The departure airport facility</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="AirportCode" type="StationType">
+																<xs:annotation>
+																	<xs:documentation>The code of the Airport</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="AirportFullName" type="FreeTextType" minOccurs="0" maxOccurs="99">
+																<xs:annotation>
+																	<xs:documentation>A list with the full names of the airport, like Amsterdam Airport Schiphol. The list supports names in different languages.</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="Terminal" type="StringLength1to255" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>The terminal , for example Terminal B</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="BayPier" type="StringLength1to255" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>The bay or pier</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="Gate" type="StringLength1to255" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>The gate, for example E23</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="Stand" type="StringLength1to255" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>The stand</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="Reclaim" type="StringLength1to255" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>The bay or pier</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="SourceIndicator" type="StringLength1">
+																<xs:annotation>
+																	<xs:documentation>The source of the bag or passenger segment of travel. For Departure Airport this can be L=Local, T=Transfer, or R= Remote. For Arrival Airports this can be X=terminating T=Transfer. IATA RP1745 ".V" </xs:documentation>
+																</xs:annotation>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="ArrivalAirport">
+													<xs:annotation>
+														<xs:documentation>The arrival airport facility</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="AirportCode" type="StationType">
+																<xs:annotation>
+																	<xs:documentation>The Airport Code</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="ArrivalAirportFullName" type="FreeTextType" minOccurs="0" maxOccurs="99">
+																<xs:annotation>
+																	<xs:documentation>A list with the full names of the airport, like Heathrow Airport. The list enables names in different languages.</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="BayPier" type="StringLength1to255" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>The bay or pier</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="Gate" type="StringLength1to255" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>The gate, for example E23</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="Stand" type="StringLength1to255" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>The stand</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="Reclaim" type="StringLength1to255" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>The bay or pier</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="Terminal" type="StringLength1to255" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>The terminal , for example Terminal B</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="SourceIndicator" type="StringLength1">
+																<xs:annotation>
+																	<xs:documentation>The source of the bag or passenger segment of travel. For Departure Airport this can be L=Local, T=Transfer, or R= Remote. For Arrival Airports this can be X=terminating T=Transfer. IATA RP1745 ".V" </xs:documentation>
+																</xs:annotation>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="Reconciliation" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Container for Reconciliation information</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="AuthorityToLoad" type="xs:boolean" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Information that indicates if an item is authorised to load or not </xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="AuthorityToTransport" type="xs:boolean" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Information that indicates whether an item is authorised for transport</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="Passenger">
+													<xs:annotation>
+														<xs:documentation>Passenger data specific per segment</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="PNR" type="PNR_Type">
+																<xs:annotation>
+																	<xs:documentation>The Passenger Name Record  locator of the operating carrier</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="CabinType" type="AlphaLength1" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Carpartment Code / Cabin Class. See Resolution 728 for list of codes. e.g. Y (Economy/Coach), J (Business), F (First), W (Premium Economy)</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="SeatNumber" type="AlphaNumericStringLength1to4" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Seat assigned for passenger on the segment</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="PassengerStatus" type="StringLength1" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Information regarding status of passenger on this segment. See Resolution 792 attachment C for the values to be used</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="CheckInSequenceNumber" type="StringLength1to5" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>The checkin sequence number for the passenger on this segment. See Resolution 792 attachment A and C.</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="LoadSequenceNumber" type="StringLength1to5" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Information that identifies the item load sequence. </xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="LoadingLocation" type="StringLength1to255" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>The location where the bag is loaded on the airplane</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:element name="Errors" type="ErrorsType">
+						<xs:annotation>
+							<xs:documentation>Errors are returned if the request was unable to be processed.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="IATA_PayloadStdAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,587 @@
+{
+  "openapi" : "3.0.2",
+  "info" : {
+    "title" : "Flight Status API",
+    "description" : "IATA Open Air Standard API - Flight Status",
+    "contact" : {
+      "name" : "IATA Open Air team",
+      "email" : "openair@iata.org"
+    },
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://api.airline.com/",
+    "description" : "production environment url"
+  }, {
+    "url" : "https://test.api.airline.com",
+    "description" : "testing environment url"
+  } ],
+  "tags" : [ {
+    "name" : "communication-management"
+  } ],
+  "paths" : {
+    "/v1/flights" : {
+      "get" : {
+        "tags" : [ "communication-management" ],
+        "summary" : "Query the flights status information",
+        "parameters" : [ {
+          "name" : "airlineDesigCode",
+          "in" : "query",
+          "description" : "The airline code of the flight.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "pattern" : "^([A-Z]{3}|[A-Z]{2})|([0-9][A-Z])|([A-Z][0-9])$",
+            "type" : "string"
+          },
+          "example" : "ac"
+        }, {
+          "name" : "marketingCarrierFlightNumber",
+          "in" : "query",
+          "description" : "The marketing carrier flight number.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "pattern" : "^[0-9]{1,4}$",
+            "type" : "string"
+          },
+          "example" : "8086"
+        }, {
+          "name" : "departureAirport",
+          "in" : "query",
+          "description" : "IATA code of departure airport.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "pattern" : "^[A-Z]{3}$",
+            "type" : "string"
+          },
+          "example" : "YUL"
+        }, {
+          "name" : "departureCity",
+          "in" : "query",
+          "description" : "IATA code of departure city.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "pattern" : "^[A-Z]{3}$",
+            "type" : "string"
+          },
+          "example" : "YMQ"
+        }, {
+          "name" : "departureDate",
+          "in" : "query",
+          "description" : "The depature date and time of the flight.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "example" : "2020-02-27T00:00:00Z"
+        }, {
+          "name" : "arrivalAirport",
+          "in" : "query",
+          "description" : "IATA code of arrival airport.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "pattern" : "^[A-Z]{3}$",
+            "type" : "string"
+          },
+          "example" : "YUL"
+        }, {
+          "name" : "arrivalCity",
+          "in" : "query",
+          "description" : "IATA code of arrival city.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "pattern" : "^[A-Z]{3}$",
+            "type" : "string"
+          },
+          "example" : "YMQ"
+        }, {
+          "name" : "arrivalDate",
+          "in" : "query",
+          "description" : "The arrival date and time of the flight.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "example" : "2020-02-27T00:00:00Z"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Get the flights successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/datedMarketingSegment"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/errors"
+                  }
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Cannot find the flight",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/errors"
+                  }
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/errors"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "airlineDesigCode" : {
+        "pattern" : "^([A-Z]{3}|[A-Z]{2})|([0-9][A-Z])|([A-Z][0-9])$",
+        "type" : "string"
+      },
+      "iataLocationCode" : {
+        "pattern" : "^[A-Z]{3}$",
+        "type" : "string"
+      },
+      "iataTerminalCode" : {
+        "type" : "string"
+      },
+      "baggageClaim" : {
+        "type" : "object",
+        "properties" : {
+          "baggageClaimIdentifier" : {
+            "maxLength" : 6,
+            "minLength" : 1,
+            "type" : "string"
+          }
+        }
+      },
+      "boardingGate" : {
+        "type" : "object",
+        "properties" : {
+          "boardingGateIdentifier" : {
+            "maxLength" : 8,
+            "minLength" : 1,
+            "type" : "string"
+          }
+        }
+      },
+      "carrier" : {
+        "type" : "object",
+        "properties" : {
+          "airlineDesigCode" : {
+            "$ref" : "#/components/schemas/airlineDesigCode"
+          }
+        }
+      },
+      "datedMarketingSegment" : {
+        "required" : [ "datedOperatingSegment", "marketingCarrier" ],
+        "type" : "object",
+        "properties" : {
+          "marketingCarrierFlightNumber" : {
+            "pattern" : "^[0-9]{1,4}$",
+            "type" : "string"
+          },
+          "operationalSuffix" : {
+            "type" : "string"
+          },
+          "datedOperatingSegment" : {
+            "maxItems" : 1,
+            "minItems" : 1,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/datedOperatingSegment"
+            }
+          },
+          "marketingCarrier" : {
+            "maxItems" : 1,
+            "minItems" : 1,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/carrier"
+            }
+          }
+        },
+        "example" : {
+          "marketingCarrierFlightNumber" : "3662",
+          "datedOperatingSegment" : [ {
+            "operatingCarrierFlightNumber" : "1213",
+            "statusCode" : "SA",
+            "contributoryLeg" : [ {
+              "paxBoarding" : [ {
+                "estClosingDateTime" : "2020-02-27T11:15:00+01:00",
+                "estOpeningDateTime" : "2020-02-27T10:45:00+01:00",
+                "scheduledClosingDateTime" : "2020-02-27T11:15:00+01:00",
+                "scheduledOpeningDateTime" : "2020-02-27T10:45:00+01:00",
+                "statusCode" : "Not Started"
+              } ],
+              "transportArrival" : [ {
+                "aircraftScheduledDateTime" : "2020-02-27T12:45:00+01:00",
+                "estDateTime" : "2020-02-27T12:45:00+01:00",
+                "baggageClaim" : [ {
+                  "baggageClaimIdentifier" : "3"
+                } ],
+                "station" : [ {
+                  "iataLocationCode" : "FRA",
+                  "stationName" : "Frankfurt"
+                } ],
+                "terminal" : [ {
+                  "iataTerminalCode" : "1",
+                  "terminalName" : "1"
+                } ]
+              } ],
+              "transportDep" : [ {
+                "aircraftScheduledDateTime" : "2020-02-27T11:30:00+01:00",
+                "estDateTime" : "2020-02-27T11:30:00+01:00",
+                "boardingGate" : [ {
+                  "boardingGateIdentifier" : "A20"
+                } ],
+                "station" : [ {
+                  "iataLocationCode" : "GVA",
+                  "stationName" : "Geneva"
+                } ],
+                "terminal" : [ {
+                  "iataTerminalCode" : "1",
+                  "terminalName" : "1"
+                } ]
+              } ]
+            } ],
+            "datedOperatingFlight" : [ {
+              "administratingCarrierFlightNumberText" : "1213",
+              "flightIdentifierDate" : "2020-02-27",
+              "administratingCarrier" : [ {
+                "airlineDesigCode" : "LX"
+              } ]
+            } ],
+            "operatingCarrier" : [ {
+              "airlineDesigCode" : "LH"
+            } ]
+          } ],
+          "marketingCarrier" : [ {
+            "airlineDesigCode" : "LX"
+          } ]
+        }
+      },
+      "datedOperatingFlight" : {
+        "required" : [ "administratingCarrier" ],
+        "type" : "object",
+        "properties" : {
+          "administratingCarrierFlightNumberText" : {
+            "pattern" : "^[0-9]{1,4}$",
+            "type" : "string"
+          },
+          "flightIdentifierDate" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "operationalSuffixText" : {
+            "type" : "string"
+          },
+          "administratingCarrier" : {
+            "maxItems" : 1,
+            "minItems" : 1,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/carrier"
+            }
+          }
+        }
+      },
+      "datedOperatingLeg" : {
+        "required" : [ "transportArrival", "transportDep" ],
+        "type" : "object",
+        "properties" : {
+          "paxBoarding" : {
+            "maxItems" : 1,
+            "minItems" : 0,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/paxBoarding"
+            }
+          },
+          "transportArrival" : {
+            "maxItems" : 1,
+            "minItems" : 1,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/transportArrival"
+            }
+          },
+          "transportDep" : {
+            "maxItems" : 1,
+            "minItems" : 1,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/transportDep"
+            }
+          }
+        }
+      },
+      "datedOperatingSegment" : {
+        "required" : [ "datedOperatingFlight", "operatingCarrier" ],
+        "type" : "object",
+        "properties" : {
+          "operatingCarrierFlightNumber" : {
+            "pattern" : "^[0-9]{1,4}$",
+            "type" : "string"
+          },
+          "operationalSuffix" : {
+            "type" : "string"
+          },
+          "statusCode" : {
+            "maxLength" : 35,
+            "type" : "string",
+            "description" : "status code should be from PADIS 1245 codeset: Status indicator, coded"
+          },
+          "contributoryLeg" : {
+            "minItems" : 0,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/datedOperatingLeg"
+            }
+          },
+          "datedOperatingFlight" : {
+            "maxItems" : 1,
+            "minItems" : 1,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/datedOperatingFlight"
+            }
+          },
+          "operatingCarrier" : {
+            "maxItems" : 1,
+            "minItems" : 1,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/carrier"
+            }
+          }
+        }
+      },
+      "paxBoarding" : {
+        "type" : "object",
+        "properties" : {
+          "actualClosingDateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "actualOpeningDateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "estClosingDateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "estOpeningDateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "scheduledClosingDateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "scheduledOpeningDateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "statusCode" : {
+            "maxLength" : 35,
+            "type" : "string"
+          }
+        }
+      },
+      "station" : {
+        "type" : "object",
+        "properties" : {
+          "iataLocationCode" : {
+            "$ref" : "#/components/schemas/iataLocationCode"
+          },
+          "stationName" : {
+            "maxLength" : 256,
+            "minLength" : 1,
+            "type" : "string"
+          }
+        }
+      },
+      "terminal" : {
+        "type" : "object",
+        "properties" : {
+          "iataTerminalCode" : {
+            "$ref" : "#/components/schemas/iataTerminalCode"
+          },
+          "terminalName" : {
+            "type" : "string"
+          }
+        }
+      },
+      "transportArrival" : {
+        "required" : [ "station" ],
+        "type" : "object",
+        "properties" : {
+          "actualDateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "aircraftScheduledDateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "estDateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "baggageClaim" : {
+            "maxItems" : 1,
+            "minItems" : 0,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/baggageClaim"
+            }
+          },
+          "station" : {
+            "maxItems" : 1,
+            "minItems" : 1,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/station"
+            }
+          },
+          "terminal" : {
+            "maxItems" : 1,
+            "minItems" : 0,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/terminal"
+            }
+          }
+        }
+      },
+      "transportDep" : {
+        "required" : [ "station" ],
+        "type" : "object",
+        "properties" : {
+          "actualDateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "aircraftScheduledDateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "estDateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "boardingGate" : {
+            "maxItems" : 1,
+            "minItems" : 0,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/boardingGate"
+            }
+          },
+          "station" : {
+            "maxItems" : 1,
+            "minItems" : 1,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/station"
+            }
+          },
+          "terminal" : {
+            "maxItems" : 1,
+            "minItems" : 0,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/terminal"
+            }
+          }
+        }
+      },
+      "errors" : {
+        "type" : "object",
+        "properties" : {
+          "errors" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/error"
+            }
+          }
+        }
+      },
+      "error" : {
+        "required" : [ "status" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "string"
+          },
+          "code" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "language" : {
+            "type" : "string"
+          },
+          "details" : {
+            "type" : "string"
+          },
+          "url" : {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  }
+}

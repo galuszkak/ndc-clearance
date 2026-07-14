@@ -1,0 +1,22 @@
+<?xml  version="1.0" encoding="UTF-8" ?>
+<xs:schema targetNamespace="http://www.iata.org/IATA/2015/00/2026.2/IATA_Baggage_CartNotifRQ" elementFormDefault="qualified" version="2.000" xmlns:cns="http://www.iata.org/IATA/2015/00/2026.2/IATA_Baggage_CommonTypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iata.org/IATA/2015/00/2026.2/IATA_Baggage_CartNotifRQ" id="IATA2026.2"><xs:import namespace="http://www.iata.org/IATA/2015/00/2026.2/IATA_Baggage_CommonTypes" schemaLocation="IATA_Baggage_CommonTypes.xsd"/>
+<xs:element name="IATA_Baggage_CartNotifRQ">
+<xs:annotation>
+<xs:documentation>Notification of baggage cart to airline peer (interline, joint venture) or authority</xs:documentation>
+</xs:annotation>
+<xs:complexType>
+<xs:sequence>
+<xs:element name="CartRide" type="cns:NotifOfCartRideType" minOccurs="1" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Active baggage cart ride including relevant details</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="Signature" type="cns:DigitalSignatureType" minOccurs="0" maxOccurs="1">
+<xs:annotation>
+<xs:documentation>Payload information for this notification message.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:schema>
