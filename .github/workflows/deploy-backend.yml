@@ -6,7 +6,9 @@ on:
       - main
     paths:
       - 'backend/**'
+      - 'ndc_schemas/**'
       - 'ndc_content/**'
+      - 'iata_ndc_messages.json'
       - '.github/workflows/deploy-backend.yml'
 
 jobs:
