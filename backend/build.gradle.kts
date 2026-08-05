@@ -34,3 +34,11 @@ dependencies {
     testImplementation("io.ktor:ktor-server-test-host:3.5.1")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 }
+
+tasks.register<JavaExec>("precomputeDiffs") {
+    group = "build"
+    description = "Precompute schema diff JSON for all version pairs into ../ndc_diffs"
+    classpath = sourceSets["main"].runtimeClasspath
+    mainClass.set("com.ndc.validator.PrecomputeDiffsKt")
+    args = listOf("../ndc_schemas", "../ndc_diffs")
+}
