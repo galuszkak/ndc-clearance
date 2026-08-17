@@ -1,6 +1,10 @@
 <script lang="ts">
     import { untrack } from "svelte";
-    import { API_URL } from "../utils/config";
+    import {
+        diffFileUrl,
+        fetchGzippedJson,
+        invertDiff,
+    } from "../utils/diff-helpers";
     import type { MessageDiff } from "../utils/types";
 
     let { allVersions }: { allVersions: string[] } = $props();
@@ -22,22 +26,21 @@
         expandedMessages = {};
 
         try {
-            const res = await fetch(
-                `${API_URL}/api/diff?from=${fromVersion}&to=${toVersion}`,
-            );
-
-            if (!res.ok) {
-                const text = await res.text();
-                throw new Error(text || res.statusText);
+            if (fromVersion === toVersion) {
+                diffResults = [];
+                return;
             }
 
-            const data = await res.json();
+            const { url, reversed } = diffFileUrl(fromVersion, toVersion);
+            const data = await fetchGzippedJson(url);
 
             if (!Array.isArray(data)) {
-                throw new Error("Invalid API response: expected an array");
+                throw new Error("Invalid diff data: expected an array");
             }
 
-            diffResults = data as MessageDiff[];
+            diffResults = reversed
+                ? invertDiff(data as MessageDiff[])
+                : (data as MessageDiff[]);
         } catch (e: unknown) {
             error = e instanceof Error ? e.message : String(e);
         } finally {

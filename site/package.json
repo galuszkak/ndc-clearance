@@ -5,7 +5,8 @@
   "scripts": {
     "copy-schemas": "node scripts/copy-schemas.js",
     "copy-content": "node scripts/copy-content.js",
-    "copy-assets": "npm run copy-schemas && npm run copy-content",
+    "copy-diffs": "node scripts/copy-diffs.js",
+    "copy-assets": "npm run copy-schemas && npm run copy-content && npm run copy-diffs",
     "dev": "npm run copy-assets && astro dev",
     "build": "npm run copy-assets && astro build",
     "preview": "astro preview",
