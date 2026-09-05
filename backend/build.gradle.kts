@@ -1,7 +1,7 @@
 plugins {
     kotlin("jvm") version "2.4.10"
     kotlin("plugin.serialization") version "2.4.10"
-    id("io.ktor.plugin") version "3.5.1"
+    id("io.ktor.plugin") version "3.5.2"
 
 }
 
@@ -27,11 +27,11 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
     implementation("io.ktor:ktor-server-cors-jvm")
     implementation("io.ktor:ktor-server-sse-jvm")
-    implementation("io.modelcontextprotocol:kotlin-sdk:0.14.0")
-    implementation("com.posthog:posthog-server:2.7.5")
+    implementation("io.modelcontextprotocol:kotlin-sdk:0.15.0")
+    implementation("com.posthog:posthog-server:2.16.0")
 
 
-    testImplementation("io.ktor:ktor-server-test-host:3.5.1")
+    testImplementation("io.ktor:ktor-server-test-host:3.5.2")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 }
 
