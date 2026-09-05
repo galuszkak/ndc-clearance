@@ -45,21 +45,21 @@ jobs:
       - name: Build Shadow Jar
         run: ./gradlew shadowJar
 
-      - name: Install KraftKit
-        run: |
-          sudo mkdir -p /etc/apt/keyrings
-          curl -fsSL https://deb.pkg.kraftkit.sh/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/unikraft.gpg
-          echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/unikraft.gpg] https://deb.pkg.kraftkit.sh /" | sudo tee /etc/apt/sources.list.d/unikraft.list > /dev/null
-          sudo apt-get update
-          sudo apt-get install -y kraftkit
+      - name: Install Unikraft CLI
+        uses: unikraft/setup-action@v1
 
       - name: Deploy to Unikraft Cloud
+        env:
+          UNIKRAFT_PROFILE_ENV: "true"
+          UKC_TOKEN: ${{ secrets.UKC_TOKEN }}
+          UKC_METRO: ${{ secrets.UKC_METRO }}
+          DEPLOYMENT_NAME: ${{ secrets.UKC_DEPLOYMENT_NAME }}
         run: |
-          if kraft cloud instance get --token ${{ secrets.UKC_TOKEN }} ${{ secrets.UKC_DEPLOYMENT_NAME }} > /dev/null 2>&1; then
+          IMAGE=kgaluszka/ndc-clearance-backend:latest
+          unikraft build . --arch x86_64 --output "$IMAGE"
+          if unikraft instances get "$DEPLOYMENT_NAME" > /dev/null 2>&1; then
             echo "Instance exists. Removing..."
-            kraft cloud instance remove --token ${{ secrets.UKC_TOKEN }} ${{ secrets.UKC_DEPLOYMENT_NAME }}
+            unikraft instances delete "$DEPLOYMENT_NAME"
             sleep 5
           fi
-          kraft cloud deploy --token ${{ secrets.UKC_TOKEN }} --name ${{ secrets.UKC_DEPLOYMENT_NAME }} -p 443:8080 -M 4Gi -d mcp-ndc.sunrisehikers.io -e POSTHOG_API_KEY=${{ secrets.POSTHOG_API_KEY }}
-        env:
-          UKC_METRO: ${{ secrets.UKC_METRO }}
+          unikraft run --metro "$UKC_METRO" -n "$DEPLOYMENT_NAME" -p 443:8080/http+tls -m 4GiB --domain mcp-ndc.sunrisehikers.io --restart on-failure -e POSTHOG_API_KEY=${{ secrets.POSTHOG_API_KEY }} --image "$IMAGE"
