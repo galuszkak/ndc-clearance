@@ -11,4 +11,4 @@ WORKDIR /app
 COPY --from=build /app/build/libs/*-all.jar /app/app.jar
 COPY src/main/resources/schemas /app/schemas
 ENV SCHEMA_ROOT=/app/schemas
-CMD ["/usr/bin/java", "-jar", "/app/app.jar"]
+CMD ["/usr/bin/java", "-XX:+ExitOnOutOfMemoryError", "-XX:MaxRAMPercentage=70.0", "-jar", "/app/app.jar"]
