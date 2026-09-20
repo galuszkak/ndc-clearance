@@ -8,4 +8,5 @@ env:
 
 rootfs: ./Dockerfile
 
-cmd: ["/usr/bin/java", "-jar", "/app/app.jar"]
+# Keep JVM options aligned with Dockerfile CMD; this is the Unikraft start command.
+cmd: ["/usr/bin/java", "-XX:+ExitOnOutOfMemoryError", "-XX:MaxRAMPercentage=70.0", "-jar", "/app/app.jar"]
