@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import { MCP_URL } from "../utils/config";
 
 const vsCodeConfig = `{
-  "mcpServers": {
+  "servers": {
     "ndc-validator": {
       "type": "sse",
       "url": "${MCP_URL}"
@@ -13,7 +13,36 @@ const vsCodeConfig = `{
 
 const claudeConfig = `claude mcp add --transport sse ndc-validator ${MCP_URL}`;
 
-const geminiConfig = `gemini mcp add --transport sse ndc-validator ${MCP_URL}`;
+const cursorConfig = JSON.stringify(
+    {
+        mcpServers: { "ndc-validator": { url: MCP_URL } },
+    },
+    null,
+    2,
+);
+
+const antigravityConfig = JSON.stringify(
+    {
+        mcpServers: { "ndc-validator": { serverUrl: MCP_URL } },
+    },
+    null,
+    2,
+);
+
+const remoteArgs = ["-y", "mcp-remote", MCP_URL, "--transport", "sse-only"];
+const desktopConfig = JSON.stringify(
+    {
+        mcpServers: { "ndc-validator": { command: "npx", args: remoteArgs } },
+    },
+    null,
+    2,
+);
+
+const codexCommand = `codex mcp add ndc-validator -- npx -y mcp-remote "${MCP_URL}" --transport sse-only`;
+const codexConfig = `[mcp_servers.ndc-validator]
+command = "npx"
+args = ${JSON.stringify(remoteArgs)}
+startup_timeout_sec = 60`;
 
 const openCodeConfig = `{
   "mcp": {
@@ -103,7 +132,7 @@ const tools = [
                 </p>
                 <p>
                     NDC Clearance provides a live <strong>MCP Server</strong> that
-                    allows agents like Claude, Cursor, and VS Code Copilot to perform
+                    allows agents like Claude, Cursor, Antigravity, and Codex to perform
                     specialized tasks:
                 </p>
                 <ul
@@ -228,16 +257,19 @@ const tools = [
                 >
                     <h3 class="font-bold text-lg mb-4">Cursor (Agent Mode)</h3>
                     <p class="mb-4">
-                        Add the following to your Cursor MCP settings (Settings
-                        &gt; General &gt; MCP Servers &gt; Add new MCP server).
+                        Add this configuration to <code>.cursor/mcp.json</code>
+                        in your project, or <code>~/.cursor/mcp.json</code> for all
+                        projects.
                     </p>
                     <div class="mockup-code">
-                        <pre data-prefix="1"><code>Type: SSE</code></pre>
-                        <pre data-prefix="2"><code>URL: {MCP_URL}</code></pre>
+                        <pre><code>{cursorConfig}</code></pre>
                     </div>
                     <p class="mt-4 text-sm opacity-70">
-                        Alternatively, you can edit <code>config.json</code> manually
-                        (if accessible in your environment).
+                        See the <a
+                            class="link"
+                            href="https://cursor.com/docs/mcp"
+                            >Cursor MCP documentation</a
+                        >.
                     </p>
                 </div>
 
@@ -257,10 +289,14 @@ const tools = [
                         VS Code (GitHub Copilot)
                     </h3>
                     <p class="mb-4">
-                        Add this configuration to your MCP config file
-                        (typically <code
-                            >~/.config/Code/User/globalStorage/mcp-servers.json</code
-                        >):
+                        Add this configuration to <code>.vscode/mcp.json</code>
+                        in your project. For user-wide setup, run
+                        <strong>MCP: Open User Configuration</strong> from the Command
+                        Palette. See the <a
+                            class="link"
+                            href="https://code.visualstudio.com/docs/agent-customization/mcp-servers"
+                            >VS Code MCP documentation</a
+                        >.
                     </p>
                     <div class="mockup-code">
                         <pre><code>{vsCodeConfig}</code></pre>
@@ -281,17 +317,17 @@ const tools = [
                 >
                     <h3 class="font-bold text-lg mb-4">Claude for Desktop</h3>
                     <p class="mb-4">
-                        Add to your <code>claude_desktop_config.json</code>:
+                        With Node.js and npm installed, add this to your
+                        <code>claude_desktop_config.json</code>, then restart
+                        Claude. The <a
+                            class="link"
+                            href="https://github.com/punkpeye/mcp-remote"
+                            >mcp-remote bridge</a
+                        >
+                        connects the local process to our SSE endpoint:
                     </p>
                     <div class="mockup-code">
-                        <pre><code>{JSON.stringify({
-  "mcpServers": {
-    "ndc-validator": {
-      "type": "sse",
-      "url": MCP_URL
-    }
-  }
-}, null, 2)}</code></pre>
+                        <pre><code>{desktopConfig}</code></pre>
                     </div>
                 </div>
 
@@ -316,23 +352,89 @@ const tools = [
                     </div>
                 </div>
 
-                <!-- Gemini -->
+                <!-- Antigravity -->
                 <input
                     type="radio"
                     name="integration_tabs"
                     role="tab"
                     class="tab"
-                    aria-label="Gemini"
+                    aria-label="Antigravity"
                 />
                 <div
                     role="tabpanel"
                     class="tab-content bg-base-100 border-base-300 rounded-box p-6"
                 >
-                    <h3 class="font-bold text-lg mb-4">Gemini CLI</h3>
-                    <p class="mb-4">Run the following command:</p>
+                    <h3 class="font-bold text-lg mb-4">Google Antigravity</h3>
+                    <p class="mb-4">
+                        In the IDE's agent panel, open the <strong>…</strong> menu,
+                        select <strong>MCP Servers</strong>, then
+                        <strong>Manage MCP Servers</strong> and <strong
+                            >View raw config</strong
+                        >. Merge this entry into <code>mcp_config.json</code>'s
+                        <code>mcpServers</code> object and save:
+                    </p>
                     <div class="mockup-code">
-                        <pre data-prefix="$"><code>{geminiConfig}</code></pre>
+                        <pre><code>{antigravityConfig}</code></pre>
                     </div>
+                    <p class="mt-4 text-sm opacity-70">
+                        Reload the server configuration and check that
+                        <code>ndc-validator</code> exposes its tools. See the <a
+                            class="link"
+                            href="https://antigravity.google/docs/mcp?tab=ide"
+                            >Antigravity MCP documentation</a
+                        >.
+                    </p>
+                </div>
+
+                <!-- Codex -->
+                <input
+                    type="radio"
+                    name="integration_tabs"
+                    role="tab"
+                    class="tab"
+                    aria-label="Codex"
+                />
+                <div
+                    role="tabpanel"
+                    class="tab-content bg-base-100 border-base-300 rounded-box p-6"
+                >
+                    <h3 class="font-bold text-lg mb-4">
+                        Codex (CLI and IDE extension)
+                    </h3>
+                    <p class="mb-4">
+                        Install Node.js and npm, then run this command with the
+                        Codex CLI installed. Our endpoint uses SSE, so <code
+                            >mcp-remote</code
+                        > bridges it to Codex's supported stdio transport:
+                    </p>
+                    <div class="mockup-code">
+                        <pre data-prefix="$"><code>{codexCommand}</code></pre>
+                    </div>
+                    <p class="my-4">
+                        Alternatively, add this to <code
+                            >~/.codex/config.toml</code
+                        >, shared by the CLI and IDE extension. The longer
+                        startup timeout allows time for the bridge to download
+                        on first use:
+                    </p>
+                    <div class="mockup-code">
+                        <pre><code>{codexConfig}</code></pre>
+                    </div>
+                    <p class="mt-4 text-sm opacity-70">
+                        Run <code>codex mcp list</code> to confirm registration. Start
+                        a new Codex session and use <code>/mcp</code> to check the
+                        connection. See the
+                        <a
+                            class="link"
+                            href="https://developers.openai.com/codex/mcp"
+                            >Codex MCP documentation</a
+                        >
+                        and <a
+                            class="link"
+                            href="https://github.com/punkpeye/mcp-remote"
+                            >mcp-remote documentation</a
+                        >.
+                    </p>
                 </div>
 
                 <!-- OpenCode -->
