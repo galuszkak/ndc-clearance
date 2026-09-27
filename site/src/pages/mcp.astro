@@ -91,9 +91,15 @@ const tools = [
                 class="not-prose menu menu-sm bg-base-100 rounded-box w-full"
                 id="toc-menu"
             >
-                <li><a href="#overview">Overview</a></li>
-                <li><a href="#available-tools">Available Tools</a></li>
-                <li><a href="#integration-guide">Integration Guide</a></li>
+                <li>
+                    <a href="#overview">Overview</a>
+                </li>
+                <li>
+                    <a href="#available-tools">Available Tools</a>
+                </li>
+                <li>
+                    <a href="#integration-guide">Integration Guide</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -112,9 +118,9 @@ const tools = [
                         NDC schemas. Validate XML messages, explore versions,
                         and retrieve schema definitions instantly.
                     </p>
-                    <a href="#integration-guide" class="btn btn-primary"
-                        >Connect Now</a
-                    >
+                    <a href="#integration-guide" class="btn btn-primary">
+                        Connect Now
+                    </a>
                 </div>
             </div>
         </div>
@@ -126,40 +132,33 @@ const tools = [
             </h2>
             <div class="prose max-w-none">
                 <p>
-                    The <strong>Model Context Protocol (MCP)</strong> is an open standard
-                    that enables AI models to interact with external tools and data
-                    context.
+                    The <strong>Model Context Protocol (MCP)</strong> is an open
+                    standard that enables AI models to interact with external
+                    tools and data context.
                 </p>
                 <p>
-                    NDC Clearance provides a live <strong>MCP Server</strong> that
-                    allows agents like Claude, Cursor, Antigravity, and Codex to perform
-                    specialized tasks:
+                    NDC Clearance provides a live <strong>MCP Server</strong>{" "}
+                    that allows agents like Claude, Cursor, Antigravity, and
+                    Codex to perform specialized tasks:
                 </p>
-                <ul
-                    class="grid grid-cols-1 md:grid-cols-2 gap-4 not-prose mt-4"
-                >
-                    <li
-                        class="card bg-base-100 border border-base-200 shadow-sm"
-                    >
-                        <div
-                            class="card-body p-4 flex flex-row items-center gap-4"
-                        >
-                            <div
-                                class="bg-primary/10 p-2 rounded-lg text-primary"
-                            >
+                <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 not-prose mt-4">
+                    <li class="card bg-base-100 border border-base-200 shadow-sm">
+                        <div class="card-body p-4 flex flex-row items-center gap-4">
+                            <div class="bg-primary/10 p-2 rounded-lg text-primary">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     class="h-6 w-6"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
-                                    ><path
+                                >
+                                    <path
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
                                         stroke-width="2"
                                         d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                    ></path></svg
-                                >
+                                    ></path>
+                                </svg>
                             </div>
                             <div>
                                 <h3 class="font-bold">Xml Validation</h3>
@@ -170,28 +169,23 @@ const tools = [
                             </div>
                         </div>
                     </li>
-                    <li
-                        class="card bg-base-100 border border-base-200 shadow-sm"
-                    >
-                        <div
-                            class="card-body p-4 flex flex-row items-center gap-4"
-                        >
-                            <div
-                                class="bg-secondary/10 p-2 rounded-lg text-secondary"
-                            >
+                    <li class="card bg-base-100 border border-base-200 shadow-sm">
+                        <div class="card-body p-4 flex flex-row items-center gap-4">
+                            <div class="bg-secondary/10 p-2 rounded-lg text-secondary">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     class="h-6 w-6"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
-                                    ><path
+                                >
+                                    <path
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
                                         stroke-width="2"
                                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                                    ></path></svg
-                                >
+                                    ></path>
+                                </svg>
                             </div>
                             <div>
                                 <h3 class="font-bold">Schema Search</h3>
@@ -212,26 +206,24 @@ const tools = [
                 <span class="text-primary">#</span> Available Tools
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {
-                    tools.map((tool) => (
-                        <div class="card bg-base-100 shadow-md border border-base-200">
-                            <div class="card-body">
-                                <div class="flex items-center gap-3 mb-2">
-                                    <div
-                                        class="p-2 bg-base-200 rounded-md text-base-content"
-                                        set:html={tool.icon}
-                                    />
-                                    <h3 class="card-title font-mono text-lg">
-                                        {tool.name}
-                                    </h3>
-                                </div>
-                                <p class="text-base-content/80">
-                                    {tool.description}
-                                </p>
+                {tools.map((tool) => (
+                    <div class="card bg-base-100 shadow-md border border-base-200">
+                        <div class="card-body">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div
+                                    class="p-2 bg-base-200 rounded-md text-base-content"
+                                    set:html={tool.icon}
+                                />
+                                <h3 class="card-title font-mono text-lg">
+                                    {tool.name}
+                                </h3>
                             </div>
+                            <p class="text-base-content/80">
+                                {tool.description}
+                            </p>
                         </div>
-                    ))
-                }
+                    </div>
+                ))}
             </div>
         </section>
 
@@ -258,18 +250,18 @@ const tools = [
                     <h3 class="font-bold text-lg mb-4">Cursor (Agent Mode)</h3>
                     <p class="mb-4">
                         Add this configuration to <code>.cursor/mcp.json</code>
-                        in your project, or <code>~/.cursor/mcp.json</code> for all
-                        projects.
+                        in your project, or <code>~/.cursor/mcp.json</code> for
+                        all projects.
                     </p>
                     <div class="mockup-code">
                         <pre><code>{cursorConfig}</code></pre>
                     </div>
                     <p class="mt-4 text-sm opacity-70">
-                        See the <a
-                            class="link"
-                            href="https://cursor.com/docs/mcp"
-                            >Cursor MCP documentation</a
-                        >.
+                        See the{" "}
+                        <a class="link" href="https://cursor.com/docs/mcp">
+                            Cursor MCP documentation
+                        </a>
+                        .
                     </p>
                 </div>
 
@@ -291,12 +283,15 @@ const tools = [
                     <p class="mb-4">
                         Add this configuration to <code>.vscode/mcp.json</code>
                         in your project. For user-wide setup, run
-                        <strong>MCP: Open User Configuration</strong> from the Command
-                        Palette. See the <a
+                        <strong>MCP: Open User Configuration</strong> from the
+                        Command Palette. See the{" "}
+                        <a
                             class="link"
                             href="https://code.visualstudio.com/docs/agent-customization/mcp-servers"
-                            >VS Code MCP documentation</a
-                        >.
+                        >
+                            VS Code MCP documentation
+                        </a>
+                        .
                     </p>
                     <div class="mockup-code">
                         <pre><code>{vsCodeConfig}</code></pre>
@@ -319,11 +314,13 @@ const tools = [
                     <p class="mb-4">
                         With Node.js and npm installed, add this to your
                         <code>claude_desktop_config.json</code>, then restart
-                        Claude. The <a
+                        Claude. The{" "}
+                        <a
                             class="link"
                             href="https://github.com/punkpeye/mcp-remote"
-                            >mcp-remote bridge</a
                         >
+                            mcp-remote bridge
+                        </a>
                         connects the local process to our SSE endpoint:
                     </p>
                     <div class="mockup-code">
@@ -366,11 +363,11 @@ const tools = [
                 >
                     <h3 class="font-bold text-lg mb-4">Google Antigravity</h3>
                     <p class="mb-4">
-                        In the IDE's agent panel, open the <strong>…</strong> menu,
-                        select <strong>MCP Servers</strong>, then
-                        <strong>Manage MCP Servers</strong> and <strong
-                            >View raw config</strong
-                        >. Merge this entry into <code>mcp_config.json</code>'s
+                        In the IDE's agent panel, open the <strong>…</strong>{" "}
+                        menu, select <strong>MCP Servers</strong>, then
+                        <strong>Manage MCP Servers</strong> and{" "}
+                        <strong>View raw config</strong>. Merge this entry into{" "}
+                        <code>mcp_config.json</code>'s
                         <code>mcpServers</code> object and save:
                     </p>
                     <div class="mockup-code">
@@ -378,11 +375,14 @@ const tools = [
                     </div>
                     <p class="mt-4 text-sm opacity-70">
                         Reload the server configuration and check that
-                        <code>ndc-validator</code> exposes its tools. See the <a
+                        <code>ndc-validator</code> exposes its tools. See the{" "}
+                        <a
                             class="link"
                             href="https://antigravity.google/docs/mcp?tab=ide"
-                            >Antigravity MCP documentation</a
-                        >.
+                        >
+                            Antigravity MCP documentation
+                        </a>
+                        .
                     </p>
                 </div>
 
@@ -403,37 +403,40 @@ const tools = [
                     </h3>
                     <p class="mb-4">
                         Install Node.js and npm, then run this command with the
-                        Codex CLI installed. Our endpoint uses SSE, so <code
-                            >mcp-remote</code
-                        > bridges it to Codex's supported stdio transport:
+                        Codex CLI installed. Our endpoint uses SSE, so{" "}
+                        <code>mcp-remote</code> bridges it to Codex's supported
+                        stdio transport:
                     </p>
                     <div class="mockup-code">
                         <pre data-prefix="$"><code>{codexCommand}</code></pre>
                     </div>
                     <p class="my-4">
-                        Alternatively, add this to <code
-                            >~/.codex/config.toml</code
-                        >, shared by the CLI and IDE extension. The longer
-                        startup timeout allows time for the bridge to download
-                        on first use:
+                        Alternatively, add this to{" "}
+                        <code>~/.codex/config.toml</code>, shared by the CLI and
+                        IDE extension. The longer startup timeout allows time
+                        for the bridge to download on first use:
                     </p>
                     <div class="mockup-code">
                         <pre><code>{codexConfig}</code></pre>
                     </div>
                     <p class="mt-4 text-sm opacity-70">
-                        Run <code>codex mcp list</code> to confirm registration. Start
-                        a new Codex session and use <code>/mcp</code> to check the
-                        connection. See the
+                        Run <code>codex mcp list</code> to confirm registration.
+                        Start a new Codex session and use <code>/mcp</code> to
+                        check the connection. See the
                         <a
                             class="link"
                             href="https://developers.openai.com/codex/mcp"
-                            >Codex MCP documentation</a
                         >
-                        and <a
+                            Codex MCP documentation
+                        </a>
+                        and{" "}
+                        <a
                             class="link"
                             href="https://github.com/punkpeye/mcp-remote"
-                            >mcp-remote documentation</a
-                        >.
+                        >
+                            mcp-remote documentation
+                        </a>
+                        .
                     </p>
                 </div>
 
@@ -450,7 +453,9 @@ const tools = [
                     class="tab-content bg-base-100 border-base-300 rounded-box p-6"
                 >
                     <h3 class="font-bold text-lg mb-4">OpenCode Interpreter</h3>
-                    <p class="mb-4">Add to your <code>opencode.json</code>:</p>
+                    <p class="mb-4">
+                        Add to your <code>opencode.json</code>:
+                    </p>
                     <div class="mockup-code">
                         <pre><code>{openCodeConfig}</code></pre>
                     </div>

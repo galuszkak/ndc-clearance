@@ -20,45 +20,41 @@ const flows = getFlows();
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {
-                flows.map((flow) => (
-                    <a
-                        href={`/flows/${flow.id}`}
-                        class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all border border-base-200 group overflow-hidden"
-                    >
-                        <div class="card-body">
-                            <div class="flex items-start justify-between mb-2">
-                                <h2 class="card-title text-xl group-hover:text-primary transition-colors">
-                                    {flow.title}
-                                </h2>
-                                {flow.status === "draft" && (
-                                    <span class="badge badge-ghost badge-sm uppercase ml-2 flex-none">
-                                        Draft
-                                    </span>
-                                )}
-                            </div>
-
-                            <p class="text-base-content/70 text-sm mb-4 line-clamp-3 leading-relaxed">
-                                {flow.description}
-                            </p>
-
-                            <div class="card-actions justify-end mt-6">
-                                <button class="btn btn-sm btn-primary">
-                                    View Flow
-                                </button>
-                            </div>
+            {flows.map((flow) => (
+                <a
+                    href={`/flows/${flow.id}`}
+                    class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all border border-base-200 group overflow-hidden"
+                >
+                    <div class="card-body">
+                        <div class="flex items-start justify-between mb-2">
+                            <h2 class="card-title text-xl group-hover:text-primary transition-colors">
+                                {flow.title}
+                            </h2>
+                            {flow.status === "draft" && (
+                                <span class="badge badge-ghost badge-sm uppercase ml-2 flex-none">
+                                    Draft
+                                </span>
+                            )}
                         </div>
-                    </a>
-                ))
-            }
+
+                        <p class="text-base-content/70 text-sm mb-4 line-clamp-3 leading-relaxed">
+                            {flow.description}
+                        </p>
+
+                        <div class="card-actions justify-end mt-6">
+                            <button class="btn btn-sm btn-primary">
+                                View Flow
+                            </button>
+                        </div>
+                    </div>
+                </a>
+            ))}
         </div>
 
-        {
-            flows.length === 0 && (
-                <div class="text-center py-20 opacity-50 bg-base-100 rounded-lg border border-base-200 border-dashed">
-                    <p>No flows available yet.</p>
-                </div>
-            )
-        }
+        {flows.length === 0 && (
+            <div class="text-center py-20 opacity-50 bg-base-100 rounded-lg border border-base-200 border-dashed">
+                <p>No flows available yet.</p>
+            </div>
+        )}
     </div>
 </Layout>
