@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version "2.4.10"
-    kotlin("plugin.serialization") version "2.4.10"
+    kotlin("jvm") version "2.4.20"
+    kotlin("plugin.serialization") version "2.4.20"
     application
 }
 
@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
-    implementation("org.jsoup:jsoup:1.22.2")
+    implementation("org.jsoup:jsoup:1.23.2")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 }
@@ -67,5 +67,11 @@ tasks.register<JavaExec>("validateFlows") {
 tasks.register<JavaExec>("verifyFlowCoverage") {
     description = "Verify XML example coverage for all flows"
     mainClass.set("com.ndc.tools.VerifyFlowCoverageKt")
+    classpath = sourceSets["main"].runtimeClasspath
+}
+
+tasks.register<JavaExec>("importSchemas") {
+    description = "Import registered NDC messages and dependencies from an IATA ZIP archive"
+    mainClass.set("com.ndc.tools.ImportNdcSchemasKt")
     classpath = sourceSets["main"].runtimeClasspath
 }

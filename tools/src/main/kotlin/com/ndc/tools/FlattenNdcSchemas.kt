@@ -43,8 +43,7 @@ class SchemaFlattener(private val sourceDir: File) {
             }
             doc = dbf.newDocumentBuilder().parse(path)
         } catch (e: Exception) {
-            println("Error loading $path: ${e.message}")
-            return null
+            throw IllegalArgumentException("Error loading $path: ${e.message}", e)
         }
 
         val root = doc.documentElement
@@ -413,7 +412,7 @@ private fun writeSchemaFile(doc: Document, outputPath: File) {
 
 // === Batch flatten (replaces batch_flatten.py) ===
 
-private fun findMatchingRawFolder(version: String, rawFolders: List<String>): String? {
+internal fun findMatchingRawFolder(version: String, rawFolders: List<String>): String? {
     return rawFolders.firstOrNull { folder ->
         folder == version || folder.startsWith("$version.") || folder.startsWith("${version}_")
     }
@@ -440,7 +439,7 @@ fun main(args: Array<String>) {
         flattenSingleVersion(File(inputDir), File(outputDir), messageList, version)
     } else {
         // Batch mode (like batch_flatten.py)
-        batchFlatten()
+        batchFlatten(version)
     }
 }
 
@@ -477,8 +476,7 @@ private fun flattenSingleVersion(inputDir: File, outputDir: File, messageListArg
 
     for (fname in targetFiles) {
         if (!inputDir.resolve(fname).exists()) {
-            println("Skipping $fname (not found)")
-            continue
+            error("Missing registered message schema: ${inputDir.resolve(fname)}")
         }
 
         val msgName = fname.removeSuffix(".xsd")
@@ -491,7 +489,7 @@ private fun flattenSingleVersion(inputDir: File, outputDir: File, messageListArg
     }
 }
 
-private fun batchFlatten() {
+private fun batchFlatten(versionFilter: String? = null) {
     val projectRoot = NdcConstants.projectRoot()
     val jsonPath = projectRoot.resolve("iata_ndc_messages.json")
     val rawDir = projectRoot.resolve("raw_ndc_schemas")
@@ -507,9 +505,11 @@ private fun batchFlatten() {
 
     val rawFolders = rawDir.listFiles()?.filter { it.isDirectory }?.map { it.name } ?: emptyList()
 
-    for (version in versions) {
+    require(versionFilter == null || versionFilter in versions) { "Unknown version: $versionFilter" }
+    for (version in versions.filter { versionFilter == null || it == versionFilter }) {
         val match = findMatchingRawFolder(version, rawFolders)
         if (match == null) {
+            require(versionFilter == null) { "No raw schemas found for $version" }
             println("Skipping version $version: No matching directory found in $rawDir")
             continue
         }

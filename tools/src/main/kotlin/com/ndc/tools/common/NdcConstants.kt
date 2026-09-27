@@ -46,7 +46,7 @@ object NdcConstants {
     fun flowSourcesRoot(projectRoot: File = projectRoot()): File = flowsRoot(projectRoot).resolve("sources")
 
     /** Sanitize a string for use as a folder name */
-    // Note: 26.1 and 26.2 versions are now available in raw_ndc_schemas/ and ndc_schemas/.
+    // Note: 26.1, 26.2 and 26.3 versions are now available in raw_ndc_schemas/ and ndc_schemas/.
     // No example XMLs reference 26.x schema IDs yet, so no VERSION_MAP entries needed at this time.
 
     fun sanitizeFolderName(name: String): String {

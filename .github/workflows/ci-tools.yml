@@ -5,6 +5,7 @@ on:
     paths:
       - 'tools/**'
       - 'ndc_content/**'
+      - 'raw_ndc_schemas/**'
       - 'iata_ndc_messages.json'
       - '.github/workflows/ci-tools.yml'
   push:
@@ -13,6 +14,7 @@ on:
     paths:
       - 'tools/**'
       - 'ndc_content/**'
+      - 'raw_ndc_schemas/**'
       - 'iata_ndc_messages.json'
       - '.github/workflows/ci-tools.yml'
 
