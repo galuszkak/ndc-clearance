@@ -47,7 +47,7 @@ ndc-clearance/
 ├── ndc_diffs/               # Generated gzipped JSON version comparisons
 ├── ndc_content/             # Canonical examples, source metadata and flows
 ├── .github/workflows/       # CI and deployment
-├── docker-compose.yml       # Container definitions; see README limitations
+├── podman-compose.yml       # Container definitions; see README limitations
 ├── iata_ndc_messages.json   # Registered releases and messages
 └── README.md
 ```

@@ -1,5 +1,5 @@
 # Site Dockerfile
-# Must be built from project root context: docker build -f site/Dockerfile .
+# Must be built from project root context: podman build -f site/Dockerfile .
 
 FROM docker.io/node:24 AS build
 WORKDIR /app

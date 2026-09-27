@@ -234,14 +234,20 @@ All workflows use path filters and run on pushes to `main`; tooling checks also 
 
 The site deployment sets `PUBLIC_API_URL=https://mcp-ndc.sunrisehikers.io`. Changes to committed flattened schemas trigger both deployments. Raw schema and tooling changes run tooling checks; regenerate and include flattened outputs when those changes affect deployed schemas. See the workflow files for the complete filters and required secrets. Keep secrets and `.env` files out of Git.
 
-## Docker Compose status
+## Compose status (Podman)
 
-`docker-compose.yml` defines a site on port 4321 and a backend on port 8080, but the current Dockerfiles do not provide a complete fresh-checkout setup:
+`podman-compose.yml` is the compose file for local container runs. `podman-compose` detects it automatically:
+
+```bash
+podman-compose up --build
+```
+
+It defines a site on port 4321 and a backend on port 8080, but the current containerfiles do not provide a complete fresh-checkout setup:
 
 - The site image copies schemas but omits `ndc_content/` and `ndc_diffs/`; its current asset-copy step requires content and cannot build successfully without it.
 - The backend image requires schemas synced into `backend/src/main/resources/schemas/` before building. It does not copy content into a runtime filesystem directory or configure `CONTENT_ROOT`; Compose also lacks a content mount.
 
-Use the local commands above for the complete application. These container data-copy gaps need addressing before relying on `docker compose up --build` for examples, flows and comparisons.
+Use the local commands above for the complete application. These container data-copy gaps need addressing before relying on `podman-compose up --build` for examples, flows and comparisons.
 
 ## Disclaimer
 

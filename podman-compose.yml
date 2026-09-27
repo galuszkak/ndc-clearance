@@ -1,5 +1,5 @@
-version: '3.8'
-
+# Compose file for Podman. Detected automatically by `podman-compose`;
+# for Docker Compose pass it explicitly: `docker compose -f podman-compose.yml up`.
 services:
   backend:
     build:
@@ -11,7 +11,8 @@ services:
       - PORT=8080
       - SCHEMA_ROOT=/app/schemas
     volumes:
-      - ./ndc_schemas:/app/schemas
+      # :Z relabels the bind mount for SELinux-enforcing rootless Podman
+      - ./ndc_schemas:/app/schemas:Z
 
   site:
     build:
