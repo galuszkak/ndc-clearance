@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version "2.4.20"
-    kotlin("plugin.serialization") version "2.4.20"
+    kotlin("jvm") version "2.4.21"
+    kotlin("plugin.serialization") version "2.4.21"
     id("io.ktor.plugin") version "3.6.0"
 
 }
@@ -28,7 +28,7 @@ dependencies {
     implementation("io.ktor:ktor-server-cors-jvm")
     implementation("io.ktor:ktor-server-sse-jvm")
     implementation("io.modelcontextprotocol:kotlin-sdk:0.15.0")
-    implementation("com.posthog:posthog-server:2.17.0")
+    implementation("com.posthog:posthog-server:2.21.2")
 
 
     testImplementation("io.ktor:ktor-server-test-host:3.6.0")

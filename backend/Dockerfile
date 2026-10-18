@@ -1,5 +1,5 @@
 # Build Stage
-FROM docker.io/gradle:jdk25 AS build
+FROM docker.io/eclipse-temurin:25-jdk-alpine AS build
 WORKDIR /app
 COPY . .
 # Skip tests during build as they are run separately (and require external volume)
